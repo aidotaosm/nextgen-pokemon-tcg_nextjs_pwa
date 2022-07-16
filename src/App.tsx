@@ -1,28 +1,20 @@
 import "./App.css";
+import { ExpansionsComponent } from "./components/ExpansionsComponent";
+import { DEV_POKEMONTCG_IO_API_KEY } from "./constants/constants";
+const pokemon = require("pokemontcgsdk");
+console.log(pokemon);
+let pokemonSDKVariable = pokemon.default;
+console.log(pokemonSDKVariable);
+pokemonSDKVariable.configure({ apiKey: DEV_POKEMONTCG_IO_API_KEY });
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img
-          src={"./logo512.png"}
-          className="App-logo"
-          alt="logo"
-          width="48vmin"
-          height="48vmin"
-        />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="d-flex flex-column" style={{ height: "100vh" }}>
+      <header>Header</header>
+      <div className="h-100">
+        <ExpansionsComponent pokemon={pokemonSDKVariable} />
+      </div>
+      <footer>Footer</footer>
     </div>
   );
 }
