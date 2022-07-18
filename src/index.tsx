@@ -3,7 +3,9 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
+//enabling bootstrap from node_modules
 import "bootstrap/dist/css/bootstrap.css";
+import "bootstrap/dist/js/bootstrap.bundle.min.js"; //this is needed for accordion toggle etv
 //import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(
