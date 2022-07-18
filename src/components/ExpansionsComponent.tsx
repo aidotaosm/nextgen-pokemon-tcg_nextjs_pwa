@@ -1,15 +1,14 @@
 import { useEffect, useState } from "react";
 import { Helper } from "../utils/helper";
+import "./ExpansionsComponent.css";
 
 export const ExpansionsComponent = (pokemonSDKVariable: any) => {
-  const [setsBySeries, setSetsBySeries] = useState([]);
+  const [setsBySeries, setSetsBySeries] = useState<any[]>([]);
   useEffect(() => {
     if (pokemonSDKVariable) {
       console.log(pokemonSDKVariable);
       pokemonSDKVariable.pokemon.set.all({ page: 0 }).then((sets: any[]) => {
         console.log(sets);
-        // let uniqueSeries = [...Array.from(new Set(sets.map((set) => set.series)))];
-        // console.log(uniqueSeries);
         let setsGroupedBySeries: any = Helper.GroupBy(sets, "series");
         let arrayOfSeries: any[] = [];
         Object.keys(setsGroupedBySeries).forEach((seriesName) => {
@@ -20,36 +19,47 @@ export const ExpansionsComponent = (pokemonSDKVariable: any) => {
           });
         });
         console.log(arrayOfSeries);
-        // let sortedArrayOfSeries = arrayOfSeries.sort(function (a, b) {
-        //   return b.releaseDate - a.releaseDate;
-        // });
-        // console.log(sortedArrayOfSeries);
+        setSetsBySeries(arrayOfSeries);
       });
-      pokemonSDKVariable.pokemon.card
-        .all({ q: "!name:charizard", page: 0, pageSize: 100 })
-        .then((cards: any[]) => {
-          console.log(cards);
-        });
-      pokemonSDKVariable.pokemon.type.all({ page: 0 }).then((cards: any[]) => {
-        console.log(cards);
-      });
-      pokemonSDKVariable.pokemon.subtype
-        .all({ page: 0 })
-        .then((cards: any[]) => {
-          console.log(cards);
-        });
-      pokemonSDKVariable.pokemon.rarity
-        .all({ page: 0 })
-        .then((cards: any[]) => {
-          console.log(cards);
-        });
-      pokemonSDKVariable.pokemon.supertype
-        .all({ page: 0 })
-        .then((cards: any[]) => {
-          console.log(cards);
-        });
+      // pokemonSDKVariable.pokemon.card
+      //   .all({ q: "!name:charizard", page: 0, pageSize: 100 })
+      //   .then((cards: any[]) => {
+      //     console.log(cards);
+      //   });
+      // pokemonSDKVariable.pokemon.type.all({ page: 0 }).then((cards: any[]) => {
+      //   console.log(cards);
+      // });
+      // pokemonSDKVariable.pokemon.subtype
+      //   .all({ page: 0 })
+      //   .then((cards: any[]) => {
+      //     console.log(cards);
+      //   });
+      // pokemonSDKVariable.pokemon.rarity
+      //   .all({ page: 0 })
+      //   .then((cards: any[]) => {
+      //     console.log(cards);
+      //   });
+      // pokemonSDKVariable.pokemon.supertype
+      //   .all({ page: 0 })
+      //   .then((cards: any[]) => {
+      //     console.log(cards);
+      //   });
     }
   }, []);
 
-  return <div className=""></div>;
+  return <div className="container">
+    <div className="series">
+      {setsBySeries.map(series=>{
+        return (<div id={series.series}>
+          <div className="series-name">{series.series}</div>
+          {series.sets.map((set:any)=>{
+            return(
+              <div className="sets" id={set.id}>{set.name}</div>
+            );
+          })}
+     
+        </div>);
+      })}
+    </div>
+  </div>;
 };

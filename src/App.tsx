@@ -1,20 +1,19 @@
 import "./App.css";
 import { ExpansionsComponent } from "./components/ExpansionsComponent";
 import { DEV_POKEMONTCG_IO_API_KEY } from "./constants/constants";
+//Pokemon SDK initialization
 const pokemon = require("pokemontcgsdk");
-console.log(pokemon);
 let pokemonSDKVariable = pokemon.default;
-console.log(pokemonSDKVariable);
 pokemonSDKVariable.configure({ apiKey: DEV_POKEMONTCG_IO_API_KEY });
 
 function App() {
   return (
     <div className="d-flex flex-column" style={{ height: "100vh" }}>
-      <header>Header</header>
-      <div className="h-100">
+      <header className="h3 text-center">Header</header>
+      <main className="flex-grow-1">
         <ExpansionsComponent pokemon={pokemonSDKVariable} />
-      </div>
-      <footer>Footer</footer>
+      </main>
+      <footer className="h5 text-center">Footer</footer>
     </div>
   );
 }
