@@ -53,10 +53,14 @@ export const ExpansionsComponent = (pokemonSDKVariable: any) => {
       <div className="accordion">
         {setsBySeries.map((series) => {
           return (
-            <div className="accordion-item" id={series.series}>
+            <div
+              className="accordion-item"
+              key={series.series}
+              id={series.series}
+            >
               <h2 className="accordion-header" id={series.id + "-heading"}>
                 <button
-                  className="accordion-button collapsed"
+                  className="accordion-button collapsed py-2 px-3 fs-5"
                   type="button"
                   data-bs-toggle="collapse"
                   data-bs-target={"#" + series.id}
@@ -71,11 +75,16 @@ export const ExpansionsComponent = (pokemonSDKVariable: any) => {
                 className="accordion-collapse collapse"
                 aria-labelledby={series.id + "-heading"}
               >
-                <div className="accordion-body">
+                <div className="accordion-body py-2 ">
                   {series.sets.map((set: any) => {
                     return (
-                      <div className="sets" id={set.id}>
-                        {set.name}
+                      <div className="set" key={set.id} id={set.id}>
+                        <img
+                          className="set-image"
+                          src={set?.images?.logo}
+                          alt={set.name}
+                        />
+                        <div className="set-name">{set.name}</div>
                       </div>
                     );
                   })}
