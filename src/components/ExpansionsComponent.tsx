@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Helper } from "../utils/helper";
 import "./ExpansionsComponent.css";
+import { Link } from "react-router-dom";
 
 export const ExpansionsComponent = (pokemonSDKVariable: any) => {
   const [setsBySeries, setSetsBySeries] = useState<any[]>([]);
@@ -58,9 +59,9 @@ export const ExpansionsComponent = (pokemonSDKVariable: any) => {
               key={series.series}
               id={series.series}
             >
-              <h2 className="accordion-header" id={series.id + "-heading"}>
+              <h2 className="accordion-header " id={series.id + "-heading"}>
                 <button
-                  className="accordion-button collapsed py-2 px-3 fs-5"
+                  className="accordion-button collapsed py-2 px-3 fs-5 fw-bold"
                   type="button"
                   data-bs-toggle="collapse"
                   data-bs-target={"#" + series.id}
@@ -84,7 +85,9 @@ export const ExpansionsComponent = (pokemonSDKVariable: any) => {
                           src={set?.images?.logo}
                           alt={set.name}
                         />
-                        <div className="set-name">{set.name}</div>
+                        <div className="set-name">
+                          <Link to={"/set/" + set.name}>{set.name}</Link>
+                        </div>
                       </div>
                     );
                   })}
