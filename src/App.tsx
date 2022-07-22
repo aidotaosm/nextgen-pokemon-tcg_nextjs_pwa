@@ -1,20 +1,28 @@
 import "./App.css";
-import { ExpansionsComponent } from "./components/ExpansionsComponent";
-import { DEV_POKEMONTCG_IO_API_KEY } from "./constants/constants";
-//Pokemon SDK initialization
-const pokemon = require("pokemontcgsdk");
-let pokemonSDKVariable = pokemon.default;
-pokemonSDKVariable.configure({ apiKey: DEV_POKEMONTCG_IO_API_KEY });
+import { Routes, Route } from "react-router-dom";
+// import { ExpansionsComponent } from "./components/ExpansionsComponent";
+import { Series } from "./pages/series";
+import { HomePage } from "./pages/homepage";
+import { AppWrapper } from "./pages/AppWrapper";
 
 function App() {
   return (
-    <div className="d-flex flex-column" style={{ height: "100vh" }}>
-      <header className="h3 text-center">Header</header>
-      <main className="flex-grow-1">
-        <ExpansionsComponent pokemon={pokemonSDKVariable} />
-      </main>
-      <footer className="h5 text-center">Footer</footer>
-    </div>
+    <Routes>
+      <Route path="/" element={<AppWrapper />}>
+        <Route path="/dashboard" element={<HomePage />} />
+        <Route path="series" element={<Series />} />
+        {/* <Route path="/series/set" element={<Set />} />
+            <Route path="/series/set/card" element={<Card />} /> */}
+        <Route
+          path="*"
+          element={
+            <h1 className="text-center mt-5 text-danger">
+              Page does not exist.
+            </h1>
+          }
+        />
+      </Route>
+    </Routes>
   );
 }
 

@@ -2,13 +2,18 @@ import { useEffect, useState } from "react";
 import { Helper } from "../utils/helper";
 import "./ExpansionsComponent.css";
 import { Link } from "react-router-dom";
+//Pokemon SDK initialization
+import { DEV_POKEMONTCG_IO_API_KEY } from "../constants/constants";
+const pokemon = require("pokemontcgsdk");
+let pokemonSDKVariable = pokemon.default;
+pokemonSDKVariable.configure({ apiKey: DEV_POKEMONTCG_IO_API_KEY });
 
-export const ExpansionsComponent = (pokemonSDKVariable: any) => {
+export const ExpansionsComponent = () => {
   const [setsBySeries, setSetsBySeries] = useState<any[]>([]);
   useEffect(() => {
     if (pokemonSDKVariable) {
       console.log(pokemonSDKVariable);
-      pokemonSDKVariable.pokemon.set.all({ page: 0 }).then((sets: any[]) => {
+      pokemonSDKVariable.set.all({ page: 0 }).then((sets: any[]) => {
         console.log(sets);
         let setsGroupedBySeries: any = Helper.GroupBy(sets, "series");
         let arrayOfSeries: any[] = [];
@@ -23,25 +28,25 @@ export const ExpansionsComponent = (pokemonSDKVariable: any) => {
         console.log(arrayOfSeries);
         setSetsBySeries(arrayOfSeries);
       });
-      // pokemonSDKVariable.pokemon.card
+      // pokemonSDKVariable.card
       //   .all({ q: "!name:charizard", page: 0, pageSize: 100 })
       //   .then((cards: any[]) => {
       //     console.log(cards);
       //   });
-      // pokemonSDKVariable.pokemon.type.all({ page: 0 }).then((cards: any[]) => {
+      // pokemonSDKVariable.type.all({ page: 0 }).then((cards: any[]) => {
       //   console.log(cards);
       // });
-      // pokemonSDKVariable.pokemon.subtype
+      // pokemonSDKVariable.subtype
       //   .all({ page: 0 })
       //   .then((cards: any[]) => {
       //     console.log(cards);
       //   });
-      // pokemonSDKVariable.pokemon.rarity
+      // pokemonSDKVariable.rarity
       //   .all({ page: 0 })
       //   .then((cards: any[]) => {
       //     console.log(cards);
       //   });
-      // pokemonSDKVariable.pokemon.supertype
+      // pokemonSDKVariable.supertype
       //   .all({ page: 0 })
       //   .then((cards: any[]) => {
       //     console.log(cards);

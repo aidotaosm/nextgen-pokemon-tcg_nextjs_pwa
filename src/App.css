@@ -1,0 +1,12 @@
+.un-styled-anchor {
+  color: inherit;
+  text-decoration: inherit;
+}
+.un-styled-anchor:focus,
+.un-styled-anchor:hover,
+.un-styled-anchor:visited,
+.un-styled-anchor:link,
+.un-styled-anchor:active {
+  text-decoration: none;
+  color: inherit;
+}
