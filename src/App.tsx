@@ -11,7 +11,7 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<AppWrapper />}>
-        <Route path="/dashboard" element={<HomePage />} />
+        <Route path="dashboard" element={<HomePage />} />
         <Route path="series" element={<Series />} />
         <Route path="set" element={<Set />}>
           <Route path=":setId" element={<Set />} />
