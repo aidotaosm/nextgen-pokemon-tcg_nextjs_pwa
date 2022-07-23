@@ -16,21 +16,12 @@ export const SetComponent = () => {
       let pokemonSDKVariable = Helper.initializePokemonSDK();
       if (pokemonSDKVariable) {
         console.log(pokemonSDKVariable);
-        pokemonSDKVariable.set.all({ page: 0 }).then((sets: any[]) => {
-          console.log(sets);
-          let setsGroupedBySeries: any = Helper.GroupBy(sets, "series");
-          let arrayOfSeries: any[] = [];
-          Object.keys(setsGroupedBySeries).forEach((seriesName, index) => {
-            arrayOfSeries.push({
-              id: "series" + index + 1,
-              series: seriesName,
-              sets: setsGroupedBySeries[seriesName],
-              releaseDate: setsGroupedBySeries[seriesName][0].releaseDate,
-            });
+        pokemonSDKVariable.card
+          .where({ q: "set.id:" + params.setId })
+          .then((response: any) => {
+            console.log(response);
+            setSetCards(response.data);
           });
-          console.log(arrayOfSeries);
-          setSetCards(arrayOfSeries);
-        });
         // pokemonSDKVariable.card
         //   .all({ q: "!name:charizard", page: 0, pageSize: 100 })
         //   .then((cards: any[]) => {
@@ -58,5 +49,34 @@ export const SetComponent = () => {
     }
   }, []);
 
-  return <div className="container"></div>;
+  return (
+    <div className="container">
+      <div className="row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 row-cols-xxl-4 g-4 ">
+        {setCards.map((card) => {
+          return (
+            <div className="col">
+              <Link to="/series" className="un-styled-anchor">
+                <div className="card">
+                  <div className="card-body">
+                    <h5 className="card-title mb-0">{card.name}</h5>
+                  </div>
+                  <img
+                    src={card?.images?.small}
+                    className="card-img-top"
+                    alt="..."
+                    // style={{ maxHeight: "3rem" }}
+                  />
+                  <div className="card-footer">
+                    <small className="text-muted">
+                      {card.supertype + " - " + card.subtypes.join(" - ")}
+                    </small>
+                  </div>
+                </div>
+              </Link>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
 };

@@ -6,7 +6,7 @@ import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 import { BrowserRouter } from "react-router-dom";
 //enabling bootstrap from node_modules
 import "bootstrap/dist/css/bootstrap.css";
-import "bootstrap/dist/js/bootstrap.bundle.min.js"; //this is needed for accordion toggle etv
+import "bootstrap/dist/js/bootstrap.bundle.min.js"; //this is needed for accordion toggle etc
 //import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(
