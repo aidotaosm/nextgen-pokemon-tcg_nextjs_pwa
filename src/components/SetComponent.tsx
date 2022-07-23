@@ -48,7 +48,18 @@ export const SetComponent = () => {
       }
     }
   }, []);
-
+  const populateSubtype = (card: any) => {
+    let returnVal = "";
+    if (card.subtype || card.subtypes) {
+      returnVal = " - ";
+      if (card.subtype) {
+        returnVal += card.subtype;
+      } else {
+        returnVal += card.subtypes?.join(" - ");
+      }
+    }
+    return returnVal;
+  };
   return (
     <div className="container">
       <div className="row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 row-cols-xxl-4 g-4 ">
@@ -68,7 +79,7 @@ export const SetComponent = () => {
                   />
                   <div className="card-footer">
                     <small className="text-muted">
-                      {card.supertype + " - " + card.subtypes.join(" - ")}
+                      {card.supertype + populateSubtype(card)}
                     </small>
                   </div>
                 </div>
