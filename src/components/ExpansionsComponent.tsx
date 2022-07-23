@@ -2,15 +2,11 @@ import { useEffect, useState } from "react";
 import { Helper } from "../utils/helper";
 import "./ExpansionsComponent.css";
 import { Link } from "react-router-dom";
-//Pokemon SDK initialization
-import { DEV_POKEMONTCG_IO_API_KEY } from "../constants/constants";
-const pokemon = require("pokemontcgsdk");
-let pokemonSDKVariable = pokemon.default;
-pokemonSDKVariable.configure({ apiKey: DEV_POKEMONTCG_IO_API_KEY });
 
 export const ExpansionsComponent = () => {
   const [setsBySeries, setSetsBySeries] = useState<any[]>([]);
   useEffect(() => {
+    let pokemonSDKVariable = Helper.initializePokemonSDK();
     if (pokemonSDKVariable) {
       console.log(pokemonSDKVariable);
       pokemonSDKVariable.set.all({ page: 0 }).then((sets: any[]) => {
@@ -91,7 +87,7 @@ export const ExpansionsComponent = () => {
                           alt={set.name}
                         />
                         <div className="set-name">
-                          <Link to={"/set/" + set.name}>{set.name}</Link>
+                          <Link to={"/set/" + set.id}>{set.name}</Link>
                         </div>
                       </div>
                     );
