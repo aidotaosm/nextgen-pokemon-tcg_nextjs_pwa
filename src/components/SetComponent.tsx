@@ -65,7 +65,7 @@ export const SetComponent = () => {
       <div className="row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 row-cols-xxl-4 g-4 ">
         {setCards.map((card) => {
           return (
-            <div className="col">
+            <div className="col" key={card.id}>
               <Link to="/series" className="un-styled-anchor">
                 <div className="card">
                   <div className="card-body">
