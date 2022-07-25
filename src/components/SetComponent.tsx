@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Helper } from "../utils/helper";
 import "./ExpansionsComponent.css";
 import { Link, useParams, useNavigate } from "react-router-dom";
-import { PagingComponent } from './PagingComponent/PagingComponent';
+import { PagingComponent } from "./PagingComponent/PagingComponent";
 
 export const SetComponent = () => {
   let params = useParams();
@@ -50,12 +50,9 @@ export const SetComponent = () => {
     }
   }, []);
 
-
-
   return (
     <div className="container">
       <div className="row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 row-cols-xxl-4">
-
         {/* {setCards.map((card) => {
           return (
             <div className="col" key={card.id}>
@@ -80,7 +77,6 @@ export const SetComponent = () => {
             </div>
           );
         })} */}
-
       </div>
       <PagingComponent></PagingComponent>
     </div>
