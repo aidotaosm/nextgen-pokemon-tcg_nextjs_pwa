@@ -1,25 +1,45 @@
 import { useEffect, useState } from "react";
+import { DEFAULT_PAGE_SIZE } from "../../constants/constants";
 
-export const PagingComponent = ({
-  paramPageIndex = 5,
-  paramPageSize = 10,
-  paramNumberOfElements = 45,
+interface PagingComponentProps{
+  paramPageIndex: number;
+  paramPageSize?: number,
+  paramNumberOfElements:number,
+  pageChanged:(e:number)=> void
+}
+
+export const PagingComponent:React.FC<PagingComponentProps> = ({
+  paramPageIndex,
+  paramPageSize = DEFAULT_PAGE_SIZE,
+  paramNumberOfElements,
+  pageChanged
 }) => {
   const [pageIndex, setPageIndex] = useState<number>(paramPageIndex);
   const [pageSize, setPageSize] = useState<number>(paramPageSize);
   const [numberOfElements, setNumberOfElements] = useState<number>(
     paramNumberOfElements
   );
+
   const cardsPagingOnClick = (paramPageIndex: number) => {
     console.log(paramPageIndex);
+    pageChanged(paramPageIndex);
+    setPageIndex(paramPageIndex);
   };
-  useEffect(() => {}, [pageIndex]);
+  useEffect(() => {
+    console.log(pageIndex);
+    console.log(pageSize);
+    console.log(numberOfElements);
+    let lastPage = Math.floor(numberOfElements / pageSize);
+    if (pageIndex > lastPage) {
+      setPageIndex(lastPage);
+    }
+  }, [pageIndex]);
   const getPagingInfo = () => {
-    if (numberOfElements < pageSize) {
+    let lastPage = Math.floor(numberOfElements / pageSize);
+    if (numberOfElements < pageSize || pageIndex > lastPage) {
       return "";
     } else {
       let returnVal = "Showing ";
-      let lastPage = Math.ceil(numberOfElements / pageSize);
       let from = pageIndex * pageSize + 1;
       let to = (pageIndex + 1) * pageSize;
       if (to > numberOfElements) {
@@ -29,6 +49,7 @@ export const PagingComponent = ({
       return returnVal;
     }
   };
+
   return (
     <div className="d-flex justify-content-between align-items-center">
       <div>{getPagingInfo()}</div>

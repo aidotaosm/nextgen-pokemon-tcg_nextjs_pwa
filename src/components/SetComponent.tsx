@@ -7,7 +7,9 @@ import { PagingComponent } from "./PagingComponent/PagingComponent";
 export const SetComponent = () => {
   let params = useParams();
   let navigate = useNavigate();
+  
   const [setCards, setSetCards] = useState<any[]>([]);
+  const [pageIndex, setpageIndex] = useState<number>(0);
 
   useEffect(() => {
     console.log(params);
@@ -50,6 +52,10 @@ export const SetComponent = () => {
     }
   }, []);
 
+  const pageChanged = (newPageIndex: number) => {
+    console.log(newPageIndex);
+  }
+
   return (
     <div className="container">
       <div className="row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 row-cols-xxl-4">
@@ -78,7 +84,7 @@ export const SetComponent = () => {
           );
         })} */}
       </div>
-      <PagingComponent></PagingComponent>
+      <PagingComponent pageChanged={pageChanged} paramPageSize={10} paramNumberOfElements={setCards.length} paramPageIndex={pageIndex}></PagingComponent>
     </div>
   );
 };
