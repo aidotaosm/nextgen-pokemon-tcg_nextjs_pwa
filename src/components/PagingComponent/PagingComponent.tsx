@@ -1,18 +1,18 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, FunctionComponent } from "react";
 import { DEFAULT_PAGE_SIZE } from "../../constants/constants";
 
-interface PagingComponentProps{
+interface PagingComponentProps {
   paramPageIndex: number;
-  paramPageSize?: number,
-  paramNumberOfElements:number,
-  pageChanged:(e:number)=> void
+  paramPageSize?: number;
+  paramNumberOfElements: number;
+  pageChanged: (e: number) => void;
 }
 
-export const PagingComponent:React.FC<PagingComponentProps> = ({
+export const PagingComponent: FunctionComponent<PagingComponentProps> = ({
   paramPageIndex,
   paramPageSize = DEFAULT_PAGE_SIZE,
   paramNumberOfElements,
-  pageChanged
+  pageChanged,
 }) => {
   const [pageIndex, setPageIndex] = useState<number>(paramPageIndex);
   const [pageSize, setPageSize] = useState<number>(paramPageSize);
@@ -20,11 +20,16 @@ export const PagingComponent:React.FC<PagingComponentProps> = ({
     paramNumberOfElements
   );
 
-  const cardsPagingOnClick = (paramPageIndex: number) => {
-    console.log(paramPageIndex);
-    pageChanged(paramPageIndex);
-    setPageIndex(paramPageIndex);
+  const cardsPagingOnClick = (newPageIndex: number) => {
+    console.log(newPageIndex);
+    let lastPage = Math.floor(numberOfElements / pageSize);
+    if (pageIndex > lastPage) {
+      setPageIndex(lastPage);
+    }
+    pageChanged(newPageIndex);
+    setPageIndex(newPageIndex);
   };
+
   useEffect(() => {
     console.log(pageIndex);
     console.log(pageSize);
@@ -33,7 +38,8 @@ export const PagingComponent:React.FC<PagingComponentProps> = ({
     if (pageIndex > lastPage) {
       setPageIndex(lastPage);
     }
-  }, [pageIndex]);
+  }, [paramPageIndex]);
+
   const getPagingInfo = () => {
     let lastPage = Math.floor(numberOfElements / pageSize);
     if (numberOfElements < pageSize || pageIndex > lastPage) {

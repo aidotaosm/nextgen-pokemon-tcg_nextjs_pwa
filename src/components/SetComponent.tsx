@@ -7,9 +7,9 @@ import { PagingComponent } from "./PagingComponent/PagingComponent";
 export const SetComponent = () => {
   let params = useParams();
   let navigate = useNavigate();
-  
+
   const [setCards, setSetCards] = useState<any[]>([]);
-  const [pageIndex, setpageIndex] = useState<number>(0);
+  const [pageIndex, setPageIndex] = useState<number>(0);
 
   useEffect(() => {
     console.log(params);
@@ -24,6 +24,8 @@ export const SetComponent = () => {
           .then((response: any) => {
             console.log(response);
             setSetCards(response.data);
+            setPageIndex(response.data.length);
+            console.log(response.data.length);
           });
         // pokemonSDKVariable.card
         //   .all({ q: "!name:charizard", page: 0, pageSize: 100 })
@@ -54,7 +56,7 @@ export const SetComponent = () => {
 
   const pageChanged = (newPageIndex: number) => {
     console.log(newPageIndex);
-  }
+  };
 
   return (
     <div className="container">
@@ -84,7 +86,12 @@ export const SetComponent = () => {
           );
         })} */}
       </div>
-      <PagingComponent pageChanged={pageChanged} paramPageSize={10} paramNumberOfElements={setCards.length} paramPageIndex={pageIndex}></PagingComponent>
+      <PagingComponent
+        pageChanged={pageChanged}
+        paramPageSize={10}
+        paramNumberOfElements={setCards.length}
+        paramPageIndex={pageIndex}
+      ></PagingComponent>
     </div>
   );
 };
