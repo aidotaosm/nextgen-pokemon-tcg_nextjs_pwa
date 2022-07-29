@@ -1,68 +1,89 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useTransition } from "react";
 import { Helper } from "../utils/helper";
 import "./ExpansionsComponent.css";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { PagingComponent } from "./PagingComponent/PagingComponent";
+import { DEFAULT_PAGE_SIZE } from "../constants/constants";
 
 export const SetComponent = () => {
   let params = useParams();
   let navigate = useNavigate();
 
-  const [setCards, setSetCards] = useState<any[]>([]);
+  const [setCards, setSetCards] = useState<any>({});
   const [pageIndex, setPageIndex] = useState<number>(0);
+  const [pageNumber, setPageNumber] = useState<number>(0);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const getSetCards = (paramPageIndex: number) => {
+    setIsLoading(true);
+    let pokemonSDKVariable = Helper.initializePokemonSDK();
+    pokemonSDKVariable.card
+      .where({
+        q: "set.id:" + params.setId,
+        pageSize: DEFAULT_PAGE_SIZE,
+        page: paramPageIndex + 1,
+      })
+      .then((response: any) => {
+        console.log(response);
+        setSetCards(response);
+        setPageIndex(paramPageIndex);
+        setIsLoading(false);
+      });
+  };
 
   useEffect(() => {
     console.log(params);
     if (!params.setId) {
       navigate("/dashboard");
     } else {
-      let pokemonSDKVariable = Helper.initializePokemonSDK();
-      if (pokemonSDKVariable) {
-        console.log(pokemonSDKVariable);
-        pokemonSDKVariable.card
-          .where({ q: "set.id:" + params.setId })
-          .then((response: any) => {
-            console.log(response);
-            setSetCards(response.data);
-            setPageIndex(response.data.length);
-            console.log(response.data.length);
-          });
-        // pokemonSDKVariable.card
-        //   .all({ q: "!name:charizard", page: 0, pageSize: 100 })
-        //   .then((cards: any[]) => {
-        //     console.log(cards);
-        //   });
-        // pokemonSDKVariable.type.all({ page: 0 }).then((cards: any[]) => {
-        //   console.log(cards);
-        // });
-        // pokemonSDKVariable.subtype
-        //   .all({ page: 0 })
-        //   .then((cards: any[]) => {
-        //     console.log(cards);
-        //   });
-        // pokemonSDKVariable.rarity
-        //   .all({ page: 0 })
-        //   .then((cards: any[]) => {
-        //     console.log(cards);
-        //   });
-        // pokemonSDKVariable.supertype
-        //   .all({ page: 0 })
-        //   .then((cards: any[]) => {
-        //     console.log(cards);
-        //   });
-      }
+      getSetCards(pageIndex);
+      // pokemonSDKVariable.card
+      //   .all({ q: "!name:charizard", page: 0, pageSize: 100 })
+      //   .then((cards: any[]) => {
+      //     console.log(cards);
+      //   });
+      // pokemonSDKVariable.type.all({ page: 0 }).then((cards: any[]) => {
+      //   console.log(cards);
+      // });
+      // pokemonSDKVariable.subtype
+      //   .all({ page: 0 })
+      //   .then((cards: any[]) => {
+      //     console.log(cards);
+      //   });
+      // pokemonSDKVariable.rarity
+      //   .all({ page: 0 })
+      //   .then((cards: any[]) => {
+      //     console.log(cards);
+      //   });
+      // pokemonSDKVariable.supertype
+      //   .all({ page: 0 })
+      //   .then((cards: any[]) => {
+      //     console.log(cards);
+      //   });
     }
   }, []);
 
   const pageChanged = (newPageIndex: number) => {
     console.log(newPageIndex);
-    setPageIndex(newPageIndex);
+    if (!isLoading) {
+      getSetCards(newPageIndex);
+    }
   };
-
+  const pagingComponentCurrentPageUpdated = (pageNumber: number) => {
+    setPageNumber(pageNumber);
+  };
   return (
     <div className="container">
+      <PagingComponent
+        currentPageUpdated={pagingComponentCurrentPageUpdated}
+        pageChanged={pageChanged}
+        paramPageSize={DEFAULT_PAGE_SIZE}
+        paramNumberOfElements={setCards.totalCount}
+        paramPageIndex={pageIndex}
+        pageNumber={pageNumber}
+      ></PagingComponent>
       <div className="row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 row-cols-xxl-4">
-        {/* {setCards.map((card) => {
+        {setCards.data?.map((card: any) => {
           return (
             <div className="col" key={card.id}>
               <Link to="/series" className="un-styled-anchor">
@@ -74,7 +95,7 @@ export const SetComponent = () => {
                     src={card?.images?.small}
                     className="card-img-top"
                     alt="..."
-                  // style={{ maxHeight: "3rem" }}
+                    // style={{ maxHeight: "3rem" }}
                   />
                   <div className="card-footer">
                     <small className="text-muted">
@@ -85,12 +106,14 @@ export const SetComponent = () => {
               </Link>
             </div>
           );
-        })} */}
+        })}
       </div>
       <PagingComponent
+        pageNumber={pageNumber}
+        currentPageUpdated={pagingComponentCurrentPageUpdated}
         pageChanged={pageChanged}
-        paramPageSize={10}
-        paramNumberOfElements={setCards.length}
+        paramPageSize={DEFAULT_PAGE_SIZE}
+        paramNumberOfElements={setCards.totalCount}
         paramPageIndex={pageIndex}
       ></PagingComponent>
     </div>

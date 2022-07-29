@@ -1,11 +1,15 @@
-import { useEffect, useState, FunctionComponent } from "react";
+import { useEffect, useState, FunctionComponent, useRef } from "react";
 import { DEFAULT_PAGE_SIZE } from "../../constants/constants";
+import "./PagingComponent.css";
+import { IF } from "../UtilityComponents/IF";
 
 interface PagingComponentProps {
   paramPageIndex: number;
   paramPageSize?: number;
   paramNumberOfElements: number;
   pageChanged: (e: number) => void;
+  currentPageUpdated: (e: number) => void;
+  pageNumber: number;
 }
 
 export const PagingComponent: FunctionComponent<PagingComponentProps> = ({
@@ -13,91 +17,112 @@ export const PagingComponent: FunctionComponent<PagingComponentProps> = ({
   paramPageSize = DEFAULT_PAGE_SIZE,
   paramNumberOfElements,
   pageChanged,
+  currentPageUpdated,
+  pageNumber,
 }) => {
   const [pageIndex, setPageIndex] = useState<number>(paramPageIndex);
   const [pageSize, setPageSize] = useState<number>(paramPageSize);
   const [numberOfElements, setNumberOfElements] = useState<number>(
     paramNumberOfElements
   );
+  const inputElementRef = useRef<any>();
 
   const cardsPagingOnClick = (newPageIndex: number) => {
+    console.log(pageIndex);
     console.log(newPageIndex);
-    if (newPageIndex >= 0 && newPageIndex != pageIndex) {
-      let lastPage = Math.floor(numberOfElements / pageSize);
-      if (newPageIndex > lastPage) {
-        setPageIndex(lastPage);
-      } else {
-        setPageIndex(newPageIndex);
-        pageChanged(newPageIndex);
+    if (newPageIndex != pageIndex) {
+      if (newPageIndex >= 0) {
+        let lastPage = Math.floor(numberOfElements / pageSize);
+        if (newPageIndex > lastPage) {
+          setPageIndex(lastPage);
+          inputElementRef.current.value = lastPage + 1;
+          inputElementUpdated();
+          if (pageIndex !== lastPage) {
+            pageChanged(lastPage);
+          }
+        } else {
+          pageChanged(newPageIndex);
+          inputElementRef.current.value = newPageIndex + 1;
+          inputElementUpdated();
+        }
+      } else if (newPageIndex < 0) {
+        inputElementRef.current.value = 1;
+        inputElementUpdated();
+        if (pageIndex !== 0) {
+          pageChanged(0);
+        }
       }
     }
   };
-
+  const inputElementUpdated = () => {
+    currentPageUpdated(inputElementRef?.current?.value || 1);
+  };
   useEffect(() => {
-    console.log(pageIndex);
-    console.log(pageSize);
-    console.log(numberOfElements);
-    let lastPage = Math.floor(numberOfElements / pageSize);
-    if (pageIndex > lastPage) {
-      setPageIndex(lastPage);
-    }
+    setPageIndex(paramPageIndex);
     setNumberOfElements(paramNumberOfElements);
     setPageSize(paramPageSize);
-  }, [paramPageIndex, paramNumberOfElements, paramPageSize]);
+    if (inputElementRef?.current?.value) {
+      inputElementRef.current.value = pageNumber;
+    }
+  }, [paramPageIndex, paramNumberOfElements, paramPageSize, pageNumber]);
 
   const getPagingInfo = () => {
-    let lastPage = Math.floor(numberOfElements / pageSize);
-    if (numberOfElements < pageSize || pageIndex > lastPage) {
-      return "";
-    } else {
-      let returnVal = "Showing ";
-      let from = pageIndex * pageSize + 1;
-      let to = (pageIndex + 1) * pageSize;
-      if (to > numberOfElements) {
-        to = numberOfElements;
-      }
-      returnVal += from + " to " + to + " of " + numberOfElements;
-      return returnVal;
+    let returnVal = "Showing ";
+    let from = pageIndex * pageSize + 1;
+    let to = (pageIndex + 1) * pageSize;
+    if (to > numberOfElements) {
+      to = numberOfElements;
     }
+    returnVal += from + " to " + to + " of " + numberOfElements;
+    return returnVal;
   };
 
   return (
-    <div className="d-flex justify-content-between align-items-center">
-      <div>{getPagingInfo()}</div>
-      <nav aria-label="Page navigation example">
-        <ul className="pagination mb-0 justify-content-center">
-          <li className="page-item cursor-pointer">
-            <span
-              className="page-link"
-              tabIndex={-1}
-              onClick={() => cardsPagingOnClick(pageIndex - 1)}
-            >
-              Previous
-            </span>
-          </li>
-          <li className="page-item cursor-pointer">
-            <span className="page-link" onClick={() => cardsPagingOnClick(1)}>
-              1
-            </span>
-          </li>
-          <li className="page-item" style={{ padding: "0.375rem 0.75rem" }}>
-            of
-          </li>
-          <li className="page-item cursor-pointer">
-            <span className="page-link" onClick={() => cardsPagingOnClick(3)}>
-              3
-            </span>
-          </li>
-          <li className="page-item cursor-pointer">
-            <span
-              className="page-link"
-              onClick={() => cardsPagingOnClick(pageIndex + 1)}
-            >
-              Next
-            </span>
-          </li>
-        </ul>
-      </nav>
-    </div>
+    <IF condition={numberOfElements > pageSize}>
+      <div className="d-flex justify-content-between align-items-center">
+        <div>{getPagingInfo()}</div>
+        <nav aria-label="Page navigation example">
+          <ul className="pagination mb-0 justify-content-center">
+            <li className="page-item cursor-pointer">
+              <span
+                className="page-link user-select-none border-0"
+                onClick={() => cardsPagingOnClick(pageIndex - 1)}
+              >
+                Previous
+              </span>
+            </li>
+            <li className="page-item cursor-pointer without-child-page-link border">
+              <input
+                className="style-less-input cursor-pointer"
+                type="number"
+                onBlur={(e) => cardsPagingOnClick(+e.target.value - 1)}
+                // value={pageIndex + 1}
+                defaultValue={pageIndex + 1}
+                onFocus={(e) => e.target.select()}
+                ref={inputElementRef}
+                onKeyDown={(e) => {
+                  if (e.key == "Enter") {
+                    e.target.blur();
+                  }
+                }}
+                style={{ width: "1.6rem" }}
+              />
+            </li>
+            <li className="page-item without-child-page-link">of</li>
+            <li className="page-item without-child-page-link">
+              {Math.ceil(numberOfElements / pageSize)}
+            </li>
+            <li className="page-item cursor-pointer user-select-none ">
+              <span
+                className="page-link border-0"
+                onClick={() => cardsPagingOnClick(pageIndex + 1)}
+              >
+                Next
+              </span>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </IF>
   );
 };
