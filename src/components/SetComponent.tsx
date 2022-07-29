@@ -56,6 +56,7 @@ export const SetComponent = () => {
 
   const pageChanged = (newPageIndex: number) => {
     console.log(newPageIndex);
+    setPageIndex(newPageIndex);
   };
 
   return (

@@ -22,12 +22,15 @@ export const PagingComponent: FunctionComponent<PagingComponentProps> = ({
 
   const cardsPagingOnClick = (newPageIndex: number) => {
     console.log(newPageIndex);
-    let lastPage = Math.floor(numberOfElements / pageSize);
-    if (pageIndex > lastPage) {
-      setPageIndex(lastPage);
+    if (newPageIndex >= 0 && newPageIndex != pageIndex) {
+      let lastPage = Math.floor(numberOfElements / pageSize);
+      if (newPageIndex > lastPage) {
+        setPageIndex(lastPage);
+      } else {
+        setPageIndex(newPageIndex);
+        pageChanged(newPageIndex);
+      }
     }
-    pageChanged(newPageIndex);
-    setPageIndex(newPageIndex);
   };
 
   useEffect(() => {
@@ -38,7 +41,9 @@ export const PagingComponent: FunctionComponent<PagingComponentProps> = ({
     if (pageIndex > lastPage) {
       setPageIndex(lastPage);
     }
-  }, [paramPageIndex]);
+    setNumberOfElements(paramNumberOfElements);
+    setPageSize(paramPageSize);
+  }, [paramPageIndex, paramNumberOfElements, paramPageSize]);
 
   const getPagingInfo = () => {
     let lastPage = Math.floor(numberOfElements / pageSize);
@@ -61,7 +66,7 @@ export const PagingComponent: FunctionComponent<PagingComponentProps> = ({
       <div>{getPagingInfo()}</div>
       <nav aria-label="Page navigation example">
         <ul className="pagination mb-0 justify-content-center">
-          <li className="page-item cursor-pointer disabled">
+          <li className="page-item cursor-pointer">
             <span
               className="page-link"
               tabIndex={-1}
