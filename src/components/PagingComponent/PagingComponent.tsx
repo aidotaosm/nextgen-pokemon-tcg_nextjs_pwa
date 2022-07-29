@@ -8,7 +8,7 @@ interface PagingComponentProps {
   paramPageSize?: number;
   paramNumberOfElements: number;
   pageChanged: (e: number) => void;
-  currentPageUpdated: (e: number) => void;
+  syncPagingReferences: (e: number) => void;
   pageNumber: number;
 }
 
@@ -17,7 +17,7 @@ export const PagingComponent: FunctionComponent<PagingComponentProps> = ({
   paramPageSize = DEFAULT_PAGE_SIZE,
   paramNumberOfElements,
   pageChanged,
-  currentPageUpdated,
+  syncPagingReferences,
   pageNumber,
 }) => {
   const [pageIndex, setPageIndex] = useState<number>(paramPageIndex);
@@ -36,26 +36,26 @@ export const PagingComponent: FunctionComponent<PagingComponentProps> = ({
         if (newPageIndex > lastPage) {
           setPageIndex(lastPage);
           inputElementRef.current.value = lastPage + 1;
-          inputElementUpdated();
+          refUpdated();
           if (pageIndex !== lastPage) {
             pageChanged(lastPage);
           }
         } else {
           pageChanged(newPageIndex);
           inputElementRef.current.value = newPageIndex + 1;
-          inputElementUpdated();
+          refUpdated();
         }
       } else if (newPageIndex < 0) {
         inputElementRef.current.value = 1;
-        inputElementUpdated();
+        refUpdated();
         if (pageIndex !== 0) {
           pageChanged(0);
         }
       }
     }
   };
-  const inputElementUpdated = () => {
-    currentPageUpdated(inputElementRef?.current?.value || 1);
+  const refUpdated = () => {
+    syncPagingReferences(inputElementRef?.current?.value || 1);
   };
   useEffect(() => {
     setPageIndex(paramPageIndex);

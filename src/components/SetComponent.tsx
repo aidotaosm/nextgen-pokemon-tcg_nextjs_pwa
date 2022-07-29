@@ -11,7 +11,7 @@ export const SetComponent = () => {
 
   const [setCards, setSetCards] = useState<any>({});
   const [pageIndex, setPageIndex] = useState<number>(0);
-  const [pageNumber, setPageNumber] = useState<number>(0);
+  const [refPageNumber, setRefPageNumber] = useState<number>(0);
   const [isLoading, setIsLoading] = useState(false);
 
   const getSetCards = (paramPageIndex: number) => {
@@ -69,20 +69,20 @@ export const SetComponent = () => {
       getSetCards(newPageIndex);
     }
   };
-  const pagingComponentCurrentPageUpdated = (pageNumber: number) => {
-    setPageNumber(pageNumber);
+  const syncPagingReferences = (pageNumber: number) => {
+    setRefPageNumber(pageNumber);
   };
   return (
     <div className="container">
       <PagingComponent
-        currentPageUpdated={pagingComponentCurrentPageUpdated}
         pageChanged={pageChanged}
         paramPageSize={DEFAULT_PAGE_SIZE}
         paramNumberOfElements={setCards.totalCount}
         paramPageIndex={pageIndex}
-        pageNumber={pageNumber}
+        syncPagingReferences={syncPagingReferences}
+        pageNumber={refPageNumber}
       ></PagingComponent>
-      <div className="row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 row-cols-xxl-4">
+      <div className="row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 row-cols-xxl-5">
         {setCards.data?.map((card: any) => {
           return (
             <div className="col" key={card.id}>
@@ -109,12 +109,12 @@ export const SetComponent = () => {
         })}
       </div>
       <PagingComponent
-        pageNumber={pageNumber}
-        currentPageUpdated={pagingComponentCurrentPageUpdated}
         pageChanged={pageChanged}
         paramPageSize={DEFAULT_PAGE_SIZE}
         paramNumberOfElements={setCards.totalCount}
         paramPageIndex={pageIndex}
+        syncPagingReferences={syncPagingReferences}
+        pageNumber={refPageNumber}
       ></PagingComponent>
     </div>
   );
