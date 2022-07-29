@@ -15,3 +15,17 @@
 .cursor-pointer {
   cursor: pointer;
 }
+.py-2-5 {
+  padding-top: 0.75rem !important;
+  padding-bottom: 0.75rem !important;
+}
+.px-2-5 {
+  padding-left: 0.75rem !important;
+  padding-right: 0.75rem !important;
+}
+.p-2-5 {
+  padding-top: 0.75rem !important;
+  padding-bottom: 0.75rem !important;
+  padding-left: 0.75rem !important;
+  padding-right: 0.75rem !important;
+}

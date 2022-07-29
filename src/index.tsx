@@ -8,6 +8,7 @@ import { BrowserRouter } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js"; //this is needed for accordion toggle etc
 //import reportWebVitals from './reportWebVitals';
+import "@fortawesome/fontawesome-free/js/all.min.js";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement

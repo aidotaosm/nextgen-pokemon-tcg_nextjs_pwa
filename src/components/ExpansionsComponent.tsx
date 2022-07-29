@@ -62,7 +62,7 @@ export const ExpansionsComponent = () => {
             >
               <h2 className="accordion-header " id={series.id + "-heading"}>
                 <button
-                  className="accordion-button collapsed py-3 px-3 fs-4 fw-bold"
+                  className="accordion-button collapsed  py-2-5 px-3 fs-5 fw-bold"
                   type="button"
                   data-bs-toggle="collapse"
                   data-bs-target={"#" + series.id}
