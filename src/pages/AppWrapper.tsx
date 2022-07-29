@@ -12,11 +12,11 @@ export const AppWrapper = () => {
   }, [location.pathname]);
   return (
     <div className="d-flex flex-column" style={{ height: "100vh" }}>
-      <header className="h3 text-center">Header</header>
+      <header className="h3 text-center p-2 mb-0">Header</header>
       <main className="flex-grow-1">
         <Outlet />
       </main>
-      <footer className="h5 text-center">Footer</footer>
+      <footer className="h5 text-center p-2 mb-0">Footer</footer>
     </div>
   );
 };
