@@ -24,7 +24,6 @@ export const AppWrapper = () => {
       <main className="flex-grow-1">
         <Outlet />
       </main>
-      <footer className="h5 text-center p-2 mb-0">Footer</footer>
       <footer className="container py-2 ">
         <h5 className="text-center  mb-0">Footer</h5>
       </footer>
