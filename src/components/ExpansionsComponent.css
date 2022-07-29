@@ -1,0 +1,20 @@
+/* .main-container{
+    width: 100%;
+    max-width: 20rem;
+    padding: 0 2rem 0 2rem;
+    margin: 0 auto 0 auto;
+} */
+.set {
+  display: flex;
+  align-items: center;
+}
+.set:not(:last-child) {
+  padding-bottom: 1rem;
+}
+.set .set-image {
+  width: 64px;
+  margin-right: 1rem;
+  /* height: 64px; */
+}
+.set .set-name {
+}
