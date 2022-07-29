@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 export const HomePage = () => {
   return (
     <div className="container">
-      <div className="row row-cols-1 row-cols-md-3 g-4 ">
+      <div className="row row-cols-1 row-cols-md-3">
         <div className="col">
           <Link to="/series" className="un-styled-anchor">
             <div className="card h-100">

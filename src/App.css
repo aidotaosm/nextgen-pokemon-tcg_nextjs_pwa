@@ -2,6 +2,7 @@
   color: inherit;
   text-decoration: inherit;
 }
+
 .un-styled-anchor:focus,
 .un-styled-anchor:hover,
 .un-styled-anchor:visited,
@@ -9,4 +10,8 @@
 .un-styled-anchor:active {
   text-decoration: none;
   color: inherit;
+}
+
+.cursor-pointer {
+  cursor: pointer;
 }

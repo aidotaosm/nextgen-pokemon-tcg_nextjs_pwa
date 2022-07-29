@@ -15,4 +15,16 @@ export class Helper {
     pokemonSDKVariable.configure({ apiKey: DEV_POKEMONTCG_IO_API_KEY });
     return pokemonSDKVariable;
   };
+  static populateSubtype = (card: any) => {
+    let returnVal = "";
+    if (card.subtype || card.subtypes) {
+      returnVal = " - ";
+      if (card.subtype) {
+        returnVal += card.subtype;
+      } else {
+        returnVal += card.subtypes?.join(" - ");
+      }
+    }
+    return returnVal;
+  };
 }
