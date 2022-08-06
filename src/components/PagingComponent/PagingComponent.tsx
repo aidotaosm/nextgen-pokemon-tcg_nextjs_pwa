@@ -1,6 +1,6 @@
 import { useEffect, useState, FunctionComponent, useRef } from "react";
 import { DEFAULT_PAGE_SIZE } from "../../constants/constants";
-import "./PagingComponent.css";
+import styles from "./PagingComponent.module.css";
 import { IF } from "../UtilityComponents/IF";
 
 interface PagingComponentProps {
@@ -93,7 +93,7 @@ export const PagingComponent: FunctionComponent<PagingComponentProps> = ({
             </li>
             <li className="page-item cursor-pointer without-child-page-link border">
               <input
-                className="style-less-input cursor-pointer"
+                className={styles["style-less-input"] + "cursor-pointer"}
                 type="number"
                 onBlur={(e) => cardsPagingOnClick(+e.target.value - 1)}
                 // value={pageIndex + 1}

@@ -18,10 +18,20 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx",
+    "jsx": "preserve",
+    "incremental": true,
     // "downlevelIteration": true
+    // "paths": {
+    //   "bootstrap/dist/js/bootstrap" : ["./node_modules/types/bootstrap"]
+    // }
   },
   "include": [
-    "src"
+    "src",
+    "pages/index.tsx",
+    "pages",
+    "public/serviceWorkerRegistration.ts"
+  ],
+  "exclude": [
+    "node_modules"
   ]
 }

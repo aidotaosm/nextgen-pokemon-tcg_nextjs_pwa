@@ -1,11 +1,11 @@
-import { Link } from "react-router-dom";
+import Link from "../src/components/UtilityComponents/Link";
 
-export const HomePage = () => {
+const Index = () => {
   return (
     <div className="container">
       <div className="row row-cols-1 row-cols-md-3">
         <div className="col">
-          <Link to="/series" className="un-styled-anchor">
+          <Link href="/series" className="un-styled-anchor">
             <div className="card h-100">
               <img
                 src=".\images\Pokemon-TCG-Cards-Laid-Out.webp"
@@ -71,3 +71,4 @@ export const HomePage = () => {
     </div>
   );
 };
+export default Index;
