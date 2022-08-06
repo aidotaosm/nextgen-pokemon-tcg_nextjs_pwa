@@ -12,12 +12,8 @@ import { useRouter } from "next/router";
 import { GetServerSideProps } from "next/types";
 import { BasicProps } from "../models/GenericModels";
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const qry = context.query;
-  return { props: { qry } };
-};
-
-export const SetComponent: FunctionComponent<BasicProps> = ({ qry }) => {
+export const SetComponent: FunctionComponent<BasicProps> = ({ qry }: any) => {
+  console.log(qry);
   let router = useRouter();
 
   const [setCards, setSetCards] = useState<any>({});

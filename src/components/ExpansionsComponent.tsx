@@ -87,7 +87,9 @@ export const ExpansionsComponent = () => {
                           alt={set.name}
                         />
                         <div className={styles["set-name"]}>
-                          <Link href={"/set/" + set.id}>{set.name}</Link>
+                          <Link href={"/set/" + set.id}>
+                            <a>{set.name}</a>
+                          </Link>
                         </div>
                       </div>
                     );

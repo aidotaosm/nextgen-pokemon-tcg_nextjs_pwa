@@ -10,7 +10,7 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
       <header className="container py-2">
         <div className="d-flex align-items-center justify-content-between">
           <div className="" onClick={() => router.back()}>
-            <i className="fa-solid fa-arrow-left fs-3 cursor-pointer" />
+            {/* <i className="fa-solid fa-arrow-left fs-3 cursor-pointer"></i> */}
           </div>
           <h3 className="mb-0 align-self-center">Header</h3>
           <div></div>
