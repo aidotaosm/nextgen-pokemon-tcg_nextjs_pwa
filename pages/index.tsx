@@ -5,11 +5,11 @@ const Index = () => {
     <div className="container">
       <div className="row row-cols-1 row-cols-md-3">
         <div className="col">
-          <Link href="/series" className="un-styled-anchor">
-            <div className="card h-100">
+          <Link href="/series" className="un-styled-anchor ">
+            <div className="card h-100 cursor-pointer">
               <img
                 src=".\images\Pokemon-TCG-Cards-Laid-Out.webp"
-                className="card-img-top"
+                className="card-img-top "
                 alt="..."
               />
               <div className="card-body">

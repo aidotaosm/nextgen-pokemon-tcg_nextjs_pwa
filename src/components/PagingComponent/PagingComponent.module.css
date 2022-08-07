@@ -1,6 +1,7 @@
 .style-less-input {
   border: none;
   padding: unset;
+  -moz-appearance: textfield;
 }
 .style-less-input:hover,
 .style-less-input:focus:focus-visible {
@@ -11,10 +12,7 @@
   -webkit-appearance: none;
   margin: 0;
 }
-.style-less-input {
-  -moz-appearance: textfield;
-}
-.page-item.without-child-page-link {
+
+li.without-child-page-link {
   padding: 0.33rem 0.75rem;
-  /* border: 1px solid #dee2e6; */
 }
