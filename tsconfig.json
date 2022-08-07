@@ -29,7 +29,6 @@
     "src",
     "pages/index.tsx",
     "pages",
-    "public/serviceWorkerRegistration.ts"
   ],
   "exclude": [
     "node_modules"
