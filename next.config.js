@@ -6,6 +6,8 @@ module.exports = withPWA({
     pwa: {
         dest: 'public',
         disable: false,
+        register: true,
+        skipWaiting: true,
     },
-    target: 'serverless'
+    // target: 'serverless'
 })
