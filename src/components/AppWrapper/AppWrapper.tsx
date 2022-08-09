@@ -1,6 +1,8 @@
 import { useRouter } from "next/router";
 import { FunctionComponent, useEffect, useState } from "react";
 import { BasicProps } from "../../models/GenericModels";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowLeftLong } from "@fortawesome/free-solid-svg-icons";
 
 export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
   let router = useRouter();
@@ -9,8 +11,8 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
     <div className="d-flex flex-column" style={{ height: "100vh" }}>
       <header className="container py-2">
         <div className="d-flex align-items-center justify-content-between">
-          <div className="" onClick={() => router.back()}>
-            {/* <i className="fa-solid fa-arrow-left fs-3 cursor-pointer"></i> */}
+          <div className="cursor-pointer" onClick={() => router.back()}>
+            <FontAwesomeIcon icon={faArrowLeftLong} size="2x" />
           </div>
           <h3 className="mb-0 align-self-center">Header</h3>
           <div></div>

@@ -1,17 +1,14 @@
-import { StrictMode, useEffect } from "react";
+import { useEffect } from "react";
 import type { AppProps } from "next/app";
-//enabling bootstrap from node_modules
 import "bootstrap/dist/css/bootstrap.css";
 //import reportWebVitals from './reportWebVitals';
 import "../src/css/global.css";
 import { AppWrapper } from "../src/components/AppWrapper/AppWrapper";
-// import("@fortawesome/fontawesome-free/js/all.min.js");
-import "@fortawesome/fontawesome-free/js/all.min.js";
-export default function MyApp({ Component, pageProps }: AppProps) {
-  // If you want your app to work offline and load faster, you can change
-  // unregister() to register() below. Note this comes with some pitfalls.
-  // Learn more about service workers: https://cra.link/PWA
+import { config } from "@fortawesome/fontawesome-svg-core";
+import "@fortawesome/fontawesome-svg-core/styles.css";
+config.autoAddCss = false;
 
+export default function MyApp({ Component, pageProps }: AppProps) {
   useEffect(() => {
     import("bootstrap"); //this is needed for accordion toggle etc
   }, []);
