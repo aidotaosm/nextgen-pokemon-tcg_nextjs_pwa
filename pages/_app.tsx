@@ -6,11 +6,13 @@ import "../src/css/global.css";
 import { AppWrapper } from "../src/components/AppWrapper/AppWrapper";
 import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
+import { initServiceWorker } from "../public/initServiceWorker";
 config.autoAddCss = false;
 
 export default function MyApp({ Component, pageProps }: AppProps) {
   useEffect(() => {
     import("bootstrap"); //this is needed for accordion toggle etc
+    // initServiceWorker();
   }, []);
   // If you want to start measuring performance in your app, pass a function
   // to log results (for example: reportWebVitals(console.log))
