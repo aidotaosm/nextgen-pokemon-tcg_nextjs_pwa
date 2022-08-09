@@ -21,6 +21,11 @@
     // "allowSyntheticDefaultImports": true,
     // "noFallthroughCasesInSwitch": true
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "public/initServiceWorker.js"
+  ],
   "exclude": ["node_modules"]
 }
