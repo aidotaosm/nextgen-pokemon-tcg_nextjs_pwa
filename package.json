@@ -13,7 +13,7 @@
     "@types/react-dom": "^18.0.6",
     "bootstrap": "^5.1.3",
     "next": "^12.2.4",
-    "next-pwa": "^5.5.5",
+    "next-pwa": "5.5.4",
     "pokemontcgsdk": "^2.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
