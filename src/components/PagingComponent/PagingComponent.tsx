@@ -1,6 +1,6 @@
 import { useEffect, useState, FunctionComponent, useRef } from "react";
 import { DEFAULT_PAGE_SIZE } from "../../constants/constants";
-import "./PagingComponent.css";
+import styles from "./PagingComponent.module.css";
 import { IF } from "../UtilityComponents/IF";
 
 interface PagingComponentProps {
@@ -91,9 +91,14 @@ export const PagingComponent: FunctionComponent<PagingComponentProps> = ({
                 Previous
               </span>
             </li>
-            <li className="page-item cursor-pointer without-child-page-link border">
+            <li
+              className={
+                "page-item cursor-pointer border " +
+                styles["without-child-page-link"]
+              }
+            >
               <input
-                className="style-less-input cursor-pointer"
+                className={styles["style-less-input"] + " cursor-pointer"}
                 type="number"
                 onBlur={(e) => cardsPagingOnClick(+e.target.value - 1)}
                 // value={pageIndex + 1}
@@ -108,11 +113,13 @@ export const PagingComponent: FunctionComponent<PagingComponentProps> = ({
                 style={{ width: "1.6rem" }}
               />
             </li>
-            <li className="page-item without-child-page-link">of</li>
-            <li className="page-item without-child-page-link">
+            <li className={"page-item " + styles["without-child-page-link"]}>
+              of
+            </li>
+            <li className={"page-item " + styles["without-child-page-link"]}>
               {Math.ceil(numberOfElements / pageSize)}
             </li>
-            <li className="page-item cursor-pointer user-select-none ">
+            <li className="page-item cursor-pointer user-select-none">
               <span
                 className="page-link border-0"
                 onClick={() => cardsPagingOnClick(pageIndex + 1)}
