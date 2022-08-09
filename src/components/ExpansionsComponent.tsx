@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Helper } from "../utils/helper";
-import "./ExpansionsComponent.css";
-import { Link } from "react-router-dom";
+import styles from "./ExpansionsComponent.module.css";
+import Link from "./UtilityComponents/Link";
 
 export const ExpansionsComponent = () => {
   const [setsBySeries, setSetsBySeries] = useState<any[]>([]);
@@ -80,14 +80,16 @@ export const ExpansionsComponent = () => {
                 <div className="accordion-body py-2 ">
                   {series.sets.map((set: any) => {
                     return (
-                      <div className="set" key={set.id} id={set.id}>
+                      <div className={styles.set} key={set.id} id={set.id}>
                         <img
-                          className="set-image"
+                          className={styles["set-image"]}
                           src={set?.images?.logo}
                           alt={set.name}
                         />
-                        <div className="set-name">
-                          <Link to={"/set/" + set.id}>{set.name}</Link>
+                        <div className={styles["set-name"]}>
+                          <Link href={"/set/" + set.id}>
+                            <a>{set.name}</a>
+                          </Link>
                         </div>
                       </div>
                     );

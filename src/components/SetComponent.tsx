@@ -1,13 +1,20 @@
-import { useEffect, useMemo, useState, useTransition } from "react";
+import {
+  FunctionComponent,
+  useEffect,
+  useMemo,
+  useState,
+  useTransition,
+} from "react";
 import { Helper } from "../utils/helper";
-import "./ExpansionsComponent.css";
-import { Link, useParams, useNavigate } from "react-router-dom";
 import { PagingComponent } from "./PagingComponent/PagingComponent";
 import { DEFAULT_PAGE_SIZE } from "../constants/constants";
+import { useRouter } from "next/router";
+import { GetServerSideProps } from "next/types";
+import { BasicProps } from "../models/GenericModels";
 
-export const SetComponent = () => {
-  let params = useParams();
-  let navigate = useNavigate();
+export const SetComponent: FunctionComponent<BasicProps> = ({ qry }: any) => {
+  console.log(qry);
+  let router = useRouter();
 
   const [setCards, setSetCards] = useState<any>({});
   const [pageIndex, setPageIndex] = useState<number>(0);
@@ -19,7 +26,7 @@ export const SetComponent = () => {
     let pokemonSDKVariable = Helper.initializePokemonSDK();
     pokemonSDKVariable.card
       .where({
-        q: "set.id:" + params.setId,
+        q: "set.id:" + qry.setId,
         pageSize: DEFAULT_PAGE_SIZE,
         page: paramPageIndex + 1,
       })
@@ -32,9 +39,9 @@ export const SetComponent = () => {
   };
 
   useEffect(() => {
-    console.log(params);
-    if (!params.setId) {
-      navigate("/dashboard");
+    console.log(qry);
+    if (!qry.setId) {
+      router.push("/");
     } else {
       getSetCards(pageIndex);
       // pokemonSDKVariable.card
