@@ -11,6 +11,10 @@ import { DEFAULT_PAGE_SIZE } from "../constants/constants";
 import { useRouter } from "next/router";
 import { GetServerSideProps } from "next/types";
 import { BasicProps } from "../models/GenericModels";
+import Image from "next/image";
+import { ImageComponent } from "./ImageComponent/ImageComponent";
+import { IF } from "./UtilityComponents/IF";
+//import Cardback from '/images/Cardback.webp'
 
 export const SetComponent: FunctionComponent<BasicProps> = ({ qry }: any) => {
   console.log(qry);
@@ -104,12 +108,19 @@ export const SetComponent: FunctionComponent<BasicProps> = ({ qry }: any) => {
                 <div className="card-body">
                   <h5 className="card-title mb-0">{card.name}</h5>
                 </div>
-                <img
+                <ImageComponent
+                  src={card?.images?.small}
+                  alt={card.name}
+                  width={245}
+                  height={342}
+                  className="card-img-top"
+                />
+                {/* <img
                   src={card?.images?.small}
                   className="card-img-top"
                   alt="..."
                   // style={{ maxHeight: "3rem" }}
-                />
+                /> */}
                 <div className="card-footer">
                   <small className="text-muted">
                     {card.supertype + Helper.populateSubtype(card)}
@@ -135,7 +146,7 @@ export const SetComponent: FunctionComponent<BasicProps> = ({ qry }: any) => {
         aria-labelledby="exampleModalLabel"
         aria-hidden="true"
       >
-        <div className="modal-dialog modal-xl">
+        <div className="modal-dialog modal-md">
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title">{selectedCard?.name}</h5>
@@ -146,11 +157,14 @@ export const SetComponent: FunctionComponent<BasicProps> = ({ qry }: any) => {
                 aria-label="Close"
               ></button>
             </div>
-            <div className="modal-body d-flex justify-content-center">
-              <img
-                style={{ height: "75vh" }}
-                src={selectedCard?.images?.large}
-                alt="..."
+            <div className="modal-body">
+              <ImageComponent
+                src={selectedCard?.images?.small}
+                highQualitySrc={selectedCard?.images?.large}
+                alt={selectedCard.name}
+                width={734}
+                height={1024}
+                //layout="fill"
               />
             </div>
             <div className="modal-footer">
