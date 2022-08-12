@@ -8,10 +8,13 @@ module.exports = withPWA({
         dest: 'public',
         disable: false,
         register: true,
-        skipWaiting: true,
+        skipWaiting: false,
         runtimeCaching: [
             ...customRuntimeCaching,
         ],
+    },
+    images: {
+        domains: ['images.pokemontcg.io'],
     },
     // target: 'serverless'
 })

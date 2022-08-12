@@ -42,3 +42,10 @@ code {
   padding-left: 0.75rem !important;
   padding-right: 0.75rem !important;
 }
+.vh-75 {
+  height: 75vh !important;
+}
+.out-of-view {
+  position: absolute;
+  z-index: -1;
+}
