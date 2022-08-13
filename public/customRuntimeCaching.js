@@ -53,8 +53,8 @@ module.exports = [
     options: {
       cacheName: 'next-image',
       expiration: {
-        maxEntries: 64,
-        maxAgeSeconds: 24 * 60 * 60 // 24 hours
+        maxEntries: 10000,
+        maxAgeSeconds: 24 * 60 * 60 * 30 * 12 // 1 year
       }
     }
   },
@@ -177,7 +177,7 @@ module.exports = [
       cacheName: 'cross-origin',
       expiration: {
         maxEntries: 10000,
-        maxAgeSeconds: 60 * 60 * 100 // 1 hour
+        maxAgeSeconds: 60 * 60 * 24 * 30  // 1 month
       },
       // networkTimeoutSeconds: 10
     }
