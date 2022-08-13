@@ -12,6 +12,9 @@ module.exports = withPWA({
         runtimeCaching: [
             ...customRuntimeCaching,
         ],
+        fallbacks: {
+            image: '/images/Cardback.webp'
+        }
     },
     images: {
         domains: ['images.pokemontcg.io'],
