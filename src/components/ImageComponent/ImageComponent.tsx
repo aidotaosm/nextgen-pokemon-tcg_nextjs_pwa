@@ -16,6 +16,7 @@ export const ImageComponent: FunctionComponent<any> = ({
   const [highQualityImageSource, setHighQualityImageSource] =
     useState(highQualitySrc);
   const [highQualityImageLoaded, setHighQualityImageLoaded] = useState(false);
+  const [lowQualityImageLoaded, setLowQualityImageLoaded] = useState(false);
 
   useEffect(() => {
     setImageSource(src);
@@ -42,6 +43,10 @@ export const ImageComponent: FunctionComponent<any> = ({
             console.log(imageSource);
             setImageSource("/images/Cardback.webp");
           }}
+          onLoadingComplete={(e) => {
+            console.log(e);
+            setLowQualityImageLoaded(true);
+          }}
         />
       </div>
       <IF condition={highQualityImageSource}>
@@ -57,7 +62,13 @@ export const ImageComponent: FunctionComponent<any> = ({
             loading="lazy"
             blurDataURL={blurDataURL || "/images/Cardback.webp"}
             placeholder="blur"
-            onError={() => setHighQualityImageSource("/images/Cardback.webp")}
+            onError={() => {
+              if (lowQualityImageLoaded) {
+                setHighQualityImageSource(imageSource);
+              } else {
+                setHighQualityImageSource("/images/Cardback.webp");
+              }
+            }}
             onLoadingComplete={(e) => {
               console.log(e);
               setHighQualityImageLoaded(true);
