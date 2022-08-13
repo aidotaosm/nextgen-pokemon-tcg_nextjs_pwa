@@ -38,7 +38,10 @@ export const ImageComponent: FunctionComponent<any> = ({
           loading="lazy"
           blurDataURL={blurDataURL || "/images/Cardback.webp"}
           placeholder="blur"
-          onError={() => setImageSource("/images/Cardback.webp")}
+          onError={(e) => {
+            console.log(imageSource);
+            setImageSource("/images/Cardback.webp");
+          }}
         />
       </div>
       <IF condition={highQualityImageSource}>

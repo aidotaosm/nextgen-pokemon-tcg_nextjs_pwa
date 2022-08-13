@@ -158,14 +158,16 @@ export const SetComponent: FunctionComponent<BasicProps> = ({ qry }: any) => {
               ></button>
             </div>
             <div className="modal-body">
-              <ImageComponent
-                src={selectedCard?.images?.small}
-                highQualitySrc={selectedCard?.images?.large}
-                alt={selectedCard.name}
-                width={734}
-                height={1024}
-                //layout="fill"
-              />
+              <IF condition={selectedCard?.images}>
+                <ImageComponent
+                  src={selectedCard?.images?.small}
+                  highQualitySrc={selectedCard?.images?.large}
+                  alt={selectedCard.name}
+                  width={734}
+                  height={1024}
+                  //layout="fill"
+                />
+              </IF>
             </div>
             <div className="modal-footer">
               <button

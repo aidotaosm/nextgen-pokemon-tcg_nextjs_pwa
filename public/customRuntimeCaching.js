@@ -35,6 +35,7 @@ module.exports = [
       }
     }
   },
+
   {
     urlPattern: /\.(?:jpg|jpeg|gif|png|svg|ico|webp)$/i,
     handler: 'StaleWhileRevalidate',
@@ -180,7 +181,8 @@ module.exports = [
       },
       // networkTimeoutSeconds: 10
     }
-  }
+  },
+
 ]
 
 // "CacheFirst"
@@ -196,3 +198,26 @@ module.exports = [
 
 // , or
 // "StaleWhileRevalidate"
+
+
+// workbox.routing.registerRoute(
+//   /\.(?:webp|png|jpg|jpeg|svg)$/,
+//   async ({url, event, params}) => {
+//     const staleWhileRevalidate = new workbox.strategies.StaleWhileRevalidate();
+
+//     try {
+//       const response = await caches.match(event.request) || await fetch(url, { method: 'GET' });
+//       if (!response || response.status === 404) {
+//         throw new Error(response.status);
+//       } else {
+//         return await staleWhileRevalidate.handle({event});
+//       }
+
+//     } catch (error) {
+//       console.warn(`\nServiceWorker: Image [${url.href}] was not found either in the network or the cache. Responding with placeholder image instead.\n`);
+//       // * get placeholder image from cache || get placeholder image from network
+//       return await caches.match(placeholderImageURL) || await fetch(placeholderImageURL, { method: 'GET' });
+
+//     }
+//   }
+// );
