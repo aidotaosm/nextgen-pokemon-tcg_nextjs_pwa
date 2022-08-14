@@ -92,8 +92,8 @@ export const ExpansionsComponent = () => {
                           <ImageComponent
                             src={set?.images?.logo}
                             alt={set.name}
-                            objectFit="contain"
-                            layout="fill"
+                            height={64}
+                            width={192}
                           />
                         </div>
                         {/* <img

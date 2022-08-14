@@ -17,6 +17,7 @@ export const ImageComponent: FunctionComponent<any> = ({
     useState(highQualitySrc);
   const [highQualityImageLoaded, setHighQualityImageLoaded] = useState(false);
   const [lowQualityImageLoaded, setLowQualityImageLoaded] = useState(false);
+  const [imageDimensions, setimageDimensions] = useState({ height, width });
 
   useEffect(() => {
     setImageSource(src);
@@ -33,8 +34,8 @@ export const ImageComponent: FunctionComponent<any> = ({
           className={className || ""}
           src={imageSource}
           alt={alt || ""}
-          width={width}
-          height={height}
+          width={imageDimensions.width}
+          height={imageDimensions.height}
           layout={layout || "responsive"}
           loading="lazy"
           blurDataURL={blurDataURL || "/images/Cardback.webp"}
@@ -44,7 +45,8 @@ export const ImageComponent: FunctionComponent<any> = ({
             setImageSource("/images/Cardback.webp");
           }}
           onLoadingComplete={(e) => {
-            console.log(e);
+            console.log(e, 'lowres');
+            setimageDimensions({ width: e.naturalWidth, height: e.naturalHeight });
             setLowQualityImageLoaded(true);
           }}
         />
@@ -56,8 +58,8 @@ export const ImageComponent: FunctionComponent<any> = ({
             className={className || ""}
             src={highQualityImageSource}
             alt={alt || ""}
-            width={width}
-            height={height}
+            width={imageDimensions.width}
+            height={imageDimensions.height}
             layout={layout || "responsive"}
             loading="lazy"
             blurDataURL={blurDataURL || "/images/Cardback.webp"}
@@ -70,7 +72,8 @@ export const ImageComponent: FunctionComponent<any> = ({
               }
             }}
             onLoadingComplete={(e) => {
-              console.log(e);
+              console.log(e, 'hires');
+              setimageDimensions({ width: e.naturalWidth, height: e.naturalHeight });
               setHighQualityImageLoaded(true);
             }}
           />
