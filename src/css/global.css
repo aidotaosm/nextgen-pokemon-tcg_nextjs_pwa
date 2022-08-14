@@ -49,3 +49,6 @@ code {
   position: absolute;
   z-index: -1;
 }
+.rotate-90 {
+  transform: rotate(90deg);
+}
