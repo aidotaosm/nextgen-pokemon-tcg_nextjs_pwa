@@ -92,8 +92,9 @@ export const ExpansionsComponent = () => {
                           <ImageComponent
                             src={set?.images?.logo}
                             alt={set.name}
-                            height={64}
+                            height={72}
                             width={192}
+                            blurDataURL={"/images/Cardback-sideways.webp"}
                           />
                         </div>
                         {/* <img

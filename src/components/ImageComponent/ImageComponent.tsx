@@ -45,8 +45,11 @@ export const ImageComponent: FunctionComponent<any> = ({
             setImageSource("/images/Cardback.webp");
           }}
           onLoadingComplete={(e) => {
-            console.log(e, 'lowres');
-            setimageDimensions({ width: e.naturalWidth, height: e.naturalHeight });
+            console.log(e, "lowres");
+            setimageDimensions({
+              width: e.naturalWidth,
+              height: e.naturalHeight,
+            });
             setLowQualityImageLoaded(true);
           }}
         />
@@ -72,8 +75,18 @@ export const ImageComponent: FunctionComponent<any> = ({
               }
             }}
             onLoadingComplete={(e) => {
-              console.log(e, 'hires');
-              setimageDimensions({ width: e.naturalWidth, height: e.naturalHeight });
+              console.log(e, "hires");
+              if (
+                e.naturalHeight == 425 &&
+                e.naturalWidth == 303 &&
+                lowQualityImageLoaded
+              ) {
+                setHighQualityImageSource(imageSource);
+              }
+              setimageDimensions({
+                width: e.naturalWidth,
+                height: e.naturalHeight,
+              });
               setHighQualityImageLoaded(true);
             }}
           />
