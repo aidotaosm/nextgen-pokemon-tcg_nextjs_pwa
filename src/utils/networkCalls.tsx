@@ -10,7 +10,7 @@ export async function getExpansions() {
       arrayOfSeries.push({
         id: "series" + index + 1,
         series: seriesName,
-        sets: setsGroupedBySeries[seriesName],
+        sets: setsGroupedBySeries[seriesName].reverse(),
         releaseDate: setsGroupedBySeries[seriesName][0].releaseDate,
       });
     });
