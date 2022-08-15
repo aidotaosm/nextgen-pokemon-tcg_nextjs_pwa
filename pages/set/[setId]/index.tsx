@@ -20,12 +20,12 @@ export const getStaticPaths: GetStaticPaths = async () => {
   let returnPaths: any[] = [];
   expansions.forEach((series) => {
     series.sets.forEach((set: any) => {
+      console.log(set.id);
       returnPaths.push({
         params: { setId: set.id },
       });
     });
   });
-  console.log(returnPaths);
   // Props returned will be passed to the page component
   return {
     // Only `/posts/1` and `/posts/2` are generated at build time
