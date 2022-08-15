@@ -61,8 +61,9 @@ export const PagingComponent: FunctionComponent<PagingComponentProps> = ({
     setPageIndex(paramPageIndex);
     setNumberOfElements(paramNumberOfElements);
     setPageSize(paramPageSize);
+    console.log(inputElementRef);
     if (inputElementRef?.current?.value) {
-      inputElementRef.current.value = pageNumber;
+      inputElementRef.current.value = pageNumber || 1;
     }
   }, [paramPageIndex, paramNumberOfElements, paramPageSize, pageNumber]);
 

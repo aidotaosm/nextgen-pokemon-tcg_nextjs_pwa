@@ -11,7 +11,14 @@ export class Helper {
       {}
     );
   static initializePokemonSDK: any = () => {
-    let pokemonSDKVariable = pokemon.default;
+    console.log(pokemon);
+    let pokemonSDKVariable;
+    if (typeof window === "undefined") {
+      pokemonSDKVariable = pokemon;
+    } else {
+      pokemonSDKVariable = pokemon.default;
+    }
+
     pokemonSDKVariable.configure({ apiKey: DEV_POKEMONTCG_IO_API_KEY });
     return pokemonSDKVariable;
   };

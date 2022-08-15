@@ -1,55 +1,45 @@
-import { useEffect, useState } from "react";
+import { FunctionComponent, useEffect, useState } from "react";
+import { SeriesArrayProps } from "../models/GenericModels";
 import { Helper } from "../utils/helper";
+import { getAllSetCards, getExpansions } from "../utils/networkCalls";
 import styles from "./ExpansionsComponent.module.css";
 import { ImageComponent } from "./ImageComponent/ImageComponent";
 import Link from "./UtilityComponents/Link";
 
-export const ExpansionsComponent = () => {
-  const [setsBySeries, setSetsBySeries] = useState<any[]>([]);
+export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
+  arrayOfSeries,
+}: any) => {
+  const [setsBySeries, setSetsBySeries] = useState<any[]>(arrayOfSeries);
+  // async function localExpansionsGet() {
+  //   let arrayOfSeries = await getExpansions();
+  //   console.log(arrayOfSeries);
+  //   setSetsBySeries(arrayOfSeries);
+  // }
   useEffect(() => {
-    let pokemonSDKVariable = Helper.initializePokemonSDK();
-    if (pokemonSDKVariable) {
-      console.log(pokemonSDKVariable);
-      pokemonSDKVariable.set.all({ page: 0 }).then((sets: any[]) => {
-        console.log(sets);
-        let setsGroupedBySeries: any = Helper.GroupBy(sets, "series");
-        let arrayOfSeries: any[] = [];
-        Object.keys(setsGroupedBySeries).forEach((seriesName, index) => {
-          arrayOfSeries.push({
-            id: "series" + index + 1,
-            series: seriesName,
-            sets: setsGroupedBySeries[seriesName],
-            releaseDate: setsGroupedBySeries[seriesName][0].releaseDate,
-          });
-        });
-        arrayOfSeries.reverse();
-        console.log(arrayOfSeries);
-        setSetsBySeries(arrayOfSeries);
-      });
-      // pokemonSDKVariable.card
-      //   .all({ q: "!name:charizard", page: 0, pageSize: 100 })
-      //   .then((cards: any[]) => {
-      //     console.log(cards);
-      //   });
-      // pokemonSDKVariable.type.all({ page: 0 }).then((cards: any[]) => {
-      //   console.log(cards);
-      // });
-      // pokemonSDKVariable.subtype
-      //   .all({ page: 0 })
-      //   .then((cards: any[]) => {
-      //     console.log(cards);
-      //   });
-      // pokemonSDKVariable.rarity
-      //   .all({ page: 0 })
-      //   .then((cards: any[]) => {
-      //     console.log(cards);
-      //   });
-      // pokemonSDKVariable.supertype
-      //   .all({ page: 0 })
-      //   .then((cards: any[]) => {
-      //     console.log(cards);
-      //   });
-    }
+    //   localExpansionsGet();
+    // pokemonSDKVariable.card
+    //   .all({ q: "!name:charizard", page: 0, pageSize: 100 })
+    //   .then((cards: any[]) => {
+    //     console.log(cards);
+    //   });
+    // pokemonSDKVariable.type.all({ page: 0 }).then((cards: any[]) => {
+    //   console.log(cards);
+    // });
+    // pokemonSDKVariable.subtype
+    //   .all({ page: 0 })
+    //   .then((cards: any[]) => {
+    //     console.log(cards);
+    //   });
+    // pokemonSDKVariable.rarity
+    //   .all({ page: 0 })
+    //   .then((cards: any[]) => {
+    //     console.log(cards);
+    //   });
+    // pokemonSDKVariable.supertype
+    //   .all({ page: 0 })
+    //   .then((cards: any[]) => {
+    //     console.log(cards);
+    //   });
   }, []);
 
   return (
