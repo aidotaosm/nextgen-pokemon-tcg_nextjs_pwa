@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import { FunctionComponent, useEffect, useState } from "react";
 import { SeriesArrayProps } from "../models/GenericModels";
 import { Helper } from "../utils/helper";
@@ -9,6 +10,7 @@ import Link from "./UtilityComponents/Link";
 export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
   arrayOfSeries,
 }: any) => {
+  let router = useRouter();
   const [setsBySeries, setSetsBySeries] = useState<any[]>(arrayOfSeries);
   // async function localExpansionsGet() {
   //   let arrayOfSeries = await getExpansions();
@@ -16,6 +18,12 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
   //   setSetsBySeries(arrayOfSeries);
   // }
   useEffect(() => {
+    arrayOfSeries.forEach((series: any) => {
+      series.sets.forEach((set: any) => {
+        router.prefetch("/set/" + set.id);
+      });
+    });
+
     //   localExpansionsGet();
     // pokemonSDKVariable.card
     //   .all({ q: "!name:charizard", page: 0, pageSize: 100 })
