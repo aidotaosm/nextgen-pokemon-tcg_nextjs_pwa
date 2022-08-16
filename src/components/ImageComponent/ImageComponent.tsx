@@ -1,6 +1,7 @@
 import { FunctionComponent, useEffect, useState } from "react";
 import Image from "next/image";
 import { IF } from "../UtilityComponents/IF";
+import { DEFAULT_CARD_BACK_RATIO_TO_TWO_DECIMAL } from "../../constants/constants";
 
 export const ImageComponent: FunctionComponent<any> = ({
   src,
@@ -23,7 +24,7 @@ export const ImageComponent: FunctionComponent<any> = ({
     setImageSource(src);
     setHighQualityImageSource(highQualitySrc);
     setHighQualityImageLoaded(false);
-    console.log(highQualitySrc);
+    //console.log(highQualitySrc);
   }, [src, highQualitySrc]);
 
   return (
@@ -41,11 +42,11 @@ export const ImageComponent: FunctionComponent<any> = ({
           blurDataURL={blurDataURL || "/images/Cardback.webp"}
           placeholder="blur"
           onError={(e) => {
-            console.log(imageSource);
+            //console.log(imageSource);
             setImageSource("/images/Cardback.webp");
           }}
           onLoadingComplete={(e) => {
-            console.log(e, "lowres");
+            //  console.log(e, "lowres");
             setimageDimensions({
               width: e.naturalWidth,
               height: e.naturalHeight,
@@ -75,10 +76,10 @@ export const ImageComponent: FunctionComponent<any> = ({
               }
             }}
             onLoadingComplete={(e) => {
-              console.log(e, "hires");
+              // console.log(e, "hires");
               if (
-                e.naturalHeight == 425 &&
-                e.naturalWidth == 303 &&
+                (e.naturalHeight / e.naturalWidth).toFixed(2) ==
+                  DEFAULT_CARD_BACK_RATIO_TO_TWO_DECIMAL &&
                 lowQualityImageLoaded
               ) {
                 setHighQualityImageSource(imageSource);
