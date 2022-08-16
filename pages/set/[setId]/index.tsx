@@ -26,6 +26,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
       });
     });
   });
+  // returnPaths.splice(10, returnPaths.length - 11);
   // Props returned will be passed to the page component
   return {
     // Only `/posts/1` and `/posts/2` are generated at build time
