@@ -1,7 +1,7 @@
 import { FunctionComponent, useEffect, useState } from "react";
 import Image from "next/image";
 import { IF } from "../UtilityComponents/IF";
-import { DEFAULT_CARD_BACK_RATIO_TO_TWO_DECIMAL } from "../../constants/constants";
+import { DEFAULT_CARD_BACK_RATIO_TO_THREE_DECIMAL } from "../../constants/constants";
 
 export const ImageComponent: FunctionComponent<any> = ({
   src,
@@ -76,10 +76,14 @@ export const ImageComponent: FunctionComponent<any> = ({
               }
             }}
             onLoadingComplete={(e) => {
-              // console.log(e, "hires");
+              console.log(e);
+              let currentImageRatio = e.naturalHeight / e.naturalWidth;
+              let ThreeDecimalPlacesValue = currentImageRatio.toFixed(3);
+              console.log(currentImageRatio);
+              console.log(ThreeDecimalPlacesValue);
               if (
-                (e.naturalHeight / e.naturalWidth).toFixed(2) ==
-                  DEFAULT_CARD_BACK_RATIO_TO_TWO_DECIMAL &&
+                (e.naturalHeight / e.naturalWidth).toFixed(3) ==
+                  DEFAULT_CARD_BACK_RATIO_TO_THREE_DECIMAL &&
                 lowQualityImageLoaded
               ) {
                 setHighQualityImageSource(imageSource);
