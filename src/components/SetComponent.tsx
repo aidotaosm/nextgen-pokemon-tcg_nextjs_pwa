@@ -39,23 +39,25 @@ export const SetComponent: FunctionComponent<CardObjectProps> = ({
 
   useEffect(() => {
     console.log(router.query.setId);
-    if (!router.query.setId) {
-      router.push("/");
-    } else {
+    // if (!router.query.setId) {
+    //   router.push("/");
+    // } else {
+    if (cardsObject?.data) {
       let from = pageIndex * DEFAULT_PAGE_SIZE;
       let to = (pageIndex + 1) * DEFAULT_PAGE_SIZE;
       let firstSetOfCards = cardsObject.data.slice(from, to);
       console.log(firstSetOfCards);
       setSetCards(firstSetOfCards);
-      //  getSetCards(pageIndex);
     }
+    //  getSetCards(pageIndex);
+    //  }
   }, []);
 
   const pageChanged = (newPageIndex: number) => {
     console.log(newPageIndex);
     if (!isLoading) {
-      let from = newPageIndex * DEFAULT_PAGE_SIZE + 1;
-      let to = (newPageIndex + 1) * DEFAULT_PAGE_SIZE - 1;
+      let from = newPageIndex * DEFAULT_PAGE_SIZE;
+      let to = (newPageIndex + 1) * DEFAULT_PAGE_SIZE;
       let changedSetOfCards = cardsObject.data.slice(from, to);
       console.log(from, to, changedSetOfCards);
       setSetCards(changedSetOfCards);
@@ -69,10 +71,8 @@ export const SetComponent: FunctionComponent<CardObjectProps> = ({
   };
   if (router.isFallback) {
     return (
-      <div className="container">
-        <div className="d-flex flex-column flex-grow-1 Justify-content-between">
-          <h1>Loading...</h1>
-        </div>
+      <div className="container d-flex h-100 align-items-center justify-content-center">
+        <h1>New Set Loading...</h1>
       </div>
     );
   } else {
@@ -81,7 +81,7 @@ export const SetComponent: FunctionComponent<CardObjectProps> = ({
         <PagingComponent
           pageChanged={pageChanged}
           paramPageSize={DEFAULT_PAGE_SIZE}
-          paramNumberOfElements={cardsObject.totalCount}
+          paramNumberOfElements={cardsObject?.totalCount}
           paramPageIndex={pageIndex}
           syncPagingReferences={syncPagingReferences}
           pageNumber={refPageNumber}
@@ -127,7 +127,7 @@ export const SetComponent: FunctionComponent<CardObjectProps> = ({
         <PagingComponent
           pageChanged={pageChanged}
           paramPageSize={DEFAULT_PAGE_SIZE}
-          paramNumberOfElements={cardsObject.totalCount}
+          paramNumberOfElements={cardsObject?.totalCount}
           paramPageIndex={pageIndex}
           syncPagingReferences={syncPagingReferences}
           pageNumber={refPageNumber}
