@@ -56,8 +56,8 @@ export const SetComponent: FunctionComponent<CardObjectProps> = ({
   const pageChanged = (newPageIndex: number) => {
     console.log(newPageIndex);
     if (!isLoading) {
-      let from = newPageIndex * DEFAULT_PAGE_SIZE + 1;
-      let to = (newPageIndex + 1) * DEFAULT_PAGE_SIZE - 1;
+      let from = newPageIndex * DEFAULT_PAGE_SIZE;
+      let to = (newPageIndex + 1) * DEFAULT_PAGE_SIZE;
       let changedSetOfCards = cardsObject.data.slice(from, to);
       console.log(from, to, changedSetOfCards);
       setSetCards(changedSetOfCards);
