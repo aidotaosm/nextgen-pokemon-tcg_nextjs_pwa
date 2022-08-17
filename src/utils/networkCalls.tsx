@@ -36,7 +36,7 @@ export const getAllSetCards = async (setId?: string) => {
       setsObject = response;
     })
     .catch((c: any) => {
-      console.log(c);
+      console.error("error occurred on " + setId);
     });
   return setsObject;
 };
