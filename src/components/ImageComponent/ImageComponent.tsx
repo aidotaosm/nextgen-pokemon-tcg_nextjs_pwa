@@ -38,6 +38,7 @@ export const ImageComponent: FunctionComponent<any> = ({
     <>
       <div className={highQualityImageLoaded ? "out-of-view" : ""}>
         <Image
+          unoptimized
           // style={{ height: "75vh" }}
           className={className || ""}
           src={imageSource}

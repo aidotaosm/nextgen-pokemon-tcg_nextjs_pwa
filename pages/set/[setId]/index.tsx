@@ -1,7 +1,7 @@
 import { GetServerSideProps, GetStaticPaths, GetStaticProps } from "next";
 import { ParsedUrlQuery } from "querystring";
 import { FunctionComponent } from "react";
-import { SetComponent } from "../../../src/components/SetComponent";
+import { SetComponent } from "../../../src/components/SetComponent/SetComponent";
 import { BasicProps, CardObjectProps } from "../../../src/models/GenericModels";
 import { getAllSetCards, getExpansions } from "../../../src/utils/networkCalls";
 // export const getServerSideProps: GetServerSideProps = async (context) => {

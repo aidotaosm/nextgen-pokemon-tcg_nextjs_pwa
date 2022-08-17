@@ -1,11 +1,11 @@
 import { useRouter } from "next/router";
 import { FunctionComponent, useEffect, useState } from "react";
-import { SeriesArrayProps } from "../models/GenericModels";
-import { Helper } from "../utils/helper";
-import { getAllSetCards, getExpansions } from "../utils/networkCalls";
+import { SeriesArrayProps } from "../../models/GenericModels";
+import { Helper } from "../../utils/helper";
+import { getAllSetCards, getExpansions } from "../../utils/networkCalls";
 import styles from "./ExpansionsComponent.module.css";
-import { ImageComponent } from "./ImageComponent/ImageComponent";
-import Link from "./UtilityComponents/Link";
+import { ImageComponent } from "../ImageComponent/ImageComponent";
+import Link from "../UtilityComponents/Link";
 
 export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
   arrayOfSeries,
