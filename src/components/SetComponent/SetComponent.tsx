@@ -1,13 +1,13 @@
 import { FunctionComponent, useEffect, useState } from "react";
-import { Helper } from "../utils/helper";
-import { PagingComponent } from "./PagingComponent/PagingComponent";
-import { DEFAULT_PAGE_SIZE } from "../constants/constants";
+import { Helper } from "../../utils/helper";
+import { PagingComponent } from "../PagingComponent/PagingComponent";
+import { DEFAULT_PAGE_SIZE } from "../../constants/constants";
 import { useRouter } from "next/router";
-import { BasicProps, CardObjectProps } from "../models/GenericModels";
+import { BasicProps, CardObjectProps } from "../../models/GenericModels";
 import Image from "next/image";
-import { ImageComponent } from "./ImageComponent/ImageComponent";
-import { IF } from "./UtilityComponents/IF";
-import { getExpansions, getAllSetCards } from "../utils/networkCalls";
+import { ImageComponent } from "../ImageComponent/ImageComponent";
+import { IF } from "../UtilityComponents/IF";
+import { getExpansions, getAllSetCards } from "../../utils/networkCalls";
 
 export const SetComponent: FunctionComponent<CardObjectProps> = ({
   cardsObject,
