@@ -1,7 +1,13 @@
-import { FunctionComponent, useEffect, useState } from "react";
+import {
+  FunctionComponent,
+  MutableRefObject,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import Image from "next/image";
 import { IF } from "../UtilityComponents/IF";
-import { DEFAULT_CARD_BACK_RATIO_TO_THREE_DECIMAL } from "../../constants/constants";
+import { DEFAULT_CARD_BACK_RATIO } from "../../constants/constants";
 
 export const ImageComponent: FunctionComponent<any> = ({
   src,
@@ -18,7 +24,8 @@ export const ImageComponent: FunctionComponent<any> = ({
     useState(highQualitySrc);
   const [highQualityImageLoaded, setHighQualityImageLoaded] = useState(false);
   const [lowQualityImageLoaded, setLowQualityImageLoaded] = useState(false);
-  const [imageDimensions, setimageDimensions] = useState({ height, width });
+  const [imageDimensions, setImageDimensions] = useState({ height, width });
+  const rawHighQualityImageRef = useRef<any>();
 
   useEffect(() => {
     setImageSource(src);
@@ -47,7 +54,7 @@ export const ImageComponent: FunctionComponent<any> = ({
           }}
           onLoadingComplete={(e) => {
             //  console.log(e, "lowres");
-            setimageDimensions({
+            setImageDimensions({
               width: e.naturalWidth,
               height: e.naturalHeight,
             });
@@ -69,6 +76,7 @@ export const ImageComponent: FunctionComponent<any> = ({
             blurDataURL={blurDataURL || "/images/Cardback.webp"}
             placeholder="blur"
             onError={() => {
+              console.error("hires error occurred");
               if (lowQualityImageLoaded) {
                 setHighQualityImageSource(imageSource);
               } else {
@@ -76,19 +84,15 @@ export const ImageComponent: FunctionComponent<any> = ({
               }
             }}
             onLoadingComplete={(e) => {
-              console.log(e);
-              let currentImageRatio = e.naturalHeight / e.naturalWidth;
-              let ThreeDecimalPlacesValue = currentImageRatio.toFixed(3);
-              console.log(currentImageRatio);
-              console.log(ThreeDecimalPlacesValue);
-              if (
-                (e.naturalHeight / e.naturalWidth).toFixed(3) ==
-                  DEFAULT_CARD_BACK_RATIO_TO_THREE_DECIMAL &&
-                lowQualityImageLoaded
-              ) {
-                setHighQualityImageSource(imageSource);
+              if (rawHighQualityImageRef.current) {
+                let ratio =
+                  rawHighQualityImageRef.current.naturalHeight /
+                  rawHighQualityImageRef.current.naturalWidth;
+                if (ratio == DEFAULT_CARD_BACK_RATIO && lowQualityImageLoaded) {
+                  setHighQualityImageSource(imageSource);
+                }
               }
-              setimageDimensions({
+              setImageDimensions({
                 width: e.naturalWidth,
                 height: e.naturalHeight,
               });
@@ -96,6 +100,11 @@ export const ImageComponent: FunctionComponent<any> = ({
             }}
           />
         </div>
+        <img
+          ref={rawHighQualityImageRef}
+          className="d-none"
+          src={highQualityImageSource}
+        />
       </IF>
       {/* <style jsx>{`
         .card-width {
