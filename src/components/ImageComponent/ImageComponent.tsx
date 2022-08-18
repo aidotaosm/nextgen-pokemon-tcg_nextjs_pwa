@@ -66,7 +66,7 @@ export const ImageComponent: FunctionComponent<any> = ({
       <IF condition={highQualityImageSource}>
         <div className={highQualityImageLoaded ? "" : "out-of-view"}>
           <Image
-            // style={{ height: "75vh" }}
+            unoptimized
             className={className || ""}
             src={highQualityImageSource}
             alt={alt || ""}
@@ -104,13 +104,13 @@ export const ImageComponent: FunctionComponent<any> = ({
             }}
           />
         </div>
-        {/* <IF condition={!highQualityImageLoaded}> */}
-        <img
-          ref={rawHighQualityImageRef}
-          className="d-none"
-          src={highQualitySrc}
-        />
-        {/* </IF> */}
+        <IF condition={!highQualityImageLoaded}>
+          <img
+            ref={rawHighQualityImageRef}
+            className="d-none"
+            src={highQualitySrc}
+          />
+        </IF>
       </IF>
       {/* <style jsx>{`
         .card-width {
