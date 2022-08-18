@@ -86,8 +86,12 @@ export const ImageComponent: FunctionComponent<any> = ({
             }}
             onLoadingComplete={(e) => {
               if (rawHighQualityImageRef.current) {
-                if ((rawHighQualityImageRef.current.naturalHeight /
-                  rawHighQualityImageRef.current.naturalWidth) == DEFAULT_CARD_BACK_RATIO && lowQualityImageLoaded) {
+                console.log(rawHighQualityImageRef.current.naturalHeight /
+                  rawHighQualityImageRef.current.naturalWidth);
+                console.log(DEFAULT_CARD_BACK_RATIO);
+                console.log(lowQualityImageLoaded);
+                if (((rawHighQualityImageRef.current.naturalHeight /
+                  rawHighQualityImageRef.current.naturalWidth) == DEFAULT_CARD_BACK_RATIO) && lowQualityImageLoaded) {
                   console.log('low quality image rendered in hires since hiquality image cannot be loaded');
                   setHighQualityImageSource(imageSource);
                 }
@@ -100,13 +104,13 @@ export const ImageComponent: FunctionComponent<any> = ({
             }}
           />
         </div>
-        <IF condition={!highQualityImageLoaded}>
-          <img
-            ref={rawHighQualityImageRef}
-            className="d-none"
-            src={highQualityImageSource}
-          />
-        </IF>
+        {/* <IF condition={!highQualityImageLoaded}> */}
+        <img
+          ref={rawHighQualityImageRef}
+          className="d-none"
+          src={highQualityImageSource}
+        />
+        {/* </IF> */}
       </IF>
       {/* <style jsx>{`
         .card-width {
