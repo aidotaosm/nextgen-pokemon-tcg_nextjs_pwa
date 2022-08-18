@@ -108,7 +108,7 @@ export const ImageComponent: FunctionComponent<any> = ({
         <img
           ref={rawHighQualityImageRef}
           className="d-none"
-          src={highQualityImageSource}
+          src={highQualitySrc}
         />
         {/* </IF> */}
       </IF>
