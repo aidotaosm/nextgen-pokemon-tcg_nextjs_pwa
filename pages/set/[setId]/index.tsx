@@ -11,6 +11,7 @@ import { getAllSetCards, getExpansions } from "../../../src/utils/networkCalls";
 
 interface IParams extends ParsedUrlQuery {
   setId: string;
+  page?: string;
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
@@ -43,8 +44,11 @@ export const getStaticPaths: GetStaticPaths = async () => {
 };
 
 export const getStaticProps: GetStaticProps = async (context) => {
+  console.log(context);
   const { setId } = context.params as IParams;
-  const cardsObject = await getAllSetCards(setId);
+  // this is done because pop2 is blocked by ad blocker
+  let correctedSetId = setId == "poptwo" ? "pop2" : setId;
+  const cardsObject = await getAllSetCards(correctedSetId);
   if (!cardsObject.data) {
     return { notFound: true };
   } else {

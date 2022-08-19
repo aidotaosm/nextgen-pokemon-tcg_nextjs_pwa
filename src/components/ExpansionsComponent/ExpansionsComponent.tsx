@@ -20,7 +20,7 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
   useEffect(() => {
     arrayOfSeries.forEach((series: any) => {
       series.sets.forEach((set: any) => {
-        router.prefetch("/set/" + set.id);
+        router.prefetch("/set/" + (set.id == "pop2" ? "poptwo" : set.id));
       });
     });
 
