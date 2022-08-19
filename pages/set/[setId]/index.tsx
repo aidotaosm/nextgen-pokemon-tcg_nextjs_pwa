@@ -44,12 +44,13 @@ export const getStaticPaths: GetStaticPaths = async () => {
 };
 
 export const getStaticProps: GetStaticProps = async (context) => {
-  console.log(context);
   const { setId } = context.params as IParams;
   // this is done because pop2 is blocked by ad blocker
   let correctedSetId = setId == "poptwo" ? "pop2" : setId;
   const cardsObject = await getAllSetCards(correctedSetId);
-  if (!cardsObject.data) {
+  console.log(setId);
+  console.log(cardsObject?.data?.length);
+  if (!cardsObject?.data?.length) {
     return { notFound: true };
   } else {
     return { props: { cardsObject }, revalidate: 60 * 60 * 24 * 30 };

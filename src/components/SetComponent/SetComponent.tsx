@@ -36,6 +36,7 @@ export const SetComponent: FunctionComponent<CardObjectProps> = ({
   // };
 
   useEffect(() => {
+    console.log(cardsObject);
     if (cardsObject?.data && router.isReady) {
       console.log(router);
       let routerPageIndex = 0;
