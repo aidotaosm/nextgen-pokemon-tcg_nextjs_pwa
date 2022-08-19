@@ -20,7 +20,7 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
   useEffect(() => {
     arrayOfSeries.forEach((series: any) => {
       series.sets.forEach((set: any) => {
-        router.prefetch("/set/" + set.id);
+        router.prefetch("/set/" + (set.id == "pop2" ? "poptwo" : set.id));
       });
     });
 
@@ -101,7 +101,12 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
                           alt={set.name}
                         /> */}
                         <div className={styles["set-name"]}>
-                          <Link href={"/set/" + set.id}>
+                          <Link
+                            href={
+                              // this is done because pop2 is blocked by ad blocker
+                              "/set/" + (set.id == "pop2" ? "poptwo" : set.id)
+                            }
+                          >
                             <a>{set.name}</a>
                           </Link>
                         </div>

@@ -3,11 +3,9 @@ import { Helper } from "../../utils/helper";
 import { PagingComponent } from "../PagingComponent/PagingComponent";
 import { DEFAULT_PAGE_SIZE } from "../../constants/constants";
 import { useRouter } from "next/router";
-import { BasicProps, CardObjectProps } from "../../models/GenericModels";
-import Image from "next/image";
+import { CardObjectProps } from "../../models/GenericModels";
 import { ImageComponent } from "../ImageComponent/ImageComponent";
 import { IF } from "../UtilityComponents/IF";
-import { getExpansions, getAllSetCards } from "../../utils/networkCalls";
 
 export const SetComponent: FunctionComponent<CardObjectProps> = ({
   cardsObject,
@@ -38,31 +36,47 @@ export const SetComponent: FunctionComponent<CardObjectProps> = ({
   // };
 
   useEffect(() => {
-    console.log(router.query.setId);
-    // if (!router.query.setId) {
-    //   router.push("/");
-    // } else {
-    if (cardsObject?.data) {
-      let from = pageIndex * DEFAULT_PAGE_SIZE;
-      let to = (pageIndex + 1) * DEFAULT_PAGE_SIZE;
-      let firstSetOfCards = cardsObject.data.slice(from, to);
-      console.log(firstSetOfCards);
-      setSetCards(firstSetOfCards);
+    if (cardsObject?.data && router.isReady) {
+      console.log(router);
+      let routerPageIndex = 0;
+      if (router.query.page) {
+        routerPageIndex = +router.query.page;
+      }
+      pageChanged(routerPageIndex, false);
+    } else {
+      //serverSide
+      pageChanged(0, false);
     }
-    //  getSetCards(pageIndex);
-    //  }
-  }, []);
+  }, [router.isReady]);
 
-  const pageChanged = (newPageIndex: number) => {
+  const pageChanged = (newPageIndex: number, updateRoute: boolean = true) => {
     console.log(newPageIndex);
-    if (!isLoading) {
-      let from = newPageIndex * DEFAULT_PAGE_SIZE;
-      let to = (newPageIndex + 1) * DEFAULT_PAGE_SIZE;
-      let changedSetOfCards = cardsObject.data.slice(from, to);
-      console.log(from, to, changedSetOfCards);
-      setSetCards(changedSetOfCards);
-      setPageIndex(newPageIndex);
-      //getSetCards(newPageIndex);
+    // if (!isLoading) {
+    let from = newPageIndex * DEFAULT_PAGE_SIZE;
+    let to = (newPageIndex + 1) * DEFAULT_PAGE_SIZE;
+    let changedSetOfCards = cardsObject.data.slice(from, to);
+    console.log(from, to, changedSetOfCards);
+    setSetCards(changedSetOfCards);
+    setPageIndex(newPageIndex);
+    if (updateRoute) {
+      updateRouteWithQuery(newPageIndex);
+    } else {
+      setRefPageNumber(newPageIndex + 1);
+    }
+
+    //getSetCards(newPageIndex);
+    //}
+  };
+
+  const updateRouteWithQuery = (newPageIndex: number) => {
+    if (newPageIndex > 0) {
+      router.push(
+        "/set/" + router.query.setId + "?page=" + newPageIndex,
+        undefined,
+        { shallow: true }
+      );
+    } else {
+      router.push("/set/" + router.query.setId, undefined, { shallow: true });
     }
   };
 

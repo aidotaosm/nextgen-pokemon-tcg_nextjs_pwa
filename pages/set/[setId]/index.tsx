@@ -11,6 +11,7 @@ import { getAllSetCards, getExpansions } from "../../../src/utils/networkCalls";
 
 interface IParams extends ParsedUrlQuery {
   setId: string;
+  page?: string;
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
@@ -21,6 +22,9 @@ export const getStaticPaths: GetStaticPaths = async () => {
   expansions.forEach((series) => {
     series.sets.forEach((set: any) => {
       console.log(set.id);
+      if (set.id === "pop2") {
+        set.id = "poptwo"; // this is done because pop2 is blocked by ad blocker
+      }
       returnPaths.push({
         params: { setId: set.id },
       });
@@ -40,9 +44,16 @@ export const getStaticPaths: GetStaticPaths = async () => {
 };
 
 export const getStaticProps: GetStaticProps = async (context) => {
+  console.log(context);
   const { setId } = context.params as IParams;
-  const cardsObject = await getAllSetCards(setId);
-  return { props: { cardsObject }, revalidate: 60 * 60 * 24 * 30 };
+  // this is done because pop2 is blocked by ad blocker
+  let correctedSetId = setId == "poptwo" ? "pop2" : setId;
+  const cardsObject = await getAllSetCards(correctedSetId);
+  if (!cardsObject.data) {
+    return { notFound: true };
+  } else {
+    return { props: { cardsObject }, revalidate: 60 * 60 * 24 * 30 };
+  }
 };
 
 const Set: FunctionComponent<CardObjectProps> = ({ cardsObject }) => {
