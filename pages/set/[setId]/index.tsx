@@ -21,6 +21,9 @@ export const getStaticPaths: GetStaticPaths = async () => {
   expansions.forEach((series) => {
     series.sets.forEach((set: any) => {
       console.log(set.id);
+      if (set.id === "pop2") {
+        set.id = "poptwo"; // this is done because pop2 is blocked by ad blocker
+      }
       returnPaths.push({
         params: { setId: set.id },
       });
@@ -42,7 +45,11 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export const getStaticProps: GetStaticProps = async (context) => {
   const { setId } = context.params as IParams;
   const cardsObject = await getAllSetCards(setId);
-  return { props: { cardsObject }, revalidate: 60 * 60 * 24 * 30 };
+  if (!cardsObject.data) {
+    return { notFound: true };
+  } else {
+    return { props: { cardsObject }, revalidate: 60 * 60 * 24 * 30 };
+  }
 };
 
 const Set: FunctionComponent<CardObjectProps> = ({ cardsObject }) => {
