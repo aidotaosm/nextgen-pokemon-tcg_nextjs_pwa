@@ -1,4 +1,9 @@
+import { ImageComponent } from "../src/components/ImageComponent/ImageComponent";
 import Link from "../src/components/UtilityComponents/Link";
+import PokemonTCGCardsLaidOut from "../public/images/Pokemon-TCG-Cards-Laid-Out.webp";
+import codeRedemption from "../public/images/code-redemption-169.jpg";
+import buildPokemonTcgDecks from "../public/images/build-pokemon-tcg-decks-169-en.jpg";
+import CadBackSideways from "../public/images/Cardback-sideways.webp";
 
 const Index = () => {
   return (
@@ -7,11 +12,18 @@ const Index = () => {
         <div className="col">
           <Link href="/series" className="un-styled-anchor ">
             <div className="card h-100 cursor-pointer">
-              <img
+              <div className="card-img-top">
+                <ImageComponent
+                  src={PokemonTCGCardsLaidOut}
+                  alt={"Browse cards"}
+                  blurDataURL={"/images/Cardback-sideways.webp"}
+                />
+              </div>
+              {/* <img
                 src=".\images\Pokemon-TCG-Cards-Laid-Out.webp"
                 className="card-img-top "
                 alt="..."
-              />
+              /> */}
               <div className="card-body">
                 <h5 className="card-title text-decoration-none">
                   Browse Cards
@@ -30,11 +42,18 @@ const Index = () => {
         </div>
         <div className="col">
           <div className="card h-100">
-            <img
+            <div className="card-img-top">
+              <ImageComponent
+                src={codeRedemption}
+                alt={"Browse cards"}
+                blurDataURL={"/images/Cardback-sideways.webp"}
+              />
+            </div>
+            {/* <img
               src=".\images\code-redemption-169.jpg"
               className="card-img-top"
               alt="..."
-            />
+            /> */}
             <div className="card-body">
               <h5 className="card-title">Deck Manager</h5>
               <p className="card-text">
@@ -49,11 +68,18 @@ const Index = () => {
         </div>
         <div className="col">
           <div className="card h-100">
-            <img
+            <div className="card-img-top">
+              <ImageComponent
+                src={buildPokemonTcgDecks}
+                alt={"Browse cards"}
+                blurDataURL={"/images/Cardback-sideways.webp"}
+              />
+            </div>
+            {/* <img
               src=".\images\build-pokemon-tcg-decks-169-en.jpg"
               className="card-img-top"
               alt="..."
-            />
+            /> */}
             <div className="card-body">
               <h5 className="card-title">Play Pokemon TCG</h5>
               <p className="card-text">
