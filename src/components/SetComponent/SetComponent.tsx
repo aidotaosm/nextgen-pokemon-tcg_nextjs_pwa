@@ -36,17 +36,19 @@ export const SetComponent: FunctionComponent<CardObjectProps> = ({
   // };
 
   useEffect(() => {
-    console.log(cardsObject);
-    if (cardsObject?.data && router.isReady) {
-      console.log(router);
-      let routerPageIndex = 0;
-      if (router.query.page) {
-        routerPageIndex = +router.query.page;
+    // console.log(cardsObject);
+    if (cardsObject) {
+      if (router.isReady) {
+        console.log(router);
+        let routerPageIndex = 0;
+        if (router.query.page) {
+          routerPageIndex = +router.query.page;
+        }
+        pageChanged(routerPageIndex, false);
+      } else {
+        //serverSide
+        pageChanged(0, false);
       }
-      pageChanged(routerPageIndex, false);
-    } else {
-      //serverSide
-      pageChanged(0, false);
     }
   }, [router.isReady]);
 
