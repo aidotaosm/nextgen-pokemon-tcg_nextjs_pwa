@@ -20,7 +20,10 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
     }
   }, [router.pathname]);
   return (
-    <div className="d-flex flex-column" style={{ height: "100vh" }}>
+    <div
+      className="d-flex flex-column dark-mode"
+      style={{ minHeight: "100vh" }}
+    >
       <header className="container py-2">
         <div
           className={

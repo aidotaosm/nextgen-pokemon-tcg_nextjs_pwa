@@ -3,6 +3,7 @@ import type { AppProps } from "next/app";
 import "bootstrap/dist/css/bootstrap.css";
 //import reportWebVitals from './reportWebVitals';
 import "../src/css/global.css";
+import "../src/css/dark-mode.css";
 import { AppWrapper } from "../src/components/AppWrapper/AppWrapper";
 import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
