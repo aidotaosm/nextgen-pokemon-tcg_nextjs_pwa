@@ -105,7 +105,7 @@ module.exports = [
     }
   },
   {
-    urlPattern: /\/_next\/data\/.+\/.+\.json$/i,
+    urlPattern: /\/_next\/data\/.+\/.+\.json\??(?:&?[^=&]*=[^=&]*)*$/i,
     handler: 'StaleWhileRevalidate',
     options: {
       cacheName: 'next-data',
@@ -149,24 +149,24 @@ module.exports = [
       networkTimeoutSeconds: 10 // fall back to cache if api does not response within 10 seconds
     }
   },
-  {
-    urlPattern: ({ url }) => {
-      const isSameOrigin = self.origin === url.origin
-      if (!isSameOrigin) return false
-      const pathname = url.pathname
-      if (pathname.startsWith('/api/')) return false
-      return true
-    },
-    handler: 'NetworkFirst',
-    options: {
-      cacheName: 'others',
-      expiration: {
-        maxEntries: 200,
-        maxAgeSeconds: 24 * 60 * 60 * 30 // 24 hours
-      },
-      networkTimeoutSeconds: 10
-    }
-  },
+  // {
+  //   urlPattern: ({ url }) => {
+  //     const isSameOrigin = self.origin === url.origin
+  //     if (!isSameOrigin) return false
+  //     const pathname = url.pathname
+  //     if (pathname.startsWith('/api/')) return false
+  //     return true
+  //   },
+  //   handler: 'NetworkFirst',
+  //   options: {
+  //     cacheName: 'others',
+  //     expiration: {
+  //       maxEntries: 200,
+  //       maxAgeSeconds: 24 * 60 * 60 * 30 // 24 hours
+  //     },
+  //     networkTimeoutSeconds: 10
+  //   }
+  // },
   {
     urlPattern: ({ url }) => {
       const isSameOrigin = self.origin === url.origin
