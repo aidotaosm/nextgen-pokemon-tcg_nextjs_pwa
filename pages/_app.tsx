@@ -7,9 +7,9 @@ import "../src/css/dark-mode.css";
 import { AppWrapper } from "../src/components/AppWrapper/AppWrapper";
 import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
-import { initServiceWorker } from "../public/initServiceWorker";
-config.autoAddCss = false;
 import { AppProvider } from "../src/contexts/AppContext";
+//import { initServiceWorker } from "../public/initServiceWorker";
+config.autoAddCss = false;
 
 export default function MyApp({ Component, pageProps }: AppProps) {
   useEffect(() => {
