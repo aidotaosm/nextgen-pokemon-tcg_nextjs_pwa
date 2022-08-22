@@ -41,8 +41,23 @@ export const SetComponent: FunctionComponent<CardObjectProps> = ({
       if (router.isReady) {
         console.log(router);
         let routerPageIndex = 0;
-        if (router.query.page) {
-          routerPageIndex = +router.query.page;
+        console.log(router?.query?.page);
+        if (
+          router.query.page &&
+          !isNaN(+router.query.page) &&
+          !isNaN(parseFloat(router.query.page.toString()))
+        ) {
+          if (
+            (+router.query.page + 1) * DEFAULT_PAGE_SIZE >
+            cardsObject.totalCount
+          ) {
+            let lastPage = Math.floor(
+              cardsObject.totalCount / DEFAULT_PAGE_SIZE
+            );
+            routerPageIndex = lastPage;
+          } else {
+            routerPageIndex = +router.query.page;
+          }
         }
         pageChanged(routerPageIndex, false);
       } else {
