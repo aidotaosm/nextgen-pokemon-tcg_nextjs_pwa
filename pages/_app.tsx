@@ -9,6 +9,7 @@ import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import { initServiceWorker } from "../public/initServiceWorker";
 config.autoAddCss = false;
+import { AppProvider } from "../src/contexts/AppContext";
 
 export default function MyApp({ Component, pageProps }: AppProps) {
   useEffect(() => {
@@ -20,8 +21,10 @@ export default function MyApp({ Component, pageProps }: AppProps) {
   // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
   //reportWebVitals();
   return (
-    <AppWrapper>
-      <Component {...pageProps} />
-    </AppWrapper>
+    <AppProvider>
+      <AppWrapper>
+        <Component {...pageProps} />
+      </AppWrapper>
+    </AppProvider>
   );
 }

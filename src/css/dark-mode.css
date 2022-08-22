@@ -518,6 +518,7 @@
 }
 .dark-mode .page-item .page-link {
   border-color: #404040;
+  color: #0dcaf0;
 }
 .dark-mode .page-item.disabled .page-link {
   background-color: #171717;
@@ -632,4 +633,28 @@
 }
 .dark-mode .navbar .navbar-nav .nav-link.disabled {
   color: #777;
+}
+.dark-mode a:hover {
+  color: #dee2e6;
+}
+.dark-mode a {
+  color: #0dcaf0;
+  text-decoration: none;
+}
+.dark-mode .accordion-item {
+  background-color: #242424;
+  border: 1px solid #dee2e6;
+}
+
+.dark-mode .accordion-button {
+  color: #404040;
+  background-color: #bebebe;
+}
+.dark-mode .accordion-button:focus {
+  border-color: #e9ecef;
+  box-shadow: 0 0 0 0.25rem #dee2e6;
+}
+.dark-mode input {
+  background-color: #181818;
+  color: #bebebe;
 }
