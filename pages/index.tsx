@@ -23,8 +23,8 @@ const Index = () => {
                   Browse Cards
                 </h5>
                 <p className="card-text">
-                  Browse all sets of Pokemon TCG, search and your desired cards
-                  and more!
+                  Browse all expansions of Pokemon TCG, search and filter
+                  through your desired cards and more!
                 </p>
               </div>
               <div className="card-footer">

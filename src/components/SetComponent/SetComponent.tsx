@@ -110,6 +110,13 @@ export const SetComponent: FunctionComponent<CardObjectProps> = ({
   } else {
     return (
       <div className="container">
+        <div className="d-flex justify-content-end">
+          <h4 className=" pb-2">
+            {cardsObject.data[0].set.name +
+              " expansion of " +
+              cardsObject.data[0].set.series}
+          </h4>
+        </div>
         <PagingComponent
           pageChanged={pageChanged}
           paramPageSize={DEFAULT_PAGE_SIZE}
