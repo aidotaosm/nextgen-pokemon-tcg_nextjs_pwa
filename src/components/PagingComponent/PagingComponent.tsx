@@ -68,7 +68,7 @@ export const PagingComponent: FunctionComponent<PagingComponentProps> = ({
   }, [paramPageIndex, paramNumberOfElements, paramPageSize, pageNumber]);
 
   const getPagingInfo = () => {
-    let returnVal = "Showing ";
+    let returnVal = "";
     let from = pageIndex * pageSize + 1;
     let to = (pageIndex + 1) * pageSize;
     if (to > numberOfElements) {
@@ -87,6 +87,7 @@ export const PagingComponent: FunctionComponent<PagingComponentProps> = ({
             <li className="page-item cursor-pointer">
               <span
                 className="page-link user-select-none border-0"
+                style={{ padding: "0.2rem 0.5rem" }}
                 onClick={() => cardsPagingOnClick(pageIndex - 1)}
               >
                 Previous
@@ -124,6 +125,7 @@ export const PagingComponent: FunctionComponent<PagingComponentProps> = ({
               <span
                 className="page-link border-0"
                 onClick={() => cardsPagingOnClick(pageIndex + 1)}
+                style={{ padding: "0.2rem 0.5rem" }}
               >
                 Next
               </span>
