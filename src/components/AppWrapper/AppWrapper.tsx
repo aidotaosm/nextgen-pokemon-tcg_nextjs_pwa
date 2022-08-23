@@ -35,13 +35,13 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
       <header className="container py-2">
         <div className={"d-flex align-items-center justify-content-between"}>
           <div
-            className="cursor-pointer"
+            className=" icon-min-width"
             onClick={() => {
               router.push(pathToRedirect);
             }}
           >
             <IF condition={pathToRedirect}>
-              <FontAwesomeIcon icon={faArrowLeftLong} size="2x" />
+              <FontAwesomeIcon className="cursor-pointer" icon={faArrowLeftLong} size="2x" />
             </IF>
           </div>
 
