@@ -9,6 +9,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { IF } from "../UtilityComponents/IF";
 import { AppContext } from "../../contexts/AppContext";
+import { ImageComponent } from "../ImageComponent/ImageComponent";
+import pokemonLogo from "../../../public/svgs/International_Pokémon_logo.svg";
 
 export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
   const appContextValues = useContext(AppContext);
@@ -41,11 +43,21 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
             }}
           >
             <IF condition={pathToRedirect}>
-              <FontAwesomeIcon className="cursor-pointer" icon={faArrowLeftLong} size="2x" />
+              <FontAwesomeIcon
+                className="cursor-pointer"
+                icon={faArrowLeftLong}
+                size="2x"
+              />
             </IF>
           </div>
+          <div className="" style={{ width: "150px" }}>
+            <ImageComponent
+              src={pokemonLogo}
+              alt={"Pokemon"}
+              blurDataURL={"/images/Cardback-sideways.webp"}
+            />
+          </div>
 
-          <h3 className="mb-0 align-self-center">Header</h3>
           <div
             className="cursor-pointer"
             onClick={() => {
@@ -68,7 +80,7 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
       <main className="flex-grow-1">{children}</main>
 
       <footer className="container py-2 ">
-        <h5 className="text-center  mb-0">Footer</h5>
+        <h6 className="text-center  mb-0">Pokemon TCG by OSM</h6>
       </footer>
     </div>
   );

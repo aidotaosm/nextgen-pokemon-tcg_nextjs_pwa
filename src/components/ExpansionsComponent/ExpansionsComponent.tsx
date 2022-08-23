@@ -52,6 +52,9 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
 
   return (
     <div className="container">
+      <div className="d-flex justify-content-end">
+        <h4 className=" pb-2">All Pokemon TCG expansions</h4>
+      </div>
       <div className="accordion">
         {setsBySeries.map((series, seriesIndex) => {
           return (
