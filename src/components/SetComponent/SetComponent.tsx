@@ -134,10 +134,9 @@ export const SetComponent: FunctionComponent<CardObjectProps> = ({
                   data-bs-toggle="modal"
                   data-bs-target="#full-screen-card-modal"
                   onClick={(c) => {
-                    c.preventDefault();
                     setSelectedCard(card);
                   }}
-                  onContextMenu={() => false}
+                  onContextMenu={(e) => e.preventDefault()}
                 >
                   <div className="card-body">
                     <h6 className="card-title mb-0">{card.name}</h6>
@@ -149,8 +148,7 @@ export const SetComponent: FunctionComponent<CardObjectProps> = ({
                         alt={card.name}
                         width={245}
                         height={342}
-                        className="card-img-top special-card"
-                        style={{ zIndex: 3 }}
+                        className="card-img-top special-card disable-save"
                       />
                     </div>
                   </div>

@@ -93,6 +93,7 @@
 .disable-save {
   -webkit-user-select: none;
   -webkit-touch-callout: none;
+  pointer-events: none;
 }
 
 @media (max-width: 575px) {
