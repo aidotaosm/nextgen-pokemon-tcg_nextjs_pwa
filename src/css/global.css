@@ -59,9 +59,8 @@
   position: relative;
   border-radius: 25px;
 }
-
-.special-card-border::after,
-.special-card-border::before {
+.special-card-border::before,
+.special-card-border::after {
   content: "";
   position: absolute;
   width: 100%;
@@ -73,10 +72,13 @@
   top: -4px;
   left: -5px;
   margin: 2px !important; */
-  /* background: linear-gradient(235deg, #89ff00, #010615, #00bcd4) !important; */
-  background: linear-gradient(235deg, #ffa000, #010615, #cd12eb) !important;
+  background: linear-gradient(235deg, #ffa000, #010615, #cd12eb);
   /* background: linear-gradient(235deg, #ff0092, #010615, #ff4e3d) !important; */
   border-radius: 25px;
+}
+.dark-mode .special-card-border::before,
+.dark-mode .special-card-border::after {
+  background: linear-gradient(235deg, #89ff00, #010615, #00bcd4);
 }
 .special-card-border:hover::after {
   filter: blur(40px);
