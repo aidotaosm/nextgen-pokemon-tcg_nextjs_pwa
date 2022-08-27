@@ -34,7 +34,7 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
       }
       style={{ minHeight: "100vh" }}
     >
-      <header className="container py-2">
+      <header className="container py-3">
         <div className={"d-flex align-items-center justify-content-between"}>
           <div
             className=" icon-min-width"
@@ -50,7 +50,7 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
               />
             </IF>
           </div>
-          <div className="" style={{ width: "150px" }}>
+          <div className="" style={{ width: "200px" }}>
             <ImageComponent
               src={pokemonLogo}
               alt={"Pokemon"}
@@ -79,8 +79,8 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
 
       <main className="flex-grow-1">{children}</main>
 
-      <footer className="container py-2 ">
-        <h6 className="text-center  mb-0">Pokemon TCG by OSM</h6>
+      <footer className="container py-3 ">
+        <h6 className="text-center  mb-0">Pokemon TCG by OSM ©2022</h6>
       </footer>
     </div>
   );
