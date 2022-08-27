@@ -81,7 +81,7 @@
   background: linear-gradient(235deg, #89ff00, #010615, #00bcd4);
 }
 .special-card-border:hover::after {
-  filter: blur(40px);
+  filter: blur(20px);
 }
 .special-card-border:hover {
   transform: scaleX(1.2) scaleY(1.2);
@@ -90,6 +90,11 @@
 .special-card {
   z-index: 3;
 }
+.disable-save {
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
 @media (max-width: 575px) {
   .special-card-wrapper {
     padding: 0 2rem 1rem 2rem;

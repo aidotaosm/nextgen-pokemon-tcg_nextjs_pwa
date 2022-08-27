@@ -136,6 +136,7 @@ export const SetComponent: FunctionComponent<CardObjectProps> = ({
                   onClick={(c) => {
                     setSelectedCard(card);
                   }}
+                  onContextMenu={(e) => e.preventDefault()}
                 >
                   <div className="card-body">
                     <h6 className="card-title mb-0">{card.name}</h6>
@@ -147,8 +148,7 @@ export const SetComponent: FunctionComponent<CardObjectProps> = ({
                         alt={card.name}
                         width={245}
                         height={342}
-                        className="card-img-top special-card"
-                        style={{ zIndex: 3 }}
+                        className="card-img-top special-card disable-save"
                       />
                     </div>
                   </div>
