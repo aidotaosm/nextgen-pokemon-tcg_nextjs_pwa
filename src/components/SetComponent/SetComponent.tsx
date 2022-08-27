@@ -134,6 +134,7 @@ export const SetComponent: FunctionComponent<CardObjectProps> = ({
                   data-bs-toggle="modal"
                   data-bs-target="#full-screen-card-modal"
                   onClick={(c) => {
+                    c.preventDefault();
                     setSelectedCard(card);
                   }}
                 >
