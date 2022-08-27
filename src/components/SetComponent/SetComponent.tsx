@@ -130,7 +130,7 @@ export const SetComponent: FunctionComponent<CardObjectProps> = ({
             return (
               <div className="col mb-2" key={card.id}>
                 <div
-                  className="card cursor-pointer"
+                  className="card cursor-pointer "
                   data-bs-toggle="modal"
                   data-bs-target="#full-screen-card-modal"
                   onClick={(c) => {
@@ -140,19 +140,18 @@ export const SetComponent: FunctionComponent<CardObjectProps> = ({
                   <div className="card-body">
                     <h5 className="card-title mb-0">{card.name}</h5>
                   </div>
-                  <ImageComponent
-                    src={card?.images?.small}
-                    alt={card.name}
-                    width={245}
-                    height={342}
-                    className="card-img-top"
-                  />
-                  {/* <img
-                    src={card?.images?.small}
-                    className="card-img-top"
-                    alt="..."
-                    // style={{ maxHeight: "3rem" }}
-                  /> */}
+                  <div className="p-3">
+                    <div className="special-card-border">
+                      <ImageComponent
+                        src={card?.images?.small}
+                        alt={card.name}
+                        width={245}
+                        height={342}
+                        className="card-img-top special-card"
+                        style={{ zIndex: 3 }}
+                      />
+                    </div>
+                  </div>
                   <div className="card-footer">
                     <small className="text-muted">
                       {card.supertype + Helper.populateSubtype(card)}
