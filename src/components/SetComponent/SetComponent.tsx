@@ -130,7 +130,7 @@ export const SetComponent: FunctionComponent<CardObjectProps> = ({
             return (
               <div className="col mb-2" key={card.id}>
                 <div
-                  className="card cursor-pointer "
+                  className="card cursor-pointer position-static "
                   data-bs-toggle="modal"
                   data-bs-target="#full-screen-card-modal"
                   onClick={(c) => {
