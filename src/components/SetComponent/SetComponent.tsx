@@ -130,13 +130,14 @@ export const SetComponent: FunctionComponent<CardObjectProps> = ({
             return (
               <div className="col mb-2" key={card.id}>
                 <div
-                  className="card cursor-pointer position-static"
+                  className="card cursor-pointer position-static disable-save"
                   data-bs-toggle="modal"
                   data-bs-target="#full-screen-card-modal"
                   onClick={(c) => {
                     c.preventDefault();
                     setSelectedCard(card);
                   }}
+                  onContextMenu={() => false}
                 >
                   <div className="card-body">
                     <h6 className="card-title mb-0">{card.name}</h6>

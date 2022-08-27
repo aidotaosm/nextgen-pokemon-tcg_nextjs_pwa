@@ -90,6 +90,11 @@
 .special-card {
   z-index: 3;
 }
+.disable-save {
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
 @media (max-width: 575px) {
   .special-card-wrapper {
     padding: 0 2rem 1rem 2rem;
