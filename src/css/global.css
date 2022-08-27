@@ -50,7 +50,9 @@
   min-width: 30px;
   min-height: 30px;
 }
-
+.special-card-wrapper {
+  padding: 0 1rem 1rem 1rem;
+}
 .special-card-border {
   background-image: linear-gradient(90deg, #1e2339 50%, #040a22 50%);
   background-size: cover;
@@ -81,7 +83,13 @@
 }
 .special-card-border:hover {
   transform: scaleX(1.2) scaleY(1.2);
+  transition: 0.5s;
 }
 .special-card {
   z-index: 3;
+}
+@media (max-width: 575px) {
+  .special-card-wrapper {
+    padding: 0 2rem 1rem 2rem;
+  }
 }
