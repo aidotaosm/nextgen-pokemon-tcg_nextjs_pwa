@@ -10,6 +10,7 @@ interface PagingComponentProps {
   pageChanged: (e: number) => void;
   syncPagingReferences: (e: number) => void;
   pageNumber: number;
+  children?: any;
 }
 
 export const PagingComponent: FunctionComponent<PagingComponentProps> = ({
@@ -19,6 +20,7 @@ export const PagingComponent: FunctionComponent<PagingComponentProps> = ({
   pageChanged,
   syncPagingReferences,
   pageNumber,
+  children,
 }) => {
   const [pageIndex, setPageIndex] = useState<number>(paramPageIndex);
   const [pageSize, setPageSize] = useState<number>(paramPageSize);
@@ -79,60 +81,65 @@ export const PagingComponent: FunctionComponent<PagingComponentProps> = ({
   };
 
   return (
-    <IF condition={numberOfElements > pageSize}>
-      <div className="d-flex justify-content-between align-items-center">
-        <div>{getPagingInfo()}</div>
-        <nav aria-label="Page navigation example">
-          <ul className="pagination mb-0 justify-content-center">
-            <li className="page-item cursor-pointer">
-              <span
-                className="page-link user-select-none border-0"
-                style={{ padding: "0.2rem 0.5rem" }}
-                onClick={() => cardsPagingOnClick(pageIndex - 1)}
+    <>
+      <IF condition={numberOfElements > pageSize}>
+        <div className="row">
+          <div className="col">{getPagingInfo()}</div>
+          {children}
+          <nav className="col text-right" aria-label="Page navigation example">
+            <ul className="pagination mb-0 justify-content-end">
+              <li className="page-item cursor-pointer">
+                <span
+                  className="page-link user-select-none border-0"
+                  style={{ padding: "0.2rem 0.5rem" }}
+                  onClick={() => cardsPagingOnClick(pageIndex - 1)}
+                >
+                  Previous
+                </span>
+              </li>
+              <li
+                className={
+                  "page-item cursor-pointer border " +
+                  styles["without-child-page-link"]
+                }
+                style={{ borderRadius: "0.25rem" }}
               >
-                Previous
-              </span>
-            </li>
-            <li
-              className={
-                "page-item cursor-pointer border " +
-                styles["without-child-page-link"]
-              }
-            >
-              <input
-                className={styles["style-less-input"] + " cursor-pointer"}
-                type="number"
-                onBlur={(e) => cardsPagingOnClick(+e.target.value - 1)}
-                // value={pageIndex + 1}
-                defaultValue={pageIndex + 1}
-                onFocus={(e) => e.target.select()}
-                ref={inputElementRef}
-                onKeyDown={(e) => {
-                  if (e.key == "Enter") {
-                    e.target.blur();
-                  }
-                }}
-                style={{ width: "1.6rem" }}
-              />
-            </li>
-            <li className={"page-item " + styles["without-child-page-link"]}>
-              of
-            </li>
-            <li className={"page-item " + styles["without-child-page-link"]}>
-              {Math.ceil(numberOfElements / pageSize)}
-            </li>
-            <li className="page-item cursor-pointer user-select-none">
-              <span
-                className="page-link border-0"
-                onClick={() => cardsPagingOnClick(pageIndex + 1)}
-                style={{ padding: "0.2rem 0.5rem" }}
-              >
-                Next
-              </span>
-            </li>
-          </ul>
-        </nav>
-      </div>
-    </IF>
+                <input
+                  className={styles["style-less-input"] + " cursor-pointer"}
+                  type="number"
+                  onBlur={(e) => cardsPagingOnClick(+e.target.value - 1)}
+                  // value={pageIndex + 1}
+                  defaultValue={pageIndex + 1}
+                  onFocus={(e) => e.target.select()}
+                  ref={inputElementRef}
+                  onKeyDown={(e) => {
+                    if (e.key == "Enter") {
+                      e.target.blur();
+                    }
+                  }}
+                  style={{ width: "1.6rem" }}
+                />
+              </li>
+              <li className={"page-item " + styles["without-child-page-link"]}>
+                of
+              </li>
+              <li className={"page-item " + styles["without-child-page-link"]}>
+                {Math.ceil(numberOfElements / pageSize)}
+              </li>
+              <li className="page-item cursor-pointer user-select-none">
+                <span
+                  className="page-link border-0"
+                  onClick={() => cardsPagingOnClick(pageIndex + 1)}
+                  style={{ padding: "0.2rem 0.5rem" }}
+                >
+                  Next
+                </span>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </IF>
+      <IF condition={children && numberOfElements <= pageSize}>{children}</IF>
+    </>
   );
 };
