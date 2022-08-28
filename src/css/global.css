@@ -61,6 +61,7 @@
   background-size: cover;
   position: relative;
   border-radius: 25px;
+  transition: 0.5s;
 }
 .special-card-border::before,
 .special-card-border::after {
@@ -87,7 +88,7 @@
   filter: blur(20px);
 }
 .special-card-border:hover {
-  transform: scaleX(1.2) scaleY(1.2);
+  transform: scaleX(1.1) scaleY(1.1);
   transition: 0.5s;
 }
 

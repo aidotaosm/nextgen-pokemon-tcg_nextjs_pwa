@@ -83,7 +83,7 @@ export const PagingComponent: FunctionComponent<PagingComponentProps> = ({
   return (
     <>
       <IF condition={numberOfElements > pageSize}>
-        <div className="row">
+        <div className="row align-items-center small ">
           <div className="col">{getPagingInfo()}</div>
           {children}
           <nav className="col text-right" aria-label="Page navigation example">

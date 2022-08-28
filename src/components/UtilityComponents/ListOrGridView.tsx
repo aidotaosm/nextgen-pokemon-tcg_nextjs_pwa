@@ -14,16 +14,22 @@ export const ListOrGridView: FunctionComponent<ListOrGridViewProps> = ({
 }) => {
   return (
     <div
-      className=" icon-min-width user-select-none col-1 text-center"
+      className="user-select-none col-1 cursor-pointer d-flex flex-column flex-sm-row align-items-center justify-content-center"
       onClick={(e) => {
         getUpdatedView(!isGridView);
       }}
     >
       <IF condition={isGridView}>
-        <FontAwesomeIcon className="cursor-pointer" icon={faBoxes} size="2x" />
+        <FontAwesomeIcon className="fs-5" icon={faBoxes} />
+        <span className="ms-sm-2 mt-1 mt-sm-0" style={{ whiteSpace: "nowrap" }}>
+          Grid View
+        </span>
       </IF>
       <IF condition={!isGridView}>
-        <FontAwesomeIcon className="cursor-pointer" icon={faList} size="2x" />
+        <FontAwesomeIcon className="fs-5" icon={faList} />
+        <span className="ms-sm-2 mt-1 mt-sm-0" style={{ whiteSpace: "nowrap" }}>
+          List View
+        </span>
       </IF>
     </div>
   );

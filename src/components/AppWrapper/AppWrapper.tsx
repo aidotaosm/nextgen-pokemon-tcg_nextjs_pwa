@@ -37,14 +37,15 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
       <header className="container py-3">
         <div className={"d-flex align-items-center justify-content-between"}>
           <div
-            className=" icon-min-width"
-            onClick={() => {
+            className=" icon-min-width "
+            onClick={(e) => {
+              e.preventDefault();
               router.push(pathToRedirect);
             }}
           >
             <IF condition={pathToRedirect}>
               <FontAwesomeIcon
-                className="cursor-pointer"
+                className="cursor-pointer user-select-none"
                 icon={faArrowLeftLong}
                 size="2x"
               />
@@ -59,7 +60,7 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
           </div>
 
           <div
-            className="cursor-pointer"
+            className="cursor-pointer user-select-none"
             onClick={() => {
               console.log(appContextValues);
               appContextValues?.updateDarkMode(
