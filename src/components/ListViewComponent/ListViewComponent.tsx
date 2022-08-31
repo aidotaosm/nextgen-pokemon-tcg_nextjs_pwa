@@ -11,8 +11,8 @@ export const ListViewComponent: FunctionComponent<SetCardsProps> = ({
   return (
     <>
       {setCards?.map((card: any) => (
-        <div className="d-flex">
-          <div className="flex-grow-1">
+        <div className="d-flex list-view" key={card.id}>
+          <div className="pokemon-card-image">
             <div className="special-card-wrapper">
               <div className="special-card-border">
                 <ImageComponent
@@ -20,14 +20,28 @@ export const ListViewComponent: FunctionComponent<SetCardsProps> = ({
                   alt={card.name}
                   width={245}
                   height={342}
-                  className="card-img-top special-card disable-save"
+                  className="special-card disable-save"
                 />
               </div>
             </div>
           </div>
-          <div className="flex-grow-1 ms-3">
-            This is some content from a media component. You can replace this
-            with any content and adjust it as needed.
+          <div className="ms-3">
+            <div className="pokemon-category">
+              <div className="pokemon-header">
+                <div className="name-hp"></div>
+                <div className="evolution"></div>
+              </div>
+              <div className="pokemon-body">
+                <div className="rules"></div>
+                <div className="abilities"></div>
+                <div className="attacks"></div>
+              </div>
+
+              <div className="pokemon-footer">
+                <div className="weakness-resistance-retreat"></div>
+                <div className="set-details"></div>
+              </div>
+            </div>
           </div>
         </div>
       ))}
@@ -57,7 +71,7 @@ export const ListViewComponent: FunctionComponent<SetCardsProps> = ({
                   alt={selectedCard.name}
                   width={734}
                   height={1024}
-                  //layout="fill"
+                //layout="fill"
                 />
               </IF>
             </div>
