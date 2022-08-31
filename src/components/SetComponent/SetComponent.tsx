@@ -8,6 +8,7 @@ import { CardObjectProps } from "../../models/GenericModels";
 import { IF } from "../UtilityComponents/IF";
 import { GridViewComponent } from "../GridViewComponent/GridViewComponent";
 import { ListOrGridView } from "../UtilityComponents/ListOrGridView";
+import { ListViewComponent } from "../ListViewComponent/ListViewComponent";
 
 export const SetComponent: FunctionComponent<CardObjectProps> = ({
   cardsObject,
@@ -133,7 +134,12 @@ export const SetComponent: FunctionComponent<CardObjectProps> = ({
             getUpdatedView={getUpdatedView}
           ></ListOrGridView>
         </PagingComponent>
-        <GridViewComponent setCards={setCards}></GridViewComponent>
+        <IF condition={isGridView}>
+          <GridViewComponent setCards={setCards}></GridViewComponent>
+        </IF>
+        <IF condition={!isGridView}>
+          <ListViewComponent setCards={setCards}></ListViewComponent>
+        </IF>
         <PagingComponent
           pageChanged={pageChanged}
           paramPageSize={DEFAULT_PAGE_SIZE}
