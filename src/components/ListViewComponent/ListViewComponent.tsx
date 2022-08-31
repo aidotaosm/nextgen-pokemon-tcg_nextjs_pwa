@@ -14,7 +14,7 @@ export const ListViewComponent: FunctionComponent<SetCardsProps> = ({
         <div className="d-flex list-view" key={card.id}>
           <div className="pokemon-card-image">
             <div className="special-card-wrapper">
-              <div className="special-card-border">
+              <div className="special-card-border ">
                 <ImageComponent
                   src={card?.images?.small}
                   alt={card.name}
@@ -27,7 +27,7 @@ export const ListViewComponent: FunctionComponent<SetCardsProps> = ({
           </div>
           <div className="ms-3">
             <div className="pokemon-category">
-              <div className="pokemon-header">
+              <div className="pokemon-header bg-grey">
                 <div className="name-hp"></div>
                 <div className="evolution"></div>
               </div>
@@ -71,7 +71,7 @@ export const ListViewComponent: FunctionComponent<SetCardsProps> = ({
                   alt={selectedCard.name}
                   width={734}
                   height={1024}
-                //layout="fill"
+                  //layout="fill"
                 />
               </IF>
             </div>
