@@ -99,7 +99,7 @@ export const PagingComponent: FunctionComponent<PagingComponentProps> = ({
               </li>
               <li
                 className={
-                  "page-item cursor-pointer border " +
+                  "page-item cursor-pointer border ms-1 " +
                   styles["without-child-page-link"]
                 }
                 style={{ borderRadius: "0.25rem" }}
@@ -128,7 +128,7 @@ export const PagingComponent: FunctionComponent<PagingComponentProps> = ({
               </li>
               <li className="page-item cursor-pointer user-select-none">
                 <span
-                  className="page-link border-0"
+                  className="page-link border-0 ms-1"
                   onClick={() => cardsPagingOnClick(pageIndex + 1)}
                   style={{ padding: "0.2rem 0.5rem" }}
                 >

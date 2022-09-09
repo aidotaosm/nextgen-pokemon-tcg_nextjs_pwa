@@ -7,7 +7,7 @@ import { CardObjectProps } from "../../models/GenericModels";
 
 import { IF } from "../UtilityComponents/IF";
 import { GridViewComponent } from "../GridViewComponent/GridViewComponent";
-import { ListOrGridView } from "../UtilityComponents/ListOrGridView";
+import { ListOrGridViewToggle } from "../UtilityComponents/ListOrGridViewToggle";
 import { ListViewComponent } from "../ListViewComponent/ListViewComponent";
 
 export const SetComponent: FunctionComponent<CardObjectProps> = ({
@@ -121,33 +121,38 @@ export const SetComponent: FunctionComponent<CardObjectProps> = ({
               cardsObject.data[0].set.series}
           </h4>
         </div>
-        <PagingComponent
-          pageChanged={pageChanged}
-          paramPageSize={DEFAULT_PAGE_SIZE}
-          paramNumberOfElements={cardsObject?.totalCount}
-          paramPageIndex={pageIndex}
-          syncPagingReferences={syncPagingReferences}
-          pageNumber={refPageNumber}
-        >
-          <ListOrGridView
-            isGridView={isGridView}
-            getUpdatedView={getUpdatedView}
-          ></ListOrGridView>
-        </PagingComponent>
+        <div className="mb-4">
+          <PagingComponent
+            pageChanged={pageChanged}
+            paramPageSize={DEFAULT_PAGE_SIZE}
+            paramNumberOfElements={cardsObject?.totalCount}
+            paramPageIndex={pageIndex}
+            syncPagingReferences={syncPagingReferences}
+            pageNumber={refPageNumber}
+          >
+            <ListOrGridViewToggle
+              isGridView={isGridView}
+              getUpdatedView={getUpdatedView}
+              additionalClasses="col-1"
+            ></ListOrGridViewToggle>
+          </PagingComponent>
+        </div>
         <IF condition={isGridView}>
           <GridViewComponent setCards={setCards}></GridViewComponent>
         </IF>
         <IF condition={!isGridView}>
           <ListViewComponent setCards={setCards}></ListViewComponent>
         </IF>
-        <PagingComponent
-          pageChanged={pageChanged}
-          paramPageSize={DEFAULT_PAGE_SIZE}
-          paramNumberOfElements={cardsObject?.totalCount}
-          paramPageIndex={pageIndex}
-          syncPagingReferences={syncPagingReferences}
-          pageNumber={refPageNumber}
-        ></PagingComponent>
+        <div className="mt-4">
+          <PagingComponent
+            pageChanged={pageChanged}
+            paramPageSize={DEFAULT_PAGE_SIZE}
+            paramNumberOfElements={cardsObject?.totalCount}
+            paramPageIndex={pageIndex}
+            syncPagingReferences={syncPagingReferences}
+            pageNumber={refPageNumber}
+          ></PagingComponent>
+        </div>
       </div>
     );
   }
