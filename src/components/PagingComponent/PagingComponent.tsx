@@ -30,8 +30,6 @@ export const PagingComponent: FunctionComponent<PagingComponentProps> = ({
   const inputElementRef = useRef<any>();
 
   const cardsPagingOnClick = (newPageIndex: number) => {
-    console.log(pageIndex);
-    console.log(newPageIndex);
     if (newPageIndex != pageIndex) {
       if (newPageIndex >= 0) {
         let lastPage = Math.floor(numberOfElements / pageSize);
@@ -63,7 +61,6 @@ export const PagingComponent: FunctionComponent<PagingComponentProps> = ({
     setPageIndex(paramPageIndex);
     setNumberOfElements(paramNumberOfElements);
     setPageSize(paramPageSize);
-    console.log(pageNumber);
     if (inputElementRef?.current?.value) {
       inputElementRef.current.value = pageNumber || 1;
     }

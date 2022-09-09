@@ -11,7 +11,11 @@ import { IF } from "../UtilityComponents/IF";
 import { AppContext } from "../../contexts/AppContext";
 import { ImageComponent } from "../ImageComponent/ImageComponent";
 import pokemonLogo from "../../../public/svgs/International_Pokémon_logo.svg";
-
+import { Helper } from "../../utils/helper";
+interface LocalAppInterface {
+  darkMode: boolean;
+  gridView: boolean;
+}
 export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
   const appContextValues = useContext(AppContext);
   let router = useRouter();
@@ -26,6 +30,27 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
       setPathToRedirect("/series");
     }
   }, [router.pathname]);
+
+  useEffect(() => {
+    let localAppState: LocalAppInterface =
+      Helper.getLocalStorageItem("appState");
+    console.log(localAppState);
+    let darkModeValue =
+      localAppState?.hasOwnProperty("darkMode") &&
+      typeof localAppState.darkMode === "boolean"
+        ? localAppState.darkMode
+        : true;
+    let gridViewValue =
+      localAppState?.hasOwnProperty("gridView") &&
+      typeof localAppState.gridView === "boolean"
+        ? localAppState.gridView
+        : true;
+    appContextValues?.multiUpdate({
+      darkMode: darkModeValue,
+      gridView: gridViewValue,
+    });
+  }, []);
+
   return (
     <div
       className={
@@ -62,7 +87,6 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
           <div
             className="cursor-pointer user-select-none"
             onClick={() => {
-              console.log(appContextValues);
               appContextValues?.updateDarkMode(
                 !appContextValues?.appState.darkMode
               );

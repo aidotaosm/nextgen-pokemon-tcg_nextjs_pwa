@@ -32,4 +32,11 @@ export class Helper {
     }
     return returnVal;
   };
+  static getLocalStorageItem = (itemName: any) => {
+    let parsedItem = null;
+    if (typeof window !== "undefined") {
+      parsedItem = JSON.parse(localStorage.getItem(itemName) || "{}");
+    }
+    return parsedItem;
+  };
 }

@@ -48,11 +48,14 @@ export const ListViewComponent: FunctionComponent<SetCardsProps> = ({
                     )}
                   </div>
                   <div className=" hp-and-type d-flex align-items-center">
-                    <div className="mr-2 fw-bold">
-                      <span className="fs-5">HP</span>
-                      <span className="fs-3 ms-1">{card.hp}</span>
-                    </div>
-                    {card.types.map((type: string, typeIndex: number) => (
+                    <IF condition={card.hp}>
+                      <div className="mr-2 fw-bold">
+                        <span className="fs-5">HP</span>
+                        <span className="fs-3 ms-1">{card.hp}</span>
+                      </div>
+                    </IF>
+
+                    {card.types?.map((type: string, typeIndex: number) => (
                       <Fragment key={typeIndex}>
                         <div
                           title={type + " Type"}
@@ -69,9 +72,81 @@ export const ListViewComponent: FunctionComponent<SetCardsProps> = ({
                 </div>
               </div>
               <div className="pokemon-body">
-                <div className="rules"></div>
-                <div className="abilities"></div>
-                <div className="attacks"></div>
+                <IF condition={card.rules}>
+                  <div className="rules p-3">
+                    {card.rules?.map((rule: string, ruleIndex: number) => (
+                      <div
+                        key={ruleIndex}
+                        className={
+                          card.rules.length != 1
+                            ? ruleIndex !== card.rules.length - 1
+                              ? ruleIndex == 0
+                                ? ""
+                                : "my-2"
+                              : "mt-2"
+                            : ""
+                        }
+                      >
+                        {rule}
+                      </div>
+                    ))}
+                  </div>
+                </IF>
+                <IF condition={card.abilities}>
+                  <div className="abilities p-3">
+                    {card.abilities?.map(
+                      (ability: any, abilityIndex: number) => (
+                        <div key={abilityIndex} className="">
+                          <span className="text-danger">{ability.type}</span>
+                          <span className="fs-4 ms-2">{ability.name}</span>
+                          <div
+                            className={
+                              abilityIndex !== card.abilities.length - 1
+                                ? "my-2"
+                                : "mt-2"
+                            }
+                          >
+                            {ability.text}
+                          </div>
+                        </div>
+                      )
+                    )}
+                  </div>
+                </IF>
+                <IF condition={card.attacks}>
+                  <div className="attacks p-3">
+                    {card.attacks?.map((attack: any, attackIndex: number) => (
+                      <Fragment key={attackIndex}>
+                        <div className="d-flex justify-content-between">
+                          <div className="d-flex align-items-center">
+                            <div className="d-flex">
+                              {attack.cost.map(
+                                (type: string, costIndex: number) => (
+                                  <div
+                                    key={costIndex}
+                                    title={type + " Type"}
+                                    className={"energy-type ms-1 " + type}
+                                  ></div>
+                                )
+                              )}
+                            </div>
+                            <span className="fs-4 ms-2">{attack.name}</span>
+                          </div>
+                          <span className="fs-4 ms-2">{attack.damage}</span>
+                        </div>
+                        <div
+                          className={
+                            attackIndex !== card.attacks.length - 1
+                              ? "my-2"
+                              : "mt-2"
+                          }
+                        >
+                          {attack.text}
+                        </div>
+                      </Fragment>
+                    ))}
+                  </div>
+                </IF>
               </div>
 
               <div className="pokemon-footer">

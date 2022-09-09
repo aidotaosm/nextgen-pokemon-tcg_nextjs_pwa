@@ -117,13 +117,13 @@
 .energy-type.Fairy {
   background-position: -50px 0px;
 }
-.energy-type.Steel {
+.energy-type.Metal {
   background-position: -75px 0px;
 }
 .energy-type.Dragon {
   background-position: 0px -25px;
 }
-.energy-type.Electric {
+.energy-type.Lightning {
   background-position: -25px -25px;
 }
 .energy-type.Fighting {
@@ -132,13 +132,13 @@
 .energy-type.Psychic {
   background-position: -75px -25px;
 }
-.energy-type.Dark {
+.energy-type.Darkness {
   background-position: 0px -50px;
 }
 .energy-type.Grass {
   background-position: -25px -50px;
 }
-.energy-type.Electric {
+.energy-type.Lightning {
   background-position: -50px -50px;
 }
 .energy-type.Water {

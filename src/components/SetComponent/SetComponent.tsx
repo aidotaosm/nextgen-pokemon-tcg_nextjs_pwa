@@ -1,4 +1,4 @@
-import { FunctionComponent, useEffect, useState } from "react";
+import { FunctionComponent, useContext, useEffect, useState } from "react";
 import { Helper } from "../../utils/helper";
 import { PagingComponent } from "../PagingComponent/PagingComponent";
 import { DEFAULT_PAGE_SIZE } from "../../constants/constants";
@@ -9,6 +9,7 @@ import { IF } from "../UtilityComponents/IF";
 import { GridViewComponent } from "../GridViewComponent/GridViewComponent";
 import { ListOrGridViewToggle } from "../UtilityComponents/ListOrGridViewToggle";
 import { ListViewComponent } from "../ListViewComponent/ListViewComponent";
+import { AppContext } from "../../contexts/AppContext";
 
 export const SetComponent: FunctionComponent<CardObjectProps> = ({
   cardsObject,
@@ -20,7 +21,7 @@ export const SetComponent: FunctionComponent<CardObjectProps> = ({
   const [pageIndex, setPageIndex] = useState<number>(0);
   const [refPageNumber, setRefPageNumber] = useState<number>(0);
   const [isLoading, setIsLoading] = useState(false);
-  const [isGridView, setIsGridView] = useState<boolean>(true);
+  const appContextValues = useContext(AppContext);
 
   // const getSetCards = (paramPageIndex: number) => {
   //   setIsLoading(true);
@@ -39,15 +40,13 @@ export const SetComponent: FunctionComponent<CardObjectProps> = ({
   //     });
   // };
   const getUpdatedView = (view: boolean) => {
-    setIsGridView(view);
+    appContextValues?.updateGridView(view);
   };
   useEffect(() => {
     console.log(cardsObject);
     if (cardsObject) {
       if (router.isReady) {
-        console.log(router);
         let routerPageIndex = 0;
-        console.log(router?.query?.page);
         if (
           router.query.page &&
           !isNaN(+router.query.page) &&
@@ -74,7 +73,6 @@ export const SetComponent: FunctionComponent<CardObjectProps> = ({
   }, [router.isReady]);
 
   const pageChanged = (newPageIndex: number, updateRoute: boolean = true) => {
-    console.log(newPageIndex);
     // if (!isLoading) {
     let from = newPageIndex * DEFAULT_PAGE_SIZE;
     let to = (newPageIndex + 1) * DEFAULT_PAGE_SIZE;
@@ -131,16 +129,16 @@ export const SetComponent: FunctionComponent<CardObjectProps> = ({
             pageNumber={refPageNumber}
           >
             <ListOrGridViewToggle
-              isGridView={isGridView}
+              isGridView={appContextValues?.appState.gridView}
               getUpdatedView={getUpdatedView}
               additionalClasses="col-1"
             ></ListOrGridViewToggle>
           </PagingComponent>
         </div>
-        <IF condition={isGridView}>
+        <IF condition={appContextValues?.appState.gridView}>
           <GridViewComponent setCards={setCards}></GridViewComponent>
         </IF>
-        <IF condition={!isGridView}>
+        <IF condition={!appContextValues?.appState.gridView}>
           <ListViewComponent setCards={setCards}></ListViewComponent>
         </IF>
         <div className="mt-4">

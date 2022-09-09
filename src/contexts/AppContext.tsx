@@ -1,53 +1,75 @@
 import React, { useState, createContext, FunctionComponent } from "react";
+import { flushSync } from "react-dom";
 import { BasicProps } from "../models/GenericModels";
+import { Helper } from "../utils/helper";
 
 interface AppContextInterface {
   appState: any;
   setAppState: any;
-  updateDarkMode: any;
+  updateDarkMode: (e: boolean) => void;
+  updateGridView: (e: boolean) => void;
+  multiUpdate: (e: any) => void;
 }
-interface LocalAppInterface {
-  darkMode: boolean;
-}
+
 export const AppContext = createContext<AppContextInterface | null>(null);
 
 export const AppProvider: FunctionComponent<BasicProps> = (props) => {
   const setLocalStorageItem = (itemName: string, value: any) => {
-    console.log(itemName, value);
     let returnVal = false;
     if (typeof window !== "undefined") {
-      console.log(itemName, value);
-      localStorage.setItem(itemName, value);
+      localStorage.setItem(
+        "appState",
+        JSON.stringify({ ...appState, [itemName]: value })
+      );
       returnVal = true;
     }
     return returnVal;
   };
-  const getLocalStorageItem = (itemName: any) => {
-    let parsedItem = null;
+  const setMultiLocalStorageItem = (object: any) => {
+    let returnVal = false;
     if (typeof window !== "undefined") {
-      parsedItem = JSON.parse(localStorage.getItem(itemName) || "{}");
+      localStorage.setItem(
+        "appState",
+        JSON.stringify({ ...appState, ...object })
+      );
+      returnVal = true;
     }
-    return parsedItem;
+    return returnVal;
   };
-  let localAppState: LocalAppInterface = getLocalStorageItem("appState");
-  let darkModeValue =
-    localAppState?.hasOwnProperty("darkMode") &&
-    typeof localAppState.darkMode === "boolean"
-      ? localAppState.darkMode
-      : true;
-  console.log(darkModeValue);
+
   const [appState, setAppState] = useState({
-    darkMode: darkModeValue,
+    darkMode: true,
+    gridView: false,
   });
+
   const updateDarkMode = (value: boolean) => {
-    setLocalStorageItem("darkMode", value);
     setAppState((e) => {
-      console.log(value);
       return { ...e, darkMode: value };
     });
+    setLocalStorageItem("darkMode", value);
+  };
+  const updateGridView = (value: boolean) => {
+    setAppState((e) => {
+      return { ...e, gridView: value };
+    });
+    setLocalStorageItem("gridView", value);
+  };
+  const multiUpdate = (object: any) => {
+    setAppState((e) => {
+      return { ...e, ...object };
+    });
+    setMultiLocalStorageItem(object);
   };
   return (
-    <AppContext.Provider value={{ appState, setAppState, updateDarkMode }}>
+    <AppContext.Provider
+      value={{
+        appState,
+        setAppState,
+        updateDarkMode,
+        updateGridView,
+        multiUpdate,
+      }}
+    >
       {props.children}
     </AppContext.Provider>
   );
