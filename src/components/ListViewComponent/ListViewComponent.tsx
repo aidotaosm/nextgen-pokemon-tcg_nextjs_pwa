@@ -10,43 +10,43 @@ export const ListViewComponent: FunctionComponent<SetCardsProps> = ({
   const [selectedCard, setSelectedCard] = useState<any>({});
   return (
     <>
-      <div className="row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 row-cols-xxl-5 my-3">
-        {setCards?.map((card: any) => {
-          return (
-            <div className="col mb-2" key={card.id}>
-              <div
-                className="card cursor-pointer position-static"
-                data-bs-toggle="modal"
-                data-bs-target="#full-screen-card-modal"
-                onClick={(c) => {
-                  setSelectedCard(card);
-                }}
-                onContextMenu={(e) => e.preventDefault()}
-              >
-                <div className="card-body">
-                  <h6 className="card-title mb-0">{card.name}</h6>
-                </div>
-                <div className="special-card-wrapper">
-                  <div className="special-card-border">
-                    <ImageComponent
-                      src={card?.images?.small}
-                      alt={card.name}
-                      width={245}
-                      height={342}
-                      className="card-img-top special-card disable-save"
-                    />
-                  </div>
-                </div>
-                <div className="card-footer">
-                  <small className="text-muted">
-                    {card.supertype + Helper.populateSubtype(card)}
-                  </small>
-                </div>
+      {setCards?.map((card: any) => (
+        <div className="d-flex list-view" key={card.id}>
+          <div className="pokemon-card-image">
+            <div className="special-card-wrapper">
+              <div className="special-card-border ">
+                <ImageComponent
+                  src={card?.images?.small}
+                  alt={card.name}
+                  width={245}
+                  height={342}
+                  className="special-card disable-save"
+                />
               </div>
             </div>
-          );
-        })}
-      </div>
+          </div>
+          <div className="ms-3">
+            <div className="pokemon-category">
+              <div className="name fs-4"></div>
+              <div className="pokemon-header bg-grey">
+                <div className="subtype-hp"></div>
+                <div className="evolution"></div>
+              </div>
+              <div className="pokemon-body">
+                <div className="rules"></div>
+                <div className="abilities"></div>
+                <div className="attacks"></div>
+              </div>
+
+              <div className="pokemon-footer">
+                <div className="weakness-resistance-retreat"></div>
+                <div className="set-details"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      ))}
+
       <div
         className="modal fade"
         id="full-screen-card-modal"

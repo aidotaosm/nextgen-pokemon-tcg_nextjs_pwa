@@ -114,7 +114,7 @@ export const PagingComponent: FunctionComponent<PagingComponentProps> = ({
                   ref={inputElementRef}
                   onKeyDown={(e) => {
                     if (e.key == "Enter") {
-                      e.target.blur();
+                      // e.target.blur();
                     }
                   }}
                   style={{ width: "1.6rem" }}
