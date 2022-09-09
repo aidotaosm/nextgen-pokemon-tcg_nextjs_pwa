@@ -4,17 +4,20 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faList, faBoxes } from "@fortawesome/free-solid-svg-icons";
 import { IF } from "./IF";
 
-interface ListOrGridViewProps {
+interface ListOrGridViewToggleProps {
   getUpdatedView: (e: boolean) => void;
   isGridView: boolean;
+  additionalClasses?: string;
 }
-export const ListOrGridView: FunctionComponent<ListOrGridViewProps> = ({
-  getUpdatedView,
-  isGridView,
-}) => {
+export const ListOrGridViewToggle: FunctionComponent<
+  ListOrGridViewToggleProps
+> = ({ getUpdatedView, isGridView, additionalClasses = "" }) => {
   return (
     <div
-      className="user-select-none col-1 cursor-pointer d-flex flex-column flex-sm-row align-items-center justify-content-center"
+      className={
+        "user-select-none cursor-pointer d-flex flex-column flex-sm-row align-items-center justify-content-center " +
+        additionalClasses
+      }
       onClick={(e) => {
         getUpdatedView(!isGridView);
       }}

@@ -30,8 +30,6 @@ export const PagingComponent: FunctionComponent<PagingComponentProps> = ({
   const inputElementRef = useRef<any>();
 
   const cardsPagingOnClick = (newPageIndex: number) => {
-    console.log(pageIndex);
-    console.log(newPageIndex);
     if (newPageIndex != pageIndex) {
       if (newPageIndex >= 0) {
         let lastPage = Math.floor(numberOfElements / pageSize);
@@ -63,7 +61,6 @@ export const PagingComponent: FunctionComponent<PagingComponentProps> = ({
     setPageIndex(paramPageIndex);
     setNumberOfElements(paramNumberOfElements);
     setPageSize(paramPageSize);
-    console.log(pageNumber);
     if (inputElementRef?.current?.value) {
       inputElementRef.current.value = pageNumber || 1;
     }
@@ -99,7 +96,7 @@ export const PagingComponent: FunctionComponent<PagingComponentProps> = ({
               </li>
               <li
                 className={
-                  "page-item cursor-pointer border " +
+                  "page-item cursor-pointer border ms-1 " +
                   styles["without-child-page-link"]
                 }
                 style={{ borderRadius: "0.25rem" }}
@@ -128,7 +125,7 @@ export const PagingComponent: FunctionComponent<PagingComponentProps> = ({
               </li>
               <li className="page-item cursor-pointer user-select-none">
                 <span
-                  className="page-link border-0"
+                  className="page-link border-0 ms-1"
                   onClick={() => cardsPagingOnClick(pageIndex + 1)}
                   style={{ padding: "0.2rem 0.5rem" }}
                 >

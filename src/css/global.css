@@ -98,9 +98,62 @@
   -webkit-touch-callout: none;
 }
 
-.list-view .pokemon-card-image{
-  min-width: 12rem;
+.list-view .pokemon-card-image {
+  min-width: 18vw;
   max-width: 20rem;
+}
+
+.energy-type {
+  background-image: url("/images/energy-types.png");
+  width: 25px;
+  height: 25px;
+}
+.energy-type.Fire {
+  background-position: 0px 0px;
+}
+.energy-type.Colorless {
+  background-position: -25px 0px;
+}
+.energy-type.Fairy {
+  background-position: -50px 0px;
+}
+.energy-type.Metal {
+  background-position: -75px 0px;
+}
+.energy-type.Dragon {
+  background-position: 0px -25px;
+}
+.energy-type.Lightning {
+  background-position: -25px -25px;
+}
+.energy-type.Fighting {
+  background-position: -50px -25px;
+}
+.energy-type.Psychic {
+  background-position: -75px -25px;
+}
+.energy-type.Darkness {
+  background-position: 0px -50px;
+}
+.energy-type.Grass {
+  background-position: -25px -50px;
+}
+.energy-type.Lightning {
+  background-position: -50px -50px;
+}
+.energy-type.Water {
+  background-position: -75px -50px;
+}
+
+.bg-grey {
+  background-color: #f2f2f2;
+}
+
+@media (max-width: 768px) {
+  .list-view .pokemon-card-image {
+    margin: auto;
+    text-align: center;
+  }
 }
 
 @media (max-width: 575px) {
