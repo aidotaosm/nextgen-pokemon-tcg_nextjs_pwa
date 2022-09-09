@@ -27,8 +27,9 @@ export const ListViewComponent: FunctionComponent<SetCardsProps> = ({
           </div>
           <div className="ms-3">
             <div className="pokemon-category">
+              <div className="name fs-4"></div>
               <div className="pokemon-header bg-grey">
-                <div className="name-hp"></div>
+                <div className="subtype-hp"></div>
                 <div className="evolution"></div>
               </div>
               <div className="pokemon-body">
