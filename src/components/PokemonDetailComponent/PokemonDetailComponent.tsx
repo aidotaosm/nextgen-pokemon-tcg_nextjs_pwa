@@ -230,7 +230,7 @@ export const PokemonDetailComponent: FunctionComponent<PokemonDetailProps> = ({
             </small>
           </div>
           <IF condition={card.flavorText}>
-            <small className="mt-1">
+            <small className="mt-1 d-block">
               <i>{card.flavorText}</i>
             </small>
           </IF>
