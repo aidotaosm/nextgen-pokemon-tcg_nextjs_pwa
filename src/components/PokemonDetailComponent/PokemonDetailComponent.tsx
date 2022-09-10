@@ -204,7 +204,11 @@ export const PokemonDetailComponent: FunctionComponent<PokemonDetailProps> = ({
             </div>
           </div>
         </IF>
-        <div className="set-details mt-2 fs-6 ">
+        <div
+          className={
+            "set-details fs-6 " + (card.supertype === "Pokémon" ? "mt-2" : "")
+          }
+        >
           <div className="d-flex justify-content-between align-items-center flex-grow-1">
             <div className="d-flex align-items-center fw-bold">
               <img
