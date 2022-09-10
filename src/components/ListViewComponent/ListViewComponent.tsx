@@ -33,20 +33,27 @@ export const ListViewComponent: FunctionComponent<SetCardsProps> = ({
           </div>
           <div className="mt-5 mt-md-0 ms-md-5 flex-grow-1">
             <div className="pokemon-category" style={{ maxWidth: "35rem" }}>
-              <div className="name fs-1 bg-secondary p-2 rounded-top">
+              <div className="name fs-2 bg-secondary p-2 rounded-top">
                 {card.name}
               </div>
               <div className="pokemon-header bg-grey fs-4 p-2 text-dark text-dark">
                 <div className="subtype-hp d-flex justify-content-between align-items-center flex-grow-1">
-                  <div className="subtype">
-                    {card.subtypes.map(
-                      (subType: string, subtypesIndex: number) => (
-                        <span key={subtypesIndex} className="fw-bold">
-                          {(subtypesIndex ? " - " : "") + subType}
-                        </span>
-                      )
-                    )}
-                  </div>
+                  <IF condition={card.subtypes}>
+                    <div className="subtype">
+                      {card.subtypes?.map(
+                        (subType: string, subtypesIndex: number) => (
+                          <span key={subtypesIndex} className="fw-bold">
+                            {(subtypesIndex ? " - " : "") +
+                              subType +
+                              (card.supertype == "Energy" ? " Energy" : "")}
+                          </span>
+                        )
+                      )}
+                    </div>
+                  </IF>
+                  <IF condition={!card.subtypes}>
+                    <span className="fw-bold">{card.supertype}</span>
+                  </IF>
                   <div className=" hp-and-type d-flex align-items-center">
                     <IF condition={card.hp}>
                       <div className="mr-2 fw-bold">
@@ -87,7 +94,19 @@ export const ListViewComponent: FunctionComponent<SetCardsProps> = ({
                             : ""
                         }
                       >
-                        {rule}
+                        {
+                          <Fragment>
+                            <IF condition={rule.split(":").length > 1}>
+                              <div className="text-capitalize text-warning">
+                                {rule.split(":")[0]}
+                              </div>
+                              <div>{rule.split(":")[1]}</div>
+                            </IF>
+                            <IF condition={rule.split(":").length == 1}>
+                              <div>{rule}</div>
+                            </IF>
+                          </Fragment>
+                        }
                       </div>
                     ))}
                   </div>
@@ -96,7 +115,7 @@ export const ListViewComponent: FunctionComponent<SetCardsProps> = ({
                   <div className="abilities p-3">
                     {card.abilities?.map(
                       (ability: any, abilityIndex: number) => (
-                        <div key={abilityIndex} className="">
+                        <div key={abilityIndex}>
                           <span className="text-danger">{ability.type}</span>
                           <span className="fs-4 ms-2">{ability.name}</span>
                           <div
@@ -134,10 +153,11 @@ export const ListViewComponent: FunctionComponent<SetCardsProps> = ({
                           </div>
                           <span className="fs-4 ms-2">{attack.damage}</span>
                         </div>
+                        <IF condition={attack.text}></IF>
                         <div
                           className={
                             attackIndex !== card.attacks.length - 1
-                              ? "my-2"
+                              ? "mt-2 mb-3"
                               : "mt-2"
                           }
                         >
