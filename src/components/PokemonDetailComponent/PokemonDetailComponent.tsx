@@ -221,7 +221,9 @@ export const PokemonDetailComponent: FunctionComponent<PokemonDetailProps> = ({
               </small>
               <small className="ms-2">{card.rarity}</small>
             </div>
-            <small className="">{"Illus. " + card.artist}</small>
+            <small className="">
+              <i>{"Illus. " + (card.artist || "unknown")}</i>
+            </small>
           </div>
           <small>
             <i>{card.flavorText}</i>
