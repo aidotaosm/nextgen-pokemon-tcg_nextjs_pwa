@@ -16,3 +16,9 @@ export class SeriesArrayProps {
   children?: JSX.Element;
   arrayOfSeries?: any[];
 }
+export interface PokemonDetailProps {
+  children?: JSX.Element;
+  card?: any;
+  classes?: string;
+  cardClicked?: (e: any) => void;
+}

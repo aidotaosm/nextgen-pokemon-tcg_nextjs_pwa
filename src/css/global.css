@@ -151,6 +151,10 @@
 .text-lightgray {
   color: lightgray;
 }
+.set-symbol {
+  height: 25px;
+  width: 25px;
+}
 
 @media (max-width: 768px) {
   .list-view .pokemon-card-image {
