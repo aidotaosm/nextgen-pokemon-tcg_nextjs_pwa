@@ -137,13 +137,13 @@ export const PokemonDetailComponent: FunctionComponent<PokemonDetailProps> = ({
         </IF>
       </div>
 
-      <div className="pokemon-footer bg-grey fs-4 p-2 text-dark rounded-bottom">
+      <div className="pokemon-footer bg-grey fs-5 p-2 text-dark rounded-bottom">
         <IF condition={card.supertype === "Pokémon"}>
           <div className="weakness-resistance-retreat d-flex justify-content-between">
             <div className="weakness">
               Weakness
               <IF condition={card.weaknesses}>
-                <div className={"d-flex justify-content-center "}>
+                <div className={"d-flex justify-content-center mt-1"}>
                   {card.weaknesses?.map(
                     (weakness: any, weaknessIndex: number) => (
                       <div
@@ -167,7 +167,7 @@ export const PokemonDetailComponent: FunctionComponent<PokemonDetailProps> = ({
             <div className="resistance">
               Resistance
               <IF condition={card.resistances}>
-                <div className={"d-flex justify-content-center "}>
+                <div className={"d-flex justify-content-center mt-1"}>
                   {card.resistances?.map(
                     (resistance: any, resistanceIndex: number) => (
                       <div
@@ -191,7 +191,7 @@ export const PokemonDetailComponent: FunctionComponent<PokemonDetailProps> = ({
             <div className="retreat">
               Retreat Cost
               <IF condition={card.retreatCost}>
-                <div className="d-flex justify-content-center mt-2">
+                <div className="d-flex justify-content-center mt-1">
                   {card.retreatCost?.map((type: string, costIndex: number) => (
                     <div
                       key={costIndex}
@@ -230,7 +230,7 @@ export const PokemonDetailComponent: FunctionComponent<PokemonDetailProps> = ({
             </small>
           </div>
           <IF condition={card.flavorText}>
-            <small className="mt-1 d-block">
+            <small className="mt-2 d-block">
               <i>{card.flavorText}</i>
             </small>
           </IF>
