@@ -85,7 +85,7 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
                 }
                 aria-labelledby={series.id + "-heading"}
               >
-                <div className="accordion-body py-2 ">
+                <div className="accordion-body pb-2 pt-3">
                   <div className="row row-cols-1 row-cols-sm-1 row-cols-md-2 row-cols-lg-2 row-cols-xl-3 row-cols-xxl-3">
                     {series.sets.map((set: any) => {
                       return (
