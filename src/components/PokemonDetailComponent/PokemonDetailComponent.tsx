@@ -229,9 +229,11 @@ export const PokemonDetailComponent: FunctionComponent<PokemonDetailProps> = ({
               <i>{"Illus. " + (card.artist || "unknown")}</i>
             </small>
           </div>
-          <small>
-            <i>{card.flavorText}</i>
-          </small>
+          <IF condition={card.flavorText}>
+            <small className="mt-1">
+              <i>{card.flavorText}</i>
+            </small>
+          </IF>
         </div>
       </div>
     </div>
