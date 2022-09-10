@@ -13,7 +13,7 @@ export const ListViewComponent: FunctionComponent<SetCardsProps> = ({
       {setCards?.map((card: any, index: number) => (
         <div
           className={
-            "list-view align-items-center d-md-flex pt-5 justify-content-center" +
+            "list-view align-items-center d-md-flex pt-5 justify-content-center " +
             (!index ? "pt-5" : "")
           }
           key={card.id}

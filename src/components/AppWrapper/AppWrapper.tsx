@@ -44,7 +44,7 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
       localAppState?.hasOwnProperty("gridView") &&
       typeof localAppState.gridView === "boolean"
         ? localAppState.gridView
-        : true;
+        : false;
     appContextValues?.multiUpdate({
       darkMode: darkModeValue,
       gridView: gridViewValue,

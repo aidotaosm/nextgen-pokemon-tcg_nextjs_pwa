@@ -105,13 +105,12 @@ export const PagingComponent: FunctionComponent<PagingComponentProps> = ({
                   className={styles["style-less-input"] + " cursor-pointer"}
                   type="number"
                   onBlur={(e) => cardsPagingOnClick(+e.target.value - 1)}
-                  // value={pageIndex + 1}
                   defaultValue={pageIndex + 1}
                   onFocus={(e) => e.target.select()}
                   ref={inputElementRef}
                   onKeyDown={(e) => {
                     if (e.key == "Enter") {
-                      // e.target.blur();
+                      e.currentTarget.blur();
                     }
                   }}
                   style={{ width: "1.6rem" }}
