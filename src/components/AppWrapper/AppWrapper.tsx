@@ -104,7 +104,7 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
 
       <main className="flex-grow-1">{children}</main>
 
-      <footer className="container py-3 ">
+      <footer className="container pt-4 pb-3">
         <h6 className="text-center  mb-0">Pokemon TCG by OSM ©2022</h6>
       </footer>
     </div>

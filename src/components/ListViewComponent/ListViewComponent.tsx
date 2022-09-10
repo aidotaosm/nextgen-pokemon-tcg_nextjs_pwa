@@ -13,8 +13,8 @@ export const ListViewComponent: FunctionComponent<SetCardsProps> = ({
       {setCards?.map((card: any, index: number) => (
         <div
           className={
-            "list-view align-items-center d-md-flex pt-5 justify-content-center " +
-            (!index ? "pt-5" : "")
+            "list-view align-items-center d-md-flex justify-content-center " +
+            (index ? "pt-5" : "")
           }
           key={card.id}
         >
@@ -35,7 +35,7 @@ export const ListViewComponent: FunctionComponent<SetCardsProps> = ({
             className="mt-5 mt-md-0 ms-md-5 ps-xl-4 flex-grow-1"
             style={{ maxWidth: "35rem" }}
           >
-            <div className="name fs-2 bg-secondary p-2 rounded-top">
+            <div className="name fs-2 bg-secondary p-2 rounded-top text-lightgray">
               {card.name}
             </div>
             <div className="pokemon-header bg-grey fs-4 p-2 text-dark text-dark">

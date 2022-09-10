@@ -112,8 +112,8 @@ export const SetComponent: FunctionComponent<CardObjectProps> = ({
   } else {
     return (
       <div className="container">
-        <div className="d-flex justify-content-end">
-          <h4 className=" mb-4">
+        <div className="d-flex justify-content-end mb-4">
+          <h4 className="mb-0">
             {cardsObject.data[0].set.name +
               " expansion of " +
               cardsObject.data[0].set.series}
@@ -149,7 +149,13 @@ export const SetComponent: FunctionComponent<CardObjectProps> = ({
             paramPageIndex={pageIndex}
             syncPagingReferences={syncPagingReferences}
             pageNumber={refPageNumber}
-          ></PagingComponent>
+          >
+            <ListOrGridViewToggle
+              isGridView={appContextValues?.appState.gridView}
+              getUpdatedView={getUpdatedView}
+              additionalClasses="col-1"
+            ></ListOrGridViewToggle>
+          </PagingComponent>
         </div>
       </div>
     );

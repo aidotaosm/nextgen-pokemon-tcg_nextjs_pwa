@@ -148,6 +148,9 @@
 .bg-grey {
   background-color: #f2f2f2;
 }
+.text-lightgray {
+  color: lightgray;
+}
 
 @media (max-width: 768px) {
   .list-view .pokemon-card-image {
