@@ -24,7 +24,10 @@ export const ListViewComponent: FunctionComponent<SetCardsProps> = ({
         >
           <div className="pokemon-card-image">
             <div className="special-card-wrapper p-0">
-              <div className="special-card-border ">
+              <div
+                className="special-card-border "
+                onContextMenu={(e) => e.preventDefault()}
+              >
                 <ImageComponent
                   src={card?.images?.small}
                   alt={card.name}

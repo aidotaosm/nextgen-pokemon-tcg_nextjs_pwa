@@ -135,7 +135,9 @@ export const PagingComponent: FunctionComponent<PagingComponentProps> = ({
           </nav>
         </div>
       </IF>
-      <IF condition={children && numberOfElements <= pageSize}>{children}</IF>
+      <IF condition={children && numberOfElements <= pageSize}>
+        <div className="d-flex justify-content-center">{children}</div>
+      </IF>
     </>
   );
 };

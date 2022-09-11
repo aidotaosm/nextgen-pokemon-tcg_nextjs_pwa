@@ -1,4 +1,5 @@
 import { Fragment, FunctionComponent, useState } from "react";
+import { SuperTypes } from "../../constants/constants";
 import { PokemonDetailProps } from "../../models/GenericModels";
 import { Helper } from "../../utils/helper";
 import { ImageComponent } from "../ImageComponent/ImageComponent";
@@ -50,6 +51,51 @@ export const PokemonDetailComponent: FunctionComponent<PokemonDetailProps> = ({
         </div>
         <div className={"evolution " + (card.evolvesFrom ? "" : "d-none")}>
           Evolves From: {card.evolvesFrom}
+        </div>
+        <div
+          className={
+            "pokemon-height-weight fs-6 d-flex justify-content-end mt-1 " +
+            (card.supertype === SuperTypes.Pokemon ? "" : "d-none")
+          }
+        >
+          <small>
+            <IF condition={card.evolvesTo}>
+              <span>
+                Evolves To:
+                {card.evolvesTo?.map(
+                  (evolvesInto: string, evolvesIntoIndex: number) => (
+                    <b key={evolvesIntoIndex} className={"ms-1"}>
+                      {evolvesInto}
+                    </b>
+                  )
+                )}
+              </span>
+            </IF>
+            <IF condition={card.nationalPokedexNumbers}>
+              <span className="ms-2">
+                Pokédex No.
+                {card.nationalPokedexNumbers?.map(
+                  (
+                    nationalPokedexNumber: string,
+                    nationalPokedexNumberIndex: number
+                  ) => (
+                    <b
+                      key={nationalPokedexNumberIndex}
+                      className={
+                        "ms-1" +
+                        (nationalPokedexNumberIndex !==
+                        card.nationalPokedexNumbers.length - 1
+                          ? "mr-1"
+                          : "")
+                      }
+                    >
+                      {nationalPokedexNumber}
+                    </b>
+                  )
+                )}
+              </span>
+            </IF>
+          </small>
         </div>
       </div>
       <div className="pokemon-body">
@@ -109,13 +155,24 @@ export const PokemonDetailComponent: FunctionComponent<PokemonDetailProps> = ({
                 <div className="d-flex justify-content-between">
                   <div className="d-flex align-items-center">
                     <div className="d-flex">
-                      {attack.cost.map((type: string, costIndex: number) => (
+                      <IF condition={attack.cost?.length}>
+                        {attack.cost.map((type: string, costIndex: number) => (
+                          <div
+                            key={costIndex}
+                            title={type == "[-]" ? "Free" : type + " Type"}
+                            className={
+                              "energy-type me-1 " +
+                              (type == "[-]" ? "Free" : type)
+                            }
+                          ></div>
+                        ))}
+                      </IF>
+                      <IF condition={!attack.cost?.length}>
                         <div
-                          key={costIndex}
-                          title={type + " Type"}
-                          className={"energy-type me-1 " + type}
+                          title={"Free"}
+                          className="energy-type me-1 Free"
                         ></div>
-                      ))}
+                      </IF>
                     </div>
                     <span className="fs-4 ms-2">{attack.name}</span>
                   </div>
@@ -138,7 +195,7 @@ export const PokemonDetailComponent: FunctionComponent<PokemonDetailProps> = ({
       </div>
 
       <div className="pokemon-footer bg-grey fs-5 p-2 text-dark rounded-bottom">
-        <IF condition={card.supertype === "Pokémon"}>
+        <IF condition={card.supertype === SuperTypes.Pokemon}>
           <div className="weakness-resistance-retreat d-flex justify-content-between">
             <div className="weakness">
               Weakness
@@ -206,7 +263,8 @@ export const PokemonDetailComponent: FunctionComponent<PokemonDetailProps> = ({
         </IF>
         <div
           className={
-            "set-details fs-6 " + (card.supertype === "Pokémon" ? "mt-2" : "")
+            "set-details fs-6 " +
+            (card.supertype === SuperTypes.Pokemon ? "mt-2" : "")
           }
         >
           <div className="d-flex justify-content-between align-items-center flex-grow-1">
