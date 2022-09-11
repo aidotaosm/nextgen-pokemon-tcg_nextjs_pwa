@@ -151,6 +151,12 @@
 .text-lightgray {
   color: lightgray;
 }
+
+.energy-type.Free {
+  background-image: url("/images/free-energy.png");
+  border-radius: 50%;
+  background-repeat: round;
+}
 .set-symbol {
   height: 25px;
   width: 25px;
