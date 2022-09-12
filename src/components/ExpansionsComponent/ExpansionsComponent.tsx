@@ -86,7 +86,7 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
                 aria-labelledby={series.id + "-heading"}
               >
                 <div className="accordion-body pb-2 pt-3">
-                  <div className="row row-cols-1 row-cols-sm-1 row-cols-md-2 row-cols-lg-2 row-cols-xl-3 row-cols-xxl-3">
+                  <div className="row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 row-cols-xxl-5">
                     {series.sets.map((set: any) => {
                       return (
                         <div
@@ -94,26 +94,28 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
                           key={set.id}
                           id={set.id}
                         >
-                          <div className={styles["set-image"]}>
-                            <ImageComponent
-                              src={set?.images?.logo}
-                              alt={set.name}
-                              height={72}
-                              width={192}
-                              blurDataURL={"/images/Cardback-sideways.webp"}
-                            />
-                          </div>
+                          <Link
+                            href={
+                              // this is done because pop2 is blocked by ad blocker
+                              "/set/" + (set.id == "pop2" ? "poptwo" : set.id)
+                            }
+                          >
+                            <a>
+                              <div className={styles["set-image"]}>
+                                <ImageComponent
+                                  src={set?.images?.logo}
+                                  alt={set.name}
+                                  height={72}
+                                  width={192}
+                                  blurDataURL={"/images/Cardback-sideways.webp"}
+                                />
+                              </div>
 
-                          <div className={styles["set-name"]}>
-                            <Link
-                              href={
-                                // this is done because pop2 is blocked by ad blocker
-                                "/set/" + (set.id == "pop2" ? "poptwo" : set.id)
-                              }
-                            >
-                              <a>{set.name}</a>
-                            </Link>
-                          </div>
+                              <div className={styles["set-name"]}>
+                                <span className="fw-bold">{set.name}</span>
+                              </div>
+                            </a>
+                          </Link>
                         </div>
                       );
                     })}

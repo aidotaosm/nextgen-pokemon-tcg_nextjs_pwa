@@ -639,7 +639,6 @@
 }
 .dark-mode a {
   color: #0dcaf0;
-  text-decoration: none;
 }
 .dark-mode .accordion-item {
   background-color: #242424;
@@ -653,6 +652,11 @@
 .dark-mode .accordion-button:focus {
   border-color: #e9ecef;
   box-shadow: 0 0 0 0.25rem #dee2e6;
+}
+
+.accordion-button:not(.collapsed) {
+  color: var(--bs-accordion-active-color);
+  background-color: var(--bs-accordion-active-bg);
 }
 .dark-mode input {
   background-color: #181818;

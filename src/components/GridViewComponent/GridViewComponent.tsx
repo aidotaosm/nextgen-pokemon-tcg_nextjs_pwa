@@ -13,7 +13,7 @@ export const GridViewComponent: FunctionComponent<SetCardsProps> = ({
       <div className="row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 row-cols-xxl-5">
         {setCards?.map((card: any) => {
           return (
-            <div className="col mb-2" key={card.id}>
+            <div className="col mb-4" key={card.id}>
               <div
                 className="card cursor-pointer position-static"
                 data-bs-toggle="modal"
@@ -24,7 +24,9 @@ export const GridViewComponent: FunctionComponent<SetCardsProps> = ({
                 onContextMenu={(e) => e.preventDefault()}
               >
                 <div className="card-body">
-                  <h6 className="card-title mb-0">{card.name}</h6>
+                  <div className="card-title mb-0 fs-bold fs-5">
+                    {card.name}
+                  </div>
                 </div>
                 <div className="special-card-wrapper">
                   <div className="special-card-border">
@@ -37,11 +39,11 @@ export const GridViewComponent: FunctionComponent<SetCardsProps> = ({
                     />
                   </div>
                 </div>
-                <div className="card-footer">
+                {/* <div className="card-footer">
                   <small className="text-muted">
                     {card.supertype + Helper.populateSubtype(card)}
                   </small>
-                </div>
+                </div> */}
               </div>
             </div>
           );
