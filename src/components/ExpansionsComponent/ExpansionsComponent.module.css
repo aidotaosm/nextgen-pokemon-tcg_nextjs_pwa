@@ -1,11 +1,6 @@
-/* .main-container{
-    width: 100%;
-    max-width: 20rem;
-    padding: 0 2rem 0 2rem;
-    margin: 0 auto 0 auto;
-} */
 .set {
   display: flex;
+  flex-direction: column;
   align-items: center;
 }
 .set:not(:last-child) {
@@ -13,7 +8,11 @@
 }
 .set .set-image {
   width: 12rem;
-  margin-right: 1rem;
+  margin-bottom: 1rem;
+  text-align: center;
   /* height: 4rem; */
   /* position: relative; */
+}
+.set .set-name {
+  text-align: center;
 }

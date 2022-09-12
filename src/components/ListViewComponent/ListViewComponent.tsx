@@ -15,35 +15,43 @@ export const ListViewComponent: FunctionComponent<SetCardsProps> = ({
   return (
     <>
       {setCards?.map((card: any, index: number) => (
-        <div
-          className={
-            "list-view align-items-center d-md-flex justify-content-center " +
-            (index ? "pt-5" : "")
-          }
-          key={card.id}
-        >
-          <div className="pokemon-card-image">
-            <div className="special-card-wrapper p-0">
-              <div
-                className="special-card-border "
-                onContextMenu={(e) => e.preventDefault()}
-              >
-                <ImageComponent
-                  src={card?.images?.small}
-                  alt={card.name}
-                  width={245}
-                  height={342}
-                  className="special-card disable-save"
-                />
+        <Fragment key={card.id}>
+          <div
+            className={
+              "list-view align-items-center d-md-flex justify-content-center " +
+              (index == 0
+                ? "pb-3"
+                : index == setCards.length - 1
+                ? "pt-3"
+                : "py-3")
+            }
+          >
+            <div className="pokemon-card-image">
+              <div className="special-card-wrapper p-0">
+                <div
+                  className="special-card-border "
+                  onContextMenu={(e) => e.preventDefault()}
+                >
+                  <ImageComponent
+                    src={card?.images?.small}
+                    alt={card.name}
+                    width={245}
+                    height={342}
+                    className="special-card disable-save"
+                  />
+                </div>
               </div>
             </div>
+            <PokemonDetailComponent
+              card={card}
+              cardClicked={cardClicked}
+              classes={"mt-5 mt-md-0 ms-md-5 ps-xl-4 flex-grow-1"}
+            />
           </div>
-          <PokemonDetailComponent
-            card={card}
-            cardClicked={cardClicked}
-            classes={"mt-5 mt-md-0 ms-md-5 ps-xl-4 flex-grow-1"}
-          />
-        </div>
+          <IF condition={index != setCards.length - 1}>
+            <hr />
+          </IF>
+        </Fragment>
       ))}
 
       <div
