@@ -16,7 +16,7 @@
     color: #bebebe;
   }
   .dark-mode hr {
-    border-top-color: #404040;
+    border-top-color: darkgray;
   }
   .dark-mode img.icon,
   .dark-mode svg.icon {
@@ -334,7 +334,7 @@
   color: #bebebe;
 }
 .dark-mode hr {
-  border-top-color: #404040;
+  border-top-color: darkgray;
 }
 .dark-mode img.icon,
 .dark-mode svg.icon {
