@@ -2,6 +2,7 @@ const customRuntimeCaching = require("./public/customRuntimeCaching");
 const withPWA = require('next-pwa')({
     dest: 'public',
     disable: process.env.NODE_ENV === 'development',
+    //  disable: true,
     register: true,
     skipWaiting: false,
     runtimeCaching: [

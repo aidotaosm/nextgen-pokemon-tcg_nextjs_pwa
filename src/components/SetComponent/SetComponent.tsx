@@ -16,8 +16,13 @@ export const SetComponent: FunctionComponent<CardObjectProps> = ({
 }) => {
   // console.log(cardsObject);
   let router = useRouter();
-
-  const [setCards, setSetCards] = useState<any>([]);
+  const getCardsForServerSide = () => {
+    let from = 0 * DEFAULT_PAGE_SIZE;
+    let to = (0 + 1) * DEFAULT_PAGE_SIZE;
+    let changedSetOfCards = cardsObject?.data.slice(from, to);
+    return changedSetOfCards;
+  };
+  const [setCards, setSetCards] = useState<any>(getCardsForServerSide() || []);
   const [pageIndex, setPageIndex] = useState<number>(0);
   const [refPageNumber, setRefPageNumber] = useState<number>(0);
   const [isLoading, setIsLoading] = useState(false);
@@ -42,37 +47,35 @@ export const SetComponent: FunctionComponent<CardObjectProps> = ({
   const getUpdatedView = (view: boolean) => {
     appContextValues?.updateGridView(view);
   };
+
   useEffect(() => {
     console.log(cardsObject);
-    if (cardsObject) {
-      if (router.isReady) {
-        let routerPageIndex = 0;
+
+    if (cardsObject && router.isReady) {
+      let routerPageIndex = 0;
+      if (
+        router.query.page &&
+        !isNaN(+router.query.page) &&
+        !isNaN(parseFloat(router.query.page.toString()))
+      ) {
         if (
-          router.query.page &&
-          !isNaN(+router.query.page) &&
-          !isNaN(parseFloat(router.query.page.toString()))
+          (+router.query.page + 1) * DEFAULT_PAGE_SIZE >
+          cardsObject.totalCount
         ) {
-          if (
-            (+router.query.page + 1) * DEFAULT_PAGE_SIZE >
-            cardsObject.totalCount
-          ) {
-            let lastPage = Math.floor(
-              cardsObject.totalCount / DEFAULT_PAGE_SIZE
-            );
-            routerPageIndex = lastPage;
-          } else {
-            routerPageIndex = +router.query.page;
-          }
+          let lastPage = Math.floor(cardsObject.totalCount / DEFAULT_PAGE_SIZE);
+          routerPageIndex = lastPage;
+        } else {
+          routerPageIndex = +router.query.page;
         }
+      }
+      if (routerPageIndex !== pageIndex) {
         pageChanged(routerPageIndex, false);
-      } else {
-        //serverSide
-        pageChanged(0, false);
       }
     }
   }, [router.isReady]);
 
   const pageChanged = (newPageIndex: number, updateRoute: boolean = true) => {
+    console.log(newPageIndex);
     // if (!isLoading) {
     let from = newPageIndex * DEFAULT_PAGE_SIZE;
     let to = (newPageIndex + 1) * DEFAULT_PAGE_SIZE;
