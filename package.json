@@ -27,6 +27,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "build:local": "SET APP_ENV=local& next build",
     "start": "next start"
   },
   "eslintConfig": {
