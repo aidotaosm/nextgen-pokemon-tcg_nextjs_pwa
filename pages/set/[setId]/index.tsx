@@ -14,7 +14,7 @@ interface IParams extends ParsedUrlQuery {
   page?: string;
 }
 
-export const getStaticPaths: GetStaticPaths = async () => {
+export const getStaticPaths: GetStaticPaths = async (qry) => {
   // Instead of fetching your `/api` route you can call the same
   // function directly in `getStaticProps`
   const expansions = await getExpansions();
@@ -30,8 +30,10 @@ export const getStaticPaths: GetStaticPaths = async () => {
       });
     });
   });
-
-  returnPaths.splice(1, returnPaths.length - 1);
+  if (process.env.APP_ENV == "local") {
+    returnPaths.splice(1, returnPaths.length - 1);
+  }
+  //process.env.NODE_ENV
   console.log(returnPaths.length);
   // console.log(returnPaths);
   // Props returned will be passed to the page component

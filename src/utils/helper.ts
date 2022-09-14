@@ -39,4 +39,7 @@ export class Helper {
     }
     return parsedItem;
   };
+  static get Protocol() {
+    if (window) return `${window.location.host}`;
+  }
 }
