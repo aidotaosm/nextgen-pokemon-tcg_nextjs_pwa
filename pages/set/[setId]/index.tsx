@@ -31,7 +31,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
     });
   });
 
-  returnPaths.splice(10, returnPaths.length - 10);
+  returnPaths.splice(1, returnPaths.length - 1);
   console.log(returnPaths.length);
   // console.log(returnPaths);
   // Props returned will be passed to the page component
