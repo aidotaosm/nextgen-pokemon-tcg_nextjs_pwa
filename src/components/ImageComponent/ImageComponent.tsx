@@ -33,7 +33,7 @@ export const ImageComponent: FunctionComponent<any> = ({
     setHighQualityImageLoaded(false);
     //console.log(highQualitySrc);
   }, [src, highQualitySrc]);
-  console.log(process.env.NETLIFY !== "true");
+
   return (
     <>
       <div className={highQualityImageLoaded ? "out-of-view" : ""}>
