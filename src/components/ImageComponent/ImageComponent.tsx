@@ -38,7 +38,7 @@ export const ImageComponent: FunctionComponent<any> = ({
     <>
       <div className={highQualityImageLoaded ? "out-of-view" : ""}>
         <Image
-          unoptimized
+          unoptimized={process.env.APP_ENV !== "netlify"}
           // style={{ height: "75vh" }}
           className={className || ""}
           src={imageSource}
@@ -66,7 +66,7 @@ export const ImageComponent: FunctionComponent<any> = ({
       <IF condition={highQualityImageSource}>
         <div className={highQualityImageLoaded ? "" : "out-of-view"}>
           <Image
-            unoptimized
+            unoptimized={process.env.APP_ENV !== "netlify"}
             className={className || ""}
             src={highQualityImageSource}
             alt={alt || ""}
@@ -86,13 +86,21 @@ export const ImageComponent: FunctionComponent<any> = ({
             }}
             onLoadingComplete={(e) => {
               if (rawHighQualityImageRef.current) {
-                console.log(rawHighQualityImageRef.current.naturalHeight /
-                  rawHighQualityImageRef.current.naturalWidth);
+                console.log(
+                  rawHighQualityImageRef.current.naturalHeight /
+                    rawHighQualityImageRef.current.naturalWidth
+                );
                 console.log(DEFAULT_CARD_BACK_RATIO);
                 console.log(lowQualityImageLoaded);
-                if (((rawHighQualityImageRef.current.naturalHeight /
-                  rawHighQualityImageRef.current.naturalWidth) == DEFAULT_CARD_BACK_RATIO) && lowQualityImageLoaded) {
-                  console.log('low quality image rendered in hires since hiquality image cannot be loaded');
+                if (
+                  rawHighQualityImageRef.current.naturalHeight /
+                    rawHighQualityImageRef.current.naturalWidth ==
+                    DEFAULT_CARD_BACK_RATIO &&
+                  lowQualityImageLoaded
+                ) {
+                  console.log(
+                    "low quality image rendered in hires since hiquality image cannot be loaded"
+                  );
                   setHighQualityImageSource(imageSource);
                 }
               }
