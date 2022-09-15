@@ -33,7 +33,7 @@ export const ImageComponent: FunctionComponent<any> = ({
     setHighQualityImageLoaded(false);
     //console.log(highQualitySrc);
   }, [src, highQualitySrc]);
-
+  console.log(process.env.NETLIFY !== "true");
   return (
     <>
       <div className={highQualityImageLoaded ? "out-of-view" : ""}>
@@ -66,7 +66,7 @@ export const ImageComponent: FunctionComponent<any> = ({
       <IF condition={highQualityImageSource}>
         <div className={highQualityImageLoaded ? "" : "out-of-view"}>
           <Image
-            unoptimized={process.env.APP_ENV !== "netlify"}
+            unoptimized={process.env.NETLIFY !== "true"}
             className={className || ""}
             src={highQualityImageSource}
             alt={alt || ""}
