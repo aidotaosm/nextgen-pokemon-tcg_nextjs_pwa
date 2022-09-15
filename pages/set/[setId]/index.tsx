@@ -21,7 +21,6 @@ export const getStaticPaths: GetStaticPaths = async (qry) => {
   let returnPaths: any[] = [];
   expansions.forEach((series) => {
     series.sets.forEach((set: any) => {
-      console.log(set.id);
       if (set.id === "pop2") {
         set.id = "poptwo"; // this is done because pop2 is blocked by ad blocker
       }
@@ -34,7 +33,7 @@ export const getStaticPaths: GetStaticPaths = async (qry) => {
     returnPaths.splice(1, returnPaths.length - 1);
   }
   //process.env.NODE_ENV
-  console.log(returnPaths.length);
+  console.log(process.env);
   // console.log(returnPaths);
   // Props returned will be passed to the page component
   return {

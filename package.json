@@ -28,6 +28,7 @@
     "dev": "next dev",
     "build": "next build",
     "build:local": "SET APP_ENV=local& next build",
+    "build:netlify": "SET APP_ENV=netlify& next build",
     "start": "next start"
   },
   "eslintConfig": {
