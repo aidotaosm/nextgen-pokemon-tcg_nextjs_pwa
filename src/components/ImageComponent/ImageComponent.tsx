@@ -38,7 +38,7 @@ export const ImageComponent: FunctionComponent<any> = ({
     <>
       <div className={highQualityImageLoaded ? "out-of-view" : ""}>
         <Image
-          unoptimized={process.env.APP_ENV !== "netlify"}
+          unoptimized={process.env.NETLIFY !== "true"}
           // style={{ height: "75vh" }}
           className={className || ""}
           src={imageSource}
