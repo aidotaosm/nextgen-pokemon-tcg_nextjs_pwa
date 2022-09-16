@@ -38,16 +38,16 @@ export const ListViewComponent: FunctionComponent<SetCardsProps> = ({
           </IF>
         </Fragment>
       ))}
-
+      modal close with ref and stop propagate and multiple active fix
       <div
         className="modal fade"
         id="list-view-card-modal"
         aria-labelledby="exampleModalLabel"
         aria-hidden="true"
       >
-        <div className="modal-dialog modal-md">
-          <div className="modal-content">
-            <div className="modal-header">
+        <div className="modal-dialog modal-xl vertical-align-modal">
+          <div className="modal-content transparent-modal">
+            {/* <div className="modal-header">
               <h5 className="modal-title">{selectedCard?.name}</h5>
               <button
                 type="button"
@@ -55,12 +55,13 @@ export const ListViewComponent: FunctionComponent<SetCardsProps> = ({
                 data-bs-dismiss="modal"
                 aria-label="Close"
               ></button>
-            </div>
+            </div> */}
             <div className="modal-body">
               <div
                 id="carouselExampleControls"
                 className="carousel slide"
-                data-bs-ride="carousel"
+                data-bs-ride="false"
+                data-bs-interval="false"
               >
                 <div className="carousel-inner">
                   {setCards?.map((card: any) => (
@@ -71,7 +72,10 @@ export const ListViewComponent: FunctionComponent<SetCardsProps> = ({
                           (selectedCard.id == card.id ? "active" : "")
                         }
                       >
-                        <div className="">
+                        <div
+                          className="pokemon-card-image"
+                          style={{ margin: "auto" }}
+                        >
                           <ImageComponent
                             src={card?.images?.small}
                             highQualitySrc={card?.images?.large}
@@ -110,7 +114,7 @@ export const ListViewComponent: FunctionComponent<SetCardsProps> = ({
                 </button>
               </div>
             </div>
-            <div className="modal-footer">
+            {/* <div className="modal-footer">
               <button
                 type="button"
                 className="btn btn-secondary"
@@ -118,7 +122,7 @@ export const ListViewComponent: FunctionComponent<SetCardsProps> = ({
               >
                 Close
               </button>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

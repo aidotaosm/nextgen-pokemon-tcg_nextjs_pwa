@@ -58,12 +58,12 @@ export const GridViewComponent: FunctionComponent<SetCardsProps> = ({
         aria-labelledby="exampleModalLabel"
         aria-hidden="true"
       >
-        <div className="modal-dialog modal-xl vertical-align-modal">
+        <div className="modal-dialog modal-xl vertical-align-modal tall-content">
           <div className="modal-content transparent-modal">
             <div className="modal-body">
               <IF condition={selectedCard?.images}>
                 <div
-                  className="align-items-center d-md-flex justify-content-center"
+                  className="align-items-center d-md-flex justify-content-center list-view"
                   onClick={() => {
                     if (modalCloseButton.current) {
                       modalCloseButton.current.click();
