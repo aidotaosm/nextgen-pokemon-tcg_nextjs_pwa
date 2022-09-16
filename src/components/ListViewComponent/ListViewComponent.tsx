@@ -2,6 +2,7 @@ import { Fragment, FunctionComponent, useState } from "react";
 import { SetCardsProps } from "../../models/GenericModels";
 import { Helper } from "../../utils/helper";
 import { ImageComponent } from "../ImageComponent/ImageComponent";
+import { PokemonCardAndDetailsComponent } from "../PokemonCardAndDetailsComponent/PokemonCardAndDetailsComponent";
 import { PokemonDetailComponent } from "../PokemonDetailComponent/PokemonDetailComponent";
 import { IF } from "../UtilityComponents/IF";
 
@@ -26,26 +27,9 @@ export const ListViewComponent: FunctionComponent<SetCardsProps> = ({
                 : "py-3")
             }
           >
-            <div className="pokemon-card-image">
-              <div className="special-card-wrapper p-0">
-                <div
-                  className="special-card-border "
-                  onContextMenu={(e) => e.preventDefault()}
-                >
-                  <ImageComponent
-                    src={card?.images?.small}
-                    alt={card.name}
-                    width={245}
-                    height={342}
-                    className="special-card disable-save"
-                  />
-                </div>
-              </div>
-            </div>
-            <PokemonDetailComponent
-              card={card}
+            <PokemonCardAndDetailsComponent
               cardClicked={cardClicked}
-              classes={"mt-5 mt-md-0 ms-md-5 ps-xl-4 flex-grow-1"}
+              card={card}
             />
           </div>
           <IF condition={index != setCards.length - 1}>
@@ -79,7 +63,6 @@ export const ListViewComponent: FunctionComponent<SetCardsProps> = ({
                   alt={selectedCard.name}
                   width={734}
                   height={1024}
-                  //layout="fill"
                 />
               </IF>
             </div>
@@ -91,9 +74,6 @@ export const ListViewComponent: FunctionComponent<SetCardsProps> = ({
               >
                 Close
               </button>
-              {/* <button type="button" className="btn btn-primary">
-               Save changes
-             </button> */}
             </div>
           </div>
         </div>

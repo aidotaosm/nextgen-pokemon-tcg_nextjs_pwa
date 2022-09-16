@@ -33,7 +33,7 @@ export const getStaticPaths: GetStaticPaths = async (qry) => {
     returnPaths.splice(1, returnPaths.length - 1);
   }
   //process.env.NODE_ENV
-  console.log(process.env);
+  // console.log(process.env);
   // console.log(returnPaths);
   // Props returned will be passed to the page component
   return {

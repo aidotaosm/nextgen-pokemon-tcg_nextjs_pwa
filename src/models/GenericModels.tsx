@@ -20,5 +20,7 @@ export interface PokemonDetailProps {
   children?: JSX.Element;
   card?: any;
   classes?: string;
+  detailsClasses?: string;
+  showHQImage?: boolean;
   cardClicked?: (e: any) => void;
 }
