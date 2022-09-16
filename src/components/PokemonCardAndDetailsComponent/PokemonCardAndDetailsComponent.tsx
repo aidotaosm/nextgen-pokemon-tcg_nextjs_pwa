@@ -17,12 +17,19 @@ export const PokemonCardAndDetailsComponent: FunctionComponent<
     <Fragment>
       <div
         className="pokemon-card-image mt-4 mt-md-0"
-        onClick={(e) => e.stopPropagation()}
+        onClick={(e) => {
+          e.stopPropagation();
+          cardClicked(card);
+        }}
       >
         <div className="special-card-wrapper p-0">
           <div
-            className="special-card-border "
+            className={
+              "special-card-border " + (!showHQImage ? "cursor-pointer" : "")
+            }
             onContextMenu={(e) => e.preventDefault()}
+            data-bs-toggle={!showHQImage ? "modal" : undefined}
+            data-bs-target={!showHQImage ? "#list-view-card-modal" : undefined}
           >
             <ImageComponent
               src={card?.images?.small}
@@ -35,11 +42,7 @@ export const PokemonCardAndDetailsComponent: FunctionComponent<
           </div>
         </div>
       </div>
-      <PokemonDetailComponent
-        card={card}
-        cardClicked={cardClicked}
-        classes={detailsClasses}
-      />
+      <PokemonDetailComponent card={card} classes={detailsClasses} />
     </Fragment>
   );
 };

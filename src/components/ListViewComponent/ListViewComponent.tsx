@@ -11,6 +11,7 @@ export const ListViewComponent: FunctionComponent<SetCardsProps> = ({
 }) => {
   const [selectedCard, setSelectedCard] = useState<any>({});
   const cardClicked = (card: any) => {
+    console.log(card);
     setSelectedCard(card);
   };
   return (
@@ -40,7 +41,7 @@ export const ListViewComponent: FunctionComponent<SetCardsProps> = ({
 
       <div
         className="modal fade"
-        id="full-screen-card-modal"
+        id="list-view-card-modal"
         aria-labelledby="exampleModalLabel"
         aria-hidden="true"
       >
@@ -56,15 +57,58 @@ export const ListViewComponent: FunctionComponent<SetCardsProps> = ({
               ></button>
             </div>
             <div className="modal-body">
-              <IF condition={selectedCard?.images}>
-                <ImageComponent
-                  src={selectedCard?.images?.small}
-                  highQualitySrc={selectedCard?.images?.large}
-                  alt={selectedCard.name}
-                  width={734}
-                  height={1024}
-                />
-              </IF>
+              <div
+                id="carouselExampleControls"
+                className="carousel slide"
+                data-bs-ride="carousel"
+              >
+                <div className="carousel-inner">
+                  {setCards?.map((card: any) => (
+                    <Fragment key={card.id}>
+                      <div
+                        className={
+                          "carousel-item " +
+                          (selectedCard.id == card.id ? "active" : "")
+                        }
+                      >
+                        <div className="">
+                          <ImageComponent
+                            src={card?.images?.small}
+                            highQualitySrc={card?.images?.large}
+                            alt={card.name}
+                            width={734}
+                            height={1024}
+                          />
+                        </div>
+                      </div>
+                    </Fragment>
+                  ))}
+                </div>
+                <button
+                  className="carousel-control-prev"
+                  type="button"
+                  data-bs-target="#carouselExampleControls"
+                  data-bs-slide="prev"
+                >
+                  <span
+                    className="carousel-control-prev-icon"
+                    aria-hidden="true"
+                  ></span>
+                  <span className="visually-hidden">Previous</span>
+                </button>
+                <button
+                  className="carousel-control-next"
+                  type="button"
+                  data-bs-target="#carouselExampleControls"
+                  data-bs-slide="next"
+                >
+                  <span
+                    className="carousel-control-next-icon"
+                    aria-hidden="true"
+                  ></span>
+                  <span className="visually-hidden">Next</span>
+                </button>
+              </div>
             </div>
             <div className="modal-footer">
               <button
