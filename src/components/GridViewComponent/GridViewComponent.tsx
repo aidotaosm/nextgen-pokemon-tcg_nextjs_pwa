@@ -25,10 +25,7 @@ export const GridViewComponent: FunctionComponent<SetCardsProps> = ({
                 <div className="card-body">
                   <div className="card-title mb-0 d-flex align-items-center justify-content-between">
                     <span className="fs-5 fs-bold">{card.name}</span>
-                    <ExternalLinkComponent
-                      card={card}
-                      classes="fs-5 text-lightgray white-hover"
-                    />
+                    <ExternalLinkComponent card={card} classes="fs-6" />
                   </div>
                 </div>
                 <div className="special-card-wrapper">
