@@ -192,6 +192,11 @@ a:hover {
   margin-top: 0;
   margin-bottom: 0;
 }
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  width: 4rem;
+  height: 4rem;
+}
 
 @media (max-width: 1399px) {
   .list-view .pokemon-card-image {

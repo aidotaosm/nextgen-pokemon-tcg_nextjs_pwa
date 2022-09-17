@@ -1,19 +1,44 @@
-import { Fragment, FunctionComponent, useState } from "react";
+import {
+  Fragment,
+  FunctionComponent,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { SetCardsProps } from "../../models/GenericModels";
 import { Helper } from "../../utils/helper";
 import { ImageComponent } from "../ImageComponent/ImageComponent";
 import { PokemonCardAndDetailsComponent } from "../PokemonCardAndDetailsComponent/PokemonCardAndDetailsComponent";
 import { PokemonDetailComponent } from "../PokemonDetailComponent/PokemonDetailComponent";
+import { CarouselComponent } from "../UtilityComponents/CarouselComponent";
 import { IF } from "../UtilityComponents/IF";
+import { ModalComponent } from "../UtilityComponents/ModalComponent";
 
 export const ListViewComponent: FunctionComponent<SetCardsProps> = ({
   setCards,
 }) => {
-  const [selectedCard, setSelectedCard] = useState<any>({});
+  const [selectedCard, setSelectedCard] = useState<any>(null);
+  const modalCloseButton = useRef<any>();
   const cardClicked = (card: any) => {
     console.log(card);
     setSelectedCard(card);
   };
+
+  const handleModalClose = useCallback(
+    (e: Event) => {
+      let arrayOFCarouselItems = [
+        ...(document.getElementsByClassName("carousel-item") as any),
+      ];
+      arrayOFCarouselItems.forEach((carouselItem) => {
+        carouselItem.classList.remove("active");
+      });
+      console.log(arrayOFCarouselItems);
+      setSelectedCard(null);
+    },
+    [setSelectedCard]
+  );
+
   return (
     <>
       {setCards?.map((card: any, index: number) => (
@@ -38,94 +63,49 @@ export const ListViewComponent: FunctionComponent<SetCardsProps> = ({
           </IF>
         </Fragment>
       ))}
-      modal close with ref and stop propagate and multiple active fix
-      <div
-        className="modal fade"
+      modal close with ref and stop propagate
+      <ModalComponent
         id="list-view-card-modal"
-        aria-labelledby="exampleModalLabel"
-        aria-hidden="true"
+        primaryClasses="modal-xl vertical-align-modal"
+        secondaryClasses="transparent-modal"
+        handleModalClose={handleModalClose}
+        modalCloseButton={modalCloseButton}
       >
-        <div className="modal-dialog modal-xl vertical-align-modal">
-          <div className="modal-content transparent-modal">
-            {/* <div className="modal-header">
-              <h5 className="modal-title">{selectedCard?.name}</h5>
-              <button
-                type="button"
-                className="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div> */}
-            <div className="modal-body">
+        <CarouselComponent>
+          {setCards?.map((card: any) => (
+            <Fragment key={card.id}>
               <div
-                id="carouselExampleControls"
-                className="carousel slide"
-                data-bs-ride="false"
-                data-bs-interval="false"
+                className={
+                  "carousel-item " +
+                  (selectedCard?.id == card.id ? "active" : "")
+                }
+                onClick={() => {
+                  console.log(modalCloseButton);
+                  if (modalCloseButton.current) {
+                    modalCloseButton.current.click();
+                  }
+                }}
               >
-                <div className="carousel-inner">
-                  {setCards?.map((card: any) => (
-                    <Fragment key={card.id}>
-                      <div
-                        className={
-                          "carousel-item " +
-                          (selectedCard.id == card.id ? "active" : "")
-                        }
-                      >
-                        <div
-                          className="pokemon-card-image"
-                          style={{ margin: "auto" }}
-                        >
-                          <ImageComponent
-                            src={card?.images?.small}
-                            highQualitySrc={card?.images?.large}
-                            alt={card.name}
-                            width={734}
-                            height={1024}
-                          />
-                        </div>
-                      </div>
-                    </Fragment>
-                  ))}
+                <div
+                  className="pokemon-card-image"
+                  style={{ margin: "auto" }}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                  }}
+                >
+                  <ImageComponent
+                    src={card?.images?.small}
+                    highQualitySrc={card?.images?.large}
+                    alt={card.name}
+                    width={734}
+                    height={1024}
+                  />
                 </div>
-                <button
-                  className="carousel-control-prev"
-                  type="button"
-                  data-bs-target="#carouselExampleControls"
-                  data-bs-slide="prev"
-                >
-                  <span
-                    className="carousel-control-prev-icon"
-                    aria-hidden="true"
-                  ></span>
-                  <span className="visually-hidden">Previous</span>
-                </button>
-                <button
-                  className="carousel-control-next"
-                  type="button"
-                  data-bs-target="#carouselExampleControls"
-                  data-bs-slide="next"
-                >
-                  <span
-                    className="carousel-control-next-icon"
-                    aria-hidden="true"
-                  ></span>
-                  <span className="visually-hidden">Next</span>
-                </button>
               </div>
-            </div>
-            {/* <div className="modal-footer">
-              <button
-                type="button"
-                className="btn btn-secondary"
-                data-bs-dismiss="modal"
-              >
-                Close
-              </button>
-            </div> */}
-          </div>
-        </div>
-      </div>
+            </Fragment>
+          ))}
+        </CarouselComponent>
+      </ModalComponent>
     </>
   );
 };
