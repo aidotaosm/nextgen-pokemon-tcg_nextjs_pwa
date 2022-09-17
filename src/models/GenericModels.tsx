@@ -22,10 +22,15 @@ export interface PokemonDetailProps {
   classes?: string;
   detailsClasses?: string;
   showHQImage?: boolean;
+  showCardOpenToNewTab?: boolean;
   cardClicked?: (e: any) => void;
 }
 export interface CarouselProps {
   children?: JSX.Element;
+  classes?: string;
+}
+export interface ExternalLinkProps {
+  card?: any;
   classes?: string;
 }
 export interface ModalProps {
