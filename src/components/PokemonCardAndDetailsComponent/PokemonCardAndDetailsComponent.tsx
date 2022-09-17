@@ -18,7 +18,7 @@ export const PokemonCardAndDetailsComponent: FunctionComponent<
       <div
         className="pokemon-card-image mt-4 mt-md-0"
         onClick={(e) => {
-          e.stopPropagation();
+          // e.stopPropagation();
           cardClicked(card);
         }}
       >

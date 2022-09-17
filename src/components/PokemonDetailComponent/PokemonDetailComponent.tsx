@@ -13,7 +13,7 @@ export const PokemonDetailComponent: FunctionComponent<PokemonDetailProps> = ({
     <div
       className={classes}
       style={{ maxWidth: "35rem" }}
-      onClick={(e) => e.stopPropagation()}
+      //  onClick={(e) => e.stopPropagation()}
     >
       <div className="pokemon-details rounded">
         <div className="name fs-2 bg-secondary p-2 rounded-top text-lightgray">

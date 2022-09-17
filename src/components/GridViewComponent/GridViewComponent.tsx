@@ -20,22 +20,22 @@ export const GridViewComponent: FunctionComponent<SetCardsProps> = ({
         {setCards?.map((card: any) => {
           return (
             <div className="col mb-4" key={card.id}>
-              <div
-                className="card cursor-pointer position-static"
-                data-bs-toggle="modal"
-                data-bs-target="#full-screen-card-modal"
-                onClick={(c) => {
-                  setSelectedCard(card);
-                }}
-                onContextMenu={(e) => e.preventDefault()}
-              >
+              <div className="card position-static">
                 <div className="card-body">
                   <div className="card-title mb-0 fs-bold fs-5">
                     {card.name}
                   </div>
                 </div>
                 <div className="special-card-wrapper">
-                  <div className="special-card-border">
+                  <div
+                    className="special-card-border cursor-pointer"
+                    data-bs-toggle="modal"
+                    data-bs-target="#full-screen-card-modal"
+                    onClick={() => {
+                      setSelectedCard(card);
+                    }}
+                    onContextMenu={(e) => e.preventDefault()}
+                  >
                     <ImageComponent
                       src={card?.images?.small}
                       alt={card.name}
