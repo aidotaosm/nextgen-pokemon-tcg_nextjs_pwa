@@ -27,7 +27,11 @@ export const PokemonCardAndDetailsComponent: FunctionComponent<
             className={
               "special-card-border " + (!showHQImage ? "cursor-pointer" : "")
             }
-            onContextMenu={(e) => e.preventDefault()}
+            onContextMenu={(e) => {
+              if (!showHQImage) {
+                e.preventDefault();
+              }
+            }}
             data-bs-toggle={!showHQImage ? "modal" : undefined}
             data-bs-target={!showHQImage ? "#list-view-card-modal" : undefined}
           >
@@ -37,7 +41,7 @@ export const PokemonCardAndDetailsComponent: FunctionComponent<
               alt={card.name}
               width={245}
               height={342}
-              className="special-card disable-save"
+              className={"special-card " + (showHQImage ? "" : "disable-save")}
             />
           </div>
         </div>
