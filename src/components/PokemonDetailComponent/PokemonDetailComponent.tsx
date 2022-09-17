@@ -1,23 +1,25 @@
 import { Fragment, FunctionComponent, useState } from "react";
 import { SuperTypes } from "../../constants/constants";
 import { PokemonDetailProps } from "../../models/GenericModels";
-import { Helper } from "../../utils/helper";
-import { ImageComponent } from "../ImageComponent/ImageComponent";
 import { IF } from "../UtilityComponents/IF";
+import { ExternalLinkComponent } from "../ExternalLinkComponent/ExternalLinkComponent";
 
 export const PokemonDetailComponent: FunctionComponent<PokemonDetailProps> = ({
   card,
   classes = "",
+  showCardOpenToNewTab = true,
 }) => {
   return (
-    <div
-      className={classes}
-      style={{ maxWidth: "35rem" }}
-      //  onClick={(e) => e.stopPropagation()}
-    >
+    <div className={classes} style={{ maxWidth: "35rem" }}>
       <div className="pokemon-details rounded">
-        <div className="name fs-2 bg-secondary p-2 rounded-top text-lightgray">
-          {card.name}
+        <div className="name bg-secondary p-2 rounded-top d-flex align-items-center justify-content-between">
+          <span className="text-lightgray fs-2"> {card.name}</span>
+          <IF condition={showCardOpenToNewTab}>
+            <ExternalLinkComponent
+              card={card}
+              classes="fs-4 text-lightgray white-hover"
+            />
+          </IF>
         </div>
         <div className="pokemon-header bg-grey fs-4 p-2 text-dark">
           <div className="subtype-hp d-flex justify-content-between align-items-center flex-grow-1">

@@ -4,6 +4,7 @@ import { ImageComponent } from "../ImageComponent/ImageComponent";
 import { PokemonCardAndDetailsComponent } from "../PokemonCardAndDetailsComponent/PokemonCardAndDetailsComponent";
 import { IF } from "../UtilityComponents/IF";
 import MemoizedModalComponent from "../UtilityComponents/ModalComponent";
+import { ExternalLinkComponent } from "../ExternalLinkComponent/ExternalLinkComponent";
 
 export const GridViewComponent: FunctionComponent<SetCardsProps> = ({
   setCards,
@@ -22,8 +23,12 @@ export const GridViewComponent: FunctionComponent<SetCardsProps> = ({
             <div className="col mb-4" key={card.id}>
               <div className="card position-static">
                 <div className="card-body">
-                  <div className="card-title mb-0 fs-bold fs-5">
-                    {card.name}
+                  <div className="card-title mb-0 d-flex align-items-center justify-content-between">
+                    <span className="fs-5 fs-bold">{card.name}</span>
+                    <ExternalLinkComponent
+                      card={card}
+                      classes="fs-5 text-lightgray white-hover"
+                    />
                   </div>
                 </div>
                 <div className="special-card-wrapper">

@@ -635,7 +635,7 @@
   color: #777;
 }
 .dark-mode a:hover {
-  color: #dee2e6;
+  color: #dee2e6 !important;
 }
 .dark-mode a {
   color: #0dcaf0;
