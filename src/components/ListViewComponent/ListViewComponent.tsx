@@ -19,7 +19,7 @@ export const ListViewComponent: FunctionComponent<SetCardsProps> = ({
   setCards,
 }) => {
   const [selectedCard, setSelectedCard] = useState<any>(null);
-  const [lala, setlala] = useState<any>(0);
+  const [lala, setlala] = useState<number>(0); //learning purposes
   const modalCloseButton = useRef<any>();
   const cardClicked = (card: any) => {
     console.log(card);
@@ -92,7 +92,7 @@ export const ListViewComponent: FunctionComponent<SetCardsProps> = ({
                 >
                   <ImageComponent
                     src={card?.images?.small}
-                    highQualitySrc={card?.images?.large}
+                    highQualitySrc={selectedCard ? card?.images?.large : ""}
                     alt={card.name}
                     width={734}
                     height={1024}
