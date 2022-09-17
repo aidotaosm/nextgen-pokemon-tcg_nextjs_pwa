@@ -1,13 +1,6 @@
-import {
-  Fragment,
-  FunctionComponent,
-  useCallback,
-  useEffect,
-  useRef,
-} from "react";
+import { FunctionComponent, memo, useEffect } from "react";
 import { ModalProps } from "../../models/GenericModels";
-import { ImageComponent } from "../ImageComponent/ImageComponent";
-export const ModalComponent: FunctionComponent<ModalProps> = ({
+const ModalComponent: FunctionComponent<ModalProps> = ({
   primaryClasses = "",
   secondaryClasses = "",
   id = "bootstrap-modal",
@@ -15,11 +8,22 @@ export const ModalComponent: FunctionComponent<ModalProps> = ({
   handleModalClose,
   modalCloseButton,
 }) => {
+  console.log("modal component rendered");
   useEffect(() => {
-    let modal = document.getElementById("list-view-card-modal");
+    let modal = document.getElementById(id);
     modal?.addEventListener("hidden.bs.modal", handleModalClose);
     return () => {
       modal?.removeEventListener("hidden.bs.modal", handleModalClose);
+      let bodyElement = document.getElementsByTagName("body")[0] as any;
+      let modalBackdrop = document.getElementsByClassName(
+        "modal-backdrop"
+      )[0] as any;
+      if (modalBackdrop && bodyElement) {
+        modalBackdrop.parentNode.removeChild(modalBackdrop);
+        bodyElement.classList.remove("modal-open");
+        bodyElement.style.overflow = null;
+        bodyElement.style.paddingRight = null;
+      }
     };
   }, []);
   return (
@@ -47,3 +51,5 @@ export const ModalComponent: FunctionComponent<ModalProps> = ({
     </div>
   );
 };
+const MemoizedModalComponent = memo(ModalComponent);
+export default MemoizedModalComponent;

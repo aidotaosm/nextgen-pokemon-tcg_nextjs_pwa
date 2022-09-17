@@ -1,16 +1,19 @@
-import { FunctionComponent, useEffect, useRef, useState } from "react";
+import { FunctionComponent, useCallback, useRef, useState } from "react";
 import { SetCardsProps } from "../../models/GenericModels";
-import { Helper } from "../../utils/helper";
 import { ImageComponent } from "../ImageComponent/ImageComponent";
 import { PokemonCardAndDetailsComponent } from "../PokemonCardAndDetailsComponent/PokemonCardAndDetailsComponent";
 import { IF } from "../UtilityComponents/IF";
-import { ModalComponent } from "../UtilityComponents/ModalComponent";
+import MemoizedModalComponent from "../UtilityComponents/ModalComponent";
 
 export const GridViewComponent: FunctionComponent<SetCardsProps> = ({
   setCards,
 }) => {
   const [selectedCard, setSelectedCard] = useState<any>({});
   const modalCloseButton = useRef<any>();
+  const handleModalClose = useCallback((e: Event) => {
+    console.log("custom modal close called");
+    setSelectedCard(null);
+  }, []);
   return (
     <>
       <div className="row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 row-cols-xxl-5">
@@ -52,13 +55,11 @@ export const GridViewComponent: FunctionComponent<SetCardsProps> = ({
           );
         })}
       </div>
-      <ModalComponent
+      <MemoizedModalComponent
         id="full-screen-card-modal"
         primaryClasses="modal-xl vertical-align-modal tall-content"
         secondaryClasses="transparent-modal"
-        handleModalClose={() => {
-          console.log("doing nothing on modal close");
-        }}
+        handleModalClose={handleModalClose}
         modalCloseButton={modalCloseButton}
       >
         <IF condition={selectedCard?.images}>
@@ -78,7 +79,7 @@ export const GridViewComponent: FunctionComponent<SetCardsProps> = ({
             />
           </div>
         </IF>
-      </ModalComponent>
+      </MemoizedModalComponent>
     </>
   );
 };

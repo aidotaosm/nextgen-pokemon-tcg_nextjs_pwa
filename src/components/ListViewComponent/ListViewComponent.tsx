@@ -13,31 +13,29 @@ import { PokemonCardAndDetailsComponent } from "../PokemonCardAndDetailsComponen
 import { PokemonDetailComponent } from "../PokemonDetailComponent/PokemonDetailComponent";
 import { CarouselComponent } from "../UtilityComponents/CarouselComponent";
 import { IF } from "../UtilityComponents/IF";
-import { ModalComponent } from "../UtilityComponents/ModalComponent";
+import MemoizedModalComponent from "../UtilityComponents/ModalComponent";
 
 export const ListViewComponent: FunctionComponent<SetCardsProps> = ({
   setCards,
 }) => {
   const [selectedCard, setSelectedCard] = useState<any>(null);
+  const [lala, setlala] = useState<any>(0);
   const modalCloseButton = useRef<any>();
   const cardClicked = (card: any) => {
     console.log(card);
     setSelectedCard(card);
   };
 
-  const handleModalClose = useCallback(
-    (e: Event) => {
-      let arrayOFCarouselItems = [
-        ...(document.getElementsByClassName("carousel-item") as any),
-      ];
-      arrayOFCarouselItems.forEach((carouselItem) => {
-        carouselItem.classList.remove("active");
-      });
-      console.log(arrayOFCarouselItems);
-      setSelectedCard(null);
-    },
-    [setSelectedCard]
-  );
+  const handleModalClose = useCallback((e: Event) => {
+    let arrayOFCarouselItems = [
+      ...(document.getElementsByClassName("carousel-item") as any),
+    ];
+    arrayOFCarouselItems.forEach((carouselItem) => {
+      carouselItem.classList.remove("active");
+    });
+    console.log(arrayOFCarouselItems);
+    setSelectedCard(null);
+  }, []);
 
   return (
     <>
@@ -59,12 +57,11 @@ export const ListViewComponent: FunctionComponent<SetCardsProps> = ({
             />
           </div>
           <IF condition={index != setCards.length - 1}>
-            <hr />
+            <hr onClick={() => setlala(lala + 1)} />
           </IF>
         </Fragment>
       ))}
-      modal close with ref and stop propagate
-      <ModalComponent
+      <MemoizedModalComponent
         id="list-view-card-modal"
         primaryClasses="modal-xl vertical-align-modal"
         secondaryClasses="transparent-modal"
@@ -105,7 +102,7 @@ export const ListViewComponent: FunctionComponent<SetCardsProps> = ({
             </Fragment>
           ))}
         </CarouselComponent>
-      </ModalComponent>
+      </MemoizedModalComponent>
     </>
   );
 };
