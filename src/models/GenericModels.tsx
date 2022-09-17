@@ -24,3 +24,15 @@ export interface PokemonDetailProps {
   showHQImage?: boolean;
   cardClicked?: (e: any) => void;
 }
+export interface CarouselProps {
+  children?: JSX.Element;
+  classes?: string;
+}
+export interface ModalProps {
+  primaryClasses?: string;
+  children?: JSX.Element;
+  secondaryClasses?: string;
+  id?: string;
+  handleModalClose: (e: any) => void;
+  modalCloseButton?: any;
+}

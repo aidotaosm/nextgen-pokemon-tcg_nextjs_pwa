@@ -1,18 +1,44 @@
-import { Fragment, FunctionComponent, useState } from "react";
+import {
+  Fragment,
+  FunctionComponent,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { SetCardsProps } from "../../models/GenericModels";
 import { Helper } from "../../utils/helper";
 import { ImageComponent } from "../ImageComponent/ImageComponent";
 import { PokemonCardAndDetailsComponent } from "../PokemonCardAndDetailsComponent/PokemonCardAndDetailsComponent";
 import { PokemonDetailComponent } from "../PokemonDetailComponent/PokemonDetailComponent";
+import { CarouselComponent } from "../UtilityComponents/CarouselComponent";
 import { IF } from "../UtilityComponents/IF";
+import { ModalComponent } from "../UtilityComponents/ModalComponent";
 
 export const ListViewComponent: FunctionComponent<SetCardsProps> = ({
   setCards,
 }) => {
-  const [selectedCard, setSelectedCard] = useState<any>({});
+  const [selectedCard, setSelectedCard] = useState<any>(null);
+  const modalCloseButton = useRef<any>();
   const cardClicked = (card: any) => {
+    console.log(card);
     setSelectedCard(card);
   };
+
+  const handleModalClose = useCallback(
+    (e: Event) => {
+      let arrayOFCarouselItems = [
+        ...(document.getElementsByClassName("carousel-item") as any),
+      ];
+      arrayOFCarouselItems.forEach((carouselItem) => {
+        carouselItem.classList.remove("active");
+      });
+      console.log(arrayOFCarouselItems);
+      setSelectedCard(null);
+    },
+    [setSelectedCard]
+  );
+
   return (
     <>
       {setCards?.map((card: any, index: number) => (
@@ -37,47 +63,49 @@ export const ListViewComponent: FunctionComponent<SetCardsProps> = ({
           </IF>
         </Fragment>
       ))}
-
-      <div
-        className="modal fade"
-        id="full-screen-card-modal"
-        aria-labelledby="exampleModalLabel"
-        aria-hidden="true"
+      modal close with ref and stop propagate
+      <ModalComponent
+        id="list-view-card-modal"
+        primaryClasses="modal-xl vertical-align-modal"
+        secondaryClasses="transparent-modal"
+        handleModalClose={handleModalClose}
+        modalCloseButton={modalCloseButton}
       >
-        <div className="modal-dialog modal-md">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h5 className="modal-title">{selectedCard?.name}</h5>
-              <button
-                type="button"
-                className="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
-            <div className="modal-body">
-              <IF condition={selectedCard?.images}>
-                <ImageComponent
-                  src={selectedCard?.images?.small}
-                  highQualitySrc={selectedCard?.images?.large}
-                  alt={selectedCard.name}
-                  width={734}
-                  height={1024}
-                />
-              </IF>
-            </div>
-            <div className="modal-footer">
-              <button
-                type="button"
-                className="btn btn-secondary"
-                data-bs-dismiss="modal"
+        <CarouselComponent>
+          {setCards?.map((card: any) => (
+            <Fragment key={card.id}>
+              <div
+                className={
+                  "carousel-item " +
+                  (selectedCard?.id == card.id ? "active" : "")
+                }
+                onClick={() => {
+                  console.log(modalCloseButton);
+                  if (modalCloseButton.current) {
+                    modalCloseButton.current.click();
+                  }
+                }}
               >
-                Close
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
+                <div
+                  className="pokemon-card-image"
+                  style={{ margin: "auto" }}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                  }}
+                >
+                  <ImageComponent
+                    src={card?.images?.small}
+                    highQualitySrc={card?.images?.large}
+                    alt={card.name}
+                    width={734}
+                    height={1024}
+                  />
+                </div>
+              </div>
+            </Fragment>
+          ))}
+        </CarouselComponent>
+      </ModalComponent>
     </>
   );
 };
