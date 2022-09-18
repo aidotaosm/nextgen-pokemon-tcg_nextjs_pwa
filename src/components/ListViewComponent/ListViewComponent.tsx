@@ -3,6 +3,7 @@ import {
   FunctionComponent,
   useCallback,
   useEffect,
+  useMemo,
   useRef,
   useState,
 } from "react";
@@ -36,7 +37,43 @@ export const ListViewComponent: FunctionComponent<SetCardsProps> = ({
     console.log(arrayOFCarouselItems);
     setSelectedCard(null);
   }, []);
-
+  const MemoizedCarouselComponent = useMemo(() => {
+    return (
+      <CarouselComponent>
+        {setCards?.map((card: any) => (
+          <Fragment key={card.id}>
+            <div
+              className={
+                "carousel-item " + (selectedCard?.id == card.id ? "active" : "")
+              }
+              onClick={() => {
+                console.log(modalCloseButton);
+                if (modalCloseButton.current) {
+                  modalCloseButton.current.click();
+                }
+              }}
+            >
+              <div
+                className="pokemon-card-image"
+                style={{ margin: "auto" }}
+                onClick={(e) => {
+                  e.stopPropagation();
+                }}
+              >
+                <ImageComponent
+                  src={card?.images?.small}
+                  highQualitySrc={selectedCard ? card?.images?.large : ""}
+                  alt={card.name}
+                  width={734}
+                  height={1024}
+                />
+              </div>
+            </div>
+          </Fragment>
+        ))}
+      </CarouselComponent>
+    );
+  }, [selectedCard]);
   return (
     <>
       {setCards?.map((card: any, index: number) => (
@@ -68,40 +105,7 @@ export const ListViewComponent: FunctionComponent<SetCardsProps> = ({
         handleModalClose={handleModalClose}
         modalCloseButton={modalCloseButton}
       >
-        <CarouselComponent>
-          {setCards?.map((card: any) => (
-            <Fragment key={card.id}>
-              <div
-                className={
-                  "carousel-item " +
-                  (selectedCard?.id == card.id ? "active" : "")
-                }
-                onClick={() => {
-                  console.log(modalCloseButton);
-                  if (modalCloseButton.current) {
-                    modalCloseButton.current.click();
-                  }
-                }}
-              >
-                <div
-                  className="pokemon-card-image"
-                  style={{ margin: "auto" }}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                  }}
-                >
-                  <ImageComponent
-                    src={card?.images?.small}
-                    highQualitySrc={selectedCard ? card?.images?.large : ""}
-                    alt={card.name}
-                    width={734}
-                    height={1024}
-                  />
-                </div>
-              </div>
-            </Fragment>
-          ))}
-        </CarouselComponent>
+        {MemoizedCarouselComponent}
       </MemoizedModalComponent>
     </>
   );
