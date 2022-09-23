@@ -2,16 +2,13 @@ import {
   Fragment,
   FunctionComponent,
   useCallback,
-  useEffect,
   useMemo,
   useRef,
   useState,
 } from "react";
 import { SetCardsProps } from "../../models/GenericModels";
-import { Helper } from "../../utils/helper";
 import { ImageComponent } from "../ImageComponent/ImageComponent";
 import { PokemonCardAndDetailsComponent } from "../PokemonCardAndDetailsComponent/PokemonCardAndDetailsComponent";
-import { PokemonDetailComponent } from "../PokemonDetailComponent/PokemonDetailComponent";
 import { CarouselComponent } from "../UtilityComponents/CarouselComponent";
 import { IF } from "../UtilityComponents/IF";
 import MemoizedModalComponent from "../UtilityComponents/ModalComponent";

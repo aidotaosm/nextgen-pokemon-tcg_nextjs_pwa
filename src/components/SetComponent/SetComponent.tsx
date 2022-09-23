@@ -3,15 +3,16 @@ import { Helper } from "../../utils/helper";
 import { PagingComponent } from "../PagingComponent/PagingComponent";
 import { DEFAULT_PAGE_SIZE } from "../../constants/constants";
 import { useRouter } from "next/router";
-import { CardObjectProps } from "../../models/GenericModels";
+import { CardsObjectProps } from "../../models/GenericModels";
 
 import { IF } from "../UtilityComponents/IF";
 import { GridViewComponent } from "../GridViewComponent/GridViewComponent";
 import { ListOrGridViewToggle } from "../UtilityComponents/ListOrGridViewToggle";
 import { ListViewComponent } from "../ListViewComponent/ListViewComponent";
 import { AppContext } from "../../contexts/AppContext";
+import { ImageComponent } from "../ImageComponent/ImageComponent";
 
-export const SetComponent: FunctionComponent<CardObjectProps> = ({
+export const SetComponent: FunctionComponent<CardsObjectProps> = ({
   cardsObject,
 }) => {
   // console.log(cardsObject);
@@ -115,8 +116,18 @@ export const SetComponent: FunctionComponent<CardObjectProps> = ({
   } else {
     return (
       <div className="container">
-        <div className="d-flex justify-content-end mb-4">
-          <h4 className="mb-0">
+        <div className="d-flex justify-content-end mb-4 align-items-center">
+          <div style={{ width: "7rem" }}>
+            <ImageComponent
+              src={cardsObject.data[0].set?.images?.logo}
+              alt={cardsObject.data[0].set.name}
+              height={72}
+              width={192}
+              blurDataURL={"/images/Cardback-sideways.webp"}
+            />
+          </div>
+
+          <h4 className="mb-0 ms-3">
             {cardsObject.data[0].set.name +
               " expansion of " +
               cardsObject.data[0].set.series}
