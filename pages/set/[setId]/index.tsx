@@ -81,7 +81,7 @@ const Set: FunctionComponent<CardsObjectProps> = ({ cardsObject }) => {
         />
         <meta
           property="og:image"
-          content={cardsObject.data[0].set?.images?.logo}
+          content={cardsObject?.data[0].set?.images?.logo}
           key="og:image"
         />
         <meta
@@ -103,7 +103,7 @@ const Set: FunctionComponent<CardsObjectProps> = ({ cardsObject }) => {
         />
         <meta
           name="twitter:image"
-          content={cardsObject.data[0].set?.images?.logo}
+          content={cardsObject?.data[0].set?.images?.logo}
           key="twitter:image"
         />
       </Head>
