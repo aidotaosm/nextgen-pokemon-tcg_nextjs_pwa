@@ -26,7 +26,7 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
       setPathToRedirect("");
     } else if (splitPath === "series") {
       setPathToRedirect("/");
-    } else if (splitPath === "set") {
+    } else if (splitPath === "set" || splitPath === "card") {
       setPathToRedirect("/series");
     }
   }, [router.pathname]);
