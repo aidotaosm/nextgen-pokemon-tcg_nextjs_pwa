@@ -22,7 +22,10 @@ export const CardComponent: FunctionComponent<CardObjectProps> = ({
           </h4>
         </div> */}
         <div className="list-view align-items-center d-md-flex justify-content-center">
-          <PokemonCardAndDetailsComponent card={cardObject} />
+          <PokemonCardAndDetailsComponent
+            card={cardObject}
+            showHQImage={true}
+          />
         </div>
       </div>
     );
