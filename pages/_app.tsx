@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { Fragment, useEffect } from "react";
 import type { AppProps } from "next/app";
 import "bootstrap/dist/css/bootstrap.css";
 //import reportWebVitals from './reportWebVitals';
@@ -9,6 +9,7 @@ import { AppWrapper } from "../src/components/AppWrapper/AppWrapper";
 import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import { AppProvider } from "../src/contexts/AppContext";
+import Head from "next/head";
 //import { initServiceWorker } from "../public/initServiceWorker";
 config.autoAddCss = false;
 
@@ -24,7 +25,41 @@ export default function MyApp({ Component, pageProps }: AppProps) {
   return (
     <AppProvider>
       <AppWrapper>
-        <Component {...pageProps} />
+        <Fragment>
+          <Head>
+            <title>Pokemon TCG by OSM</title>
+            <meta
+              name="description"
+              content="Browse cards from all of the Pokemon expansions!"
+            />
+            <meta property="og:type" content="games.plays" />
+            <meta property="og:title" content="Pokemon TCG by OSM" />
+            <meta
+              property="og:description"
+              content="Browse cards from all of the Pokemon expansions!"
+            />
+            <meta
+              property="og:image"
+              content="/images/pokemon_tcg_base_image.webp"
+            />
+            <meta
+              property="og:url"
+              content="https://pkmn-tcg-osm.vercel.app/"
+            />
+            <meta property="og:site_name" content="Pokemon TCG by OSM" />
+
+            <meta name="twitter:title" content="Pokemon TCG by OSM" />
+            <meta
+              name="twitter:description"
+              content="Browse cards from all of the Pokemon expansions!"
+            />
+            <meta
+              name="twitter:image"
+              content="/images/pokemon_tcg_base_image.webp"
+            />
+          </Head>
+          <Component {...pageProps} />
+        </Fragment>
       </AppWrapper>
     </AppProvider>
   );
