@@ -5,3 +5,6 @@ export const DEFAULT_CARD_BACK_RATIO: number = 1.4043126684636118;
 export const SuperTypes = {
   Pokemon: "Pokémon",
 };
+export const Netlify_DEFAULT_URL = "https://osm-pokemon-tcg.netlify.app/";
+export const Vercel_DEFAULT_URL = "https://pkmn-tcg-osm.vercel.app/";
+//process.env.NETLIFY !== "true"

@@ -1,4 +1,4 @@
-import { Fragment, useEffect } from "react";
+import { Fragment, useCallback, useEffect, useMemo } from "react";
 import type { AppProps } from "next/app";
 import "bootstrap/dist/css/bootstrap.css";
 //import reportWebVitals from './reportWebVitals';
@@ -10,6 +10,7 @@ import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import { AppProvider } from "../src/contexts/AppContext";
 import Head from "next/head";
+import { Helper } from "../src/utils/helper";
 //import { initServiceWorker } from "../public/initServiceWorker";
 config.autoAddCss = false;
 
@@ -22,6 +23,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
   // to log results (for example: reportWebVitals(console.log))
   // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
   //reportWebVitals();
+  const baseURL = useMemo(() => Helper.getBaseDomainServerSide(), []);
   return (
     <AppProvider>
       <AppWrapper>
@@ -31,31 +33,41 @@ export default function MyApp({ Component, pageProps }: AppProps) {
             <meta
               name="description"
               content="Browse cards from all of the Pokemon expansions!"
+              key="description"
             />
             <meta property="og:type" content="games.plays" />
-            <meta property="og:title" content="Pokemon TCG by OSM" />
+            <meta
+              property="og:title"
+              content="Pokemon TCG by OSM"
+              key="og:title"
+            />
             <meta
               property="og:description"
               content="Browse cards from all of the Pokemon expansions!"
+              key="og:description"
             />
             <meta
               property="og:image"
               content="/images/pokemon_tcg_base_image.webp"
+              key="og:image"
             />
-            <meta
-              property="og:url"
-              content="https://pkmn-tcg-osm.vercel.app/"
-            />
+            <meta property="og:url" content={baseURL} key="og:url" />
             <meta property="og:site_name" content="Pokemon TCG by OSM" />
 
-            <meta name="twitter:title" content="Pokemon TCG by OSM" />
+            <meta
+              name="twitter:title"
+              content="Pokemon TCG by OSM"
+              key="twitter:title"
+            />
             <meta
               name="twitter:description"
               content="Browse cards from all of the Pokemon expansions!"
+              key="twitter:description"
             />
             <meta
               name="twitter:image"
               content="/images/pokemon_tcg_base_image.webp"
+              key="twitter:image"
             />
           </Head>
           <Component {...pageProps} />

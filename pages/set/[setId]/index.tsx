@@ -1,12 +1,13 @@
 import { GetServerSideProps, GetStaticPaths, GetStaticProps } from "next";
 import Head from "next/head";
 import { ParsedUrlQuery } from "querystring";
-import { Fragment, FunctionComponent } from "react";
+import { Fragment, FunctionComponent, useMemo } from "react";
 import { SetComponent } from "../../../src/components/SetComponent/SetComponent";
 import {
   BasicProps,
   CardsObjectProps,
 } from "../../../src/models/GenericModels";
+import { Helper } from "../../../src/utils/helper";
 import { getAllSetCards, getExpansions } from "../../../src/utils/networkCalls";
 // export const getServerSideProps: GetServerSideProps = async (context) => {
 //   const qry = context.query;
@@ -63,6 +64,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
 };
 
 const Set: FunctionComponent<CardsObjectProps> = ({ cardsObject }) => {
+  const baseURL = useMemo(() => Helper.getBaseDomainServerSide(), []);
   const title = cardsObject?.data[0].set.name;
   const description =
     title + " expansion of " + cardsObject?.data[0].set.series;
@@ -70,15 +72,39 @@ const Set: FunctionComponent<CardsObjectProps> = ({ cardsObject }) => {
     <Fragment>
       <Head>
         <title>{title}</title>
-        <meta name="description" content={description} />
-        <meta property="og:title" content={title} />
-        <meta property="og:description" content={description} />
-        <meta property="og:image" content="/images/expansions_image.jpg" />
-        <meta name="twitter:title" content={title} />
-        <meta name="twitter:description" content={description} />
+        <meta name="description" content={description} key="description" />
+        <meta property="og:title" content={title} key="og:title" />
+        <meta
+          property="og:description"
+          content={description}
+          key="og:description"
+        />
+        <meta
+          property="og:image"
+          content={cardsObject.data[0].set?.images?.logo}
+          key="og:image"
+        />
+        <meta
+          property="og:url"
+          content={
+            baseURL +
+            "set/" +
+            (cardsObject?.data[0].set.id == "pop2"
+              ? "poptwo"
+              : cardsObject?.data[0].set.id)
+          }
+          key="og:url"
+        />
+        <meta name="twitter:title" content={title} key="twitter:title" />
+        <meta
+          name="twitter:description"
+          content={description}
+          key="twitter:description"
+        />
         <meta
           name="twitter:image"
-          content="/images/pokemon_tcg_base_image.jpg"
+          content={cardsObject.data[0].set?.images?.logo}
+          key="twitter:image"
         />
       </Head>
       <SetComponent cardsObject={cardsObject} />
