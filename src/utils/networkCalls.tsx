@@ -34,10 +34,23 @@ export const getAllSetCards = async (setId?: string) => {
     })
     .then((response: any) => {
       setsObject = response;
-      console.log(setId);
     })
     .catch((c: any) => {
       console.error("error occurred on " + setId);
     });
   return setsObject;
+};
+
+export const getCardById = async (cardId?: string) => {
+  let pokemonSDKVariable = Helper.initializePokemonSDK();
+  let returnObject: any = {};
+  await pokemonSDKVariable.card
+    .find(cardId)
+    .then((card: any) => {
+      returnObject = card;
+    })
+    .catch((c: any) => {
+      console.error("error occurred on " + cardId);
+    });
+  return returnObject;
 };

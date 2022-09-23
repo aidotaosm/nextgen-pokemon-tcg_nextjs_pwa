@@ -1,8 +1,12 @@
 import { GetServerSideProps, GetStaticPaths, GetStaticProps } from "next";
+import Head from "next/head";
 import { ParsedUrlQuery } from "querystring";
-import { FunctionComponent } from "react";
+import { Fragment, FunctionComponent } from "react";
 import { SetComponent } from "../../../src/components/SetComponent/SetComponent";
-import { BasicProps, CardObjectProps } from "../../../src/models/GenericModels";
+import {
+  BasicProps,
+  CardsObjectProps,
+} from "../../../src/models/GenericModels";
 import { getAllSetCards, getExpansions } from "../../../src/utils/networkCalls";
 // export const getServerSideProps: GetServerSideProps = async (context) => {
 //   const qry = context.query;
@@ -11,7 +15,6 @@ import { getAllSetCards, getExpansions } from "../../../src/utils/networkCalls";
 
 interface IParams extends ParsedUrlQuery {
   setId: string;
-  page?: string;
 }
 
 export const getStaticPaths: GetStaticPaths = async (qry) => {
@@ -53,13 +56,32 @@ export const getStaticProps: GetStaticProps = async (context) => {
   console.log(setId);
   console.log(cardsObject?.data?.length);
   if (!cardsObject?.data?.length) {
-    return { notFound: true };
+    return { notFound: true, revalidate: 60 };
   } else {
-    return { props: { cardsObject }, revalidate: 60 * 60 * 24 * 30 };
+    return { props: { cardsObject }, revalidate: 60 * 60 * 24 };
   }
 };
 
-const Set: FunctionComponent<CardObjectProps> = ({ cardsObject }) => {
-  return <SetComponent cardsObject={cardsObject} />;
+const Set: FunctionComponent<CardsObjectProps> = ({ cardsObject }) => {
+  const title = cardsObject.data[0].set.name;
+  const description = title + " expansion of " + cardsObject.data[0].set.series;
+  return (
+    <Fragment>
+      <Head>
+        <title>{title}</title>
+        <meta name="description" content={description} />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        <meta property="og:image" content="/images/expansions_image.jpg" />
+        <meta name="twitter:title" content={title} />
+        <meta name="twitter:description" content={description} />
+        <meta
+          name="twitter:image"
+          content="/images/pokemon_tcg_base_image.jpg"
+        />
+      </Head>
+      <SetComponent cardsObject={cardsObject} />
+    </Fragment>
+  );
 };
 export default Set;

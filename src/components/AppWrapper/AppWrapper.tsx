@@ -59,7 +59,7 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
       }
       style={{ minHeight: "100vh" }}
     >
-      <header className="container py-3">
+      <header className="container pt-3 pb-4">
         <div className={"d-flex align-items-center justify-content-between"}>
           <div
             className=" icon-min-width "
