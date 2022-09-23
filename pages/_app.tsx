@@ -33,28 +33,41 @@ export default function MyApp({ Component, pageProps }: AppProps) {
             <meta
               name="description"
               content="Browse cards from all of the Pokemon expansions!"
+              key="description"
             />
             <meta property="og:type" content="games.plays" />
-            <meta property="og:title" content="Pokemon TCG by OSM" />
+            <meta
+              property="og:title"
+              content="Pokemon TCG by OSM"
+              key="og:title"
+            />
             <meta
               property="og:description"
               content="Browse cards from all of the Pokemon expansions!"
+              key="og:description"
             />
             <meta
               property="og:image"
               content="/images/pokemon_tcg_base_image.webp"
+              key="og:image"
             />
-            <meta property="og:url" content={baseURL} />
+            <meta property="og:url" content={baseURL} key="og:url" />
             <meta property="og:site_name" content="Pokemon TCG by OSM" />
 
-            <meta name="twitter:title" content="Pokemon TCG by OSM" />
+            <meta
+              name="twitter:title"
+              content="Pokemon TCG by OSM"
+              key="twitter:title"
+            />
             <meta
               name="twitter:description"
               content="Browse cards from all of the Pokemon expansions!"
+              key="twitter:description"
             />
             <meta
               name="twitter:image"
               content="/images/pokemon_tcg_base_image.webp"
+              key="twitter:image"
             />
           </Head>
           <Component {...pageProps} />

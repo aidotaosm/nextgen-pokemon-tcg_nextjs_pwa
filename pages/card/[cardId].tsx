@@ -30,14 +30,34 @@ const Set: FunctionComponent<CardObjectProps> = ({ cardObject }) => {
     <Fragment>
       <Head>
         <title>{title}</title>
-        <meta name="description" content={description} />
-        <meta property="og:title" content={title} />
-        <meta property="og:description" content={description} />
-        <meta property="og:image" content={cardObject.images.small} />
-        <meta property="og:url" content={baseURL + "card/" + cardObject.id} />
-        <meta name="twitter:title" content={title} />
-        <meta name="twitter:description" content={description} />
-        <meta name="twitter:image" content={cardObject.images.small} />
+        <meta name="description" content={description} key="description" />
+        <meta property="og:title" content={title} key="og:title" />
+        <meta
+          property="og:description"
+          content={description}
+          key="og:description"
+        />
+        <meta
+          property="og:image"
+          content={cardObject.images.small}
+          key="og:image"
+        />
+        <meta
+          property="og:url"
+          content={baseURL + "card/" + cardObject.id}
+          key="og:url"
+        />
+        <meta name="twitter:title" content={title} key="twitter:title" />
+        <meta
+          name="twitter:description"
+          content={description}
+          key="twitter:description"
+        />
+        <meta
+          name="twitter:image"
+          content={cardObject.images.small}
+          key="twitter:image"
+        />
       </Head>
       <CardComponent cardObject={cardObject} />
     </Fragment>

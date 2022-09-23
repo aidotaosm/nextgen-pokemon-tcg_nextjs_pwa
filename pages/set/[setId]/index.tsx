@@ -72,10 +72,18 @@ const Set: FunctionComponent<CardsObjectProps> = ({ cardsObject }) => {
     <Fragment>
       <Head>
         <title>{title}</title>
-        <meta name="description" content={description} />
-        <meta property="og:title" content={title} />
-        <meta property="og:description" content={description} />
-        <meta property="og:image" content="/images/expansions_image.jpg" />
+        <meta name="description" content={description} key="description" />
+        <meta property="og:title" content={title} key="og:title" />
+        <meta
+          property="og:description"
+          content={description}
+          key="og:description"
+        />
+        <meta
+          property="og:image"
+          content="/images/expansions_image.jpg"
+          key="og:image"
+        />
         <meta
           property="og:url"
           content={
@@ -85,12 +93,18 @@ const Set: FunctionComponent<CardsObjectProps> = ({ cardsObject }) => {
               ? "poptwo"
               : cardsObject?.data[0].set.id)
           }
+          key="og:url"
         />
-        <meta name="twitter:title" content={title} />
-        <meta name="twitter:description" content={description} />
+        <meta name="twitter:title" content={title} key="twitter:title" />
+        <meta
+          name="twitter:description"
+          content={description}
+          key="twitter:description"
+        />
         <meta
           name="twitter:image"
           content="/images/pokemon_tcg_base_image.jpg"
+          key="twitter:image"
         />
       </Head>
       <SetComponent cardsObject={cardsObject} />
