@@ -1,14 +1,16 @@
 import { GetStaticProps } from "next";
 import Head from "next/head";
-import { Fragment, FunctionComponent } from "react";
+import { Fragment, FunctionComponent, useMemo } from "react";
 import { ExpansionsComponent } from "../src/components/ExpansionsComponent/ExpansionsComponent";
 import { SeriesArrayProps } from "../src/models/GenericModels";
+import { Helper } from "../src/utils/helper";
 import { getExpansions } from "../src/utils/networkCalls";
 export const getStaticProps: GetStaticProps = async () => {
   let arrayOfSeries = await getExpansions();
   return { props: { arrayOfSeries }, revalidate: 60 * 60 };
 };
 const Series: FunctionComponent<SeriesArrayProps> = ({ arrayOfSeries }) => {
+  const baseURL = useMemo(() => Helper.getBaseDomainServerSide(), []);
   return (
     <Fragment>
       <Head>
@@ -23,6 +25,7 @@ const Series: FunctionComponent<SeriesArrayProps> = ({ arrayOfSeries }) => {
           content="Browse cards from all of the Pokemon expansions!"
         />
         <meta property="og:image" content="/images/expansions_image.jpg" />
+        <meta property="og:url" content={baseURL + "series"} />
         <meta name="twitter:title" content="Pokemon TCG Expansions" />
         <meta
           name="twitter:description"

@@ -1,4 +1,4 @@
-import { Fragment, useEffect } from "react";
+import { Fragment, useCallback, useEffect, useMemo } from "react";
 import type { AppProps } from "next/app";
 import "bootstrap/dist/css/bootstrap.css";
 //import reportWebVitals from './reportWebVitals';
@@ -10,6 +10,7 @@ import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import { AppProvider } from "../src/contexts/AppContext";
 import Head from "next/head";
+import { Helper } from "../src/utils/helper";
 //import { initServiceWorker } from "../public/initServiceWorker";
 config.autoAddCss = false;
 
@@ -22,6 +23,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
   // to log results (for example: reportWebVitals(console.log))
   // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
   //reportWebVitals();
+  const baseURL = useMemo(() => Helper.getBaseDomainServerSide(), []);
   return (
     <AppProvider>
       <AppWrapper>
@@ -42,10 +44,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
               property="og:image"
               content="/images/pokemon_tcg_base_image.webp"
             />
-            <meta
-              property="og:url"
-              content="https://pkmn-tcg-osm.vercel.app/"
-            />
+            <meta property="og:url" content={baseURL} />
             <meta property="og:site_name" content="Pokemon TCG by OSM" />
 
             <meta name="twitter:title" content="Pokemon TCG by OSM" />

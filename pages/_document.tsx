@@ -12,7 +12,7 @@ export default function Document() {
         <meta name="copyright" content="Osama Almas Rahman" />
 
         <link rel="manifest" href="/manifest.webmanifest" />
-        <link rel="apple-touch-icon" href="/logo192png"></link>
+        <link rel="apple-touch-icon" href="/images/cardback.webp"></link>
       </Head>
       <body>
         <Main />

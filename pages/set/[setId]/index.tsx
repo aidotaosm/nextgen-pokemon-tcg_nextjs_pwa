@@ -1,12 +1,13 @@
 import { GetServerSideProps, GetStaticPaths, GetStaticProps } from "next";
 import Head from "next/head";
 import { ParsedUrlQuery } from "querystring";
-import { Fragment, FunctionComponent } from "react";
+import { Fragment, FunctionComponent, useMemo } from "react";
 import { SetComponent } from "../../../src/components/SetComponent/SetComponent";
 import {
   BasicProps,
   CardsObjectProps,
 } from "../../../src/models/GenericModels";
+import { Helper } from "../../../src/utils/helper";
 import { getAllSetCards, getExpansions } from "../../../src/utils/networkCalls";
 // export const getServerSideProps: GetServerSideProps = async (context) => {
 //   const qry = context.query;
@@ -63,6 +64,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
 };
 
 const Set: FunctionComponent<CardsObjectProps> = ({ cardsObject }) => {
+  const baseURL = useMemo(() => Helper.getBaseDomainServerSide(), []);
   const title = cardsObject?.data[0].set.name;
   const description =
     title + " expansion of " + cardsObject?.data[0].set.series;
@@ -74,6 +76,16 @@ const Set: FunctionComponent<CardsObjectProps> = ({ cardsObject }) => {
         <meta property="og:title" content={title} />
         <meta property="og:description" content={description} />
         <meta property="og:image" content="/images/expansions_image.jpg" />
+        <meta
+          property="og:url"
+          content={
+            baseURL +
+            "set/" +
+            (cardsObject?.data[0].set.id == "pop2"
+              ? "poptwo"
+              : cardsObject?.data[0].set.id)
+          }
+        />
         <meta name="twitter:title" content={title} />
         <meta name="twitter:description" content={description} />
         <meta

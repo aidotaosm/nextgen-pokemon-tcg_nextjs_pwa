@@ -1,4 +1,8 @@
-import { DEV_POKEMONTCG_IO_API_KEY } from "../constants/constants";
+import {
+  DEV_POKEMONTCG_IO_API_KEY,
+  Netlify_DEFAULT_URL,
+  Vercel_DEFAULT_URL,
+} from "../constants/constants";
 const pokemon = require("pokemontcgsdk");
 
 export class Helper {
@@ -41,5 +45,10 @@ export class Helper {
   };
   static get Protocol() {
     if (window) return `${window.location.host}`;
+  }
+  static getBaseDomainServerSide() {
+    return process.env.NETLIFY !== "true"
+      ? Vercel_DEFAULT_URL
+      : Netlify_DEFAULT_URL;
   }
 }
