@@ -1,25 +1,35 @@
-import { Fragment, FunctionComponent, useState } from "react";
+import { Fragment, FunctionComponent, useMemo, useState } from "react";
 import { SuperTypes } from "../../constants/constants";
 import { PokemonDetailProps } from "../../models/GenericModels";
 import { IF } from "../UtilityComponents/IF";
 import { ExternalLinkComponent } from "../ExternalLinkComponent/ExternalLinkComponent";
+import { CopyToClipboardComponent } from "../UtilityComponents/CopyToClipboardComponent";
+import { useRouter } from "next/router";
+import { Helper } from "../../utils/helper";
 
 export const PokemonDetailComponent: FunctionComponent<PokemonDetailProps> = ({
   card,
   classes = "",
   showCardOpenToNewTab = true,
 }) => {
+  const baseURL = useMemo(() => Helper.Protocol, []);
   return (
     <div className={classes} style={{ maxWidth: "35rem" }}>
       <div className="pokemon-details rounded">
         <div className="name bg-secondary p-2 rounded-top d-flex align-items-center justify-content-between">
           <span className="text-lightgray fs-2"> {card.name}</span>
-          <IF condition={showCardOpenToNewTab}>
-            <ExternalLinkComponent
-              card={card}
+          <div className="">
+            <CopyToClipboardComponent
+              copyText={baseURL + "/card/" + card.id}
               classes="fs-4 text-lightgray white-hover"
             />
-          </IF>
+            <IF condition={showCardOpenToNewTab}>
+              <ExternalLinkComponent
+                card={card}
+                classes="fs-4 text-lightgray white-hover ms-2"
+              />
+            </IF>
+          </div>
         </div>
         <div className="pokemon-header bg-grey fs-4 p-2 text-dark">
           <div className="subtype-hp d-flex justify-content-between align-items-center flex-grow-1">
