@@ -43,9 +43,9 @@ export class Helper {
     }
     return parsedItem;
   };
-  static get Protocol() {
+  static get origin() {
     if (typeof window !== "undefined") {
-      return `${window.location.host}`;
+      return `${window.location.origin}`;
     } else {
       return this.getBaseDomainServerSide();
     }

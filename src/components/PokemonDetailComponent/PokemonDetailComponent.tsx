@@ -12,7 +12,7 @@ export const PokemonDetailComponent: FunctionComponent<PokemonDetailProps> = ({
   classes = "",
   showCardOpenToNewTab = true,
 }) => {
-  const baseURL = useMemo(() => Helper.Protocol, []);
+  const baseURL = useMemo(() => Helper.origin, []);
   return (
     <div className={classes} style={{ maxWidth: "35rem" }}>
       <div className="pokemon-details rounded">
