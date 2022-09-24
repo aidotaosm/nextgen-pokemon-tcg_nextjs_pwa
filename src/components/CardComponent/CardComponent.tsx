@@ -25,6 +25,7 @@ export const CardComponent: FunctionComponent<CardObjectProps> = ({
           <PokemonCardAndDetailsComponent
             card={cardObject}
             showHQImage={true}
+            showCardOpenToNewTab={false}
           />
         </div>
       </div>

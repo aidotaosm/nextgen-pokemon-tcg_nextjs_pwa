@@ -12,6 +12,7 @@ export const PokemonCardAndDetailsComponent: FunctionComponent<
   cardClicked = () => {},
   detailsClasses = "mt-5 mt-md-0 ms-md-5 ps-xl-4 flex-grow-1",
   showHQImage = false,
+  showCardOpenToNewTab = true,
 }) => {
   return (
     <Fragment>
@@ -46,7 +47,11 @@ export const PokemonCardAndDetailsComponent: FunctionComponent<
           </div>
         </div>
       </div>
-      <PokemonDetailComponent card={card} classes={detailsClasses} />
+      <PokemonDetailComponent
+        card={card}
+        classes={detailsClasses}
+        showCardOpenToNewTab={showCardOpenToNewTab}
+      />
     </Fragment>
   );
 };
