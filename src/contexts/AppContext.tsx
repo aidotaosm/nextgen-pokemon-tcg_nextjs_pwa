@@ -9,6 +9,7 @@ interface AppContextInterface {
   updateDarkMode: (e: boolean) => void;
   updateGridView: (e: boolean) => void;
   multiUpdate: (e: any) => void;
+  saveBootstrap: (e: any) => void;
 }
 
 export const AppContext = createContext<AppContextInterface | null>(null);
@@ -40,6 +41,7 @@ export const AppProvider: FunctionComponent<BasicProps> = (props) => {
   const [appState, setAppState] = useState({
     darkMode: true,
     gridView: false,
+    bootstrap: null,
   });
 
   const updateDarkMode = (value: boolean) => {
@@ -48,18 +50,27 @@ export const AppProvider: FunctionComponent<BasicProps> = (props) => {
     });
     setLocalStorageItem("darkMode", value);
   };
+
   const updateGridView = (value: boolean) => {
     setAppState((e) => {
       return { ...e, gridView: value };
     });
     setLocalStorageItem("gridView", value);
   };
+
   const multiUpdate = (object: any) => {
     setAppState((e) => {
       return { ...e, ...object };
     });
     setMultiLocalStorageItem(object);
   };
+
+  const saveBootstrap = (object: any) => {
+    setAppState((e) => {
+      return { ...e, bootstrap: object };
+    });
+  };
+
   return (
     <AppContext.Provider
       value={{
@@ -68,6 +79,7 @@ export const AppProvider: FunctionComponent<BasicProps> = (props) => {
         updateDarkMode,
         updateGridView,
         multiUpdate,
+        saveBootstrap,
       }}
     >
       {props.children}

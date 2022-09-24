@@ -44,7 +44,11 @@ export class Helper {
     return parsedItem;
   };
   static get Protocol() {
-    if (window) return `${window.location.host}`;
+    if (typeof window !== "undefined") {
+      return `${window.location.host}`;
+    } else {
+      return this.getBaseDomainServerSide();
+    }
   }
   static getBaseDomainServerSide() {
     return process.env.NETLIFY !== "true"

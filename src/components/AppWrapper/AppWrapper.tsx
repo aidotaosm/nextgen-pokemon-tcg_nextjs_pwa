@@ -12,6 +12,7 @@ import { AppContext } from "../../contexts/AppContext";
 import { ImageComponent } from "../ImageComponent/ImageComponent";
 import pokemonLogo from "../../../public/svgs/International_Pokémon_logo.svg";
 import { Helper } from "../../utils/helper";
+import Link from "../UtilityComponents/Link";
 interface LocalAppInterface {
   darkMode: boolean;
   gridView: boolean;
@@ -48,6 +49,11 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
     appContextValues?.multiUpdate({
       darkMode: darkModeValue,
       gridView: gridViewValue,
+    });
+
+    //this is needed for accordion toggle etc
+    import("bootstrap").then((bootstrap) => {
+      appContextValues?.saveBootstrap(bootstrap);
     });
   }, []);
 
@@ -106,7 +112,13 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
 
       <footer className="container pt-4 pb-3">
         <div className="text-center  fs-6">
-          <small>Pokemon TCG by OSM ©2022</small>
+          <small>
+            Pokemon TCG by{" "}
+            <Link href="https://github.com/aidotaosm">
+              <a target="_blank">OSM</a>
+            </Link>{" "}
+            ©2022
+          </small>
         </div>
       </footer>
     </div>

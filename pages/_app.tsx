@@ -15,10 +15,6 @@ import { Helper } from "../src/utils/helper";
 config.autoAddCss = false;
 
 export default function MyApp({ Component, pageProps }: AppProps) {
-  useEffect(() => {
-    import("bootstrap"); //this is needed for accordion toggle etc
-    // initServiceWorker();
-  }, []);
   // If you want to start measuring performance in your app, pass a function
   // to log results (for example: reportWebVitals(console.log))
   // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
