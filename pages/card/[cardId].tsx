@@ -23,9 +23,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 };
 
 const Set: FunctionComponent<CardObjectProps> = ({ cardObject }) => {
-  const title = cardObject.name + " | " + cardObject.set.name;
+  const title = cardObject.name + " - " + cardObject.set.name;
   const description =
-    title + ", from the" + cardObject.set.series + " expansion.s";
+    title + ", from the " + cardObject.set.series + " expansion.";
   const baseURL = useMemo(() => Helper.getBaseDomainServerSide(), []);
   return (
     <Fragment>
