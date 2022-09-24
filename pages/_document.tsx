@@ -12,7 +12,8 @@ export default function Document() {
         <meta name="copyright" content="Osama Almas Rahman" />
 
         <link rel="manifest" href="/manifest.webmanifest" />
-        <link rel="apple-touch-icon" href="/images/cardback.webp"></link>
+        <link rel="shortcut icon" href="/images/pokeball-2d.png" />
+        <link rel="apple-touch-icon" href="/images/pokeball-2d.png"></link>
       </Head>
       <body>
         <Main />
