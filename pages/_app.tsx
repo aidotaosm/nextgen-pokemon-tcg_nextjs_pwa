@@ -51,6 +51,17 @@ export default function MyApp({ Component, pageProps }: AppProps) {
               content="/images/pokemon_tcg_base_image.webp"
               key="og:image"
             />
+            <meta
+              property="og:image:width"
+              content="1200"
+              key="og:image:width"
+            />
+            <meta
+              property="og:image:height"
+              content="627"
+              key="og:image:height"
+            />
+
             <meta property="og:url" content={baseURL} key="og:url" />
             <meta property="og:site_name" content="Pokemon TCG by OSM" />
 

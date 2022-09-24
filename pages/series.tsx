@@ -35,6 +35,7 @@ const Series: FunctionComponent<SeriesArrayProps> = ({ arrayOfSeries }) => {
           content="/images/expansions_image.jpg"
           key="og:image"
         />
+
         <meta property="og:url" content={baseURL + "series"} key="og:url" />
         <meta
           name="twitter:title"

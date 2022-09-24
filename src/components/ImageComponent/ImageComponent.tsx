@@ -86,12 +86,6 @@ export const ImageComponent: FunctionComponent<any> = ({
             }}
             onLoadingComplete={(e) => {
               if (rawHighQualityImageRef.current) {
-                console.log(
-                  rawHighQualityImageRef.current.naturalHeight /
-                    rawHighQualityImageRef.current.naturalWidth
-                );
-                console.log(DEFAULT_CARD_BACK_RATIO);
-                console.log(lowQualityImageLoaded);
                 if (
                   rawHighQualityImageRef.current.naturalHeight /
                     rawHighQualityImageRef.current.naturalWidth ==

@@ -43,7 +43,8 @@ const Set: FunctionComponent<CardObjectProps> = ({ cardObject }) => {
           content={cardObject.images.large}
           key="og:image"
         />
-
+        <meta property="og:image:width" content="734" key="og:image:width" />
+        <meta property="og:image:height" content="1024" key="og:image:height" />
         <meta
           property="og:url"
           content={baseURL + "card/" + cardObject.id}
