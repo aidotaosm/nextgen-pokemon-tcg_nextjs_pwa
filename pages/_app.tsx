@@ -32,7 +32,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
             <title>Pokemon TCG by OSM</title>
             <meta
               name="description"
-              content="Browse cards from all of the Pokemon expansions!"
+              content="Browse Pokemon cards. Build your deck (coming soon). Play TCG with your friends (coming later)!"
               key="description"
             />
             <meta property="og:type" content="games.plays" />
@@ -43,7 +43,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
             />
             <meta
               property="og:description"
-              content="Browse cards from all of the Pokemon expansions!"
+              content="Browse Pokemon cards. Build your deck (coming soon). Play TCG with your friends (coming later)!"
               key="og:description"
             />
             <meta
@@ -51,6 +51,17 @@ export default function MyApp({ Component, pageProps }: AppProps) {
               content="/images/pokemon_tcg_base_image.webp"
               key="og:image"
             />
+            <meta
+              property="og:image:width"
+              content="1200"
+              key="og:image:width"
+            />
+            <meta
+              property="og:image:height"
+              content="627"
+              key="og:image:height"
+            />
+
             <meta property="og:url" content={baseURL} key="og:url" />
             <meta property="og:site_name" content="Pokemon TCG by OSM" />
 
@@ -61,7 +72,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
             />
             <meta
               name="twitter:description"
-              content="Browse cards from all of the Pokemon expansions!"
+              content="Browse Pokemon cards. Build your deck (coming soon). Play TCG with your friends (coming later)!"
               key="twitter:description"
             />
             <meta

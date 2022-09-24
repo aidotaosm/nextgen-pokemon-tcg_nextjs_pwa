@@ -1,24 +1,24 @@
 {
   "short_name": "Pokemon TCG",
   "name": "Pokemon TCG by OSM",
-  "description": "Browse Pokemon cards, Build your dec, Play TCG!",
+  "description": "Browse Pokemon cards. Build your deck (coming soon). Play TCG with your friends (coming later)!",
   "icons": [
     {
-      "src": "favicon.ico",
-      "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/x-icon",
+      "src": "/images/pokeball-3d.png",
+      "sizes": "128x128 64x64 32x32 24x24 16x16",
+      "type": "image/png",
       "purpose": "maskable"
     },
     {
-      "src": "cardback.webp",
-      "type": "image/webp",
+      "src": "/images/pokeball-bw.png",
+      "type": "image/png",
       "sizes": "192x192"
       ,
       "purpose": "maskable"
     },
     {
-      "src": "/images/cardback.webp",
-      "type": "image/webp",
+      "src": "/images/pokeball-2d.png",
+      "type": "image/png",
       "sizes": "512x512"
     }
   ],

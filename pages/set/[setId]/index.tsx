@@ -67,7 +67,7 @@ const Set: FunctionComponent<CardsObjectProps> = ({ cardsObject }) => {
   const baseURL = useMemo(() => Helper.getBaseDomainServerSide(), []);
   const title = cardsObject?.data[0].set.name;
   const description =
-    title + " expansion of " + cardsObject?.data[0].set.series;
+    title + " set from the" + cardsObject?.data[0].set.series + " expansion";
   return (
     <Fragment>
       <Head>

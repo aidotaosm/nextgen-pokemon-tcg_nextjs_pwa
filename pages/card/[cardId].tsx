@@ -23,8 +23,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 };
 
 const Set: FunctionComponent<CardObjectProps> = ({ cardObject }) => {
-  const title = cardObject.name + " from " + cardObject.set.name;
-  const description = title + ", expansion of " + cardObject.set.series;
+  const title = cardObject.name + " | " + cardObject.set.name;
+  const description =
+    title + ", from the" + cardObject.set.series + " expansion.s";
   const baseURL = useMemo(() => Helper.getBaseDomainServerSide(), []);
   return (
     <Fragment>
@@ -39,9 +40,11 @@ const Set: FunctionComponent<CardObjectProps> = ({ cardObject }) => {
         />
         <meta
           property="og:image"
-          content={cardObject.images.small}
+          content={cardObject.images.large}
           key="og:image"
         />
+        <meta property="og:image:width" content="734" key="og:image:width" />
+        <meta property="og:image:height" content="1024" key="og:image:height" />
         <meta
           property="og:url"
           content={baseURL + "card/" + cardObject.id}
@@ -55,7 +58,7 @@ const Set: FunctionComponent<CardObjectProps> = ({ cardObject }) => {
         />
         <meta
           name="twitter:image"
-          content={cardObject.images.small}
+          content={cardObject.images.large}
           key="twitter:image"
         />
       </Head>
