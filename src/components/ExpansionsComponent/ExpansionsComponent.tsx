@@ -59,14 +59,17 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
         {setsBySeries.map((series, seriesIndex) => {
           return (
             <div
-              className="accordion-item"
+              className="accordion-item special-accordion-wrapper"
               key={series.series}
               id={series.series}
             >
-              <h2 className="accordion-header " id={series.id + "-heading"}>
+              <h2
+                className="accordion-header  special-accordion-border special-accordion"
+                id={series.id + "-heading"}
+              >
                 <button
                   className={
-                    "accordion-button  py-2-5 px-3 fs-5 fw-bold " +
+                    "accordion-button special-accordion py-2-5 px-3 fs-5 fw-bold " +
                     (seriesIndex ? "collapsed" : "")
                   }
                   type="button"

@@ -116,8 +116,8 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
   } else {
     return (
       <div className="container">
-        <div className="d-flex justify-content-end mb-4 align-items-center">
-          <div style={{ width: "7rem" }}>
+        <div className="d-flex justify-content-center mb-4 align-items-center">
+          <div style={{ width: "8rem" }}>
             <ImageComponent
               src={cardsObject.data[0].set?.images?.logo}
               alt={cardsObject.data[0].set.name}
@@ -126,12 +126,12 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
               blurDataURL={"/images/Cardback-sideways.webp"}
             />
           </div>
-
+          {/* 
           <h4 className="mb-0 ms-3">
             {cardsObject.data[0].set.name +
               " expansion of " +
               cardsObject.data[0].set.series}
-          </h4>
+          </h4> */}
         </div>
         <div className="mb-4">
           <PagingComponent
