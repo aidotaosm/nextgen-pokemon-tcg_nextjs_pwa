@@ -55,4 +55,7 @@ export class Helper {
       ? Vercel_DEFAULT_URL
       : Netlify_DEFAULT_URL;
   }
+  static get isServerSide() {
+    return typeof window === "undefined";
+  }
 }

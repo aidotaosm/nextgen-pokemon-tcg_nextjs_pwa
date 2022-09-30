@@ -651,7 +651,7 @@
 }
 .dark-mode .accordion-button:focus {
   border-color: #e9ecef;
-  box-shadow: 0 0 0 0.25rem #dee2e6;
+  /* box-shadow: 0 0 0 0.25rem #dee2e6; */
 }
 
 .accordion-button:not(.collapsed) {

@@ -1,3 +1,6 @@
+html {
+  scroll-behavior: smooth;
+}
 .un-styled-anchor {
   color: inherit;
   text-decoration: inherit;
@@ -199,8 +202,7 @@ a.white-hover:hover {
     var(--bs-accordion-border-color) !important;
 }
 .accordion-item:hover {
-  border: none !important;
-
+  /* border: none !important; */
   transition: 0.5s;
 }
 .dark-mode .accordion-item {
@@ -245,7 +247,8 @@ a.white-hover:hover {
   transform: scaleX(1.05) scaleY(1.05);
   transition: 0.5s;
 }
-.accordion-item:last-of-type {
+.accordion-button.special-accordion {
+  box-shadow: none;
 }
 @media (max-width: 1399px) {
   .list-view .pokemon-card-image {
