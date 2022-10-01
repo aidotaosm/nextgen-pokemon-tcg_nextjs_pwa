@@ -67,7 +67,9 @@ html {
   transition: 0.5s;
 }
 .special-card-border::before,
-.special-card-border::after {
+.special-card-border::after,
+.special-accordion-border::before,
+.special-accordion-border::after {
   content: "";
   position: absolute;
   width: 100%;
@@ -79,7 +81,9 @@ html {
   border-radius: 25px;
 }
 .dark-mode .special-card-border::before,
-.dark-mode .special-card-border::after {
+.dark-mode .special-card-border::after,
+.dark-mode .special-accordion-border::before,
+.dark-mode .special-accordion-border::after {
   background: linear-gradient(235deg, #89ff00, #010615, #00bcd4);
 }
 .special-card-border:hover::after {
@@ -228,20 +232,8 @@ a.white-hover:hover {
   border-radius: 25px;
   transition: 0.5s;
 }
-.special-accordion-border::before,
-.special-accordion-border::after {
-  content: "";
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  background: linear-gradient(235deg, #ffa000, #010615, #cd12eb);
-  /* background: linear-gradient(235deg, #ff0092, #010615, #ff4e3d)*/
-  border-radius: 25px;
-}
 .special-accordion-border:hover::after {
-  filter: blur(20px);
+  filter: blur(15px);
 }
 .special-accordion-border:hover {
   transform: scaleX(1.05) scaleY(1.05);
