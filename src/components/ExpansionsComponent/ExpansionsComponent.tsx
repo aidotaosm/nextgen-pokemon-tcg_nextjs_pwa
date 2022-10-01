@@ -31,18 +31,16 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
   // }
   useEffect(() => {
     if (router.isReady) {
-      console.log(setsBySeries);
       setsBySeries.forEach((series: any) => {
         series.sets.forEach((set: any) => {
           //router.prefetch("/set/" + (set.id == "pop2" ? "poptwo" : set.id));
         });
       });
-      let selectedSeries = router.query["opened-series"]?.toString();
-      let element = document.getElementById(selectedSeries || "");
-      console.log(element);
-      if (element) {
-        toggleAccordion(selectedSeries);
-      } else {
+      let selectedSeriesId = router.query["opened-series"]?.toString();
+      let element = document.getElementById(selectedSeriesId || "");
+      if (element && memoizedArrayOfSeries[0].id !== selectedSeriesId) {
+        toggleAccordion(selectedSeriesId, true);
+      } else if (!selectedSeriesId) {
         router.push(
           "/series?" + "opened-series=" + setsBySeries[0].id,
           undefined,
@@ -77,35 +75,47 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
       //   });
     }
   }, [router.isReady]);
-  const toggleAccordion = (seriesId: any) => {
-    console.log(seriesId);
-    setTimeout(() => {
-      setSetsBySeries((arrayOfSeriesState: any) => {
-        arrayOfSeriesState.forEach((s: any) => {
-          // s.isOpen = false;
+
+  const toggleAccordion = useCallback(
+    (seriesId: any, onload: boolean = false) => {
+      console.log(seriesId);
+      setTimeout(() => {
+        let allowScroll = false;
+        setsBySeries.forEach((s: any) => {
           if (s.id == seriesId) {
-            // s.isOpen = !series.isOpen;
-            s.isOpen = true;
+            s.isOpen = !s.isOpen;
+            allowScroll = s.isOpen;
           } else {
             s.isOpen = false;
           }
-          console.log(s.isOpen);
         });
-        console.log(arrayOfSeriesState);
-        router.push("/series?" + "opened-series=" + seriesId, undefined, {
-          shallow: true,
-        });
-        return [...arrayOfSeriesState];
-      });
-      setTimeout(() => {
-        document.getElementById(seriesId)?.scrollIntoView({
-          behavior: "smooth",
-          inline: "start",
-          block: "start",
-        });
-      }, 100);
-    }, 200); //default accordion transition is 0.2s
-  };
+        console.log(setsBySeries);
+        setSetsBySeries([...setsBySeries]);
+        if (!onload && allowScroll) {
+          router.push("/series?" + "opened-series=" + seriesId, undefined, {
+            shallow: true,
+          });
+        } else if (!allowScroll) {
+          router.push("/series", undefined, {
+            shallow: true,
+          });
+        }
+
+        console.log("allowScroll", allowScroll);
+        if (allowScroll) {
+          setTimeout(() => {
+            document.getElementById(seriesId)?.scrollIntoView({
+              behavior: "smooth",
+              inline: "start",
+              block: "start",
+            });
+          }, 100);
+        }
+      }, 200); //default accordion transition is 0.2s
+    },
+    []
+  );
+
   return (
     <div className="container">
       <div className="d-flex justify-content-end">
