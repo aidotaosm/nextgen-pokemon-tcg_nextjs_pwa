@@ -24,7 +24,9 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
   const [listOfPaths, setListOfPaths] = useState<string[]>([]);
   useEffect(() => {
     console.log(router);
-    setListOfPaths((l) => [...l, router.asPath]);
+    if (router.asPath.includes("/series")) {
+      setListOfPaths((l) => [...l, router.asPath]);
+    }
     let splitPath = router.pathname.split("/")[1];
     if (!splitPath) {
       setPathToRedirect("");
@@ -96,11 +98,15 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
             </IF>
           </div>
           <div className="" style={{ width: "200px" }}>
-            <ImageComponent
-              src={pokemonLogo}
-              alt={"Pokemon"}
-              blurDataURL={"/images/Cardback-sideways.webp"}
-            />
+            <Link href="/">
+              <a>
+                <ImageComponent
+                  src={pokemonLogo}
+                  alt={"Pokemon"}
+                  blurDataURL={"/images/Cardback-sideways.webp"}
+                />
+              </a>
+            </Link>
           </div>
 
           <div
