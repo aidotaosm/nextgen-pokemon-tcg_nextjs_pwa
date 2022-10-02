@@ -23,25 +23,27 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
   const [pathToRedirect, setPathToRedirect] = useState<string>("");
   const [listOfPaths, setListOfPaths] = useState<string[]>([]);
   useEffect(() => {
-    console.log(router);
-    if (router.asPath.includes("/series")) {
-      setListOfPaths((l) => [...l, router.asPath]);
-    }
-    let splitPath = router.pathname.split("/")[1];
-    if (!splitPath) {
-      setPathToRedirect("");
-    } else if (splitPath === "series") {
-      setPathToRedirect("/");
-    } else if (splitPath === "set" || splitPath === "card") {
-      if (
-        listOfPaths.length &&
-        listOfPaths[listOfPaths.length - 1] != router.asPath
-      ) {
-        console.log(listOfPaths);
+    if (router.isReady) {
+      console.log(router);
+      if (router.asPath.includes("/series")) {
+        setListOfPaths((l) => [...l, router.asPath]);
+      }
+      let splitPath = router.pathname.split("/")[1];
+      if (!splitPath) {
+        setPathToRedirect("");
+      } else if (splitPath === "series") {
+        setPathToRedirect("/");
+      } else if (splitPath === "set" || splitPath === "card") {
+        if (
+          listOfPaths.length &&
+          listOfPaths[listOfPaths.length - 1] != router.asPath
+        ) {
+          console.log(listOfPaths);
 
-        setPathToRedirect(listOfPaths[listOfPaths.length - 1]);
-      } else {
-        setPathToRedirect("/series");
+          setPathToRedirect(listOfPaths[listOfPaths.length - 1]);
+        } else {
+          setPathToRedirect("/series");
+        }
       }
     }
   }, [router.asPath]);

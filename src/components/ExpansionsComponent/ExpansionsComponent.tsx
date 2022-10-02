@@ -38,16 +38,40 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
       });
       let selectedSeriesId = router.query["opened-series"]?.toString();
       let element = document.getElementById(selectedSeriesId || "");
-      if (element && memoizedArrayOfSeries[0].id !== selectedSeriesId) {
-        toggleAccordion(selectedSeriesId, true);
-      } else if (!selectedSeriesId) {
+      if (element && selectedSeriesId != memoizedArrayOfSeries[0].id) {
+        (
+          document.getElementById(memoizedArrayOfSeries[0].id)?.children[0]
+            .children[0] as any
+        )?.click();
+        (element.children[0].children[0] as any)?.click();
+        setTimeout(() => {
+          element?.scrollIntoView({
+            behavior: "smooth",
+            inline: "start",
+            block: "start",
+          });
+        }, 200);
+        setsBySeries.forEach((series) => {
+          if (series.id == selectedSeriesId) {
+            series.isOpen = true;
+          } else {
+            series.isOpen = false;
+          }
+        });
+        console.log(setsBySeries);
+        setSetsBySeries([...setsBySeries]);
+      } else {
         router.push(
-          "/series?" + "opened-series=" + setsBySeries[0].id,
+          "/series?" + "opened-series=" + memoizedArrayOfSeries[0].id,
           undefined,
           {
             shallow: true,
           }
         );
+        (
+          document.getElementById(memoizedArrayOfSeries[0].id)?.children[0]
+            .children[0] as any
+        )?.click();
       }
       //   localExpansionsGet();
       // pokemonSDKVariable.card
@@ -76,45 +100,45 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
     }
   }, [router.isReady]);
 
-  const toggleAccordion = useCallback(
-    (seriesId: any, onload: boolean = false) => {
-      console.log(seriesId);
+  const toggleAccordion = useCallback((seriesId: any) => {
+    console.log(seriesId);
+    let allowScroll = false;
+    setsBySeries.forEach((s: any) => {
+      if (s.id != seriesId) {
+        if (s.isOpen) {
+          (
+            document.getElementById(s.id)?.children[0].children[0] as any
+          )?.click();
+          console.log(document.getElementById(s.id));
+        }
+        s.isOpen = false;
+      } else {
+        s.isOpen = !s.isOpen;
+        allowScroll = s.isOpen;
+      }
+    });
+    console.log(setsBySeries);
+    setSetsBySeries([...setsBySeries]);
+    if (allowScroll) {
+      router.push("/series?" + "opened-series=" + seriesId, undefined, {
+        shallow: true,
+      });
+    } else {
+      router.push("/series", undefined, {
+        shallow: true,
+      });
+    }
+    console.log("allowScroll", allowScroll);
+    if (allowScroll) {
       setTimeout(() => {
-        let allowScroll = false;
-        setsBySeries.forEach((s: any) => {
-          if (s.id == seriesId) {
-            s.isOpen = !s.isOpen;
-            allowScroll = s.isOpen;
-          } else {
-            s.isOpen = false;
-          }
+        document.getElementById(seriesId)?.scrollIntoView({
+          behavior: "smooth",
+          inline: "start",
+          block: "start",
         });
-        console.log(setsBySeries);
-        setSetsBySeries([...setsBySeries]);
-        if (!onload && allowScroll) {
-          router.push("/series?" + "opened-series=" + seriesId, undefined, {
-            shallow: true,
-          });
-        } else if (!allowScroll) {
-          router.push("/series", undefined, {
-            shallow: true,
-          });
-        }
-
-        console.log("allowScroll", allowScroll);
-        if (allowScroll) {
-          setTimeout(() => {
-            document.getElementById(seriesId)?.scrollIntoView({
-              behavior: "smooth",
-              inline: "start",
-              block: "start",
-            });
-          }, 100);
-        }
-      }, 200); //default accordion transition is 0.2s
-    },
-    []
-  );
+      }, 200);
+    }
+  }, []);
 
   return (
     <div className="container">
@@ -136,14 +160,19 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
                 <button
                   className={
                     "accordion-button special-accordion py-2-5 px-3 fs-5 fw-bold " +
-                    (series.isOpen ? "" : "collapsed")
+                    (seriesIndex == 0 ? "" : "collapsed")
                   }
                   type="button"
                   data-bs-toggle="collapse"
                   data-bs-target={"#" + series.id + "-series-id"}
                   aria-expanded="false"
                   aria-controls={series.id + "-series-id"}
-                  onClick={() => toggleAccordion(series.id)}
+                  onClick={(e) => {
+                    console.log(e);
+                    if (e.nativeEvent?.isTrusted) {
+                      toggleAccordion(series.id);
+                    }
+                  }}
                 >
                   {series.series}
                 </button>
@@ -151,7 +180,8 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
               <div
                 id={series.id + "-series-id"}
                 className={
-                  "accordion-collapse collapse " + (series.isOpen ? "show" : "")
+                  "accordion-collapse collapse " +
+                  (seriesIndex == 0 ? "show" : "")
                 }
                 aria-labelledby={series.id + "-heading"}
               >
