@@ -14,7 +14,7 @@ export const ImageComponent: FunctionComponent<any> = ({
   blurDataURL,
   width,
   height,
-  className = "position-relative",
+  className,
   alt,
   layout,
   highQualitySrc,
