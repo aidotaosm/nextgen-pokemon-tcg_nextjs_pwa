@@ -14,7 +14,7 @@ export const ImageComponent: FunctionComponent<any> = ({
   blurDataURL,
   width,
   height,
-  className,
+  className = "position-relative",
   alt,
   layout,
   highQualitySrc,
@@ -39,13 +39,11 @@ export const ImageComponent: FunctionComponent<any> = ({
       <div className={highQualityImageLoaded ? "out-of-view" : ""}>
         <Image
           unoptimized={process.env.NETLIFY !== "true"}
-          // style={{ height: "75vh" }}
           className={className || ""}
           src={imageSource}
           alt={alt || ""}
           width={imageDimensions.width}
           height={imageDimensions.height}
-          layout={layout || "responsive"}
           loading="lazy"
           blurDataURL={blurDataURL || "/images/Cardback.webp"}
           placeholder="blur"
@@ -72,7 +70,6 @@ export const ImageComponent: FunctionComponent<any> = ({
             alt={alt || ""}
             width={imageDimensions.width}
             height={imageDimensions.height}
-            layout={layout || "responsive"}
             loading="lazy"
             blurDataURL={blurDataURL || "/images/Cardback.webp"}
             placeholder="blur"
@@ -114,11 +111,6 @@ export const ImageComponent: FunctionComponent<any> = ({
           />
         </IF>
       </IF>
-      {/* <style jsx>{`
-        .card-width {
-          h-75: 25px;
-        }
-      `}</style> */}
     </>
   );
 };

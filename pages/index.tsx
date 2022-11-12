@@ -1,8 +1,8 @@
 import { ImageComponent } from "../src/components/ImageComponent/ImageComponent";
-import Link from "../src/components/UtilityComponents/Link";
 import PokemonTCGCardsLaidOut from "../public/images/Pokemon-TCG-Cards-Laid-Out.webp";
 import codeRedemption from "../public/images/code-redemption-169.jpg";
 import buildPokemonTcgDecks from "../public/images/build-pokemon-tcg-decks-169-en.jpg";
+import Link from "next/link";
 
 const Index = () => {
   return (
@@ -16,6 +16,7 @@ const Index = () => {
                   src={PokemonTCGCardsLaidOut}
                   alt={"Browse cards"}
                   blurDataURL={"/images/Cardback-sideways.webp"}
+                  className="w-100 h-auto"
                 />
               </div>
               <div className="card-body">
@@ -42,6 +43,7 @@ const Index = () => {
                 src={codeRedemption}
                 alt={"Browse cards"}
                 blurDataURL={"/images/Cardback-sideways.webp"}
+                className="w-100 h-auto"
               />
             </div>
             <div className="card-body">
@@ -63,6 +65,7 @@ const Index = () => {
                 src={buildPokemonTcgDecks}
                 alt={"Browse cards"}
                 blurDataURL={"/images/Cardback-sideways.webp"}
+                className="w-100 h-auto"
               />
             </div>
             <div className="card-body">

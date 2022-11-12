@@ -8,10 +8,10 @@ import {
 import { SeriesArrayProps } from "../../models/GenericModels";
 import styles from "./ExpansionsComponent.module.css";
 import { ImageComponent } from "../ImageComponent/ImageComponent";
-import Link from "../UtilityComponents/Link";
 import { useRouter } from "next/router";
 import { type } from "os";
 import { Helper } from "../../utils/helper";
+import Link from "next/link";
 
 export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
   arrayOfSeries,
@@ -200,7 +200,7 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
                               "/set/" + (set.id == "pop2" ? "poptwo" : set.id)
                             }
                           >
-                            <a>
+                            <>
                               <div className={styles["set-image"]}>
                                 <ImageComponent
                                   src={set?.images?.logo}
@@ -208,13 +208,13 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
                                   height={72}
                                   width={192}
                                   blurDataURL={"/images/Cardback-sideways.webp"}
+                                  className="w-100 h-auto"
                                 />
                               </div>
-
                               <div className={styles["set-name"]}>
                                 <span className="fw-bold">{set.name}</span>
                               </div>
-                            </a>
+                            </>
                           </Link>
                         </div>
                       );

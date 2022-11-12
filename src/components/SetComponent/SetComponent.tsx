@@ -124,6 +124,7 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
               height={72}
               width={192}
               blurDataURL={"/images/Cardback-sideways.webp"}
+              className="w-100 h-auto"
             />
           </div>
           {/* 
