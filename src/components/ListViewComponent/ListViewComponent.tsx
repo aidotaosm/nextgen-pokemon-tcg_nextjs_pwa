@@ -63,6 +63,7 @@ export const ListViewComponent: FunctionComponent<SetCardsProps> = ({
                   alt={card.name}
                   width={734}
                   height={1024}
+                  className="position-relative"
                 />
               </div>
             </div>

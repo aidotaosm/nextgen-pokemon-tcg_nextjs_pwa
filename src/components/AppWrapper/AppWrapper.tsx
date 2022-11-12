@@ -12,7 +12,8 @@ import { AppContext } from "../../contexts/AppContext";
 import { ImageComponent } from "../ImageComponent/ImageComponent";
 import pokemonLogo from "../../../public/svgs/International_Pokémon_logo.svg";
 import { Helper } from "../../utils/helper";
-import Link from "../UtilityComponents/Link";
+import Link from "next/link";
+
 interface LocalAppInterface {
   darkMode: boolean;
   gridView: boolean;
@@ -101,13 +102,12 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
           </div>
           <div className="" style={{ width: "200px" }}>
             <Link href="/">
-              <a>
-                <ImageComponent
-                  src={pokemonLogo}
-                  alt={"Pokemon"}
-                  blurDataURL={"/images/Cardback-sideways.webp"}
-                />
-              </a>
+              <ImageComponent
+                src={pokemonLogo}
+                alt={"Pokemon"}
+                blurDataURL={"/images/Cardback-sideways.webp"}
+                className="w-100 h-auto"
+              />
             </Link>
           </div>
 
@@ -135,8 +135,8 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
         <div className="text-center  fs-6">
           <small>
             Pokemon TCG by{" "}
-            <Link href="https://github.com/aidotaosm">
-              <a target="_blank">OSM</a>
+            <Link href="https://github.com/aidotaosm" target="_blank">
+              OSM
             </Link>{" "}
             ©2022
           </small>

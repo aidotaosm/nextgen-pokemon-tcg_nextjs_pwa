@@ -14,7 +14,7 @@ export const ImageComponent: FunctionComponent<any> = ({
   blurDataURL,
   width,
   height,
-  className,
+  className = "position-relative",
   alt,
   layout,
   highQualitySrc,
@@ -45,7 +45,7 @@ export const ImageComponent: FunctionComponent<any> = ({
           alt={alt || ""}
           width={imageDimensions.width}
           height={imageDimensions.height}
-          layout={layout || "responsive"}
+          // layout={layout || "responsive"}
           loading="lazy"
           blurDataURL={blurDataURL || "/images/Cardback.webp"}
           placeholder="blur"
