@@ -43,7 +43,7 @@ export const GridViewComponent: FunctionComponent<SetCardsProps> = ({
                       alt={card.name}
                       width={245}
                       height={342}
-                      className="position-relative card-img-top special-card disable-save"
+                      className="position-relative card-img-top special-card disable-save h-auto w-100"
                     />
                   </div>
                 </div>

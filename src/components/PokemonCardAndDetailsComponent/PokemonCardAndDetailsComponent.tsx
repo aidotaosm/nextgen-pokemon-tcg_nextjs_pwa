@@ -43,7 +43,7 @@ export const PokemonCardAndDetailsComponent: FunctionComponent<
               width={245}
               height={342}
               className={
-                "special-card position-relative " +
+                "special-card position-relative h-auto w-100 " +
                 (showHQImage ? "" : "disable-save")
               }
             />
