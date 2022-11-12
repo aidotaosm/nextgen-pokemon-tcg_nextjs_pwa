@@ -8,6 +8,7 @@ import {
 import Image from "next/image";
 import { IF } from "../UtilityComponents/IF";
 import { DEFAULT_CARD_BACK_RATIO } from "../../constants/constants";
+import { defaultBlurImage } from "../../../public/base64Images/base64Images";
 
 export const ImageComponent: FunctionComponent<any> = ({
   src,
@@ -45,7 +46,7 @@ export const ImageComponent: FunctionComponent<any> = ({
           width={imageDimensions.width}
           height={imageDimensions.height}
           loading="lazy"
-          blurDataURL={blurDataURL || "/images/Cardback.webp"}
+          blurDataURL={blurDataURL || defaultBlurImage}
           placeholder="blur"
           onError={(e) => {
             //console.log(imageSource);
@@ -71,7 +72,7 @@ export const ImageComponent: FunctionComponent<any> = ({
             width={imageDimensions.width}
             height={imageDimensions.height}
             loading="lazy"
-            blurDataURL={blurDataURL || "/images/Cardback.webp"}
+            blurDataURL={blurDataURL || defaultBlurImage}
             placeholder="blur"
             onError={() => {
               console.error("hires error occurred");

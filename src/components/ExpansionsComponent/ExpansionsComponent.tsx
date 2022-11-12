@@ -12,6 +12,7 @@ import { useRouter } from "next/router";
 import { type } from "os";
 import { Helper } from "../../utils/helper";
 import Link from "next/link";
+import { defaultBlurImage } from "../../../public/base64Images/base64Images";
 
 export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
   arrayOfSeries,
@@ -207,7 +208,7 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
                                   alt={set.name}
                                   height={72}
                                   width={192}
-                                  blurDataURL={"/images/Cardback-sideways.webp"}
+                                  blurDataURL={defaultBlurImage}
                                   className="w-100 h-auto"
                                 />
                               </div>

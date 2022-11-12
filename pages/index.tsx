@@ -3,6 +3,7 @@ import PokemonTCGCardsLaidOut from "../public/images/Pokemon-TCG-Cards-Laid-Out.
 import codeRedemption from "../public/images/code-redemption-169.jpg";
 import buildPokemonTcgDecks from "../public/images/build-pokemon-tcg-decks-169-en.jpg";
 import Link from "next/link";
+import { defaultBlurImage } from "../public/base64Images/base64Images";
 
 const Index = () => {
   return (
@@ -15,7 +16,7 @@ const Index = () => {
                 <ImageComponent
                   src={PokemonTCGCardsLaidOut}
                   alt={"Browse cards"}
-                  blurDataURL={"/images/Cardback-sideways.webp"}
+                  blurDataURL={defaultBlurImage}
                   className="w-100 h-auto"
                 />
               </div>
@@ -42,7 +43,7 @@ const Index = () => {
               <ImageComponent
                 src={codeRedemption}
                 alt={"Browse cards"}
-                blurDataURL={"/images/Cardback-sideways.webp"}
+                blurDataURL={defaultBlurImage}
                 className="w-100 h-auto"
               />
             </div>
@@ -64,7 +65,7 @@ const Index = () => {
               <ImageComponent
                 src={buildPokemonTcgDecks}
                 alt={"Browse cards"}
-                blurDataURL={"/images/Cardback-sideways.webp"}
+                blurDataURL={defaultBlurImage}
                 className="w-100 h-auto"
               />
             </div>
