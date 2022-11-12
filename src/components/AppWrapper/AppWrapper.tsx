@@ -13,6 +13,7 @@ import { ImageComponent } from "../ImageComponent/ImageComponent";
 import pokemonLogo from "../../../public/svgs/International_Pokémon_logo.svg";
 import { Helper } from "../../utils/helper";
 import Link from "next/link";
+import { defaultBlurImage } from "../../../public/base64Images/base64Images";
 
 interface LocalAppInterface {
   darkMode: boolean;
@@ -105,7 +106,7 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
               <ImageComponent
                 src={pokemonLogo}
                 alt={"Pokemon"}
-                blurDataURL={"/images/Cardback-sideways.webp"}
+                blurDataURL={defaultBlurImage}
                 className="w-100 h-auto"
               />
             </Link>
