@@ -1,5 +1,4 @@
 import { FunctionComponent, useContext, useEffect, useState } from "react";
-import { Helper } from "../../utils/helper";
 import { PagingComponent } from "../PagingComponent/PagingComponent";
 import { DEFAULT_PAGE_SIZE } from "../../constants/constants";
 import { useRouter } from "next/router";
@@ -27,7 +26,6 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
   const [setCards, setSetCards] = useState<any>(getCardsForServerSide() || []);
   const [pageIndex, setPageIndex] = useState<number>(0);
   const [refPageNumber, setRefPageNumber] = useState<number>(0);
-  const [isLoading, setIsLoading] = useState(false);
   const appContextValues = useContext(AppContext);
 
   // const getSetCards = (paramPageIndex: number) => {
