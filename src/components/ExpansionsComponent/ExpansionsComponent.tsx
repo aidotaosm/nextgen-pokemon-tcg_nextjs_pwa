@@ -110,7 +110,7 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
           inline: "start",
           block: "start",
         });
-      }, 200);
+      }, 500);
     }
   };
 
