@@ -10,14 +10,12 @@ import { SetCardsProps } from "../../models/GenericModels";
 import { ImageComponent } from "../ImageComponent/ImageComponent";
 import { PokemonCardAndDetailsComponent } from "../PokemonCardAndDetailsComponent/PokemonCardAndDetailsComponent";
 import { CarouselComponent } from "../UtilityComponents/CarouselComponent";
-import { IF } from "../UtilityComponents/IF";
 import MemoizedModalComponent from "../UtilityComponents/ModalComponent";
 
 export const ListViewComponent: FunctionComponent<SetCardsProps> = ({
   setCards,
 }) => {
   const [selectedCard, setSelectedCard] = useState<any>(null);
-  const [lala, setlala] = useState<number>(0); //learning purposes
   const modalCloseButton = useRef<any>();
   const cardClicked = (card: any) => {
     console.log(card);
@@ -91,9 +89,6 @@ export const ListViewComponent: FunctionComponent<SetCardsProps> = ({
               card={card}
             />
           </div>
-          <IF condition={index != setCards.length - 1}>
-            <hr onClick={() => setlala(lala + 1)} />
-          </IF>
         </Fragment>
       ))}
       <MemoizedModalComponent

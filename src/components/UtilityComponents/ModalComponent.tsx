@@ -5,7 +5,7 @@ const ModalComponent: FunctionComponent<ModalProps> = ({
   secondaryClasses = "",
   id = "bootstrap-modal",
   children,
-  handleModalClose,
+  handleModalClose = () => {},
   modalCloseButton,
 }) => {
   console.log("modal component rendered");

@@ -16,9 +16,10 @@ export class SetCardsProps {
   setCards?: any;
 }
 
-export class SeriesArrayProps {
+export interface SeriesArrayProps {
   children?: JSX.Element;
   arrayOfSeries?: any[];
+  totalNumberOfSets: number;
 }
 export interface PokemonDetailProps {
   children?: JSX.Element;
@@ -42,6 +43,6 @@ export interface ModalProps {
   children?: JSX.Element;
   secondaryClasses?: string;
   id?: string;
-  handleModalClose: (e: any) => void;
+  handleModalClose?: (e: any) => void;
   modalCloseButton?: any;
 }

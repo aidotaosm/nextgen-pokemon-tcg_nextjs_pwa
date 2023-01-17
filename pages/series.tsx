@@ -7,9 +7,21 @@ import { Helper } from "../src/utils/helper";
 import { getExpansions } from "../src/utils/networkCalls";
 export const getStaticProps: GetStaticProps = async () => {
   let arrayOfSeries = await getExpansions();
-  return { props: { arrayOfSeries }, revalidate: 60 * 60 };
+  let totalNumberOfSets = 0;
+  if (arrayOfSeries) {
+    arrayOfSeries[0].isOpen = true;
+    totalNumberOfSets = arrayOfSeries
+      .map((series) => (totalNumberOfSets = series.sets.length))
+      .reduce((partialSum, a) => partialSum + a, 0);
+    console.log(totalNumberOfSets);
+  }
+
+  return { props: { arrayOfSeries, totalNumberOfSets }, revalidate: 60 * 60 };
 };
-const Series: FunctionComponent<SeriesArrayProps> = ({ arrayOfSeries }) => {
+const Series: FunctionComponent<SeriesArrayProps> = ({
+  arrayOfSeries,
+  totalNumberOfSets,
+}) => {
   const baseURL = useMemo(() => Helper.getBaseDomainServerSide(), []);
   return (
     <Fragment>
@@ -53,7 +65,10 @@ const Series: FunctionComponent<SeriesArrayProps> = ({ arrayOfSeries }) => {
           key="twitter:image"
         />
       </Head>
-      <ExpansionsComponent arrayOfSeries={arrayOfSeries} />
+      <ExpansionsComponent
+        arrayOfSeries={arrayOfSeries}
+        totalNumberOfSets={totalNumberOfSets}
+      />
     </Fragment>
   );
 };
