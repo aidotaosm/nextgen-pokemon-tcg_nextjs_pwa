@@ -241,6 +241,9 @@ a.white-hover:hover {
 .accordion-button.special-accordion {
   box-shadow: none;
 }
+.modal-backdrop {
+  --bs-backdrop-opacity: 0.7;
+}
 @media (max-width: 1399px) {
   .list-view .pokemon-card-image {
     min-width: 25vw;
