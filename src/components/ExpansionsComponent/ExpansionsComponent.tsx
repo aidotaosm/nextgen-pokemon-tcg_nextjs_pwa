@@ -26,6 +26,8 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
       let selectedSeriesId = router.query["opened-series"]?.toString();
       let element = document.getElementById(selectedSeriesId || "");
       console.log(element);
+      console.log(selectedSeriesId);
+      console.log(setsBySeries[0].id);
       if (element && selectedSeriesId !== setsBySeries[0].id) {
         (
           document.getElementById(setsBySeries[0].id)?.children[0]
@@ -143,8 +145,8 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
                     aria-expanded="false"
                     aria-controls={series.id + "-series-id"}
                     onClick={(e) => {
-                      console.log(e);
-                      if (e.nativeEvent?.isTrusted) {
+                      console.log(e.isTrusted);
+                      if (e.isTrusted) {
                         toggleAccordion(series.id);
                       }
                     }}
