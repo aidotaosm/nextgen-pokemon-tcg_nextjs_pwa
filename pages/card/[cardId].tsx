@@ -1,4 +1,4 @@
-import { GetServerSideProps, GetStaticPaths, GetStaticProps } from "next";
+import { GetServerSideProps } from "next";
 import Head from "next/head";
 import { ParsedUrlQuery } from "querystring";
 import { Fragment, FunctionComponent, useMemo } from "react";
@@ -10,7 +10,7 @@ import { getCardById } from "../../src/utils/networkCalls";
 interface IParams extends ParsedUrlQuery {
   cardId: string;
 }
-//export const getStaticProps: GetStaticProps = async (context) => {
+
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { cardId } = context.params as IParams;
   const cardObject = await getCardById(cardId);
@@ -26,7 +26,7 @@ const Set: FunctionComponent<CardObjectProps> = ({ cardObject }) => {
   const title = cardObject.name + " - " + cardObject.set.name;
   const description =
     title + ", from the " + cardObject.set.series + " expansion.";
-  const baseURL = useMemo(() => Helper.getBaseDomainServerSide(), []);
+
   return (
     <Fragment>
       <Head>
@@ -47,7 +47,7 @@ const Set: FunctionComponent<CardObjectProps> = ({ cardObject }) => {
         <meta property="og:image:height" content="1024" key="og:image:height" />
         <meta
           property="og:url"
-          content={baseURL + "card/" + cardObject.id}
+          content={Helper.getBaseDomainServerSide() + "card/" + cardObject.id}
           key="og:url"
         />
         <meta name="twitter:title" content={title} key="twitter:title" />
