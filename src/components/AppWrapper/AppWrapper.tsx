@@ -89,11 +89,10 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
             className=" icon-min-width "
             onClick={(e) => {
               e.preventDefault();
-              console.log(pathToRedirect);
-              router.push(pathToRedirect);
+              router.push(pathToRedirect || "/");
             }}
           >
-            <IF condition={pathToRedirect}>
+            <IF condition={pathToRedirect || router.pathname != "/"}>
               <FontAwesomeIcon
                 className="cursor-pointer user-select-none"
                 icon={faArrowLeftLong}

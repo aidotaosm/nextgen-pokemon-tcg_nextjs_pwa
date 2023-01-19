@@ -45,7 +45,7 @@ export const ImageComponent: FunctionComponent<any> = ({
           alt={alt || ""}
           width={imageDimensions.width}
           height={imageDimensions.height}
-          // loading="lazy"
+          //loading="eager"
           blurDataURL={blurDataURL || defaultBlurImage}
           placeholder="blur"
           onError={(e: any) => {
