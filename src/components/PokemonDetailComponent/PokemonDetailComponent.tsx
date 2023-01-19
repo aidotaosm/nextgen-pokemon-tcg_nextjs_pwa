@@ -1,4 +1,4 @@
-import { Fragment, FunctionComponent, useMemo, useState } from "react";
+import { Fragment, FunctionComponent } from "react";
 import { SuperTypes } from "../../constants/constants";
 import { PokemonDetailProps } from "../../models/GenericModels";
 import { IF } from "../UtilityComponents/IF";
@@ -12,7 +12,6 @@ export const PokemonDetailComponent: FunctionComponent<PokemonDetailProps> = ({
   classes = "",
   showCardOpenToNewTab = true,
 }) => {
-  const baseURL = useMemo(() => Helper.origin, []);
   return (
     <div className={classes} style={{ maxWidth: "35rem" }}>
       <div className="pokemon-details rounded">
@@ -20,7 +19,7 @@ export const PokemonDetailComponent: FunctionComponent<PokemonDetailProps> = ({
           <span className="text-lightgray fs-2"> {card.name}</span>
           <div className="">
             <CopyToClipboardComponent
-              copyText={baseURL + "/card/" + card.id}
+              copyText={Helper.origin + "/card/" + card.id}
               classes="fs-4 text-lightgray white-hover"
             />
             <IF condition={showCardOpenToNewTab}>

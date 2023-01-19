@@ -1,7 +1,7 @@
 import { GetServerSideProps } from "next";
 import Head from "next/head";
 import { ParsedUrlQuery } from "querystring";
-import { Fragment, FunctionComponent, useMemo } from "react";
+import { Fragment, FunctionComponent } from "react";
 import { CardComponent } from "../../src/components/CardComponent/CardComponent";
 import { CardObjectProps } from "../../src/models/GenericModels";
 import { Helper } from "../../src/utils/helper";

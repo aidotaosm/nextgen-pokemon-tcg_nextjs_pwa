@@ -1,7 +1,7 @@
 import { GetServerSideProps, GetStaticPaths, GetStaticProps } from "next";
 import Head from "next/head";
 import { ParsedUrlQuery } from "querystring";
-import { Fragment, FunctionComponent, useMemo } from "react";
+import { Fragment, FunctionComponent } from "react";
 import { SetComponent } from "../../../src/components/SetComponent/SetComponent";
 import {
   BasicProps,
@@ -64,7 +64,6 @@ export const getStaticProps: GetStaticProps = async (context) => {
 };
 
 const Set: FunctionComponent<CardsObjectProps> = ({ cardsObject }) => {
-  const baseURL = useMemo(() => Helper.getBaseDomainServerSide(), []);
   const title = cardsObject?.data[0].set.name;
   const description =
     title + " set from the" + cardsObject?.data[0].set.series + " expansion";
@@ -87,7 +86,7 @@ const Set: FunctionComponent<CardsObjectProps> = ({ cardsObject }) => {
         <meta
           property="og:url"
           content={
-            baseURL +
+            Helper.getBaseDomainServerSide() +
             "set/" +
             (cardsObject?.data[0].set.id == "pop2"
               ? "poptwo"

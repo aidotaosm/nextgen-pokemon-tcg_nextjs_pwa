@@ -65,7 +65,7 @@ export const ImageComponent: FunctionComponent<any> = ({
       <IF condition={highQualityImageSource}>
         <div className={highQualityImageLoaded ? "" : "out-of-view"}>
           <Image
-            //  unoptimized={process.env.NETLIFY !== "true"}
+            unoptimized={process.env.NETLIFY !== "true"}
             className={className || ""}
             src={highQualityImageSource}
             alt={alt || ""}
