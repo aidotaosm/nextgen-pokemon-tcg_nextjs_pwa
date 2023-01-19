@@ -1,6 +1,6 @@
 import { GetStaticProps } from "next";
 import Head from "next/head";
-import { Fragment, FunctionComponent, useMemo } from "react";
+import { Fragment, FunctionComponent } from "react";
 import { ExpansionsComponent } from "../src/components/ExpansionsComponent/ExpansionsComponent";
 import { SeriesArrayProps } from "../src/models/GenericModels";
 import { Helper } from "../src/utils/helper";
@@ -22,7 +22,6 @@ const Series: FunctionComponent<SeriesArrayProps> = ({
   arrayOfSeries,
   totalNumberOfSets,
 }) => {
-  const baseURL = useMemo(() => Helper.getBaseDomainServerSide(), []);
   return (
     <Fragment>
       <Head>
@@ -48,7 +47,11 @@ const Series: FunctionComponent<SeriesArrayProps> = ({
           key="og:image"
         />
 
-        <meta property="og:url" content={baseURL + "series"} key="og:url" />
+        <meta
+          property="og:url"
+          content={Helper.getBaseDomainServerSide() + "series"}
+          key="og:url"
+        />
         <meta
           name="twitter:title"
           content="Pokemon TCG Expansions"

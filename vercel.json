@@ -1,7 +1,8 @@
 {
   "git": {
     "deploymentEnabled": {
-      "staging": false
+      "staging": false,
+      "master": true
     }
   }
 }

@@ -45,14 +45,14 @@ export const ImageComponent: FunctionComponent<any> = ({
           alt={alt || ""}
           width={imageDimensions.width}
           height={imageDimensions.height}
-          loading="lazy"
+          // loading="lazy"
           blurDataURL={blurDataURL || defaultBlurImage}
           placeholder="blur"
-          onError={(e) => {
+          onError={(e: any) => {
             //console.log(imageSource);
             setImageSource("/images/Cardback.webp");
           }}
-          onLoadingComplete={(e) => {
+          onLoadingComplete={(e: any) => {
             //  console.log(e, "lowres");
             setImageDimensions({
               width: e.naturalWidth,
@@ -65,13 +65,13 @@ export const ImageComponent: FunctionComponent<any> = ({
       <IF condition={highQualityImageSource}>
         <div className={highQualityImageLoaded ? "" : "out-of-view"}>
           <Image
-            //  unoptimized={process.env.NETLIFY !== "true"}
+            unoptimized={process.env.NETLIFY !== "true"}
             className={className || ""}
             src={highQualityImageSource}
             alt={alt || ""}
             width={imageDimensions.width}
             height={imageDimensions.height}
-            loading="lazy"
+            // loading="lazy"
             blurDataURL={blurDataURL || defaultBlurImage}
             placeholder="blur"
             onError={() => {
@@ -82,7 +82,7 @@ export const ImageComponent: FunctionComponent<any> = ({
                 setHighQualityImageSource("/images/Cardback.webp");
               }
             }}
-            onLoadingComplete={(e) => {
+            onLoadingComplete={(e: any) => {
               if (rawHighQualityImageRef.current) {
                 if (
                   rawHighQualityImageRef.current.naturalHeight /
@@ -109,6 +109,7 @@ export const ImageComponent: FunctionComponent<any> = ({
             ref={rawHighQualityImageRef}
             className="d-none"
             src={highQualitySrc}
+            alt={"hq-image-loader"}
           />
         </IF>
       </IF>

@@ -1,7 +1,6 @@
-import { Fragment, useMemo } from "react";
+import { Fragment } from "react";
 import type { AppProps } from "next/app";
 import "bootstrap/dist/css/bootstrap.css";
-//import reportWebVitals from './reportWebVitals';
 import "../src/css/default.css";
 import "../src/css/dark-mode.css";
 import "../src/css/global.css";
@@ -15,11 +14,6 @@ import { Helper } from "../src/utils/helper";
 config.autoAddCss = false;
 
 export default function MyApp({ Component, pageProps }: AppProps) {
-  // If you want to start measuring performance in your app, pass a function
-  // to log results (for example: reportWebVitals(console.log))
-  // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-  //reportWebVitals();
-  const baseURL = useMemo(() => Helper.getBaseDomainServerSide(), []);
   return (
     <AppProvider>
       <AppWrapper>
@@ -58,7 +52,11 @@ export default function MyApp({ Component, pageProps }: AppProps) {
               key="og:image:height"
             />
 
-            <meta property="og:url" content={baseURL} key="og:url" />
+            <meta
+              property="og:url"
+              content={Helper.getBaseDomainServerSide()}
+              key="og:url"
+            />
             <meta property="og:site_name" content="Pokemon TCG by OSM" />
 
             <meta
