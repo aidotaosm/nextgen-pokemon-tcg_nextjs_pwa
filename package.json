@@ -10,7 +10,7 @@
     "@types/node": "^17.0.45",
     "@types/react": "^18.0.15",
     "@types/react-dom": "^18.0.6",
-    "bootstrap": "^5.2.2",
+    "bootstrap": "^5.2.3",
     "next": "^13.1.2",
     "next-pwa": "^5.6.0",
     "pokemontcgsdk": "^2.0.0",

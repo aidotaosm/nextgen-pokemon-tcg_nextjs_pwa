@@ -21,9 +21,9 @@ interface IParams extends ParsedUrlQuery {
 export const getStaticPaths: GetStaticPaths = async (qry) => {
   // Instead of fetching your `/api` route you can call the same
   // function directly in `getStaticProps`
-  const expansions = await getExpansions();
+  const { arrayOfSeries, sets } = await getExpansions();
   let returnPaths: any[] = [];
-  expansions.forEach((series) => {
+  arrayOfSeries.forEach((series) => {
     series.sets.forEach((set: any) => {
       if (set.id === "pop2") {
         set.id = "poptwo"; // this is done because pop2 is blocked by ad blocker

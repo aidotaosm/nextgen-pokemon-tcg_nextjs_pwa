@@ -1,4 +1,10 @@
-import { Fragment, FunctionComponent, useEffect, useState } from "react";
+import {
+  Fragment,
+  FunctionComponent,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { SeriesArrayProps } from "../../models/GenericModels";
 import styles from "./ExpansionsComponent.module.css";
 import { ImageComponent } from "../ImageComponent/ImageComponent";
@@ -6,13 +12,16 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import { defaultBlurImage } from "../../../public/base64Images/base64Images";
 import MemoizedModalComponent from "../UtilityComponents/ModalComponent";
+import { AppContext } from "../../contexts/AppContext";
+import { Helper } from "../../utils/helper";
 
 export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
   arrayOfSeries,
   totalNumberOfSets,
+  sets,
 }: any) => {
   let router = useRouter();
-
+  const appContextValues = useContext(AppContext);
   const [setsBySeries, setSetsBySeries] = useState<any[]>(arrayOfSeries);
   // useEffect(() => {
   //   setsBySeries.forEach((series: any) => {
@@ -115,7 +124,52 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
       }, 500);
     }
   };
-
+  console.log(appContextValues?.appState);
+  if (!Helper.isServerSide) {
+  }
+  const triggerPrefetch = async () => {
+    let callUrls: string[] = [];
+    for (let i = 0; i < sets.length; i++) {
+      if ((i + 1) % 5) {
+        callUrls.push("/set/" + (sets[i].id == "pop2" ? "poptwo" : sets[i].id));
+        if (sets.length - 1 === i) {
+          console.log(callUrls, "in progress");
+          let calls = callUrls.map(async (callUrl) => {
+            return router.prefetch(callUrl).then((prefetchedData) => {
+              console.log(callUrl, "done");
+            });
+          });
+          await Promise.all(calls);
+        }
+      } else {
+        callUrls.push("/set/" + (sets[i].id == "pop2" ? "poptwo" : sets[i].id));
+        console.log(callUrls, "in progress");
+        let calls = callUrls.map(async (callUrl) => {
+          return router.prefetch(callUrl).then((prefetchedData) => {
+            console.log(callUrl, "done");
+          });
+        });
+        await Promise.all(calls);
+        callUrls = [];
+      }
+    }
+  };
+  useEffect(() => {
+    const toastTrigger = document.getElementById("liveToastBtn");
+    const toastLiveExample = document.getElementById("liveToast");
+    let handleToastClick = () => {
+      let bootStrapMasterClass = appContextValues?.appState?.bootstrap;
+      console.log("triggering show");
+      new bootStrapMasterClass.Toast(toastLiveExample).show();
+      triggerPrefetch();
+    };
+    if (toastTrigger && appContextValues?.appState?.bootstrap) {
+      toastTrigger.addEventListener("click", handleToastClick);
+    }
+    return () => {
+      toastTrigger?.removeEventListener("click", handleToastClick);
+    };
+  }, [appContextValues?.appState?.bootstrap]);
   return (
     <Fragment>
       <div className="container">
@@ -206,19 +260,34 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
         </div>
       </div>
       {/* <i class="fa-solid fa-memory"></i> */}
-      <div
-        id="prefetch-modal-trigger"
-        data-bs-toggle="modal"
-        data-bs-target="#prefetch-modal"
-      ></div>
-      <MemoizedModalComponent
-        id="prefetch-modal"
-        primaryClasses="modal-xl vertical-align-modal"
-        // handleModalClose={handleModalClose}
-        // modalCloseButton={modalCloseButton}
-      >
-        {totalNumberOfSets}
-      </MemoizedModalComponent>
+      <button type="button" className="btn btn-primary" id="liveToastBtn">
+        Show live toast
+      </button>
+      <div className="toast-container position-fixed bottom-0 end-0 p-3">
+        <div
+          id="liveToast"
+          className="toast"
+          role="alert"
+          aria-live="assertive"
+          aria-atomic="true"
+          data-bs-autohide="false"
+        >
+          <div className="toast-header">
+            <img src="..." className="rounded me-2" alt="..." />
+            <strong className="me-auto">Bootstrap</strong>
+            <small>11 mins ago</small>
+            <button
+              type="button"
+              className="btn-close"
+              data-bs-dismiss="toast"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div className="toast-body">
+            Hello, world! This is a toast message.
+          </div>
+        </div>
+      </div>
     </Fragment>
   );
 };
