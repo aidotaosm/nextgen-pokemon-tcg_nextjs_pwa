@@ -3,23 +3,20 @@ import { Fragment, FunctionComponent } from "react";
 interface ToastProps {
   autoHide: boolean;
   id: string;
-  toastTriggerId: string;
   toastTitle: string;
   children: JSX.Element;
+  toastPosition?: "top-0 end-0" | "bottom-0 end-0";
 }
 export const ToastComponent: FunctionComponent<ToastProps> = ({
   autoHide = false,
-  toastTriggerId,
   id,
   toastTitle,
   children,
+  toastPosition = "top-0 end-0",
 }) => {
   return (
     <Fragment>
-      <button type="button" className="btn btn-primary" id={toastTriggerId}>
-        Toast
-      </button>
-      <div className="toast-container position-fixed bottom-0 end-0 p-3">
+      <div className={"toast-container position-fixed p-3 " + toastPosition}>
         <div
           id={id}
           className="toast"

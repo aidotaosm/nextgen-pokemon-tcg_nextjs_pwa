@@ -3,6 +3,7 @@ import {
   FunctionComponent,
   useContext,
   useEffect,
+  useRef,
   useState,
 } from "react";
 import { SeriesArrayProps } from "../../models/GenericModels";
@@ -27,6 +28,7 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
   let router = useRouter();
   const appContextValues = useContext(AppContext);
   const [setsBySeries, setSetsBySeries] = useState<any[]>(arrayOfSeries);
+  const modalCloseButton = useRef<any>();
   const prefetchToastButtonId = "prefetchToastButton";
   const prefetchToastId = "prefetchToast";
   const prefetchInitModalId = "prefetchInitModal";
@@ -255,11 +257,22 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
         hideFooter={false}
         hideHeader={false}
         modalTitle="Download all expansion data"
+        modalCloseButton={modalCloseButton}
       >
-        <div>modal</div>
+        <button
+          type="button"
+          className="btn btn-primary"
+          id={prefetchToastButtonId}
+          onClick={() => {
+            if (modalCloseButton.current) {
+              modalCloseButton.current.click();
+            }
+          }}
+        >
+          Toast
+        </button>
       </MemoizedModalComponent>
       <ToastComponent
-        toastTriggerId={prefetchToastButtonId}
         autoHide={false}
         toastTitle="Prefetch Status"
         id={prefetchToastId}
