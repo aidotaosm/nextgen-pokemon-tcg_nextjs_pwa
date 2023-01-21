@@ -112,12 +112,6 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
   const triggerPrefetch = async () => {
     let callUrls: string[] = [];
     const batchAndExecutePrefetchThenClearUrls = async (i: number) => {
-      callUrls.push(
-        "/set/" +
-          (sets[i].id == SpecialSetNames.pop2
-            ? SpecialSetNames.poptwo
-            : sets[i].id)
-      );
       console.log(callUrls, "in progress");
       let calls = callUrls.map(async (callUrl) => {
         return router.prefetch(callUrl).then((prefetchedData) => {
@@ -129,11 +123,23 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
     };
     for (let i = 0; i < sets.length; i++) {
       if ((i + 1) % 5) {
+        callUrls.push(
+          "/set/" +
+            (sets[i].id == SpecialSetNames.pop2
+              ? SpecialSetNames.poptwo
+              : sets[i].id)
+        );
         if (sets.length - 1 === i) {
-          batchAndExecutePrefetchThenClearUrls(i);
+          await batchAndExecutePrefetchThenClearUrls(i);
         }
       } else {
-        batchAndExecutePrefetchThenClearUrls(i);
+        callUrls.push(
+          "/set/" +
+            (sets[i].id == SpecialSetNames.pop2
+              ? SpecialSetNames.poptwo
+              : sets[i].id)
+        );
+        await batchAndExecutePrefetchThenClearUrls(i);
       }
     }
   };
