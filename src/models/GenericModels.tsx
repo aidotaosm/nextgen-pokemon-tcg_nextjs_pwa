@@ -46,4 +46,7 @@ export interface ModalProps {
   id?: string;
   handleModalClose?: (e: any) => void;
   modalCloseButton?: any;
+  hideFooter?: boolean;
+  modalTitle?: string;
+  hideHeader?: boolean;
 }

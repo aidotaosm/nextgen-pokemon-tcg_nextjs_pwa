@@ -6,7 +6,10 @@ const ModalComponent: FunctionComponent<ModalProps> = ({
   id = "bootstrap-modal",
   children,
   handleModalClose = () => {},
-  modalCloseButton,
+  modalCloseButton = null,
+  hideFooter = true,
+  hideHeader = true,
+  modalTitle = "Modal Title",
 }) => {
   console.log("modal component rendered");
   useEffect(() => {
@@ -35,8 +38,17 @@ const ModalComponent: FunctionComponent<ModalProps> = ({
     >
       <div className={"modal-dialog " + primaryClasses}>
         <div className={"modal-content " + secondaryClasses}>
+          <div className={"modal-header " + (hideHeader && "d-none")}>
+            <h5 className="modal-title">{modalTitle}</h5>
+            <button
+              type="button"
+              className="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
           <div className="modal-body">{children}</div>
-          <div className="modal-footer p-1 d-none">
+          <div className={"modal-footer " + (hideFooter && "d-none")}>
             <button
               type="button"
               className="btn btn-secondary btn-sm"
