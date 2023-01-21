@@ -13,7 +13,6 @@ export const getStaticProps: GetStaticProps = async () => {
     totalNumberOfSets = arrayOfSeries
       .map((series) => (totalNumberOfSets = series.sets.length))
       .reduce((partialSum, a) => partialSum + a, 0);
-    console.log(totalNumberOfSets);
   }
 
   return {

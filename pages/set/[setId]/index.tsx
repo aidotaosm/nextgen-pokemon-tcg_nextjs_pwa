@@ -3,6 +3,7 @@ import Head from "next/head";
 import { ParsedUrlQuery } from "querystring";
 import { Fragment, FunctionComponent } from "react";
 import { SetComponent } from "../../../src/components/SetComponent/SetComponent";
+import { SpecialSetNames } from "../../../src/models/Enums";
 import {
   BasicProps,
   CardsObjectProps,
@@ -25,8 +26,8 @@ export const getStaticPaths: GetStaticPaths = async (qry) => {
   let returnPaths: any[] = [];
   arrayOfSeries.forEach((series) => {
     series.sets.forEach((set: any) => {
-      if (set.id === "pop2") {
-        set.id = "poptwo"; // this is done because pop2 is blocked by ad blocker
+      if (set.id === SpecialSetNames.pop2) {
+        set.id = SpecialSetNames.poptwo; // this is done because pop2 is blocked by ad blocker
       }
       returnPaths.push({
         params: { setId: set.id },
@@ -52,7 +53,8 @@ export const getStaticPaths: GetStaticPaths = async (qry) => {
 export const getStaticProps: GetStaticProps = async (context) => {
   const { setId } = context.params as IParams;
   // this is done because pop2 is blocked by ad blocker
-  let correctedSetId = setId == "poptwo" ? "pop2" : setId;
+  let correctedSetId =
+    setId == SpecialSetNames.poptwo ? SpecialSetNames.pop2 : setId;
   const cardsObject = await getAllSetCards(correctedSetId);
   console.log(setId);
   console.log(cardsObject?.data?.length);
@@ -88,8 +90,8 @@ const Set: FunctionComponent<CardsObjectProps> = ({ cardsObject }) => {
           content={
             Helper.getBaseDomainServerSide() +
             "set/" +
-            (cardsObject?.data[0].set.id == "pop2"
-              ? "poptwo"
+            (cardsObject?.data[0].set.id == SpecialSetNames.pop2
+              ? SpecialSetNames.poptwo
               : cardsObject?.data[0].set.id)
           }
           key="og:url"

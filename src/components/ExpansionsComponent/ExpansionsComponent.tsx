@@ -11,9 +11,9 @@ import { ImageComponent } from "../ImageComponent/ImageComponent";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { defaultBlurImage } from "../../../public/base64Images/base64Images";
-import MemoizedModalComponent from "../UtilityComponents/ModalComponent";
 import { AppContext } from "../../contexts/AppContext";
 import { Helper } from "../../utils/helper";
+import { SpecialSetNames } from "../../models/Enums";
 
 export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
   arrayOfSeries,
@@ -23,20 +23,11 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
   let router = useRouter();
   const appContextValues = useContext(AppContext);
   const [setsBySeries, setSetsBySeries] = useState<any[]>(arrayOfSeries);
-  // useEffect(() => {
-  //   setsBySeries.forEach((series: any) => {
-  //     series.sets.forEach((set: any) => {
-  //       //router.prefetch("/set/" + (set.id == "pop2" ? "poptwo" : set.id));
-  //     });
-  //   });
-  // }, []);
+
   useEffect(() => {
     if (router.isReady) {
       let selectedSeriesId = router.query["opened-series"]?.toString();
       let element = document.getElementById(selectedSeriesId || "");
-      console.log(element);
-      console.log(selectedSeriesId);
-      console.log(setsBySeries[0].id);
       if (element && selectedSeriesId !== setsBySeries[0].id) {
         (
           document.getElementById(setsBySeries[0].id)?.children[0]
@@ -57,109 +48,20 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
             series.isOpen = false;
           }
         });
-        console.log(setsBySeries);
         setSetsBySeries([...setsBySeries]);
       } else {
         router.push("/series?opened-series=" + setsBySeries[0].id, undefined, {
           shallow: true,
         });
-        // (
-        //   document.getElementById(setsBySeries[0].id)?.children[0]
-        //     .children[0] as any
-        // )?.click();
       }
-      // let prefetchModalElement = document.getElementById(
-      //   "prefetch-modal-trigger"
-      // );
-      // if (prefetchModalElement) {
-      //   prefetchModalElement.click();
-      // }
-      // setsBySeries.forEach((series: any, seriesIndex: number) => {
-      //   series.sets.forEach((set: any, setIndex: number) => {
-      //     router
-      //       .prefetch("/set/" + (set.id == "pop2" ? "poptwo" : set.id))
-      //       .then((x) => {})
-      //       .catch((e) => {});
-      //   });
-      // });
     }
   }, [router.isReady]);
 
-  const toggleAccordion = (seriesId: any) => {
-    console.log(seriesId);
-    let allowScroll = false;
-    setsBySeries.forEach((s: any) => {
-      if (s.id !== seriesId) {
-        if (s.isOpen) {
-          (
-            document.getElementById(s.id)?.children[0].children[0] as any
-          )?.click();
-          console.log(document.getElementById(s.id));
-        }
-        s.isOpen = false;
-      } else {
-        s.isOpen = !s.isOpen;
-        allowScroll = s.isOpen;
-      }
-    });
-    console.log(setsBySeries);
-    setSetsBySeries([...setsBySeries]);
-    if (allowScroll) {
-      router.push("/series?opened-series=" + seriesId, undefined, {
-        shallow: true,
-      });
-    } else {
-      router.push("/series", undefined, {
-        shallow: true,
-      });
-    }
-    console.log("allowScroll", allowScroll);
-    if (allowScroll) {
-      setTimeout(() => {
-        document.getElementById(seriesId)?.scrollIntoView({
-          behavior: "smooth",
-          inline: "start",
-          block: "start",
-        });
-      }, 500);
-    }
-  };
-  console.log(appContextValues?.appState);
-  if (!Helper.isServerSide) {
-  }
-  const triggerPrefetch = async () => {
-    let callUrls: string[] = [];
-    for (let i = 0; i < sets.length; i++) {
-      if ((i + 1) % 5) {
-        callUrls.push("/set/" + (sets[i].id == "pop2" ? "poptwo" : sets[i].id));
-        if (sets.length - 1 === i) {
-          console.log(callUrls, "in progress");
-          let calls = callUrls.map(async (callUrl) => {
-            return router.prefetch(callUrl).then((prefetchedData) => {
-              console.log(callUrl, "done");
-            });
-          });
-          await Promise.all(calls);
-        }
-      } else {
-        callUrls.push("/set/" + (sets[i].id == "pop2" ? "poptwo" : sets[i].id));
-        console.log(callUrls, "in progress");
-        let calls = callUrls.map(async (callUrl) => {
-          return router.prefetch(callUrl).then((prefetchedData) => {
-            console.log(callUrl, "done");
-          });
-        });
-        await Promise.all(calls);
-        callUrls = [];
-      }
-    }
-  };
   useEffect(() => {
     const toastTrigger = document.getElementById("liveToastBtn");
     const toastLiveExample = document.getElementById("liveToast");
     let handleToastClick = () => {
       let bootStrapMasterClass = appContextValues?.appState?.bootstrap;
-      console.log("triggering show");
       new bootStrapMasterClass.Toast(toastLiveExample).show();
       triggerPrefetch();
     };
@@ -170,6 +72,72 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
       toastTrigger?.removeEventListener("click", handleToastClick);
     };
   }, [appContextValues?.appState?.bootstrap]);
+
+  const toggleAccordion = (seriesId: any) => {
+    let allowScroll = false;
+    setsBySeries.forEach((s: any) => {
+      if (s.id !== seriesId) {
+        if (s.isOpen) {
+          (
+            document.getElementById(s.id)?.children[0].children[0] as any
+          )?.click();
+        }
+        s.isOpen = false;
+      } else {
+        s.isOpen = !s.isOpen;
+        allowScroll = s.isOpen;
+      }
+    });
+    setSetsBySeries([...setsBySeries]);
+    if (allowScroll) {
+      router.push("/series?opened-series=" + seriesId, undefined, {
+        shallow: true,
+      });
+    } else {
+      router.push("/series", undefined, {
+        shallow: true,
+      });
+    }
+    if (allowScroll) {
+      setTimeout(() => {
+        document.getElementById(seriesId)?.scrollIntoView({
+          behavior: "smooth",
+          inline: "start",
+          block: "start",
+        });
+      }, 500);
+    }
+  };
+
+  const triggerPrefetch = async () => {
+    let callUrls: string[] = [];
+    const batchAndExecutePrefetchThenClearUrls = async (i: number) => {
+      callUrls.push(
+        "/set/" +
+          (sets[i].id == SpecialSetNames.pop2
+            ? SpecialSetNames.poptwo
+            : sets[i].id)
+      );
+      console.log(callUrls, "in progress");
+      let calls = callUrls.map(async (callUrl) => {
+        return router.prefetch(callUrl).then((prefetchedData) => {
+          console.log(callUrl, "done");
+        });
+      });
+      await Promise.all(calls);
+      callUrls = [];
+    };
+    for (let i = 0; i < sets.length; i++) {
+      if ((i + 1) % 5) {
+        if (sets.length - 1 === i) {
+          batchAndExecutePrefetchThenClearUrls(i);
+        }
+      } else {
+        batchAndExecutePrefetchThenClearUrls(i);
+      }
+    }
+  };
+
   return (
     <Fragment>
       <div className="container">
@@ -199,7 +167,6 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
                     aria-expanded="false"
                     aria-controls={series.id + "-series-id"}
                     onClick={(e) => {
-                      console.log(e.isTrusted);
                       if (e.isTrusted) {
                         toggleAccordion(series.id);
                       }
@@ -229,7 +196,9 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
                               href={
                                 // this is done because pop2 is blocked by ad blocker
                                 "/set/" +
-                                (set.id === "pop2" ? "poptwo" : set.id)
+                                (set.id === SpecialSetNames.pop2
+                                  ? SpecialSetNames.poptwo
+                                  : set.id)
                               }
                             >
                               <>
