@@ -254,6 +254,7 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
         primaryClasses="vertical-align-modal"
         hideFooter={false}
         hideHeader={false}
+        modalTitle="Download all expansion data"
       >
         <div>modal</div>
       </MemoizedModalComponent>
