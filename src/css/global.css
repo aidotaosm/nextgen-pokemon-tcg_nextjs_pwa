@@ -233,6 +233,7 @@ a.white-hover:hover {
   color: #9ca8b3;
 }
 .accordion-item {
+  background-color: #efefef;
   border-radius: 20px !important;
 }
 .accordion-button {
