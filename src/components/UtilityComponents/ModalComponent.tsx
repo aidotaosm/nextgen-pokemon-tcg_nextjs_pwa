@@ -10,6 +10,9 @@ const ModalComponent: FunctionComponent<ModalProps> = ({
   hideFooter = true,
   hideHeader = true,
   modalTitle = "Modal Title",
+  showOkButton = false,
+  okButtonText = "Ok",
+  handleOkButtonPress = () => {},
 }) => {
   console.log("modal component rendered");
   useEffect(() => {
@@ -56,6 +59,13 @@ const ModalComponent: FunctionComponent<ModalProps> = ({
               ref={modalCloseButton}
             >
               Close
+            </button>
+            <button
+              type="button"
+              className={"btn btn-primary btn-sm " + (showOkButton && "d-none")}
+              onClick={handleOkButtonPress}
+            >
+              {okButtonText}
             </button>
           </div>
         </div>

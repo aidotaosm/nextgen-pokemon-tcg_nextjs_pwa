@@ -66,22 +66,17 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
     }
   }, [router.isReady]);
 
-  useEffect(() => {
-    const toastTrigger = document.getElementById(prefetchToastButtonId);
+  let handleToastClick = () => {
     const toastLiveExample = document.getElementById(prefetchToastId);
-    let handleToastClick = () => {
-      let bootStrapMasterClass = appContextValues?.appState?.bootstrap;
+    let bootStrapMasterClass = appContextValues?.appState?.bootstrap;
+    if (toastLiveExample && bootStrapMasterClass) {
       new bootStrapMasterClass.Toast(toastLiveExample).show();
       triggerPrefetch();
-    };
-    if (toastTrigger && appContextValues?.appState?.bootstrap) {
-      toastTrigger.addEventListener("click", handleToastClick);
     }
-    return () => {
-      toastTrigger?.removeEventListener("click", handleToastClick);
-    };
-  }, [appContextValues?.appState?.bootstrap]);
-
+    if (modalCloseButton.current) {
+      modalCloseButton.current.click();
+    }
+  };
   const toggleAccordion = (seriesId: any) => {
     let allowScroll = false;
     setsBySeries.forEach((s: any) => {
@@ -152,7 +147,7 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
       }
     }
   };
-  const prefetchModalClick = () => {};
+
   return (
     <Fragment>
       <div className="container">
@@ -161,7 +156,6 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
           <FontAwesomeIcon
             icon={faClipboardCheck}
             size="2x"
-            onClick={prefetchModalClick}
             data-bs-toggle="modal"
             data-bs-target={"#" + prefetchInitModalId}
             className="cursor-pointer"
@@ -258,19 +252,12 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
         hideHeader={false}
         modalTitle="Download all expansion data"
         modalCloseButton={modalCloseButton}
+        handleOkButtonPress={handleToastClick}
       >
-        <button
-          type="button"
-          className="btn btn-primary"
-          id={prefetchToastButtonId}
-          onClick={() => {
-            if (modalCloseButton.current) {
-              modalCloseButton.current.click();
-            }
-          }}
-        >
-          Toast
-        </button>
+        <div>
+          Do you want to pre-load all the sets for offline use? You can continue
+          using the site as it runs in the background.
+        </div>
       </MemoizedModalComponent>
       <ToastComponent
         autoHide={false}

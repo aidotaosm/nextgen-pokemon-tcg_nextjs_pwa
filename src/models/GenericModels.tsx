@@ -49,4 +49,7 @@ export interface ModalProps {
   hideFooter?: boolean;
   modalTitle?: string;
   hideHeader?: boolean;
+  showOkButton?: boolean;
+  okButtonText?: string;
+  handleOkButtonPress?: (e: any) => void;
 }
