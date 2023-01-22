@@ -31,7 +31,7 @@ export const ToastComponent: FunctionComponent<ToastProps> = ({
             {/* <small>11 mins ago</small> */}
             <button
               type="button"
-              className="btn-close"
+              className="btn btn-sm btn-close"
               data-bs-dismiss="toast"
               aria-label="Close"
             ></button>
