@@ -112,37 +112,41 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
       }, 500);
     }
   };
-
+  console.log(sets);
   const triggerPrefetch = async () => {
-    let callUrls: string[] = [];
+    let setsWithCallUrls: any[] = [];
     const batchAndExecutePrefetchThenClearUrls = async (i: number) => {
-      console.log(callUrls, "in progress");
-      let calls = callUrls.map(async (callUrl) => {
-        return router.prefetch(callUrl).then((prefetchedData) => {
-          console.log(callUrl, "done");
+      console.log(setsWithCallUrls, "in progress");
+      let calls = setsWithCallUrls.map(async (set) => {
+        return router.prefetch(set.callUrl).then((prefetchedData) => {
+          console.log(set.name, "done");
         });
       });
       await Promise.all(calls);
-      callUrls = [];
+      setsWithCallUrls = [];
     };
     for (let i = 0; i < sets.length; i++) {
       if ((i + 1) % 5) {
-        callUrls.push(
-          "/set/" +
+        setsWithCallUrls.push({
+          ...sets[i],
+          callUrl:
+            "/set/" +
             (sets[i].id == SpecialSetNames.pop2
               ? SpecialSetNames.poptwo
-              : sets[i].id)
-        );
+              : sets[i].id),
+        });
         if (sets.length - 1 === i) {
           await batchAndExecutePrefetchThenClearUrls(i);
         }
       } else {
-        callUrls.push(
-          "/set/" +
+        setsWithCallUrls.push({
+          ...sets[i],
+          callUrl:
+            "/set/" +
             (sets[i].id == SpecialSetNames.pop2
               ? SpecialSetNames.poptwo
-              : sets[i].id)
-        );
+              : sets[i].id),
+        });
         await batchAndExecutePrefetchThenClearUrls(i);
       }
     }
@@ -175,7 +179,7 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
                 >
                   <button
                     className={
-                      "accordion-button special-accordion py-2-5 px-3 fs-5 fw-bold " +
+                      "accordion-button special-accordion py-2-2-5 px-3 fs-5 fw-bold " +
                       (seriesIndex === 0 ? "" : "collapsed")
                     }
                     type="button"
@@ -253,6 +257,7 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
         modalTitle="Download all expansion data"
         modalCloseButton={modalCloseButton}
         handleOkButtonPress={handleToastClick}
+        okButtonText={"Download"}
       >
         <div>
           Do you want to pre-load all the sets for offline use? You can continue

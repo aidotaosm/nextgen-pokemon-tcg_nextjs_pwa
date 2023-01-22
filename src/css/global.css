@@ -19,6 +19,23 @@ html {
   cursor: pointer;
 }
 
+.py-2-2-5 {
+  padding-top: 0.65rem !important;
+  padding-bottom: 0.65rem !important;
+}
+
+.px-2-2-5 {
+  padding-left: 0.65rem !important;
+  padding-right: 0.65rem !important;
+}
+
+.p-2-2-5 {
+  padding-top: 0.65rem !important;
+  padding-bottom: 0.65rem !important;
+  padding-left: 0.65rem !important;
+  padding-right: 0.65rem !important;
+}
+
 .py-2-5 {
   padding-top: 0.75rem !important;
   padding-bottom: 0.75rem !important;
