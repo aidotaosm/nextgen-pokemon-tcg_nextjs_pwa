@@ -6,21 +6,24 @@ import { SeriesArrayProps } from "../src/models/GenericModels";
 import { Helper } from "../src/utils/helper";
 import { getExpansions } from "../src/utils/networkCalls";
 export const getStaticProps: GetStaticProps = async () => {
-  let arrayOfSeries = await getExpansions();
+  let { arrayOfSeries, sets } = await getExpansions();
   let totalNumberOfSets = 0;
   if (arrayOfSeries) {
     arrayOfSeries[0].isOpen = true;
     totalNumberOfSets = arrayOfSeries
       .map((series) => (totalNumberOfSets = series.sets.length))
       .reduce((partialSum, a) => partialSum + a, 0);
-    console.log(totalNumberOfSets);
   }
 
-  return { props: { arrayOfSeries, totalNumberOfSets }, revalidate: 60 * 60 };
+  return {
+    props: { arrayOfSeries, totalNumberOfSets, sets },
+    revalidate: 60 * 60,
+  };
 };
 const Series: FunctionComponent<SeriesArrayProps> = ({
   arrayOfSeries,
   totalNumberOfSets,
+  sets,
 }) => {
   return (
     <Fragment>
@@ -71,6 +74,7 @@ const Series: FunctionComponent<SeriesArrayProps> = ({
       <ExpansionsComponent
         arrayOfSeries={arrayOfSeries}
         totalNumberOfSets={totalNumberOfSets}
+        sets={sets}
       />
     </Fragment>
   );

@@ -6,7 +6,13 @@ const ModalComponent: FunctionComponent<ModalProps> = ({
   id = "bootstrap-modal",
   children,
   handleModalClose = () => {},
-  modalCloseButton,
+  modalCloseButton = null,
+  hideFooter = true,
+  hideHeader = true,
+  modalTitle = "Modal Title",
+  showOkButton = false,
+  okButtonText = "Ok",
+  handleOkButtonPress = () => {},
 }) => {
   console.log("modal component rendered");
   useEffect(() => {
@@ -35,8 +41,17 @@ const ModalComponent: FunctionComponent<ModalProps> = ({
     >
       <div className={"modal-dialog " + primaryClasses}>
         <div className={"modal-content " + secondaryClasses}>
+          <div className={"modal-header " + (hideHeader && "d-none")}>
+            <h5 className="modal-title">{modalTitle}</h5>
+            <button
+              type="button"
+              className="btn btn-close btn-sm"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
           <div className="modal-body">{children}</div>
-          <div className="modal-footer p-1 d-none">
+          <div className={"modal-footer " + (hideFooter && "d-none")}>
             <button
               type="button"
               className="btn btn-secondary btn-sm"
@@ -44,6 +59,13 @@ const ModalComponent: FunctionComponent<ModalProps> = ({
               ref={modalCloseButton}
             >
               Close
+            </button>
+            <button
+              type="button"
+              className={"btn btn-primary btn-sm " + (showOkButton && "d-none")}
+              onClick={handleOkButtonPress}
+            >
+              {okButtonText}
             </button>
           </div>
         </div>

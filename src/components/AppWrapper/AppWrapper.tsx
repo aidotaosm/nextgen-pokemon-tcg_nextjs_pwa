@@ -24,9 +24,9 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
   let router = useRouter();
   const [pathToRedirect, setPathToRedirect] = useState<string>("");
   const [listOfPaths, setListOfPaths] = useState<string[]>([]);
+
   useEffect(() => {
     if (router.isReady) {
-      console.log(router);
       if (router.asPath.includes("/series")) {
         setListOfPaths((l) => [...l, router.asPath]);
       }
@@ -40,8 +40,6 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
           listOfPaths.length &&
           listOfPaths[listOfPaths.length - 1] != router.asPath
         ) {
-          console.log(listOfPaths);
-
           setPathToRedirect(listOfPaths[listOfPaths.length - 1]);
         } else {
           setPathToRedirect("/series");
@@ -53,7 +51,6 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
   useEffect(() => {
     let localAppState: LocalAppInterface =
       Helper.getLocalStorageItem("appState");
-    console.log(localAppState);
     let darkModeValue =
       localAppState?.hasOwnProperty("darkMode") &&
       typeof localAppState.darkMode === "boolean"
@@ -89,11 +86,10 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
             className=" icon-min-width "
             onClick={(e) => {
               e.preventDefault();
-              console.log(pathToRedirect);
-              router.push(pathToRedirect);
+              router.push(pathToRedirect || "/");
             }}
           >
-            <IF condition={pathToRedirect}>
+            <IF condition={pathToRedirect || router.pathname != "/"}>
               <FontAwesomeIcon
                 className="cursor-pointer user-select-none"
                 icon={faArrowLeftLong}

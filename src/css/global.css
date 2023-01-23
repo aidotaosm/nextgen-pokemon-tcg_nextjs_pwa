@@ -19,6 +19,23 @@ html {
   cursor: pointer;
 }
 
+.py-2-2-5 {
+  padding-top: 0.65rem !important;
+  padding-bottom: 0.65rem !important;
+}
+
+.px-2-2-5 {
+  padding-left: 0.65rem !important;
+  padding-right: 0.65rem !important;
+}
+
+.p-2-2-5 {
+  padding-top: 0.65rem !important;
+  padding-bottom: 0.65rem !important;
+  padding-left: 0.65rem !important;
+  padding-right: 0.65rem !important;
+}
+
 .py-2-5 {
   padding-top: 0.75rem !important;
   padding-bottom: 0.75rem !important;
@@ -208,10 +225,32 @@ a.white-hover:hover {
   /* border: none !important; */
   transition: 0.5s;
 }
-.dark-mode .accordion-item {
+.accordion-item {
   border: none !important;
 }
+.accordion-item .accordion-button {
+  border: var(--bs-accordion-border-width) solid #83898f;
+}
+
+.toast {
+  background-color: #ededed;
+}
+.toast-header {
+  border-color: #0000000d;
+}
+.dark-mode .toast {
+  border-color: #ffffff2d;
+  background-color: #202020;
+  color: #bebebe;
+  box-shadow: 0 0.5rem 1rem #ffffff26;
+}
+.dark-mode .toast-header {
+  border-color: #ffffff26;
+  background-color: #181818;
+  color: #9ca8b3;
+}
 .accordion-item {
+  background-color: #efefef;
   border-radius: 20px !important;
 }
 .accordion-button {

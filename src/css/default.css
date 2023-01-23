@@ -1,9 +1,9 @@
 :root {
-    --bs-body-font-size: 15px;
+  --bs-body-font-size: 15px;
 }
 
 @media (max-width: 500px) {
-    :root {
-        --bs-body-font-size: 14px;
-    }
+  :root {
+    --bs-body-font-size: 14px;
+  }
 }

@@ -49,8 +49,6 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
   };
 
   useEffect(() => {
-    console.log(cardsObject);
-
     if (cardsObject && router.isReady) {
       let routerPageIndex = 0;
       if (
@@ -75,7 +73,6 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
   }, [router.isReady]);
 
   const pageChanged = (newPageIndex: number, updateRoute: boolean = true) => {
-    console.log(newPageIndex);
     // if (!isLoading) {
     let from = newPageIndex * DEFAULT_PAGE_SIZE;
     let to = (newPageIndex + 1) * DEFAULT_PAGE_SIZE;
