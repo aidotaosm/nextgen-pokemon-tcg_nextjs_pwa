@@ -16,9 +16,16 @@ import { defaultBlurImage } from "../../../public/base64Images/base64Images";
 import { AppContext } from "../../contexts/AppContext";
 import { SpecialSetNames } from "../../models/Enums";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faClipboardCheck } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCheck,
+  faClipboardCheck,
+  faCross,
+  faSpinner,
+  faXmark,
+} from "@fortawesome/free-solid-svg-icons";
 import { ToastComponent } from "../UtilityComponents/ToastComponent";
 import MemoizedModalComponent from "../UtilityComponents/ModalComponent";
+import { IF } from "../UtilityComponents/IF";
 
 export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
   arrayOfSeries,
@@ -32,8 +39,7 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
   const prefetchToastId = "prefetchToast";
   const prefetchInitModalId = "prefetchInitModal";
   const [prefetchingSets, setPrefetchingSets] = useState<any[]>([]);
-  const [mostRecentlyPrefetchedSet, setMostRecentlyPrefetchedSet] =
-    useState<string>("");
+  const [totalNumberOfSetsDone, setTotalNumberOfSetsDone] = useState<number>(0);
   useEffect(() => {
     if (router.isReady) {
       let selectedSeriesId = router.query["opened-series"]?.toString();
@@ -118,21 +124,21 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
 
   const triggerPrefetch = async () => {
     let setsWithCallUrls: any[] = [];
+    setTotalNumberOfSetsDone(0);
     const batchAndExecutePrefetchThenClearUrls = async (setIndex: number) => {
       setPrefetchingSets(setsWithCallUrls);
       console.log(setsWithCallUrls, "in progress");
       let calls = setsWithCallUrls.map(async (set) => {
         return router.prefetch(set.callUrl).then((prefetchedData) => {
           console.log(set.name, "done");
-          //setMostRecentlyPrefetchedSet(set.name);
           set.done = true;
           setPrefetchingSets([...setsWithCallUrls]);
+          setTotalNumberOfSetsDone((e) => ++e);
         });
       });
       await Promise.all(calls);
       setsWithCallUrls = [];
       setPrefetchingSets(setsWithCallUrls);
-      setMostRecentlyPrefetchedSet("");
     };
     for (
       let seriesIndex = 0;
@@ -299,25 +305,69 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
         id={prefetchToastId}
       >
         <div>
-          <div className="mb-2">
-            {mostRecentlyPrefetchedSet}
-            {prefetchingSets.map((set: any, setIndex: number) => {
+          <div className="d-flex justify-content-end fw-bold ">
+            {totalNumberOfSetsDone} / {totalNumberOfSets}
+          </div>
+          <IF condition={prefetchingSets.length}>
+            <div className="fw-bold mb-2 fs-6">Currently downloading sets</div>
+            <div className="row row-cols-2">
+              {prefetchingSets.map((set: any, setIndex: number) => {
+                return (
+                  <div className="col mb-1" key={set.id} id={set.id}>
+                    <div className="d-flex align-items-center">
+                      <div className="me-2">
+                        {set.done ? (
+                          <FontAwesomeIcon
+                            icon={faCheck}
+                            className="text-success"
+                          />
+                        ) : (
+                          <FontAwesomeIcon
+                            icon={faSpinner}
+                            spin={true}
+                            className="text-primary"
+                          />
+                        )}
+                      </div>
+                      <div>{set.name}</div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+            <hr />
+          </IF>
+          <div className="fw-bold mb-2 fs-6">Expansions</div>
+          <div className="row row-cols-2">
+            {setsBySeries.map((series, seriesIndex) => {
               return (
-                <div className="d-flex mb-2" key={set.id} id={set.id}>
-                  <div className="me-2">{set.done ? "Done" : "On que"}</div>
-                  <div>{set.name}</div>
+                <div className="col mb-1" key={series.id} id={series.id}>
+                  <div className="d-flex align-items-center">
+                    <div className="me-2">
+                      {series.prefetchStatus == "loading" ? (
+                        <FontAwesomeIcon
+                          icon={faSpinner}
+                          spin={true}
+                          className="text-primary"
+                        />
+                      ) : series.prefetchStatus == "done" ? (
+                        <FontAwesomeIcon
+                          icon={faCheck}
+                          className="text-success"
+                        />
+                      ) : (
+                        <FontAwesomeIcon
+                          icon={faXmark}
+                          className="text-danger"
+                        />
+                      )}
+                    </div>
+                    <div className="">{series.series}</div>
+                  </div>
                 </div>
               );
             })}
           </div>
-          {setsBySeries.map((series, seriesIndex) => {
-            return (
-              <div className="d-flex mb-2" key={series.id} id={series.id}>
-                <div className="me-2">{series.prefetchStatus}</div>
-                <div> {series.series}</div>
-              </div>
-            );
-          })}
         </div>
       </ToastComponent>
     </Fragment>
