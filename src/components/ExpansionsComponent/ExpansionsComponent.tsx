@@ -1,6 +1,7 @@
 import {
   Fragment,
   FunctionComponent,
+  useCallback,
   useContext,
   useEffect,
   useRef,
@@ -30,7 +31,9 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
   const modalCloseButton = useRef<any>();
   const prefetchToastId = "prefetchToast";
   const prefetchInitModalId = "prefetchInitModal";
-
+  const [prefetchingSets, setPrefetchingSets] = useState<any[]>([]);
+  const [mostRecentlyPrefetchedSet, setMostRecentlyPrefetchedSet] =
+    useState<string>("");
   useEffect(() => {
     if (router.isReady) {
       let selectedSeriesId = router.query["opened-series"]?.toString();
@@ -64,15 +67,17 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
     }
   }, [router.isReady]);
 
-  let handleToastClick = () => {
+  const handleToastClick = () => {
     const toastLiveExample = document.getElementById(prefetchToastId);
     let bootStrapMasterClass = appContextValues?.appState?.bootstrap;
-    if (toastLiveExample && bootStrapMasterClass) {
-      new bootStrapMasterClass.Toast(toastLiveExample).show();
-      triggerPrefetch();
-    }
     if (modalCloseButton.current) {
       modalCloseButton.current.click();
+    }
+    if (toastLiveExample && bootStrapMasterClass) {
+      new bootStrapMasterClass.Toast(toastLiveExample).show();
+      setTimeout(() => {
+        triggerPrefetch();
+      }, 0);
     }
   };
   const toggleAccordion = (seriesId: any) => {
@@ -110,24 +115,35 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
       }, 500);
     }
   };
-  // console.log(sets);
+
   const triggerPrefetch = async () => {
     let setsWithCallUrls: any[] = [];
     const batchAndExecutePrefetchThenClearUrls = async (setIndex: number) => {
+      setPrefetchingSets(setsWithCallUrls);
       console.log(setsWithCallUrls, "in progress");
       let calls = setsWithCallUrls.map(async (set) => {
         return router.prefetch(set.callUrl).then((prefetchedData) => {
           console.log(set.name, "done");
+          //setMostRecentlyPrefetchedSet(set.name);
+          set.done = true;
+          setPrefetchingSets([...setsWithCallUrls]);
         });
       });
       await Promise.all(calls);
       setsWithCallUrls = [];
+      setPrefetchingSets(setsWithCallUrls);
+      setMostRecentlyPrefetchedSet("");
     };
     for (
       let seriesIndex = 0;
       seriesIndex < setsBySeries.length;
       seriesIndex++
     ) {
+      setsBySeries[seriesIndex].prefetchStatus = "loading";
+      if (seriesIndex > 0) {
+        setsBySeries[seriesIndex - 1].prefetchStatus = "done";
+      }
+      setSetsBySeries([...setsBySeries]);
       for (
         let setIndex = 0;
         setIndex < setsBySeries[seriesIndex].sets.length;
@@ -160,8 +176,9 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
         }
       }
     }
+    setsBySeries[setsBySeries.length - 1].prefetchStatus = "done";
+    setSetsBySeries([...setsBySeries]);
   };
-
   return (
     <Fragment>
       <div className="container">
@@ -281,7 +298,27 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
         toastTitle="Prefetch Status"
         id={prefetchToastId}
       >
-        <div>as</div>
+        <div>
+          <div className="mb-2">
+            {mostRecentlyPrefetchedSet}
+            {prefetchingSets.map((set: any, setIndex: number) => {
+              return (
+                <div className="d-flex mb-2" key={set.id} id={set.id}>
+                  <div className="me-2">{set.done ? "Done" : "On que"}</div>
+                  <div>{set.name}</div>
+                </div>
+              );
+            })}
+          </div>
+          {setsBySeries.map((series, seriesIndex) => {
+            return (
+              <div className="d-flex mb-2" key={series.id} id={series.id}>
+                <div className="me-2">{series.prefetchStatus}</div>
+                <div> {series.series}</div>
+              </div>
+            );
+          })}
+        </div>
       </ToastComponent>
     </Fragment>
   );
