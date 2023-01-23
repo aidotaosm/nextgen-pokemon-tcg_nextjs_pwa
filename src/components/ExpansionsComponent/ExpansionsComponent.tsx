@@ -13,7 +13,6 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import { defaultBlurImage } from "../../../public/base64Images/base64Images";
 import { AppContext } from "../../contexts/AppContext";
-import { Helper } from "../../utils/helper";
 import { SpecialSetNames } from "../../models/Enums";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClipboardCheck } from "@fortawesome/free-solid-svg-icons";
@@ -29,7 +28,6 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
   const appContextValues = useContext(AppContext);
   const [setsBySeries, setSetsBySeries] = useState<any[]>(arrayOfSeries);
   const modalCloseButton = useRef<any>();
-  const prefetchToastButtonId = "prefetchToastButton";
   const prefetchToastId = "prefetchToast";
   const prefetchInitModalId = "prefetchInitModal";
 
@@ -112,10 +110,10 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
       }, 500);
     }
   };
-  console.log(sets);
+  // console.log(sets);
   const triggerPrefetch = async () => {
     let setsWithCallUrls: any[] = [];
-    const batchAndExecutePrefetchThenClearUrls = async (i: number) => {
+    const batchAndExecutePrefetchThenClearUrls = async (setIndex: number) => {
       console.log(setsWithCallUrls, "in progress");
       let calls = setsWithCallUrls.map(async (set) => {
         return router.prefetch(set.callUrl).then((prefetchedData) => {
@@ -125,29 +123,41 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
       await Promise.all(calls);
       setsWithCallUrls = [];
     };
-    for (let i = 0; i < sets.length; i++) {
-      if ((i + 1) % 5) {
-        setsWithCallUrls.push({
-          ...sets[i],
-          callUrl:
-            "/set/" +
-            (sets[i].id == SpecialSetNames.pop2
-              ? SpecialSetNames.poptwo
-              : sets[i].id),
-        });
-        if (sets.length - 1 === i) {
-          await batchAndExecutePrefetchThenClearUrls(i);
+    for (
+      let seriesIndex = 0;
+      seriesIndex < setsBySeries.length;
+      seriesIndex++
+    ) {
+      for (
+        let setIndex = 0;
+        setIndex < setsBySeries[seriesIndex].sets.length;
+        setIndex++
+      ) {
+        if ((setIndex + 1) % 5) {
+          setsWithCallUrls.push({
+            ...setsBySeries[seriesIndex].sets[setIndex],
+            callUrl:
+              "/set/" +
+              (setsBySeries[seriesIndex].sets[setIndex].id ==
+              SpecialSetNames.pop2
+                ? SpecialSetNames.poptwo
+                : setsBySeries[seriesIndex].sets[setIndex].id),
+          });
+          if (setsBySeries[seriesIndex].sets.length - 1 === setIndex) {
+            await batchAndExecutePrefetchThenClearUrls(setIndex);
+          }
+        } else {
+          setsWithCallUrls.push({
+            ...setsBySeries[seriesIndex].sets[setIndex],
+            callUrl:
+              "/set/" +
+              (setsBySeries[seriesIndex].sets[setIndex].id ==
+              SpecialSetNames.pop2
+                ? SpecialSetNames.poptwo
+                : setsBySeries[seriesIndex].sets[setIndex].id),
+          });
+          await batchAndExecutePrefetchThenClearUrls(setIndex);
         }
-      } else {
-        setsWithCallUrls.push({
-          ...sets[i],
-          callUrl:
-            "/set/" +
-            (sets[i].id == SpecialSetNames.pop2
-              ? SpecialSetNames.poptwo
-              : sets[i].id),
-        });
-        await batchAndExecutePrefetchThenClearUrls(i);
       }
     }
   };
@@ -206,7 +216,7 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
                 >
                   <div className="accordion-body pb-2 pt-3">
                     <div className="row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 row-cols-xxl-5">
-                      {series.sets.map((set: any) => {
+                      {series.sets.map((set: any, setIndex: number) => {
                         return (
                           <div
                             className={"col mb-2 " + styles.set}
@@ -214,6 +224,8 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
                             id={set.id}
                           >
                             <Link
+                              //only the first 2 sets of each expansion are prefetched upon viewport entry
+                              prefetch={setIndex < 2}
                               href={
                                 // this is done because pop2 is blocked by ad blocker
                                 "/set/" +
