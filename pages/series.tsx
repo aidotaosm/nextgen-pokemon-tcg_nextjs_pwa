@@ -8,7 +8,7 @@ import { getExpansions } from "../src/utils/networkCalls";
 export const getStaticProps: GetStaticProps = async () => {
   let { arrayOfSeries, sets } = await getExpansions();
   let totalNumberOfSets = 0;
-  if (arrayOfSeries) {
+  if (arrayOfSeries && arrayOfSeries[0]) {
     arrayOfSeries[0].isOpen = true;
     totalNumberOfSets = arrayOfSeries
       .map((series) => (totalNumberOfSets = series.sets.length))
