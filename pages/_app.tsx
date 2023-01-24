@@ -10,7 +10,6 @@ import "@fortawesome/fontawesome-svg-core/styles.css";
 import { AppProvider } from "../src/contexts/AppContext";
 import Head from "next/head";
 import { Helper } from "../src/utils/helper";
-//import { initServiceWorker } from "../public/initServiceWorker";
 config.autoAddCss = false;
 
 export default function MyApp({ Component, pageProps }: AppProps) {
