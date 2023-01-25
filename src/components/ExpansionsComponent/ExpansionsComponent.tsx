@@ -20,6 +20,7 @@ import {
   faCheck,
   faClipboardCheck,
   faCross,
+  faL,
   faSpinner,
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
@@ -40,6 +41,9 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
   const prefetchInitModalId = "prefetchInitModal";
   const [prefetchingSets, setPrefetchingSets] = useState<any[]>([]);
   const [totalNumberOfSetsDone, setTotalNumberOfSetsDone] = useState<number>(0);
+  const [shouldCancel, setShouldCancel] = useState<any>({
+    shouldCancel: false,
+  });
   useEffect(() => {
     if (router.isReady) {
       let selectedSeriesId = router.query["opened-series"]?.toString();
@@ -81,6 +85,7 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
     }
     if (toastLiveExample && bootStrapMasterClass) {
       new bootStrapMasterClass.Toast(toastLiveExample).show();
+      setShouldCancel({ shouldCancel: false });
       setTimeout(() => {
         triggerPrefetch();
       }, 0);
@@ -127,10 +132,8 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
     setTotalNumberOfSetsDone(0);
     const batchAndExecutePrefetchThenClearUrls = async (setIndex: number) => {
       setPrefetchingSets(setsWithCallUrls);
-      console.log(setsWithCallUrls, "in progress");
       let calls = setsWithCallUrls.map(async (set) => {
         return router.prefetch(set.callUrl).then((prefetchedData) => {
-          console.log(set.name, "done");
           set.done = true;
           setPrefetchingSets([...setsWithCallUrls]);
           setTotalNumberOfSetsDone((e) => ++e);
@@ -140,7 +143,7 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
       setsWithCallUrls = [];
       setPrefetchingSets(setsWithCallUrls);
     };
-    for (
+    seriesLoop: for (
       let seriesIndex = 0;
       seriesIndex < setsBySeries.length;
       seriesIndex++
@@ -150,11 +153,24 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
         setsBySeries[seriesIndex - 1].prefetchStatus = "done";
       }
       setSetsBySeries([...setsBySeries]);
-      for (
+      setLoop: for (
         let setIndex = 0;
         setIndex < setsBySeries[seriesIndex].sets.length;
         setIndex++
       ) {
+        console.log(shouldCancel, "shouldCancel");
+        if (shouldCancel.shouldCancel) {
+          let loadingSeries = setsBySeries.find(
+            (series) => series.prefetchStatus === "loading"
+          );
+          if (loadingSeries) {
+            delete loadingSeries.prefetchStatus;
+          }
+          setSetsBySeries([...setsBySeries]);
+          setsWithCallUrls = [];
+          setPrefetchingSets(setsWithCallUrls);
+          break seriesLoop;
+        }
         if ((setIndex + 1) % 5) {
           setsWithCallUrls.push({
             ...setsBySeries[seriesIndex].sets[setIndex],
@@ -305,8 +321,46 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
         id={prefetchToastId}
       >
         <div>
-          <div className="d-flex justify-content-end fw-bold ">
-            {totalNumberOfSetsDone} / {totalNumberOfSets}
+          <div
+            className={
+              "d-flex fw-bold " +
+              (totalNumberOfSetsDone < totalNumberOfSets
+                ? "justify-content-between"
+                : "justify-content-end")
+            }
+          >
+            <IF
+              condition={
+                totalNumberOfSetsDone < totalNumberOfSets &&
+                shouldCancel.shouldCancel
+              }
+            >
+              <a
+                className="cursor-pointer"
+                onClick={() => {
+                  setShouldCancel({ shouldCancel: false });
+                  triggerPrefetch();
+                }}
+              >
+                Restart
+              </a>
+            </IF>
+            <IF
+              condition={
+                totalNumberOfSetsDone < totalNumberOfSets &&
+                !shouldCancel.shouldCancel
+              }
+            >
+              <a
+                className="cursor-pointer"
+                onClick={() => setShouldCancel({ shouldCancel: true })}
+              >
+                Cancel
+              </a>
+            </IF>
+            <span>
+              {totalNumberOfSetsDone} / {totalNumberOfSets}
+            </span>
           </div>
           <IF condition={prefetchingSets.length}>
             <div className="fw-bold mb-2 fs-6">Currently downloading sets</div>
