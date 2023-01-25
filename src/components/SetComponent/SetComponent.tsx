@@ -13,172 +13,180 @@ import { ImageComponent } from "../ImageComponent/ImageComponent";
 import { defaultBlurImage } from "../../../public/base64Images/base64Images";
 
 export const SetComponent: FunctionComponent<CardsObjectProps> = ({
-    cardsObject,
+  cardsObject,
 }) => {
-    // console.log(cardsObject);
-    let router = useRouter();
-    const getCardsForServerSide = () => {
-        let from = 0 * DEFAULT_PAGE_SIZE;
-        let to = (0 + 1) * DEFAULT_PAGE_SIZE;
-        let changedSetOfCards = cardsObject?.data.slice(from, to);
-        return changedSetOfCards;
-    };
-    const [setCards, setSetCards] = useState<any>(
-        getCardsForServerSide() || []
-    );
-    const [pageIndex, setPageIndex] = useState<number>(0);
-    const [refPageNumber, setRefPageNumber] = useState<number>(0);
-    const appContextValues = useContext(AppContext);
+  // console.log(cardsObject);
+  let router = useRouter();
+  const getCardsForServerSide = () => {
+    let from = 0 * DEFAULT_PAGE_SIZE;
+    let to = (0 + 1) * DEFAULT_PAGE_SIZE;
+    let changedSetOfCards = cardsObject?.data.slice(from, to);
+    return changedSetOfCards;
+  };
+  const [setCards, setSetCards] = useState<any>(getCardsForServerSide() || []);
+  const [pageIndex, setPageIndex] = useState<number>(0);
+  const [refPageNumber, setRefPageNumber] = useState<number>(0);
+  const appContextValues = useContext(AppContext);
+  const [searchValue, setSearchVaslue] = useState("");
 
-    // const getSetCards = (paramPageIndex: number) => {
-    //   setIsLoading(true);
-    //   let pokemonSDKVariable = Helper.initializePokemonSDK();
-    //   pokemonSDKVariable.card
-    //     .where({
-    //       q: "set.id:" + router.query.setId,
-    //       pageSize: DEFAULT_PAGE_SIZE,
-    //       page: paramPageIndex + 1,
-    //     })
-    //     .then((response: any) => {
-    //       console.log(response);
-    //       setSetCards(response);
-    //       setPageIndex(paramPageIndex);
-    //       setIsLoading(false);
-    //     });
-    // };
-    const getUpdatedView = (view: boolean) => {
-        appContextValues?.updateGridView(view);
-    };
+  // const getSetCards = (paramPageIndex: number) => {
+  //   setIsLoading(true);
+  //   let pokemonSDKVariable = Helper.initializePokemonSDK();
+  //   pokemonSDKVariable.card
+  //     .where({
+  //       q: "set.id:" + router.query.setId,
+  //       pageSize: DEFAULT_PAGE_SIZE,
+  //       page: paramPageIndex + 1,
+  //     })
+  //     .then((response: any) => {
+  //       console.log(response);
+  //       setSetCards(response);
+  //       setPageIndex(paramPageIndex);
+  //       setIsLoading(false);
+  //     });
+  // };
+  const getUpdatedView = (view: boolean) => {
+    appContextValues?.updateGridView(view);
+  };
 
-    useEffect(() => {
-        if (cardsObject && router.isReady) {
-            let routerPageIndex = 0;
-            if (
-                router.query.page &&
-                !isNaN(+router.query.page) &&
-                !isNaN(parseFloat(router.query.page.toString()))
-            ) {
-                if (
-                    (+router.query.page + 1) * DEFAULT_PAGE_SIZE >
-                    cardsObject.totalCount
-                ) {
-                    let lastPage = Math.floor(
-                        cardsObject.totalCount / DEFAULT_PAGE_SIZE
-                    );
-                    routerPageIndex = lastPage;
-                } else {
-                    routerPageIndex = +router.query.page;
-                }
-            }
-            if (routerPageIndex !== pageIndex) {
-                pageChanged(routerPageIndex, false);
-            }
-        }
-    }, [router.isReady]);
-
-    const pageChanged = (newPageIndex: number, updateRoute: boolean = true) => {
-        // if (!isLoading) {
-        let from = newPageIndex * DEFAULT_PAGE_SIZE;
-        let to = (newPageIndex + 1) * DEFAULT_PAGE_SIZE;
-        let changedSetOfCards = cardsObject.data.slice(from, to);
-        setSetCards(changedSetOfCards);
-        setPageIndex(newPageIndex);
-        if (updateRoute) {
-            updateRouteWithQuery(newPageIndex);
+  useEffect(() => {
+    if (cardsObject && router.isReady) {
+      let routerPageIndex = 0;
+      if (
+        router.query.page &&
+        !isNaN(+router.query.page) &&
+        !isNaN(parseFloat(router.query.page.toString()))
+      ) {
+        if (
+          (+router.query.page + 1) * DEFAULT_PAGE_SIZE >
+          cardsObject.totalCount
+        ) {
+          let lastPage = Math.floor(cardsObject.totalCount / DEFAULT_PAGE_SIZE);
+          routerPageIndex = lastPage;
         } else {
-            setRefPageNumber(newPageIndex + 1);
+          routerPageIndex = +router.query.page;
         }
-        //getSetCards(newPageIndex);
-        //}
-    };
+      }
+      if (routerPageIndex !== pageIndex) {
+        pageChanged(routerPageIndex, false);
+      }
+    }
+  }, [router.isReady]);
 
-    const updateRouteWithQuery = (newPageIndex: number) => {
-        if (newPageIndex > 0) {
-            router.push(
-                "/set/" + router.query.setId + "?page=" + newPageIndex,
-                undefined,
-                { shallow: true }
-            );
-        } else {
-            router.push("/set/" + router.query.setId, undefined, {
-                shallow: true,
-            });
-        }
-    };
+  useEffect(() => {
+    const data = cardsObject.data.filter((item: any) => {
+      return item.name.toLowerCase().includes(searchValue.toLowerCase());
+    });
+    setSetCards(data);
+  }, [searchValue]);
 
-    const syncPagingReferences = (pageNumber: number) => {
-        setRefPageNumber(pageNumber);
-    };
-    if (router.isFallback) {
-        return (
-            <div className="container d-flex h-100 align-items-center justify-content-center">
-                <h1>Set Loading...</h1>
-            </div>
-        );
+  const pageChanged = (newPageIndex: number, updateRoute: boolean = true) => {
+    // if (!isLoading) {
+    let from = newPageIndex * DEFAULT_PAGE_SIZE;
+    let to = (newPageIndex + 1) * DEFAULT_PAGE_SIZE;
+    let changedSetOfCards = cardsObject.data.slice(from, to);
+    setSetCards(changedSetOfCards);
+    setPageIndex(newPageIndex);
+    if (updateRoute) {
+      updateRouteWithQuery(newPageIndex);
     } else {
-        return (
-            <div className="container">
-                <div className="d-flex justify-content-center mb-4 align-items-center">
-                    <div style={{ width: "8rem" }}>
-                        <ImageComponent
-                            src={cardsObject.data[0].set?.images?.logo}
-                            alt={cardsObject.data[0].set.name}
-                            height={72}
-                            width={192}
-                            blurDataURL={defaultBlurImage}
-                            className="w-100 h-auto"
-                        />
-                    </div>
-                    {/* 
+      setRefPageNumber(newPageIndex + 1);
+    }
+    //getSetCards(newPageIndex);
+    //}
+  };
+
+  const updateRouteWithQuery = (newPageIndex: number) => {
+    if (newPageIndex > 0) {
+      router.push(
+        "/set/" + router.query.setId + "?page=" + newPageIndex,
+        undefined,
+        { shallow: true }
+      );
+    } else {
+      router.push("/set/" + router.query.setId, undefined, {
+        shallow: true,
+      });
+    }
+  };
+
+  const setSearchValueFunction = (value: string) => {
+    setSearchVaslue(value);
+  };
+  const syncPagingReferences = (pageNumber: number) => {
+    setRefPageNumber(pageNumber);
+  };
+  if (router.isFallback) {
+    return (
+      <div className="container d-flex h-100 align-items-center justify-content-center">
+        <h1>Set Loading...</h1>
+      </div>
+    );
+  } else {
+    return (
+      <div className="container">
+        <div className="d-flex justify-content-center mb-4 align-items-center">
+          <div style={{ width: "8rem" }}>
+            <ImageComponent
+              src={cardsObject.data[0].set?.images?.logo}
+              alt={cardsObject.data[0].set.name}
+              height={72}
+              width={192}
+              blurDataURL={defaultBlurImage}
+              className="w-100 h-auto"
+            />
+          </div>
+          {/* 
           <h4 className="mb-0 ms-3">
             {cardsObject.data[0].set.name +
               " expansion of " +
               cardsObject.data[0].set.series}
           </h4> */}
-                </div>
-                <div className="mb-4">
-                    <PagingComponent
-                        pageChanged={pageChanged}
-                        paramPageSize={DEFAULT_PAGE_SIZE}
-                        paramNumberOfElements={cardsObject?.totalCount}
-                        paramPageIndex={pageIndex}
-                        syncPagingReferences={syncPagingReferences}
-                        pageNumber={refPageNumber}
-                        showSearchField={true}
-                        showToggleButton={true}
-                    >
-                        <ListOrGridViewToggle
-                            isGridView={appContextValues?.appState.gridView}
-                            getUpdatedView={getUpdatedView}
-                            additionalClasses="col-1"
-                        ></ListOrGridViewToggle>
-                    </PagingComponent>
-                </div>
-                <IF condition={appContextValues?.appState.gridView}>
-                    <GridViewComponent setCards={setCards}></GridViewComponent>
-                </IF>
-                <IF condition={!appContextValues?.appState.gridView}>
-                    <ListViewComponent setCards={setCards}></ListViewComponent>
-                </IF>
-                <div className="mt-4">
-                    <PagingComponent
-                        pageChanged={pageChanged}
-                        paramPageSize={DEFAULT_PAGE_SIZE}
-                        paramNumberOfElements={cardsObject?.totalCount}
-                        paramPageIndex={pageIndex}
-                        syncPagingReferences={syncPagingReferences}
-                        pageNumber={refPageNumber}
-                        showSearchField={false}
-                        showToggleButton={false}
-                    >
-                        <ListOrGridViewToggle
-                            isGridView={appContextValues?.appState.gridView}
-                            getUpdatedView={getUpdatedView}
-                            additionalClasses="col-1"
-                        ></ListOrGridViewToggle>
-                    </PagingComponent>
-                </div>
-            </div>
-        );
-    }
+        </div>
+        <div className="mb-4">
+          <PagingComponent
+            pageChanged={pageChanged}
+            paramPageSize={DEFAULT_PAGE_SIZE}
+            paramNumberOfElements={cardsObject?.totalCount}
+            paramPageIndex={pageIndex}
+            syncPagingReferences={syncPagingReferences}
+            pageNumber={refPageNumber}
+            showSearchField={true}
+            showToggleButton={true}
+            setSearchValueFunction={setSearchValueFunction}
+          >
+            <ListOrGridViewToggle
+              isGridView={appContextValues?.appState.gridView}
+              getUpdatedView={getUpdatedView}
+              additionalClasses="col-1"
+            ></ListOrGridViewToggle>
+          </PagingComponent>
+        </div>
+        <IF condition={appContextValues?.appState.gridView}>
+          <GridViewComponent setCards={setCards}></GridViewComponent>
+        </IF>
+        <IF condition={!appContextValues?.appState.gridView}>
+          <ListViewComponent setCards={setCards}></ListViewComponent>
+        </IF>
+        <div className="mt-4">
+          <PagingComponent
+            pageChanged={pageChanged}
+            paramPageSize={DEFAULT_PAGE_SIZE}
+            paramNumberOfElements={cardsObject?.totalCount}
+            paramPageIndex={pageIndex}
+            syncPagingReferences={syncPagingReferences}
+            pageNumber={refPageNumber}
+            showSearchField={false}
+            showToggleButton={false}
+          >
+            <ListOrGridViewToggle
+              isGridView={appContextValues?.appState.gridView}
+              getUpdatedView={getUpdatedView}
+              additionalClasses="col-1"
+            ></ListOrGridViewToggle>
+          </PagingComponent>
+        </div>
+      </div>
+    );
+  }
 };
