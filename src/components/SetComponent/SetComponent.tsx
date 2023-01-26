@@ -16,6 +16,7 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
   cardsObject,
 }) => {
   // console.log(cardsObject);
+
   let router = useRouter();
   const getCardsForServerSide = () => {
     let from = 0 * DEFAULT_PAGE_SIZE;
@@ -28,6 +29,7 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
   const [refPageNumber, setRefPageNumber] = useState<number>(0);
   const appContextValues = useContext(AppContext);
   const [searchValue, setSearchVaslue] = useState("");
+  const [newChangedCardObject, setNewChangeCardObject] = useState([]);
 
   // const getSetCards = (paramPageIndex: number) => {
   //   setIsLoading(true);
@@ -77,15 +79,23 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
     const data = cardsObject.data.filter((item: any) => {
       return item.name.toLowerCase().includes(searchValue.toLowerCase());
     });
-    setSetCards(data);
+    setNewChangeCardObject(data);
+    pageChanged(0, false);
   }, [searchValue]);
 
   const pageChanged = (newPageIndex: number, updateRoute: boolean = true) => {
     // if (!isLoading) {
     let from = newPageIndex * DEFAULT_PAGE_SIZE;
     let to = (newPageIndex + 1) * DEFAULT_PAGE_SIZE;
-    let changedSetOfCards = cardsObject.data.slice(from, to);
-    setSetCards(changedSetOfCards);
+    // let changedSetOfCards = cardsObject.data.slice(from, to);
+    if (searchValue) {
+      let changedSetOfCards = newChangedCardObject.slice(from, to);
+      setSetCards(changedSetOfCards);
+    } else {
+      let changedSetOfCards = cardsObject.data.slice(from, to);
+      setSetCards(changedSetOfCards);
+    }
+
     setPageIndex(newPageIndex);
     if (updateRoute) {
       updateRouteWithQuery(newPageIndex);
@@ -147,7 +157,11 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
           <PagingComponent
             pageChanged={pageChanged}
             paramPageSize={DEFAULT_PAGE_SIZE}
-            paramNumberOfElements={cardsObject?.totalCount}
+            paramNumberOfElements={
+              searchValue
+                ? newChangedCardObject.length
+                : cardsObject?.totalCount
+            }
             paramPageIndex={pageIndex}
             syncPagingReferences={syncPagingReferences}
             pageNumber={refPageNumber}
@@ -172,7 +186,11 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
           <PagingComponent
             pageChanged={pageChanged}
             paramPageSize={DEFAULT_PAGE_SIZE}
-            paramNumberOfElements={cardsObject?.totalCount}
+            paramNumberOfElements={
+              searchValue
+                ? newChangedCardObject.length
+                : cardsObject?.totalCount
+            }
             paramPageIndex={pageIndex}
             syncPagingReferences={syncPagingReferences}
             pageNumber={refPageNumber}

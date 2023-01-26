@@ -4,10 +4,6 @@
   -moz-appearance: textfield;
 }
 
-.search {
-  width: 1000px;
-}
-
 .style-less-input:hover,
 .style-less-input:focus:focus-visible {
   outline: none;

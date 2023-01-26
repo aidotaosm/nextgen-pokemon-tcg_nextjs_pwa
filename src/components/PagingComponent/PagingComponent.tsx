@@ -87,21 +87,22 @@ export const PagingComponent: FunctionComponent<PagingComponentProps> = ({
 
   return (
     <>
-      <IF condition={numberOfElements > pageSize}>
-        <div className="row align-items-center small ">
-          <IF condition={showSearchField}>
-            <div className="col" style={{ position: "relative" }}>
-              <div style={{ position: "absolute", top: "3px" }}>
-                <FontAwesomeIcon className="fs-5" icon={faSearch} width={12} />
-              </div>
-              <input
-                className="search"
-                placeholder="Search your Pokemon"
-                onChange={(e) => setSearchValueFunction?.(e.target.value)}
-              />
+      {/* <IF condition={numberOfElements > pageSize}> */}
+      <div className="row align-items-center small ">
+        <IF condition={showSearchField}>
+          <div className="col" style={{ position: "relative" }}>
+            <div style={{ position: "absolute", top: "3px" }}>
+              <FontAwesomeIcon className="fs-5" icon={faSearch} width={12} />
             </div>
-          </IF>
-          <IF condition={showToggleButton}>{children}</IF>
+            <input
+              className="search"
+              placeholder="Search your Pokemon"
+              onChange={(e) => setSearchValueFunction?.(e.target.value)}
+            />
+          </div>
+        </IF>
+        <IF condition={showToggleButton}>{children}</IF>
+        <IF condition={numberOfElements > pageSize}>
           <nav className="col text-right" aria-label="Page navigation example">
             <ul className="pagination mb-0 justify-content-end">
               <li className="page-item cursor-pointer">
@@ -155,11 +156,12 @@ export const PagingComponent: FunctionComponent<PagingComponentProps> = ({
               {getPagingInfo()}
             </div>
           </nav>
-        </div>
-      </IF>
-      <IF condition={children && numberOfElements <= pageSize}>
+        </IF>
+      </div>
+      {/* </IF> */}
+      {/* <IF condition={children && numberOfElements <= pageSize}>
         <div className="d-flex justify-content-center">{children}</div>
-      </IF>
+      </IF> */}
     </>
   );
 };

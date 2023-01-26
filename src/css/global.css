@@ -328,7 +328,7 @@ a.white-hover:hover {
 }
 
 .search {
-  width: 70%;
+  max-width: 450px;
   border-radius: 10px;
   margin-left: 16px;
 }
