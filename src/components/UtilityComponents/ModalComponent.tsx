@@ -20,15 +20,15 @@ const ModalComponent: FunctionComponent<ModalProps> = ({
     modal?.addEventListener("hidden.bs.modal", handleModalClose);
     return () => {
       modal?.removeEventListener("hidden.bs.modal", handleModalClose);
-      let bodyElement = document.getElementsByTagName("body")[0] as any;
+      let bodyElement = document.getElementsByTagName("body")[0] as HTMLElement;
       let modalBackdrop = document.getElementsByClassName(
         "modal-backdrop"
-      )[0] as any;
+      )[0] as HTMLElement;
       if (modalBackdrop && bodyElement) {
-        modalBackdrop.parentNode.removeChild(modalBackdrop);
+        modalBackdrop.parentNode?.removeChild(modalBackdrop);
         bodyElement.classList.remove("modal-open");
-        bodyElement.style.overflow = null;
-        bodyElement.style.paddingRight = null;
+        bodyElement.style.overflow = "";
+        bodyElement.style.paddingRight = "";
       }
     };
   }, []);

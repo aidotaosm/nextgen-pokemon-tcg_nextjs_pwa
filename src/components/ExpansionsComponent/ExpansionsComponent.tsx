@@ -51,9 +51,9 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
       if (element && selectedSeriesId !== setsBySeries[0].id) {
         (
           document.getElementById(setsBySeries[0].id)?.children[0]
-            .children[0] as any
+            .children[0] as HTMLElement
         )?.click();
-        (element.children[0].children[0] as any)?.click();
+        (element.children[0].children[0] as HTMLElement)?.click();
         setTimeout(() => {
           element?.scrollIntoView({
             behavior: "smooth",
@@ -76,8 +76,19 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
       }
     }
   }, [router.isReady]);
-
-  const handleToastClick = () => {
+  useEffect(() => {
+    const onToastShowHandler = async () => {
+      await triggerPrefetch();
+    };
+    const myToastEl = document.getElementById(prefetchToastId) as HTMLElement;
+    if (myToastEl) {
+      myToastEl.addEventListener("shown.bs.toast", onToastShowHandler);
+    }
+    return () => {
+      myToastEl.removeEventListener("shown.bs.toast", onToastShowHandler);
+    };
+  });
+  const handleToastClick = async () => {
     const toastLiveExample = document.getElementById(prefetchToastId);
     let bootStrapMasterClass = appContextValues?.appState?.bootstrap;
     if (modalCloseButton.current) {
@@ -86,9 +97,6 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
     if (toastLiveExample && bootStrapMasterClass) {
       new bootStrapMasterClass.Toast(toastLiveExample).show();
       setShouldCancel({ shouldCancel: false });
-      setTimeout(() => {
-        triggerPrefetch();
-      }, 0);
     }
   };
   const toggleAccordion = (seriesId: any) => {
@@ -97,7 +105,8 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
       if (s.id !== seriesId) {
         if (s.isOpen) {
           (
-            document.getElementById(s.id)?.children[0].children[0] as any
+            document.getElementById(s.id)?.children[0]
+              .children[0] as HTMLElement
           )?.click();
         }
         s.isOpen = false;
@@ -337,9 +346,9 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
             >
               <a
                 className="cursor-pointer"
-                onClick={() => {
+                onClick={async () => {
                   setShouldCancel({ shouldCancel: false });
-                  triggerPrefetch();
+                  await triggerPrefetch();
                 }}
               >
                 Restart
@@ -353,7 +362,9 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
             >
               <a
                 className="cursor-pointer"
-                onClick={() => setShouldCancel({ shouldCancel: true })}
+                onClick={() => {
+                  setShouldCancel({ shouldCancel: true });
+                }}
               >
                 Cancel
               </a>
