@@ -27,6 +27,7 @@ import {
 import { ToastComponent } from "../UtilityComponents/ToastComponent";
 import MemoizedModalComponent from "../UtilityComponents/ModalComponent";
 import { IF } from "../UtilityComponents/IF";
+import { flushSync } from "react-dom";
 
 export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
   arrayOfSeries,
@@ -41,9 +42,8 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
   const prefetchInitModalId = "prefetchInitModal";
   const [prefetchingSets, setPrefetchingSets] = useState<any[]>([]);
   const [totalNumberOfSetsDone, setTotalNumberOfSetsDone] = useState<number>(0);
-  const [shouldCancel, setShouldCancel] = useState<any>({
-    shouldCancel: false,
-  });
+  const [shouldCancel, setShouldCancel] = useState<boolean>(false);
+  const ac = useRef(new AbortController());
   useEffect(() => {
     if (router.isReady) {
       let selectedSeriesId = router.query["opened-series"]?.toString();
@@ -87,7 +87,7 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
     return () => {
       myToastEl.removeEventListener("shown.bs.toast", onToastShowHandler);
     };
-  });
+  }, []);
   const handleToastClick = async () => {
     const toastLiveExample = document.getElementById(prefetchToastId);
     let bootStrapMasterClass = appContextValues?.appState?.bootstrap;
@@ -96,7 +96,7 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
     }
     if (toastLiveExample && bootStrapMasterClass) {
       new bootStrapMasterClass.Toast(toastLiveExample).show();
-      setShouldCancel({ shouldCancel: false });
+      setShouldCancel(false);
     }
   };
   const toggleAccordion = (seriesId: any) => {
@@ -137,9 +137,30 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
   };
 
   const triggerPrefetch = async () => {
+    //const ac = new AbortController();
+    // update({ signal: ac.signal });
+    // cancel the update
+    // let signal = ac.signal;
+    let localShouldCancel = false;
+    // console.log(setsBySeries);
+    let startingSeriesIndex = setsBySeries.findIndex(
+      (series) => series.prefetchStatus == "loading"
+    );
+    if (startingSeriesIndex < 0) {
+      startingSeriesIndex = 0;
+    }
     let setsWithCallUrls: any[] = [];
+    let lastIndex = 0;
     setTotalNumberOfSetsDone(0);
     const batchAndExecutePrefetchThenClearUrls = async (setIndex: number) => {
+      ac.current.signal.addEventListener(
+        "abort",
+        () => {
+          console.log("aborted");
+          throw new Error("Aborted");
+        },
+        { once: true }
+      );
       setPrefetchingSets(setsWithCallUrls);
       let calls = setsWithCallUrls.map(async (set) => {
         return router.prefetch(set.callUrl).then((prefetchedData) => {
@@ -153,7 +174,7 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
       setPrefetchingSets(setsWithCallUrls);
     };
     seriesLoop: for (
-      let seriesIndex = 0;
+      let seriesIndex = startingSeriesIndex;
       seriesIndex < setsBySeries.length;
       seriesIndex++
     ) {
@@ -167,17 +188,15 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
         setIndex < setsBySeries[seriesIndex].sets.length;
         setIndex++
       ) {
-        console.log(shouldCancel, "shouldCancel");
-        if (shouldCancel.shouldCancel) {
-          let loadingSeries = setsBySeries.find(
-            (series) => series.prefetchStatus === "loading"
-          );
-          if (loadingSeries) {
-            delete loadingSeries.prefetchStatus;
-          }
-          setSetsBySeries([...setsBySeries]);
-          setsWithCallUrls = [];
-          setPrefetchingSets(setsWithCallUrls);
+        flushSync(() => {
+          setShouldCancel((x) => {
+            localShouldCancel = x;
+            return x;
+          });
+        });
+        console.log(localShouldCancel, "localShouldCancel");
+        if (localShouldCancel) {
+          // signal.removeEventListener("abort", () => {});
           break seriesLoop;
         }
         if ((setIndex + 1) % 5) {
@@ -206,9 +225,12 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
           await batchAndExecutePrefetchThenClearUrls(setIndex);
         }
       }
+      lastIndex = seriesIndex;
     }
-    setsBySeries[setsBySeries.length - 1].prefetchStatus = "done";
-    setSetsBySeries([...setsBySeries]);
+    if (!localShouldCancel) {
+      setsBySeries[lastIndex].prefetchStatus = "done";
+      setSetsBySeries([...setsBySeries]);
+    }
   };
   return (
     <Fragment>
@@ -340,14 +362,14 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
           >
             <IF
               condition={
-                totalNumberOfSetsDone < totalNumberOfSets &&
-                shouldCancel.shouldCancel
+                totalNumberOfSetsDone < totalNumberOfSets && shouldCancel
               }
             >
               <a
                 className="cursor-pointer"
                 onClick={async () => {
-                  setShouldCancel({ shouldCancel: false });
+                  ac.current.abort();
+                  setShouldCancel(false);
                   await triggerPrefetch();
                 }}
               >
@@ -356,14 +378,14 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
             </IF>
             <IF
               condition={
-                totalNumberOfSetsDone < totalNumberOfSets &&
-                !shouldCancel.shouldCancel
+                totalNumberOfSetsDone < totalNumberOfSets && !shouldCancel
               }
             >
               <a
                 className="cursor-pointer"
-                onClick={() => {
-                  setShouldCancel({ shouldCancel: true });
+                onClick={async () => {
+                  ac.current.abort();
+                  setShouldCancel(true);
                 }}
               >
                 Cancel
