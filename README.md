@@ -1,12 +1,7 @@
-# pkmn-tcg-ts-react-nextjs-ssg-pwa
+# pokemon-tcg-ts-nextjs-pwa
+
 ReactJS
 NextJS
-getStaticPaths
-getStaticProps
-Incremental SSG
-SSR
-SEO
-next-pwa
-pwa-fallback and offline support
+next-pwa (offline support, pre-caching)
 
-WIP
+This app is in active development,

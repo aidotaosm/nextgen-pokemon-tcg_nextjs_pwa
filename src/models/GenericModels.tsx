@@ -19,7 +19,6 @@ export class SetCardsProps {
 export interface SeriesArrayProps {
   children?: JSX.Element;
   arrayOfSeries?: any[];
-  sets?: any[];
   totalNumberOfSets: number;
 }
 export interface PokemonDetailProps {

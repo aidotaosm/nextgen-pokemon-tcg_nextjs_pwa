@@ -86,7 +86,13 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
             className=" icon-min-width "
             onClick={(e) => {
               e.preventDefault();
-              router.push(pathToRedirect || "/");
+              router.push(
+                navigator.onLine
+                  ? pathToRedirect || "/"
+                  : pathToRedirect
+                  ? pathToRedirect.split("?")[0]
+                  : "/"
+              );
             }}
           >
             <IF condition={pathToRedirect || router.pathname != "/"}>
