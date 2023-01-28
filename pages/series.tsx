@@ -16,14 +16,13 @@ export const getStaticProps: GetStaticProps = async () => {
   }
 
   return {
-    props: { arrayOfSeries, totalNumberOfSets, sets },
+    props: { arrayOfSeries, totalNumberOfSets },
     revalidate: 60 * 60,
   };
 };
 const Series: FunctionComponent<SeriesArrayProps> = ({
   arrayOfSeries,
   totalNumberOfSets,
-  sets,
 }) => {
   return (
     <Fragment>
@@ -74,7 +73,6 @@ const Series: FunctionComponent<SeriesArrayProps> = ({
       <ExpansionsComponent
         arrayOfSeries={arrayOfSeries}
         totalNumberOfSets={totalNumberOfSets}
-        sets={sets}
       />
     </Fragment>
   );
