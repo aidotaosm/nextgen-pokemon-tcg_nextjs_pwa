@@ -43,7 +43,10 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
   const [prefetchingSets, setPrefetchingSets] = useState<any[]>([]);
   const [totalNumberOfSetsDone, setTotalNumberOfSetsDone] = useState<number>(0);
   const [shouldCancel, setShouldCancel] = useState<boolean>(false);
-  const ac = useRef(new AbortController());
+  const [lastSeriesAndSetIndexes, setLastSeriesAndSetIndexes] = useState({
+    lastSeriesIndex: 0,
+    lastSetOfSeriesIndex: 0,
+  });
   useEffect(() => {
     if (router.isReady) {
       let selectedSeriesId = router.query["opened-series"]?.toString();
@@ -137,44 +140,43 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
   };
 
   const triggerPrefetch = async () => {
-    //const ac = new AbortController();
-    // update({ signal: ac.signal });
-    // cancel the update
-    // let signal = ac.signal;
     let localShouldCancel = false;
-    // console.log(setsBySeries);
-    let startingSeriesIndex = setsBySeries.findIndex(
-      (series) => series.prefetchStatus == "loading"
-    );
-    if (startingSeriesIndex < 0) {
-      startingSeriesIndex = 0;
-    }
     let setsWithCallUrls: any[] = [];
     let lastIndex = 0;
-    setTotalNumberOfSetsDone(0);
+    let startingIndexOfTheLastPausedSetDownload =
+      lastSeriesAndSetIndexes.lastSetOfSeriesIndex;
+
     const batchAndExecutePrefetchThenClearUrls = async (setIndex: number) => {
-      ac.current.signal.addEventListener(
-        "abort",
-        () => {
-          console.log("aborted");
-          throw new Error("Aborted");
-        },
-        { once: true }
-      );
       setPrefetchingSets(setsWithCallUrls);
       let calls = setsWithCallUrls.map(async (set) => {
         return router.prefetch(set.callUrl).then((prefetchedData) => {
+          flushSync(() => {
+            setShouldCancel((x) => {
+              localShouldCancel = x;
+              return x;
+            });
+          });
+
           set.done = true;
           setPrefetchingSets([...setsWithCallUrls]);
           setTotalNumberOfSetsDone((e) => ++e);
+          if (localShouldCancel) {
+            throw new Error("manual abort");
+          }
         });
       });
-      await Promise.all(calls);
+      let res = null;
+      try {
+        res = await Promise.all(calls);
+      } catch (e: any) {
+        res = e;
+      }
       setsWithCallUrls = [];
       setPrefetchingSets(setsWithCallUrls);
+      return res;
     };
     seriesLoop: for (
-      let seriesIndex = startingSeriesIndex;
+      let seriesIndex = lastSeriesAndSetIndexes.lastSeriesIndex;
       seriesIndex < setsBySeries.length;
       seriesIndex++
     ) {
@@ -184,21 +186,10 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
       }
       setSetsBySeries([...setsBySeries]);
       setLoop: for (
-        let setIndex = 0;
+        let setIndex = startingIndexOfTheLastPausedSetDownload;
         setIndex < setsBySeries[seriesIndex].sets.length;
         setIndex++
       ) {
-        flushSync(() => {
-          setShouldCancel((x) => {
-            localShouldCancel = x;
-            return x;
-          });
-        });
-        console.log(localShouldCancel, "localShouldCancel");
-        if (localShouldCancel) {
-          // signal.removeEventListener("abort", () => {});
-          break seriesLoop;
-        }
         if ((setIndex + 1) % 5) {
           setsWithCallUrls.push({
             ...setsBySeries[seriesIndex].sets[setIndex],
@@ -210,7 +201,19 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
                 : setsBySeries[seriesIndex].sets[setIndex].id),
           });
           if (setsBySeries[seriesIndex].sets.length - 1 === setIndex) {
-            await batchAndExecutePrefetchThenClearUrls(setIndex);
+            let res = await batchAndExecutePrefetchThenClearUrls(setIndex);
+            if (res?.message === "manual abort") {
+              setPrefetchingSets([]);
+              lastIndex = seriesIndex;
+              setLastSeriesAndSetIndexes({
+                lastSeriesIndex:
+                  setsBySeries.length - 1 === seriesIndex
+                    ? seriesIndex
+                    : ++seriesIndex,
+                lastSetOfSeriesIndex: 0,
+              });
+              break seriesLoop;
+            }
           }
         } else {
           setsWithCallUrls.push({
@@ -222,15 +225,28 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
                 ? SpecialSetNames.poptwo
                 : setsBySeries[seriesIndex].sets[setIndex].id),
           });
-          await batchAndExecutePrefetchThenClearUrls(setIndex);
+          let res = await batchAndExecutePrefetchThenClearUrls(setIndex);
+          if (res?.message === "manual abort") {
+            setPrefetchingSets([]);
+            lastIndex = seriesIndex;
+            setLastSeriesAndSetIndexes({
+              lastSeriesIndex: seriesIndex,
+              lastSetOfSeriesIndex: ++setIndex,
+            });
+            break seriesLoop;
+          }
         }
+        //resetting starting index since at last one set has past over the last download index.
+        startingIndexOfTheLastPausedSetDownload = 0;
       }
       lastIndex = seriesIndex;
     }
     if (!localShouldCancel) {
       setsBySeries[lastIndex].prefetchStatus = "done";
-      setSetsBySeries([...setsBySeries]);
+    } else {
+      delete setsBySeries[lastIndex].prefetchStatus;
     }
+    setSetsBySeries([...setsBySeries]);
   };
   return (
     <Fragment>
@@ -354,7 +370,7 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
         <div>
           <div
             className={
-              "d-flex fw-bold " +
+              "mb-2 d-flex fw-bold " +
               (totalNumberOfSetsDone < totalNumberOfSets
                 ? "justify-content-between"
                 : "justify-content-end")
@@ -368,12 +384,13 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
               <a
                 className="cursor-pointer"
                 onClick={async () => {
-                  ac.current.abort();
-                  setShouldCancel(false);
+                  flushSync(() => {
+                    setShouldCancel(false);
+                  });
                   await triggerPrefetch();
                 }}
               >
-                Restart
+                Resume
               </a>
             </IF>
             <IF
@@ -383,12 +400,11 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
             >
               <a
                 className="cursor-pointer"
-                onClick={async () => {
-                  ac.current.abort();
+                onClick={() => {
                   setShouldCancel(true);
                 }}
               >
-                Cancel
+                Pause
               </a>
             </IF>
             <span>
