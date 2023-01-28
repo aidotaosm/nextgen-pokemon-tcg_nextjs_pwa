@@ -99,7 +99,14 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
     }
     if (toastLiveExample && bootStrapMasterClass) {
       new bootStrapMasterClass.Toast(toastLiveExample).show();
+      //resetting all related states for new fetch session
+      setPrefetchingSets([]);
+      setTotalNumberOfSetsDone(0);
       setShouldCancel(false);
+      setLastSeriesAndSetIndexes({
+        lastSeriesIndex: 0,
+        lastSetOfSeriesIndex: 0,
+      });
     }
   };
   const toggleAccordion = (seriesId: any) => {
