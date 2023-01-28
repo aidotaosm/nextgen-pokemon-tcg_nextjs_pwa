@@ -20,12 +20,14 @@ import {
   faCheck,
   faClipboardCheck,
   faCross,
+  faL,
   faSpinner,
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
 import { ToastComponent } from "../UtilityComponents/ToastComponent";
 import MemoizedModalComponent from "../UtilityComponents/ModalComponent";
 import { IF } from "../UtilityComponents/IF";
+import { flushSync } from "react-dom";
 
 export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
   arrayOfSeries,
@@ -40,6 +42,11 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
   const prefetchInitModalId = "prefetchInitModal";
   const [prefetchingSets, setPrefetchingSets] = useState<any[]>([]);
   const [totalNumberOfSetsDone, setTotalNumberOfSetsDone] = useState<number>(0);
+  const [shouldCancel, setShouldCancel] = useState<boolean>(false);
+  const [lastSeriesAndSetIndexes, setLastSeriesAndSetIndexes] = useState({
+    lastSeriesIndex: 0,
+    lastSetOfSeriesIndex: 0,
+  });
   useEffect(() => {
     if (router.isReady) {
       let selectedSeriesId = router.query["opened-series"]?.toString();
@@ -47,9 +54,9 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
       if (element && selectedSeriesId !== setsBySeries[0].id) {
         (
           document.getElementById(setsBySeries[0].id)?.children[0]
-            .children[0] as any
+            .children[0] as HTMLElement
         )?.click();
-        (element.children[0].children[0] as any)?.click();
+        (element.children[0].children[0] as HTMLElement)?.click();
         setTimeout(() => {
           element?.scrollIntoView({
             behavior: "smooth",
@@ -72,8 +79,19 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
       }
     }
   }, [router.isReady]);
-
-  const handleToastClick = () => {
+  useEffect(() => {
+    const onToastShowHandler = async () => {
+      await triggerPrefetch();
+    };
+    const myToastEl = document.getElementById(prefetchToastId) as HTMLElement;
+    if (myToastEl) {
+      myToastEl.addEventListener("shown.bs.toast", onToastShowHandler);
+    }
+    return () => {
+      myToastEl.removeEventListener("shown.bs.toast", onToastShowHandler);
+    };
+  }, []);
+  const handleToastClick = async () => {
     const toastLiveExample = document.getElementById(prefetchToastId);
     let bootStrapMasterClass = appContextValues?.appState?.bootstrap;
     if (modalCloseButton.current) {
@@ -81,9 +99,7 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
     }
     if (toastLiveExample && bootStrapMasterClass) {
       new bootStrapMasterClass.Toast(toastLiveExample).show();
-      setTimeout(() => {
-        triggerPrefetch();
-      }, 0);
+      setShouldCancel(false);
     }
   };
   const toggleAccordion = (seriesId: any) => {
@@ -92,7 +108,8 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
       if (s.id !== seriesId) {
         if (s.isOpen) {
           (
-            document.getElementById(s.id)?.children[0].children[0] as any
+            document.getElementById(s.id)?.children[0]
+              .children[0] as HTMLElement
           )?.click();
         }
         s.isOpen = false;
@@ -123,25 +140,43 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
   };
 
   const triggerPrefetch = async () => {
+    let localShouldCancel = false;
     let setsWithCallUrls: any[] = [];
-    setTotalNumberOfSetsDone(0);
+    let lastIndex = 0;
+    let startingIndexOfTheLastPausedSetDownload =
+      lastSeriesAndSetIndexes.lastSetOfSeriesIndex;
+
     const batchAndExecutePrefetchThenClearUrls = async (setIndex: number) => {
       setPrefetchingSets(setsWithCallUrls);
-      console.log(setsWithCallUrls, "in progress");
       let calls = setsWithCallUrls.map(async (set) => {
         return router.prefetch(set.callUrl).then((prefetchedData) => {
-          console.log(set.name, "done");
+          flushSync(() => {
+            setShouldCancel((x) => {
+              localShouldCancel = x;
+              return x;
+            });
+          });
+
           set.done = true;
           setPrefetchingSets([...setsWithCallUrls]);
           setTotalNumberOfSetsDone((e) => ++e);
+          if (localShouldCancel) {
+            throw new Error("manual abort");
+          }
         });
       });
-      await Promise.all(calls);
+      let res = null;
+      try {
+        res = await Promise.all(calls);
+      } catch (e: any) {
+        res = e;
+      }
       setsWithCallUrls = [];
       setPrefetchingSets(setsWithCallUrls);
+      return res;
     };
-    for (
-      let seriesIndex = 0;
+    seriesLoop: for (
+      let seriesIndex = lastSeriesAndSetIndexes.lastSeriesIndex;
       seriesIndex < setsBySeries.length;
       seriesIndex++
     ) {
@@ -150,8 +185,8 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
         setsBySeries[seriesIndex - 1].prefetchStatus = "done";
       }
       setSetsBySeries([...setsBySeries]);
-      for (
-        let setIndex = 0;
+      setLoop: for (
+        let setIndex = startingIndexOfTheLastPausedSetDownload;
         setIndex < setsBySeries[seriesIndex].sets.length;
         setIndex++
       ) {
@@ -166,7 +201,19 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
                 : setsBySeries[seriesIndex].sets[setIndex].id),
           });
           if (setsBySeries[seriesIndex].sets.length - 1 === setIndex) {
-            await batchAndExecutePrefetchThenClearUrls(setIndex);
+            let res = await batchAndExecutePrefetchThenClearUrls(setIndex);
+            if (res?.message === "manual abort") {
+              setPrefetchingSets([]);
+              lastIndex = seriesIndex;
+              setLastSeriesAndSetIndexes({
+                lastSeriesIndex:
+                  setsBySeries.length - 1 === seriesIndex
+                    ? seriesIndex
+                    : ++seriesIndex,
+                lastSetOfSeriesIndex: 0,
+              });
+              break seriesLoop;
+            }
           }
         } else {
           setsWithCallUrls.push({
@@ -178,11 +225,27 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
                 ? SpecialSetNames.poptwo
                 : setsBySeries[seriesIndex].sets[setIndex].id),
           });
-          await batchAndExecutePrefetchThenClearUrls(setIndex);
+          let res = await batchAndExecutePrefetchThenClearUrls(setIndex);
+          if (res?.message === "manual abort") {
+            setPrefetchingSets([]);
+            lastIndex = seriesIndex;
+            setLastSeriesAndSetIndexes({
+              lastSeriesIndex: seriesIndex,
+              lastSetOfSeriesIndex: ++setIndex,
+            });
+            break seriesLoop;
+          }
         }
+        //resetting starting index since at last one set has past over the last download index.
+        startingIndexOfTheLastPausedSetDownload = 0;
       }
+      lastIndex = seriesIndex;
     }
-    setsBySeries[setsBySeries.length - 1].prefetchStatus = "done";
+    if (!localShouldCancel) {
+      setsBySeries[lastIndex].prefetchStatus = "done";
+    } else {
+      delete setsBySeries[lastIndex].prefetchStatus;
+    }
     setSetsBySeries([...setsBySeries]);
   };
   return (
@@ -305,8 +368,48 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
         id={prefetchToastId}
       >
         <div>
-          <div className="d-flex justify-content-end fw-bold ">
-            {totalNumberOfSetsDone} / {totalNumberOfSets}
+          <div
+            className={
+              "mb-2 d-flex fw-bold " +
+              (totalNumberOfSetsDone < totalNumberOfSets
+                ? "justify-content-between"
+                : "justify-content-end")
+            }
+          >
+            <IF
+              condition={
+                totalNumberOfSetsDone < totalNumberOfSets && shouldCancel
+              }
+            >
+              <a
+                className="cursor-pointer"
+                onClick={async () => {
+                  flushSync(() => {
+                    setShouldCancel(false);
+                  });
+                  await triggerPrefetch();
+                }}
+              >
+                Resume
+              </a>
+            </IF>
+            <IF
+              condition={
+                totalNumberOfSetsDone < totalNumberOfSets && !shouldCancel
+              }
+            >
+              <a
+                className="cursor-pointer"
+                onClick={() => {
+                  setShouldCancel(true);
+                }}
+              >
+                Pause
+              </a>
+            </IF>
+            <span>
+              {totalNumberOfSetsDone} / {totalNumberOfSets}
+            </span>
           </div>
           <IF condition={prefetchingSets.length}>
             <div className="fw-bold mb-2 fs-6">Currently downloading sets</div>
