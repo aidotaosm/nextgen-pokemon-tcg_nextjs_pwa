@@ -9,7 +9,7 @@ const withPWA = require('next-pwa')({
         ...customRuntimeCaching,
     ],
     fallbacks: {
-        image: '/images/Cardback.png'
+        image: '/images/Cardback.webp'
     }
 })
 module.exports = withPWA({
