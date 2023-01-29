@@ -50,7 +50,7 @@ export const ImageComponent: FunctionComponent<any> = ({
           placeholder="blur"
           onError={(e: any) => {
             //console.log(imageSource);
-            setImageSource("/images/Cardback.webp");
+            setImageSource("/images/Cardback.png");
           }}
           onLoadingComplete={(e: any) => {
             //  console.log(e, "lowres");
@@ -79,7 +79,7 @@ export const ImageComponent: FunctionComponent<any> = ({
               if (lowQualityImageLoaded) {
                 setHighQualityImageSource(imageSource);
               } else {
-                setHighQualityImageSource("/images/Cardback.webp");
+                setHighQualityImageSource("/images/Cardback.png");
               }
             }}
             onLoadingComplete={(e: any) => {
@@ -91,7 +91,7 @@ export const ImageComponent: FunctionComponent<any> = ({
                   lowQualityImageLoaded
                 ) {
                   console.log(
-                    "low quality image rendered in hires since hiquality image cannot be loaded"
+                    "low quality image rendered in hires since high quality image cannot be loaded"
                   );
                   setHighQualityImageSource(imageSource);
                 }

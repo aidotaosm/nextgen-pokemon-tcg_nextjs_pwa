@@ -1,7 +1,6 @@
 import {
   Fragment,
   FunctionComponent,
-  useCallback,
   useContext,
   useEffect,
   useRef,
@@ -12,15 +11,13 @@ import styles from "./ExpansionsComponent.module.css";
 import { ImageComponent } from "../ImageComponent/ImageComponent";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { defaultBlurImage } from "../../../public/base64Images/base64Images";
+import { logoBlurImage } from "../../../public/base64Images/base64Images";
 import { AppContext } from "../../contexts/AppContext";
 import { SpecialSetNames } from "../../models/Enums";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCheck,
   faClipboardCheck,
-  faCross,
-  faL,
   faSpinner,
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
@@ -32,7 +29,6 @@ import { flushSync } from "react-dom";
 export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
   arrayOfSeries,
   totalNumberOfSets,
-  sets,
 }: any) => {
   let router = useRouter();
   const appContextValues = useContext(AppContext);
@@ -334,7 +330,7 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
                                     alt={set.name}
                                     height={72}
                                     width={192}
-                                    blurDataURL={defaultBlurImage}
+                                    blurDataURL={logoBlurImage}
                                     className="w-100 h-auto"
                                   />
                                 </div>

@@ -10,7 +10,7 @@ import { ListOrGridViewToggle } from "../UtilityComponents/ListOrGridViewToggle"
 import { ListViewComponent } from "../ListViewComponent/ListViewComponent";
 import { AppContext } from "../../contexts/AppContext";
 import { ImageComponent } from "../ImageComponent/ImageComponent";
-import { defaultBlurImage } from "../../../public/base64Images/base64Images";
+import { logoBlurImage } from "../../../public/base64Images/base64Images";
 
 export const SetComponent: FunctionComponent<CardsObjectProps> = ({
   cardsObject,
@@ -119,7 +119,7 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
               alt={cardsObject.data[0].set.name}
               height={72}
               width={192}
-              blurDataURL={defaultBlurImage}
+              blurDataURL={logoBlurImage}
               className="w-100 h-auto"
             />
           </div>
