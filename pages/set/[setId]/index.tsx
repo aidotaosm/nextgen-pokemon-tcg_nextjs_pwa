@@ -35,7 +35,8 @@ export const getStaticPaths: GetStaticPaths = async (qry) => {
     });
   });
   if (process.env.APP_ENV == "local") {
-    returnPaths.splice(1, returnPaths.length - 1);
+    // returnPaths.splice(1, returnPaths.length - 1);
+    returnPaths = [];
   }
   //process.env.NODE_ENV
   // console.log(process.env);

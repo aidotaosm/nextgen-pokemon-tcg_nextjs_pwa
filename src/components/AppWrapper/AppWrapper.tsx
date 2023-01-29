@@ -6,14 +6,17 @@ import {
   faArrowLeftLong,
   faToggleOn,
   faToggleOff,
+  faSignalPerfect,
+  faWaveSquare,
 } from "@fortawesome/free-solid-svg-icons";
+
 import { IF } from "../UtilityComponents/IF";
 import { AppContext } from "../../contexts/AppContext";
 import { ImageComponent } from "../ImageComponent/ImageComponent";
 import pokemonLogo from "../../../public/svgs/International_Pokémon_logo.svg";
 import { Helper } from "../../utils/helper";
 import Link from "next/link";
-import { defaultBlurImage } from "../../../public/base64Images/base64Images";
+import { logoBlurImage } from "../../../public/base64Images/base64Images";
 
 interface LocalAppInterface {
   darkMode: boolean;
@@ -103,31 +106,53 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
               />
             </IF>
           </div>
-          <div className="" style={{ width: "200px" }}>
+          <div style={{ width: "200px", marginLeft: "calc(33.75px + 1rem)" }}>
             <Link href="/">
               <ImageComponent
                 src={pokemonLogo}
                 alt={"Pokemon"}
-                blurDataURL={defaultBlurImage}
+                blurDataURL={logoBlurImage}
                 className="w-100 h-auto"
               />
             </Link>
           </div>
-
-          <div
-            className="cursor-pointer user-select-none"
-            onClick={() => {
-              appContextValues?.updateDarkMode(
-                !appContextValues?.appState.darkMode
-              );
-            }}
-          >
-            <IF condition={appContextValues?.appState.darkMode}>
-              <FontAwesomeIcon icon={faToggleOn} size="2x" />
-            </IF>
-            <IF condition={!appContextValues?.appState.darkMode}>
-              <FontAwesomeIcon icon={faToggleOff} size="2x" />
-            </IF>
+          <div className="d-flex">
+            <div
+              className="cursor-pointer user-select-none me-3"
+              title="Offline mode toggle"
+              onClick={() => {
+                appContextValues?.updateOfflineMode(
+                  !appContextValues?.appState.offLineMode
+                );
+              }}
+            >
+              <IF condition={appContextValues?.appState.offLineMode}>
+                <FontAwesomeIcon icon={faSignalPerfect} size="2x" />
+              </IF>
+              <IF condition={!appContextValues?.appState.offLineMode}>
+                <FontAwesomeIcon
+                  icon={faWaveSquare}
+                  size="2x"
+                  style={{ width: "33.75px" }}
+                />
+              </IF>
+            </div>
+            <div
+              title="Dark mode toggle"
+              className="cursor-pointer user-select-none"
+              onClick={() => {
+                appContextValues?.updateDarkMode(
+                  !appContextValues?.appState.darkMode
+                );
+              }}
+            >
+              <IF condition={appContextValues?.appState.darkMode}>
+                <FontAwesomeIcon icon={faToggleOn} size="2x" />
+              </IF>
+              <IF condition={!appContextValues?.appState.darkMode}>
+                <FontAwesomeIcon icon={faToggleOff} size="2x" />
+              </IF>
+            </div>
           </div>
         </div>
       </header>

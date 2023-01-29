@@ -7,6 +7,7 @@ interface AppContextInterface {
   appState: any;
   setAppState: any;
   updateDarkMode: (e: boolean) => void;
+  updateOfflineMode: (e: boolean) => void;
   updateGridView: (e: boolean) => void;
   multiUpdate: (e: any) => void;
   saveBootstrap: (e: any) => void;
@@ -42,6 +43,7 @@ export const AppProvider: FunctionComponent<BasicProps> = (props) => {
     darkMode: true,
     gridView: false,
     bootstrap: null,
+    offLineMode: false,
   });
 
   const updateDarkMode = (value: boolean) => {
@@ -51,6 +53,12 @@ export const AppProvider: FunctionComponent<BasicProps> = (props) => {
     setLocalStorageItem("darkMode", value);
   };
 
+  const updateOfflineMode = (value: boolean) => {
+    setAppState((e) => {
+      return { ...e, offLineMode: value };
+    });
+    setLocalStorageItem("offLineMode", value);
+  };
   const updateGridView = (value: boolean) => {
     setAppState((e) => {
       return { ...e, gridView: value };
@@ -77,6 +85,7 @@ export const AppProvider: FunctionComponent<BasicProps> = (props) => {
         appState,
         setAppState,
         updateDarkMode,
+        updateOfflineMode,
         updateGridView,
         multiUpdate,
         saveBootstrap,
