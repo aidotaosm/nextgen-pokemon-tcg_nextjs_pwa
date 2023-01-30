@@ -19,6 +19,7 @@ export const ImageComponent: FunctionComponent<any> = ({
   alt,
   layout,
   highQualitySrc,
+  fallBackType,
 }) => {
   const [imageSource, setImageSource] = useState(src);
   const [highQualityImageSource, setHighQualityImageSource] =
@@ -26,6 +27,7 @@ export const ImageComponent: FunctionComponent<any> = ({
   const [highQualityImageLoaded, setHighQualityImageLoaded] = useState(false);
   const [lowQualityImageLoaded, setLowQualityImageLoaded] = useState(false);
   const [imageDimensions, setImageDimensions] = useState({ height, width });
+  const rawLowQualityImageRef = useRef<any>();
   const rawHighQualityImageRef = useRef<any>();
 
   useEffect(() => {
@@ -49,11 +51,24 @@ export const ImageComponent: FunctionComponent<any> = ({
           blurDataURL={blurDataURL || defaultBlurImage}
           placeholder="blur"
           onError={(e: any) => {
-            //console.log(imageSource);
-            //  setImageSource("/images/Cardback.webp");
+            console.log(imageSource, "lq image failed");
+            if (fallBackType == "logo") {
+              setImageSource("/svgs/International_Pokémon_logo.svg");
+            } else {
+              setImageSource("/images/Cardback.webp");
+            }
           }}
           onLoadingComplete={(e: any) => {
-            //  console.log(e, "lowres");
+            if (fallBackType === "logo" && rawLowQualityImageRef.current) {
+              if (
+                rawLowQualityImageRef.current.naturalHeight /
+                  rawLowQualityImageRef.current.naturalWidth ==
+                DEFAULT_CARD_BACK_RATIO
+              ) {
+                console.log("default image gotten in low quality view");
+                setImageSource("/svgs/International_Pokémon_logo.svg");
+              }
+            }
             setImageDimensions({
               width: e.naturalWidth,
               height: e.naturalHeight,
@@ -104,6 +119,14 @@ export const ImageComponent: FunctionComponent<any> = ({
             }}
           />
         </div>
+        <IF condition={!lowQualityImageLoaded}>
+          <img
+            ref={rawLowQualityImageRef}
+            className="d-none"
+            src={src}
+            alt={"image-loader"}
+          />
+        </IF>
         <IF condition={!highQualityImageLoaded}>
           <img
             ref={rawHighQualityImageRef}

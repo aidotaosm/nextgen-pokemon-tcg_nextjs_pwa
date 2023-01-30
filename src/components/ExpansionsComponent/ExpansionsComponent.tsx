@@ -69,7 +69,7 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
         });
         setSetsBySeries([...setsBySeries]);
       } else {
-        router.push("/series?opened-series=" + setsBySeries[0].id, undefined, {
+        router.push("/series?opened-series=" + setsBySeries[0]?.id, undefined, {
           shallow: true,
         });
       }
@@ -332,6 +332,7 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
                                     width={192}
                                     blurDataURL={logoBlurImage}
                                     className="w-100 h-auto"
+                                    fallBackType="logo"
                                   />
                                 </div>
                                 <div className={styles["set-name"]}>

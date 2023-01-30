@@ -13,7 +13,7 @@ import {
 import { IF } from "../UtilityComponents/IF";
 import { AppContext } from "../../contexts/AppContext";
 import { ImageComponent } from "../ImageComponent/ImageComponent";
-import pokemonLogo from "../../../svgs/International_Pokémon_logo.svg";
+import pokemonLogo from "../../../public/svgs/International_Pokémon_logo.svg";
 import { Helper } from "../../utils/helper";
 import Link from "next/link";
 import { logoBlurImage } from "../../../base64Images/base64Images";
