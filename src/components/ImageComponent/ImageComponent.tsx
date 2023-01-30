@@ -77,6 +77,14 @@ export const ImageComponent: FunctionComponent<any> = ({
           }}
         />
       </div>
+      <IF condition={!lowQualityImageLoaded}>
+        <img
+          ref={rawLowQualityImageRef}
+          className="d-none"
+          src={src}
+          alt={"image-loader"}
+        />
+      </IF>
       <IF condition={highQualityImageSource}>
         <div className={highQualityImageLoaded ? "" : "out-of-view"}>
           <Image
@@ -119,14 +127,6 @@ export const ImageComponent: FunctionComponent<any> = ({
             }}
           />
         </div>
-        <IF condition={!lowQualityImageLoaded}>
-          <img
-            ref={rawLowQualityImageRef}
-            className="d-none"
-            src={src}
-            alt={"image-loader"}
-          />
-        </IF>
         <IF condition={!highQualityImageLoaded}>
           <img
             ref={rawHighQualityImageRef}
