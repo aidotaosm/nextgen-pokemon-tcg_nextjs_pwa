@@ -34,6 +34,7 @@ export const ImageComponent: FunctionComponent<any> = ({
     setImageSource(src);
     setHighQualityImageSource(highQualitySrc);
     setHighQualityImageLoaded(false);
+    //setLowQualityImageLoaded(false);
     //console.log(highQualitySrc);
   }, [src, highQualitySrc]);
 
@@ -59,6 +60,7 @@ export const ImageComponent: FunctionComponent<any> = ({
             }
           }}
           onLoadingComplete={(e: any) => {
+            console.log(rawLowQualityImageRef.current, "gege");
             if (fallBackType === "logo" && rawLowQualityImageRef.current) {
               if (
                 rawLowQualityImageRef.current.naturalHeight /
