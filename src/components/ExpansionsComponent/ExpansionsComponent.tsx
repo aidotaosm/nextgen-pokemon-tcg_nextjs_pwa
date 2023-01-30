@@ -11,7 +11,7 @@ import styles from "./ExpansionsComponent.module.css";
 import { ImageComponent } from "../ImageComponent/ImageComponent";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { logoBlurImage } from "../../../public/base64Images/base64Images";
+import { logoBlurImage } from "../../../base64Images/base64Images";
 import { AppContext } from "../../contexts/AppContext";
 import { SpecialSetNames } from "../../models/Enums";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -69,7 +69,7 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
         });
         setSetsBySeries([...setsBySeries]);
       } else {
-        router.push("/series?opened-series=" + setsBySeries[0].id, undefined, {
+        router.push("/series?opened-series=" + setsBySeries[0]?.id, undefined, {
           shallow: true,
         });
       }
@@ -332,6 +332,7 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
                                     width={192}
                                     blurDataURL={logoBlurImage}
                                     className="w-100 h-auto"
+                                    fallBackType="logo"
                                   />
                                 </div>
                                 <div className={styles["set-name"]}>
