@@ -11,7 +11,7 @@ import styles from "./ExpansionsComponent.module.css";
 import { ImageComponent } from "../ImageComponent/ImageComponent";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { logoBlurImage } from "../../../public/base64Images/base64Images";
+import { logoBlurImage } from "../../../base64Images/base64Images";
 import { AppContext } from "../../contexts/AppContext";
 import { SpecialSetNames } from "../../models/Enums";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

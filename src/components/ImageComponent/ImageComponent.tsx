@@ -8,7 +8,7 @@ import {
 import Image from "next/image";
 import { IF } from "../UtilityComponents/IF";
 import { DEFAULT_CARD_BACK_RATIO } from "../../constants/constants";
-import { defaultBlurImage } from "../../../public/base64Images/base64Images";
+import { defaultBlurImage } from "../../../base64Images/base64Images";
 
 export const ImageComponent: FunctionComponent<any> = ({
   src,

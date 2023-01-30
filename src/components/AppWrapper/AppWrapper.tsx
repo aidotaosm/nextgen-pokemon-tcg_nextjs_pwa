@@ -13,10 +13,10 @@ import {
 import { IF } from "../UtilityComponents/IF";
 import { AppContext } from "../../contexts/AppContext";
 import { ImageComponent } from "../ImageComponent/ImageComponent";
-import pokemonLogo from "../../../public/svgs/International_Pokémon_logo.svg";
+import pokemonLogo from "../../../svgs/International_Pokémon_logo.svg";
 import { Helper } from "../../utils/helper";
 import Link from "next/link";
-import { logoBlurImage } from "../../../public/base64Images/base64Images";
+import { logoBlurImage } from "../../../base64Images/base64Images";
 
 interface LocalAppInterface {
   darkMode: boolean;
@@ -106,7 +106,7 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
               />
             </IF>
           </div>
-          <div style={{ width: "200px", marginLeft: "calc(33.75px + 1rem)" }}>
+          <div style={{ width: "180px", marginLeft: "calc(31.5px + 1rem)" }}>
             <Link href="/">
               <ImageComponent
                 src={pokemonLogo}
@@ -127,13 +127,17 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
               }}
             >
               <IF condition={appContextValues?.appState.offLineMode}>
-                <FontAwesomeIcon icon={faSignalPerfect} size="2x" />
+                <FontAwesomeIcon
+                  icon={faSignalPerfect}
+                  size="2x"
+                  style={{ width: "31.5px" }}
+                />
               </IF>
               <IF condition={!appContextValues?.appState.offLineMode}>
                 <FontAwesomeIcon
                   icon={faWaveSquare}
                   size="2x"
-                  style={{ width: "33.75px" }}
+                  style={{ width: "31.5px" }}
                 />
               </IF>
             </div>

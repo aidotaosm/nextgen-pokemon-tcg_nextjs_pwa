@@ -1,9 +1,9 @@
 import { ImageComponent } from "../src/components/ImageComponent/ImageComponent";
-import PokemonTCGCardsLaidOut from "../public/images/Pokemon-TCG-Cards-Laid-Out.webp";
-import codeRedemption from "../public/images/code-redemption-169.jpg";
-import buildPokemonTcgDecks from "../public/images/build-pokemon-tcg-decks-169-en.jpg";
+import PokemonTCGCardsLaidOut from "../images/Pokemon-TCG-Cards-Laid-Out.webp";
+import codeRedemption from "../images/code-redemption-169.jpg";
+import buildPokemonTcgDecks from "../images/build-pokemon-tcg-decks-169-en.jpg";
 import Link from "next/link";
-import { defaultBlurImage } from "../public/base64Images/base64Images";
+import { defaultBlurImage } from "../base64Images/base64Images";
 
 const Index = () => {
   return (
