@@ -61,18 +61,19 @@ export const ImageComponent: FunctionComponent<any> = ({
             // }
           }}
           onLoadingComplete={(e: any) => {
-            console.log(
-              rawLowQualityImageRef.current,
-              "rawLowQualityImageRef.current"
-            );
             if (fallBackType === "logo" && rawLowQualityImageRef.current) {
+              console.log(
+                rawLowQualityImageRef.current.naturalHeight /
+                  rawLowQualityImageRef.current.naturalWidth,
+                "rawLowQualityImageRef.current"
+              );
               if (
                 rawLowQualityImageRef.current.naturalHeight /
                   rawLowQualityImageRef.current.naturalWidth ==
                 DEFAULT_CARD_BACK_RATIO
               ) {
                 console.log("default image gotten in low quality view");
-                setImageSource(highQualitySrc);
+                setImageSource(fallbackImage);
               }
             }
             setImageDimensions({
