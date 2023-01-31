@@ -25,6 +25,7 @@ import { ToastComponent } from "../UtilityComponents/ToastComponent";
 import MemoizedModalComponent from "../UtilityComponents/ModalComponent";
 import { IF } from "../UtilityComponents/IF";
 import { flushSync } from "react-dom";
+import pokemonLogo from "../../../public/svgs/International_Pokémon_logo.svg";
 
 export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
   arrayOfSeries,
@@ -333,6 +334,7 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
                                     blurDataURL={logoBlurImage}
                                     className="w-100 h-auto"
                                     fallBackType="logo"
+                                    fallbackImage={pokemonLogo}
                                   />
                                 </div>
                                 <div className={styles["set-name"]}>

@@ -20,6 +20,7 @@ export const ImageComponent: FunctionComponent<any> = ({
   layout,
   highQualitySrc,
   fallBackType,
+  fallbackImage,
 }) => {
   const [imageSource, setImageSource] = useState(src);
   const [highQualityImageSource, setHighQualityImageSource] =
@@ -53,14 +54,17 @@ export const ImageComponent: FunctionComponent<any> = ({
           placeholder="blur"
           onError={(e: any) => {
             console.log(imageSource, "lq image failed");
-            if (fallBackType == "logo") {
-              setImageSource("/svgs/International_Pokémon_logo.svg");
-            } else {
-              setImageSource("/images/Cardback.webp");
-            }
+            // if (fallBackType == "logo") {
+            //   setImageSource(highQualitySrc);
+            // } else {
+            //   setImageSource("/images/Cardback.webp");
+            // }
           }}
           onLoadingComplete={(e: any) => {
-            console.log(rawLowQualityImageRef.current, "gege");
+            console.log(
+              rawLowQualityImageRef.current,
+              "rawLowQualityImageRef.current"
+            );
             if (fallBackType === "logo" && rawLowQualityImageRef.current) {
               if (
                 rawLowQualityImageRef.current.naturalHeight /
@@ -68,7 +72,7 @@ export const ImageComponent: FunctionComponent<any> = ({
                 DEFAULT_CARD_BACK_RATIO
               ) {
                 console.log("default image gotten in low quality view");
-                setImageSource("/svgs/International_Pokémon_logo.svg");
+                setImageSource(highQualitySrc);
               }
             }
             setImageDimensions({
