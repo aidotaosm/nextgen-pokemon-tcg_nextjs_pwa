@@ -32,12 +32,11 @@ export const ImageComponent: FunctionComponent<any> = ({
   const rawHighQualityImageRef = useRef<any>();
 
   useEffect(() => {
-    setImageSource(src);
+    // setImageSource(src);
     setHighQualityImageSource(highQualitySrc);
     setHighQualityImageLoaded(false);
-    //setLowQualityImageLoaded(false);
-    //console.log(highQualitySrc);
-  }, [src, highQualitySrc]);
+    //   setLowQualityImageLoaded(false);
+  }, [highQualitySrc]);
 
   return (
     <>
@@ -61,25 +60,28 @@ export const ImageComponent: FunctionComponent<any> = ({
             // }
           }}
           onLoadingComplete={(e: any) => {
+            // console.log(fallbackImage);
+            // console.log(e.naturalHeight, "e.naturalHeight");
+            // console.log(e.naturalWidth, "e.naturalWidth");
+            // console.log(
+            //   rawLowQualityImageRef.current.naturalHeight,
+            //   "current.naturalHeight"
+            // );
+            // console.log(
+            //   rawLowQualityImageRef.current.naturalWidth,
+            //   "current.naturalWidth"
+            // );
             if (fallBackType === "logo" && rawLowQualityImageRef.current) {
-              console.log(
-                rawLowQualityImageRef.current.naturalHeight /
-                  rawLowQualityImageRef.current.naturalWidth,
-                "rawLowQualityImageRef.current"
-              );
-              if (
-                rawLowQualityImageRef.current.naturalHeight /
-                  rawLowQualityImageRef.current.naturalWidth ==
-                DEFAULT_CARD_BACK_RATIO
-              ) {
+              console.log(e.naturalHeight / e.naturalWidth, "e");
+              if (e.naturalHeight / e.naturalWidth == DEFAULT_CARD_BACK_RATIO) {
                 console.log("default image gotten in low quality view");
                 setImageSource(fallbackImage);
               }
             }
-            setImageDimensions({
-              width: e.naturalWidth,
-              height: e.naturalHeight,
-            });
+            // setImageDimensions({
+            //   width: e.naturalWidth,
+            //   height: e.naturalHeight,
+            // });
             setLowQualityImageLoaded(true);
           }}
         />
