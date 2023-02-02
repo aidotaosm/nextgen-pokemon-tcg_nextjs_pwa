@@ -61,8 +61,8 @@ export const ImageComponent: FunctionComponent<any> = ({
           }}
           onLoadingComplete={(e: any) => {
             // console.log(fallbackImage);
-            // console.log(e.naturalHeight, "e.naturalHeight");
-            // console.log(e.naturalWidth, "e.naturalWidth");
+            console.log(e.naturalHeight, "e.naturalHeight lq");
+            console.log(e.naturalWidth, "e.naturalWidth lq");
             // console.log(
             //   rawLowQualityImageRef.current.naturalHeight,
             //   "current.naturalHeight"
@@ -71,29 +71,29 @@ export const ImageComponent: FunctionComponent<any> = ({
             //   rawLowQualityImageRef.current.naturalWidth,
             //   "current.naturalWidth"
             // );
-            if (fallBackType === "logo" && rawLowQualityImageRef.current) {
+            if (fallBackType === "logo" && e) {
               console.log(e.naturalHeight / e.naturalWidth, "e");
               if (e.naturalHeight / e.naturalWidth == DEFAULT_CARD_BACK_RATIO) {
                 console.log("default image gotten in low quality view");
                 setImageSource(fallbackImage);
               }
             }
-            // setImageDimensions({
-            //   width: e.naturalWidth,
-            //   height: e.naturalHeight,
-            // });
+            setImageDimensions({
+              width: e.naturalWidth,
+              height: e.naturalHeight,
+            });
             setLowQualityImageLoaded(true);
           }}
         />
       </div>
-      <IF condition={!lowQualityImageLoaded}>
+      {/* <IF condition={!lowQualityImageLoaded}>
         <img
           ref={rawLowQualityImageRef}
           className="d-none"
           src={src}
           alt={"image-loader"}
         />
-      </IF>
+      </IF> */}
       <IF condition={highQualityImageSource}>
         <div className={highQualityImageLoaded ? "" : "out-of-view"}>
           <Image
@@ -115,6 +115,8 @@ export const ImageComponent: FunctionComponent<any> = ({
               }
             }}
             onLoadingComplete={(e: any) => {
+              console.log(e.naturalHeight, "e.naturalHeight hq");
+              console.log(e.naturalWidth, "e.naturalWidth hq");
               if (rawHighQualityImageRef.current) {
                 if (
                   rawHighQualityImageRef.current.naturalHeight /
