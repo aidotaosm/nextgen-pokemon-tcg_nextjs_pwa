@@ -28,15 +28,6 @@ export const ImageComponent: FunctionComponent<any> = ({
   const [highQualityImageLoaded, setHighQualityImageLoaded] = useState(false);
   const [lowQualityImageLoaded, setLowQualityImageLoaded] = useState(false);
   const [imageDimensions, setImageDimensions] = useState({ height, width });
-  const rawLowQualityImageRef = useRef<any>();
-  const rawHighQualityImageRef = useRef<any>();
-
-  useEffect(() => {
-    // setImageSource(src);
-    setHighQualityImageSource(highQualitySrc);
-    setHighQualityImageLoaded(false);
-    //   setLowQualityImageLoaded(false);
-  }, [highQualitySrc]);
 
   return (
     <>
@@ -53,28 +44,16 @@ export const ImageComponent: FunctionComponent<any> = ({
           placeholder="blur"
           onError={(e: any) => {
             console.log(imageSource, "lq image failed");
-            // if (fallBackType == "logo") {
-            //   setImageSource(highQualitySrc);
-            // } else {
-            //   setImageSource("/images/Cardback.webp");
-            // }
+            setImageSource("/images/Cardback.webp");
           }}
           onLoadingComplete={(e: any) => {
             // console.log(fallbackImage);
             console.log(e.naturalHeight, "e.naturalHeight lq");
             console.log(e.naturalWidth, "e.naturalWidth lq");
-            // console.log(
-            //   rawLowQualityImageRef.current.naturalHeight,
-            //   "current.naturalHeight"
-            // );
-            // console.log(
-            //   rawLowQualityImageRef.current.naturalWidth,
-            //   "current.naturalWidth"
-            // );
             if (fallBackType === "logo" && e) {
               console.log(e.naturalHeight / e.naturalWidth, "e");
               if (e.naturalHeight / e.naturalWidth == DEFAULT_CARD_BACK_RATIO) {
-                console.log("default image gotten in low quality view");
+                console.log("default logo gotten in low quality view");
                 setImageSource(fallbackImage);
               }
             }
@@ -86,18 +65,10 @@ export const ImageComponent: FunctionComponent<any> = ({
           }}
         />
       </div>
-      {/* <IF condition={!lowQualityImageLoaded}>
-        <img
-          ref={rawLowQualityImageRef}
-          className="d-none"
-          src={src}
-          alt={"image-loader"}
-        />
-      </IF> */}
       <IF condition={highQualityImageSource}>
         <div className={highQualityImageLoaded ? "" : "out-of-view"}>
           <Image
-            unoptimized={process.env.NETLIFY !== "true"}
+            unoptimized={true}
             className={className || ""}
             src={highQualityImageSource}
             alt={alt || ""}
@@ -111,25 +82,23 @@ export const ImageComponent: FunctionComponent<any> = ({
               if (lowQualityImageLoaded) {
                 setHighQualityImageSource(imageSource);
               } else {
-                // setHighQualityImageSource("/images/Cardback.webp");
+                setHighQualityImageSource("/images/Cardback.webp");
               }
             }}
             onLoadingComplete={(e: any) => {
               console.log(e.naturalHeight, "e.naturalHeight hq");
               console.log(e.naturalWidth, "e.naturalWidth hq");
-              if (rawHighQualityImageRef.current) {
-                if (
-                  rawHighQualityImageRef.current.naturalHeight /
-                    rawHighQualityImageRef.current.naturalWidth ==
-                    DEFAULT_CARD_BACK_RATIO &&
-                  lowQualityImageLoaded
-                ) {
-                  console.log(
-                    "low quality image rendered in hires since high quality image cannot be loaded"
-                  );
-                  setHighQualityImageSource(imageSource);
-                }
+              if (
+                e.naturalHeight / e.naturalWidth == DEFAULT_CARD_BACK_RATIO &&
+                lowQualityImageLoaded
+              ) {
+                console.log(
+                  "low quality image rendered in hires since high quality image cannot be loaded"
+                );
+                //setHighQualityImageSource(imageSource);
+                return;
               }
+
               setImageDimensions({
                 width: e.naturalWidth,
                 height: e.naturalHeight,
@@ -140,7 +109,6 @@ export const ImageComponent: FunctionComponent<any> = ({
         </div>
         <IF condition={!highQualityImageLoaded}>
           <img
-            ref={rawHighQualityImageRef}
             className="d-none"
             src={highQualitySrc}
             alt={"hq-image-loader"}
