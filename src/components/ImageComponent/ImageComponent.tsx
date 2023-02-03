@@ -74,7 +74,7 @@ export const ImageComponent: FunctionComponent<any> = ({
             alt={alt || ""}
             width={imageDimensions.width}
             height={imageDimensions.height}
-            // loading="lazy"
+            loading="eager"
             blurDataURL={blurDataURL || defaultBlurImage}
             placeholder="blur"
             onError={() => {
@@ -107,13 +107,6 @@ export const ImageComponent: FunctionComponent<any> = ({
             }}
           />
         </div>
-        <IF condition={!highQualityImageLoaded}>
-          <img
-            className="d-none"
-            src={highQualitySrc}
-            alt={"hq-image-loader"}
-          />
-        </IF>
       </IF>
     </>
   );
