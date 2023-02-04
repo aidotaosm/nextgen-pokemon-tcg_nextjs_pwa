@@ -235,7 +235,7 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
           {serviceWorkerStatus === "loading"
             ? "This feature allows you to use most of the site while offline. Please wait while the it installs."
             : serviceWorkerStatus === "done"
-            ? "Service worker is successfully running in the background you can now benefit from supported offline features."
+            ? "Service worker is successfully running in the background. You can now benefit from supported offline features."
             : "Service worker couldn't be installed. Offline features have been turned off. Try refreshing the page or using a different (newer) browser."}
         </div>
       </ToastComponent>
