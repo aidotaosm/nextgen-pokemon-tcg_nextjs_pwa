@@ -89,10 +89,11 @@ export const ImageComponent: FunctionComponent<any> = ({
             onLoadingComplete={(e: any) => {
               console.log(e.naturalHeight, "e.naturalHeight hq");
               console.log(e.naturalWidth, "e.naturalWidth hq");
-              if (
-                e.naturalHeight / e.naturalWidth == DEFAULT_CARD_BACK_RATIO &&
-                lowQualityImageLoaded
-              ) {
+              console.log(
+                e.naturalHeight / e.naturalWidth,
+                DEFAULT_CARD_BACK_RATIO
+              );
+              if (e.naturalHeight / e.naturalWidth == DEFAULT_CARD_BACK_RATIO) {
                 console.log(
                   "low quality image rendered in hires since high quality image cannot be loaded"
                 );
