@@ -85,7 +85,16 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
     import("bootstrap").then((bootstrap) => {
       appContextValues?.saveBootstrap(bootstrap);
       if (navigator.serviceWorker) {
-        showToast(bootstrap);
+        if (!navigator.serviceWorker.controller) {
+          showToast(bootstrap);
+        } else {
+          console.log("sw already found");
+        }
+        navigator.serviceWorker.oncontrollerchange = () => {
+          "new sw ver added";
+          showToast(bootstrap);
+        };
+
         navigator.serviceWorker.ready
           .then((x) => {
             console.log(x);
@@ -204,7 +213,7 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
         autoHide={false}
         toastTitle={
           <div className="d-flex">
-            <span className="me-2">Service worker status:</span>
+            <span className="me-2">Service worker status</span>
             <div className="text-center">
               {serviceWorkerStatus === "loading" ? (
                 <FontAwesomeIcon
@@ -233,7 +242,7 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
       >
         <div>
           {serviceWorkerStatus === "loading"
-            ? "This feature allows you to use most of the site while offline. Please wait while the it installs."
+            ? "This feature allows you to use most of the site while offline and enhances the user experience. Give us a moment while it installs."
             : serviceWorkerStatus === "done"
             ? "Service worker is successfully running in the background. You can now benefit from supported offline features."
             : "Service worker couldn't be installed. Offline features have been turned off. Try refreshing the page or using a different (newer) browser."}
