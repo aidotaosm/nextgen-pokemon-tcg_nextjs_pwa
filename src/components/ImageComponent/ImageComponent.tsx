@@ -48,10 +48,12 @@ export const ImageComponent: FunctionComponent<any> = ({
             }
           }}
           onLoadingComplete={(e: any) => {
-            console.log(e.naturalHeight, "e.naturalHeight lq");
-            console.log(e.naturalWidth, "e.naturalWidth lq");
             if (fallBackType === "logo" && e) {
-              console.log(e.naturalHeight / e.naturalWidth, "e");
+              console.log(
+                e.naturalHeight / e.naturalWidth,
+                DEFAULT_CARD_BACK_RATIO,
+                "lq"
+              );
               if (e.naturalHeight / e.naturalWidth == DEFAULT_CARD_BACK_RATIO) {
                 console.log("default logo gotten in low quality view");
                 setImageSource(fallbackImage);
@@ -87,12 +89,12 @@ export const ImageComponent: FunctionComponent<any> = ({
               }
             }}
             onLoadingComplete={(e: any) => {
-              console.log(e.naturalHeight, "e.naturalHeight hq");
-              console.log(e.naturalWidth, "e.naturalWidth hq");
-              if (
-                e.naturalHeight / e.naturalWidth == DEFAULT_CARD_BACK_RATIO &&
-                lowQualityImageLoaded
-              ) {
+              console.log(
+                e.naturalHeight / e.naturalWidth,
+                DEFAULT_CARD_BACK_RATIO,
+                "hq"
+              );
+              if (e.naturalHeight / e.naturalWidth == DEFAULT_CARD_BACK_RATIO) {
                 console.log(
                   "low quality image rendered in hires since high quality image cannot be loaded"
                 );
