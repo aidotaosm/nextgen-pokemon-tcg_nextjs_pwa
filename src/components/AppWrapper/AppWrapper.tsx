@@ -8,6 +8,9 @@ import {
   faToggleOff,
   faSignalPerfect,
   faWaveSquare,
+  faSpinner,
+  faCheck,
+  faXmark,
 } from "@fortawesome/free-solid-svg-icons";
 
 import { IF } from "../UtilityComponents/IF";
@@ -18,6 +21,7 @@ import { Helper } from "../../utils/helper";
 import Link from "next/link";
 import { logoBlurImage } from "../../../base64Images/base64Images";
 import { ToastComponent } from "../UtilityComponents/ToastComponent";
+//declare let self: ServiceWorkerGlobalScope;
 
 interface LocalAppInterface {
   darkMode: boolean;
@@ -28,8 +32,8 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
   let router = useRouter();
   const [pathToRedirect, setPathToRedirect] = useState<string>("");
   const [listOfPaths, setListOfPaths] = useState<string[]>([]);
-  const [serviceWorkerLoading, setServiceWorkerLoading] =
-    useState<boolean>(true);
+  const [serviceWorkerStatus, setServiceWorkerStatus] =
+    useState<string>("loading");
   const swLoaderToastId = "swLoaderToast";
 
   useEffect(() => {
@@ -77,35 +81,22 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
       darkMode: darkModeValue,
       gridView: gridViewValue,
     });
-    const swActivateEventHandler = () => {
-      console.log("sw activated", navigator.serviceWorker.ready);
-    };
-    console.log(navigator.serviceWorker);
-    console.log(navigator.serviceWorker.controller);
-    if (navigator.serviceWorker) {
-      navigator.serviceWorker.ready.then((x) => {
-        console.log(x);
-        setServiceWorkerLoading(false);
-      });
-      navigator.serviceWorker.addEventListener(
-        "activate",
-        swActivateEventHandler
-      );
-    }
-
     //this is needed for accordion toggle etc
     import("bootstrap").then((bootstrap) => {
       appContextValues?.saveBootstrap(bootstrap);
-      showToast(bootstrap);
-    });
-    return () => {
       if (navigator.serviceWorker) {
-        navigator.serviceWorker.removeEventListener(
-          "activate",
-          swActivateEventHandler
-        );
+        showToast(bootstrap);
+        navigator.serviceWorker.ready
+          .then((x) => {
+            console.log(x);
+            //x.pushManager.
+            setServiceWorkerStatus("done");
+          })
+          .catch((e) => {
+            setServiceWorkerStatus("error");
+          });
       }
-    };
+    });
   }, []);
 
   return (
@@ -211,10 +202,42 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
       </footer>
       <ToastComponent
         autoHide={false}
-        toastTitle="Prefetch Status"
+        toastTitle={
+          <div className="d-flex">
+            <span className="me-2">Service worker status:</span>
+            <div className="text-center">
+              {serviceWorkerStatus === "loading" ? (
+                <FontAwesomeIcon
+                  icon={faSpinner}
+                  spin={true}
+                  className="text-primary"
+                  // size="2x"
+                />
+              ) : serviceWorkerStatus === "done" ? (
+                <FontAwesomeIcon
+                  icon={faCheck}
+                  className="text-success"
+                  // size="2x"
+                />
+              ) : (
+                <FontAwesomeIcon
+                  icon={faXmark}
+                  className="text-danger"
+                  // size="2x"
+                />
+              )}
+            </div>
+          </div>
+        }
         id={swLoaderToastId}
       >
-        <div>{serviceWorkerLoading ? "YES" : "NO"}</div>
+        <div>
+          {serviceWorkerStatus === "loading"
+            ? "This feature allows you to use most of the site while offline. Please wait while the it installs."
+            : serviceWorkerStatus === "done"
+            ? "Service worker is successfully running in the background you can now benefit from supported offline features."
+            : "Service worker couldn't be installed. Offline features have been turned off. Try refreshing the page or using a different (newer) browser."}
+        </div>
       </ToastComponent>
     </div>
   );
