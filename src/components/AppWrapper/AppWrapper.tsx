@@ -153,7 +153,7 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
           </div>
           <div className="d-flex">
             <div
-              className="cursor-pointer user-select-none me-3"
+              className="cursor-pointer user-select-none me-sm-3 me-2"
               title="Offline mode toggle"
               onClick={() => {
                 appContextValues?.updateOfflineMode(
@@ -161,18 +161,18 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
                 );
               }}
             >
-              <IF condition={appContextValues?.appState.offLineMode}>
+              <IF condition={!appContextValues?.appState.offLineMode}>
                 <FontAwesomeIcon
                   icon={faSignalPerfect}
                   size="2x"
-                  style={{ width: "31.5px" }}
+                  style={{ width: "2.1rem" }}
                 />
               </IF>
-              <IF condition={!appContextValues?.appState.offLineMode}>
+              <IF condition={appContextValues?.appState.offLineMode}>
                 <FontAwesomeIcon
                   icon={faWaveSquare}
                   size="2x"
-                  style={{ width: "31.5px" }}
+                  style={{ width: "2.1rem" }}
                 />
               </IF>
             </div>
