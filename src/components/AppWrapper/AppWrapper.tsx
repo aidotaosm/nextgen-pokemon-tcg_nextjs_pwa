@@ -17,6 +17,7 @@ import pokemonLogo from "../../../public/images/International_Pokémon_logo.svg"
 import { Helper } from "../../utils/helper";
 import Link from "next/link";
 import { logoBlurImage } from "../../../base64Images/base64Images";
+import { ToastComponent } from "../UtilityComponents/ToastComponent";
 
 interface LocalAppInterface {
   darkMode: boolean;
@@ -27,6 +28,9 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
   let router = useRouter();
   const [pathToRedirect, setPathToRedirect] = useState<string>("");
   const [listOfPaths, setListOfPaths] = useState<string[]>([]);
+  const [serviceWorkerLoading, setServiceWorkerLoading] =
+    useState<boolean>(true);
+  const swLoaderToastId = "swLoaderToast";
 
   useEffect(() => {
     if (router.isReady) {
@@ -50,7 +54,12 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
       }
     }
   }, [router.asPath]);
-
+  const showToast = (bootstrap: any) => {
+    const toastLiveExample = document.getElementById(swLoaderToastId);
+    if (toastLiveExample && bootstrap) {
+      new bootstrap.Toast(toastLiveExample).show();
+    }
+  };
   useEffect(() => {
     let localAppState: LocalAppInterface =
       Helper.getLocalStorageItem("appState");
@@ -68,11 +77,35 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
       darkMode: darkModeValue,
       gridView: gridViewValue,
     });
+    const swActivateEventHandler = () => {
+      console.log("sw activated", navigator.serviceWorker.ready);
+    };
+    console.log(navigator.serviceWorker);
+    console.log(navigator.serviceWorker.controller);
+    if (navigator.serviceWorker) {
+      navigator.serviceWorker.ready.then((x) => {
+        console.log(x);
+        setServiceWorkerLoading(false);
+      });
+      navigator.serviceWorker.addEventListener(
+        "activate",
+        swActivateEventHandler
+      );
+    }
 
     //this is needed for accordion toggle etc
     import("bootstrap").then((bootstrap) => {
       appContextValues?.saveBootstrap(bootstrap);
+      showToast(bootstrap);
     });
+    return () => {
+      if (navigator.serviceWorker) {
+        navigator.serviceWorker.removeEventListener(
+          "activate",
+          swActivateEventHandler
+        );
+      }
+    };
   }, []);
 
   return (
@@ -176,6 +209,13 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
           </small>
         </div>
       </footer>
+      <ToastComponent
+        autoHide={false}
+        toastTitle="Prefetch Status"
+        id={swLoaderToastId}
+      >
+        <div>{serviceWorkerLoading ? "YES" : "NO"}</div>
+      </ToastComponent>
     </div>
   );
 };
