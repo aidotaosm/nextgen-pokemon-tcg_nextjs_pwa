@@ -14,7 +14,7 @@ export const PokemonDetailComponent: FunctionComponent<PokemonDetailProps> = ({
 }) => {
   return (
     <div className={classes} style={{ maxWidth: "35rem" }}>
-      <div className="pokemon-details rounded">
+      <div className="pokemon-details rounded h-100 d-flex flex-column">
         <div className="name bg-secondary p-2 rounded-top d-flex align-items-center justify-content-between">
           <span className="text-lightgray fs-2"> {card.name}</span>
           <div className="">
@@ -115,7 +115,7 @@ export const PokemonDetailComponent: FunctionComponent<PokemonDetailProps> = ({
             </small>
           </div>
         </div>
-        <div className="pokemon-body">
+        <div className="pokemon-body flex-grow-1">
           <IF condition={card.rules}>
             <div className="rules p-3">
               {card.rules?.map((rule: string, ruleIndex: number) => (

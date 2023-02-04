@@ -26,9 +26,16 @@ import { ToastComponent } from "../UtilityComponents/ToastComponent";
 interface LocalAppInterface {
   darkMode: boolean;
   gridView: boolean;
+  offLineMode: boolean;
 }
 export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
-  const appContextValues = useContext(AppContext);
+  const {
+    multiUpdate,
+    saveBootstrap,
+    appState,
+    updateOfflineMode,
+    updateDarkMode,
+  } = useContext(AppContext);
   let router = useRouter();
   const [pathToRedirect, setPathToRedirect] = useState<string>("");
   const [listOfPaths, setListOfPaths] = useState<string[]>([]);
@@ -77,13 +84,19 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
       typeof localAppState.gridView === "boolean"
         ? localAppState.gridView
         : false;
-    appContextValues?.multiUpdate({
+    let offLineModeValue =
+      localAppState?.hasOwnProperty("offLineMode") &&
+      typeof localAppState.offLineMode === "boolean"
+        ? localAppState.offLineMode
+        : false;
+    multiUpdate?.({
       darkMode: darkModeValue,
       gridView: gridViewValue,
+      offLineMode: offLineModeValue,
     });
     //this is needed for accordion toggle etc
     import("bootstrap").then((bootstrap) => {
-      appContextValues?.saveBootstrap(bootstrap);
+      saveBootstrap?.(bootstrap);
       if (navigator.serviceWorker) {
         if (!navigator.serviceWorker.controller) {
           showToast(bootstrap);
@@ -110,10 +123,7 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
 
   return (
     <div
-      className={
-        "d-flex flex-column " +
-        (appContextValues?.appState.darkMode ? "dark-mode" : "")
-      }
+      className={"d-flex flex-column " + (appState.darkMode ? "dark-mode" : "")}
       style={{ minHeight: "100vh" }}
     >
       <header className="container pt-3 pb-4">
@@ -156,19 +166,17 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
               className="cursor-pointer user-select-none me-sm-3 me-2"
               title="Offline mode toggle"
               onClick={() => {
-                appContextValues?.updateOfflineMode(
-                  !appContextValues?.appState.offLineMode
-                );
+                updateOfflineMode?.(!appState.offLineMode);
               }}
             >
-              <IF condition={!appContextValues?.appState.offLineMode}>
+              <IF condition={!appState.offLineMode}>
                 <FontAwesomeIcon
                   icon={faSignalPerfect}
                   size="2x"
                   style={{ width: "2.1rem" }}
                 />
               </IF>
-              <IF condition={appContextValues?.appState.offLineMode}>
+              <IF condition={appState.offLineMode}>
                 <FontAwesomeIcon
                   icon={faWaveSquare}
                   size="2x"
@@ -180,15 +188,13 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
               title="Dark mode toggle"
               className="cursor-pointer user-select-none"
               onClick={() => {
-                appContextValues?.updateDarkMode(
-                  !appContextValues?.appState.darkMode
-                );
+                updateDarkMode?.(!appState.darkMode);
               }}
             >
-              <IF condition={appContextValues?.appState.darkMode}>
+              <IF condition={appState.darkMode}>
                 <FontAwesomeIcon icon={faToggleOn} size="2x" />
               </IF>
-              <IF condition={!appContextValues?.appState.darkMode}>
+              <IF condition={!appState.darkMode}>
                 <FontAwesomeIcon icon={faToggleOff} size="2x" />
               </IF>
             </div>

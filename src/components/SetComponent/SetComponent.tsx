@@ -26,7 +26,7 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
   const [setCards, setSetCards] = useState<any>(getCardsForServerSide() || []);
   const [pageIndex, setPageIndex] = useState<number>(0);
   const [refPageNumber, setRefPageNumber] = useState<number>(0);
-  const appContextValues = useContext(AppContext);
+  const { appState, updateGridView } = useContext(AppContext);
 
   // const getSetCards = (paramPageIndex: number) => {
   //   setIsLoading(true);
@@ -45,7 +45,7 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
   //     });
   // };
   const getUpdatedView = (view: boolean) => {
-    appContextValues?.updateGridView(view);
+    updateGridView?.(view);
   };
 
   useEffect(() => {
@@ -140,16 +140,16 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
             pageNumber={refPageNumber}
           >
             <ListOrGridViewToggle
-              isGridView={appContextValues?.appState.gridView}
+              isGridView={appState.gridView}
               getUpdatedView={getUpdatedView}
               additionalClasses="col-1"
             ></ListOrGridViewToggle>
           </PagingComponent>
         </div>
-        <IF condition={appContextValues?.appState.gridView}>
+        <IF condition={appState.gridView}>
           <GridViewComponent setCards={setCards}></GridViewComponent>
         </IF>
-        <IF condition={!appContextValues?.appState.gridView}>
+        <IF condition={!appState.gridView}>
           <ListViewComponent setCards={setCards}></ListViewComponent>
         </IF>
         <div className="mt-4">
@@ -162,7 +162,7 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
             pageNumber={refPageNumber}
           >
             <ListOrGridViewToggle
-              isGridView={appContextValues?.appState.gridView}
+              isGridView={appState.gridView}
               getUpdatedView={getUpdatedView}
               additionalClasses="col-1"
             ></ListOrGridViewToggle>
