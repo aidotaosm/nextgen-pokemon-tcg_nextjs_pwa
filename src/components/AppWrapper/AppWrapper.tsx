@@ -169,14 +169,26 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
                 updateOfflineMode?.(!appState.offLineMode);
               }}
             >
-              <IF condition={!appState.offLineMode}>
+              <IF
+                condition={
+                  !appState.offLineMode &&
+                  router.pathname != "/" &&
+                  router.pathname != "/series"
+                }
+              >
                 <FontAwesomeIcon
                   icon={faSignalPerfect}
                   size="2x"
                   style={{ width: "2.1rem" }}
                 />
               </IF>
-              <IF condition={appState.offLineMode}>
+              <IF
+                condition={
+                  appState.offLineMode &&
+                  router.pathname != "/" &&
+                  router.pathname != "/series"
+                }
+              >
                 <FontAwesomeIcon
                   icon={faWaveSquare}
                   size="2x"
