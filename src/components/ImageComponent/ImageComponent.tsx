@@ -9,6 +9,7 @@ import Image from "next/image";
 import { IF } from "../UtilityComponents/IF";
 import { DEFAULT_CARD_BACK_RATIO } from "../../constants/constants";
 import { defaultBlurImage } from "../../../base64Images/base64Images";
+import CardBack from "../../../public/images/Cardback.webp";
 
 export const ImageComponent: FunctionComponent<any> = ({
   src,
@@ -44,10 +45,13 @@ export const ImageComponent: FunctionComponent<any> = ({
           placeholder="blur"
           onError={(e: any) => {
             console.log(imageSource, "lq image failed");
-            setImageSource("/images/Cardback.webp");
+            if (fallBackType === "logo") {
+              setImageSource(fallbackImage);
+            } else {
+              setImageSource(CardBack);
+            }
           }}
           onLoadingComplete={(e: any) => {
-            // console.log(fallbackImage);
             console.log(e.naturalHeight, "e.naturalHeight lq");
             console.log(e.naturalWidth, "e.naturalWidth lq");
             if (fallBackType === "logo" && e) {
@@ -82,7 +86,7 @@ export const ImageComponent: FunctionComponent<any> = ({
               if (lowQualityImageLoaded) {
                 setHighQualityImageSource(imageSource);
               } else {
-                setHighQualityImageSource("/images/Cardback.webp");
+                setHighQualityImageSource(CardBack);
               }
             }}
             onLoadingComplete={(e: any) => {
