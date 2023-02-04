@@ -4,16 +4,33 @@ import { BasicProps } from "../models/GenericModels";
 import { Helper } from "../utils/helper";
 
 interface AppContextInterface {
-  appState: any;
-  setAppState: any;
-  updateDarkMode: (e: boolean) => void;
-  updateOfflineMode: (e: boolean) => void;
-  updateGridView: (e: boolean) => void;
-  multiUpdate: (e: any) => void;
-  saveBootstrap: (e: any) => void;
+  appState: {
+    darkMode: boolean;
+    gridView: boolean;
+    bootstrap: any;
+    offLineMode: boolean;
+  };
+  setAppState?: any;
+  updateDarkMode?: (e: boolean) => void;
+  updateOfflineMode?: (e: boolean) => void;
+  updateGridView?: (e: boolean) => void;
+  multiUpdate?: (e: {
+    darkMode?: boolean;
+    gridView?: boolean;
+    bootstrap?: any;
+    offLineMode?: boolean;
+  }) => void;
+  saveBootstrap?: (e: any) => void;
 }
 
-export const AppContext = createContext<AppContextInterface | null>(null);
+export const AppContext = createContext<AppContextInterface>({
+  appState: {
+    darkMode: true,
+    gridView: false,
+    bootstrap: null,
+    offLineMode: false,
+  },
+});
 
 export const AppProvider: FunctionComponent<BasicProps> = (props) => {
   const setLocalStorageItem = (itemName: string, value: any) => {
@@ -66,7 +83,12 @@ export const AppProvider: FunctionComponent<BasicProps> = (props) => {
     setLocalStorageItem("gridView", value);
   };
 
-  const multiUpdate = (object: any) => {
+  const multiUpdate = (object: {
+    darkMode?: boolean;
+    gridView?: boolean;
+    bootstrap?: any;
+    offLineMode?: boolean;
+  }) => {
     setAppState((e) => {
       return { ...e, ...object };
     });

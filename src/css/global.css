@@ -194,7 +194,7 @@ a.white-hover:hover {
   color: white !important;
 }
 .pokemon-details {
-  background-color: white;
+  background-color: #f0f6ff;
 }
 .dark-mode .pokemon-details {
   background-color: black;

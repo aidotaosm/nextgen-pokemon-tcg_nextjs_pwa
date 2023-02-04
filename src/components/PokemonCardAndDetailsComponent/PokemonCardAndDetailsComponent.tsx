@@ -1,4 +1,5 @@
-import { Fragment, FunctionComponent, useState } from "react";
+import { Fragment, FunctionComponent, useContext, useState } from "react";
+import { AppContext } from "../../contexts/AppContext";
 import { PokemonDetailProps } from "../../models/GenericModels";
 import { Helper } from "../../utils/helper";
 import { ImageComponent } from "../ImageComponent/ImageComponent";
@@ -10,46 +11,51 @@ export const PokemonCardAndDetailsComponent: FunctionComponent<
 > = ({
   card,
   cardClicked = () => {},
-  detailsClasses = "mt-5 mt-md-0 ms-md-5 ps-xl-4 flex-grow-1",
+  detailsClasses = "mt-5 mt-md-0 ps-xl-4 flex-grow-1 ms-md-5",
   showHQImage = false,
   showCardOpenToNewTab = true,
 }) => {
+  const { appState } = useContext(AppContext);
   return (
     <Fragment>
-      <div
-        className="pokemon-card-image mt-4 mt-md-0"
-        onClick={(e) => {
-          // e.stopPropagation();
-          cardClicked(card);
-        }}
-      >
-        <div className="special-card-wrapper p-0">
-          <div
-            className={
-              "special-card-border " + (!showHQImage ? "cursor-pointer" : "")
-            }
-            onContextMenu={(e) => {
-              if (!showHQImage) {
-                e.preventDefault();
-              }
-            }}
-            data-bs-toggle={!showHQImage ? "modal" : undefined}
-            data-bs-target={!showHQImage ? "#list-view-card-modal" : undefined}
-          >
-            <ImageComponent
-              src={card?.images?.small}
-              highQualitySrc={showHQImage ? card?.images?.large : null}
-              alt={card.name}
-              width={245}
-              height={342}
+      <IF condition={!appState.offLineMode}>
+        <div
+          className="pokemon-card-image mt-4 mt-md-0"
+          onClick={(e) => {
+            // e.stopPropagation();
+            cardClicked(card);
+          }}
+        >
+          <div className="special-card-wrapper p-0">
+            <div
               className={
-                "special-card position-relative h-auto w-100 " +
-                (showHQImage ? "" : "disable-save")
+                "special-card-border " + (!showHQImage ? "cursor-pointer" : "")
               }
-            />
+              onContextMenu={(e) => {
+                if (!showHQImage) {
+                  e.preventDefault();
+                }
+              }}
+              data-bs-toggle={!showHQImage ? "modal" : undefined}
+              data-bs-target={
+                !showHQImage ? "#list-view-card-modal" : undefined
+              }
+            >
+              <ImageComponent
+                src={card?.images?.small}
+                highQualitySrc={showHQImage ? card?.images?.large : null}
+                alt={card.name}
+                width={245}
+                height={342}
+                className={
+                  "special-card position-relative h-auto w-100 " +
+                  (showHQImage ? "" : "disable-save")
+                }
+              />
+            </div>
           </div>
         </div>
-      </div>
+      </IF>
       <PokemonDetailComponent
         card={card}
         classes={detailsClasses}
