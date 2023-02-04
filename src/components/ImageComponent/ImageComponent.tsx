@@ -48,7 +48,7 @@ export const ImageComponent: FunctionComponent<any> = ({
             }
           }}
           onLoadingComplete={(e: any) => {
-            if (fallBackType === "logo" && e) {
+            if (fallBackType === "logo" || fallBackType === "symbol") {
               console.log(
                 e.naturalHeight / e.naturalWidth,
                 DEFAULT_CARD_BACK_RATIO,
