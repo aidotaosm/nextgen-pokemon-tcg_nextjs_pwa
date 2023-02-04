@@ -40,7 +40,7 @@ export const ImageComponent: FunctionComponent<any> = ({
           placeholder="blur"
           onError={(e: any) => {
             console.log(imageSource, "lq image failed");
-            if (fallBackType === "logo") {
+            if (fallBackType === "logo" || fallBackType === "symbol") {
               setImageSource(fallbackImage);
             } else {
               // setImageSource(CardBack);
