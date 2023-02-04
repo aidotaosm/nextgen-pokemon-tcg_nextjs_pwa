@@ -4,12 +4,12 @@ const withPWA = require('next-pwa')({
     disable: process.env.NODE_ENV === 'development',
     //  disable: true,
     register: true,
-    skipWaiting: false,
+    skipWaiting: true,
     runtimeCaching: [
         ...customRuntimeCaching,
     ],
     fallbacks: {
-        image: '/images/Cardback.png'
+        image: '/images/Cardback.webp'
     }
 })
 module.exports = withPWA({

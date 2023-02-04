@@ -8,15 +8,20 @@ import {
   faToggleOff,
   faSignalPerfect,
   faWaveSquare,
+  faSpinner,
+  faCheck,
+  faXmark,
 } from "@fortawesome/free-solid-svg-icons";
 
 import { IF } from "../UtilityComponents/IF";
 import { AppContext } from "../../contexts/AppContext";
 import { ImageComponent } from "../ImageComponent/ImageComponent";
-import pokemonLogo from "../../../public/svgs/International_Pokémon_logo.svg";
+import pokemonLogo from "../../../public/images/International_Pokémon_logo.svg";
 import { Helper } from "../../utils/helper";
 import Link from "next/link";
-import { logoBlurImage } from "../../../public/base64Images/base64Images";
+import { logoBlurImage } from "../../../base64Images/base64Images";
+import { ToastComponent } from "../UtilityComponents/ToastComponent";
+//declare let self: ServiceWorkerGlobalScope;
 
 interface LocalAppInterface {
   darkMode: boolean;
@@ -27,6 +32,9 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
   let router = useRouter();
   const [pathToRedirect, setPathToRedirect] = useState<string>("");
   const [listOfPaths, setListOfPaths] = useState<string[]>([]);
+  const [serviceWorkerStatus, setServiceWorkerStatus] =
+    useState<string>("loading");
+  const swLoaderToastId = "swLoaderToast";
 
   useEffect(() => {
     if (router.isReady) {
@@ -50,7 +58,12 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
       }
     }
   }, [router.asPath]);
-
+  const showToast = (bootstrap: any) => {
+    const toastLiveExample = document.getElementById(swLoaderToastId);
+    if (toastLiveExample && bootstrap) {
+      new bootstrap.Toast(toastLiveExample).show();
+    }
+  };
   useEffect(() => {
     let localAppState: LocalAppInterface =
       Helper.getLocalStorageItem("appState");
@@ -68,10 +81,30 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
       darkMode: darkModeValue,
       gridView: gridViewValue,
     });
-
     //this is needed for accordion toggle etc
     import("bootstrap").then((bootstrap) => {
       appContextValues?.saveBootstrap(bootstrap);
+      if (navigator.serviceWorker) {
+        if (!navigator.serviceWorker.controller) {
+          showToast(bootstrap);
+        } else {
+          console.log("sw already found");
+        }
+        navigator.serviceWorker.oncontrollerchange = () => {
+          "new sw ver added";
+          showToast(bootstrap);
+        };
+
+        navigator.serviceWorker.ready
+          .then((x) => {
+            console.log(x);
+            //x.pushManager.
+            setServiceWorkerStatus("done");
+          })
+          .catch((e) => {
+            setServiceWorkerStatus("error");
+          });
+      }
     });
   }, []);
 
@@ -106,19 +139,21 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
               />
             </IF>
           </div>
-          <div style={{ width: "200px", marginLeft: "calc(33.75px + 1rem)" }}>
+          <div style={{ width: "180px", marginLeft: "calc(31.5px + 1rem)" }}>
             <Link href="/">
               <ImageComponent
                 src={pokemonLogo}
+                //  src={"/images/International_Pokémon_logo.svg"}
                 alt={"Pokemon"}
                 blurDataURL={logoBlurImage}
                 className="w-100 h-auto"
+                lqImageUnOptimize={true}
               />
             </Link>
           </div>
           <div className="d-flex">
             <div
-              className="cursor-pointer user-select-none me-3"
+              className="cursor-pointer user-select-none me-sm-3 me-2"
               title="Offline mode toggle"
               onClick={() => {
                 appContextValues?.updateOfflineMode(
@@ -126,14 +161,18 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
                 );
               }}
             >
-              <IF condition={appContextValues?.appState.offLineMode}>
-                <FontAwesomeIcon icon={faSignalPerfect} size="2x" />
-              </IF>
               <IF condition={!appContextValues?.appState.offLineMode}>
+                <FontAwesomeIcon
+                  icon={faSignalPerfect}
+                  size="2x"
+                  style={{ width: "2.1rem" }}
+                />
+              </IF>
+              <IF condition={appContextValues?.appState.offLineMode}>
                 <FontAwesomeIcon
                   icon={faWaveSquare}
                   size="2x"
-                  style={{ width: "33.75px" }}
+                  style={{ width: "2.1rem" }}
                 />
               </IF>
             </div>
@@ -170,6 +209,45 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
           </small>
         </div>
       </footer>
+      <ToastComponent
+        autoHide={false}
+        toastTitle={
+          <div className="d-flex">
+            <span className="me-2">Service worker status</span>
+            <div className="text-center">
+              {serviceWorkerStatus === "loading" ? (
+                <FontAwesomeIcon
+                  icon={faSpinner}
+                  spin={true}
+                  className="text-primary"
+                  // size="2x"
+                />
+              ) : serviceWorkerStatus === "done" ? (
+                <FontAwesomeIcon
+                  icon={faCheck}
+                  className="text-success"
+                  // size="2x"
+                />
+              ) : (
+                <FontAwesomeIcon
+                  icon={faXmark}
+                  className="text-danger"
+                  // size="2x"
+                />
+              )}
+            </div>
+          </div>
+        }
+        id={swLoaderToastId}
+      >
+        <div>
+          {serviceWorkerStatus === "loading"
+            ? "This feature allows you to use most of the site while offline and enhances the user experience. Give us a moment while it installs."
+            : serviceWorkerStatus === "done"
+            ? "Service worker is successfully running in the background. You can now benefit from supported offline features."
+            : "Service worker couldn't be installed. Offline features have been turned off. Try refreshing the page or using a different (newer) browser."}
+        </div>
+      </ToastComponent>
     </div>
   );
 };
