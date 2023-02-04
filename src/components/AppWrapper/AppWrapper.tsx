@@ -114,7 +114,7 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
                 alt={"Pokemon"}
                 blurDataURL={logoBlurImage}
                 className="w-100 h-auto"
-                lqImageOptimize={false}
+                lqImageUnOptimize={true}
               />
             </Link>
           </div>

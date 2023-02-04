@@ -18,7 +18,7 @@ const Index = () => {
                   alt={"Browse cards"}
                   blurDataURL={defaultBlurImage}
                   className="w-100 h-auto"
-                  lqImageOptimize={false}
+                  lqImageUnOptimize={true}
                 />
               </div>
               <div className="card-body">
@@ -46,7 +46,7 @@ const Index = () => {
                 alt={"Browse cards"}
                 blurDataURL={defaultBlurImage}
                 className="w-100 h-auto"
-                lqImageOptimize={false}
+                lqImageUnOptimize={true}
               />
             </div>
             <div className="card-body">
@@ -69,7 +69,7 @@ const Index = () => {
                 alt={"Browse cards"}
                 blurDataURL={defaultBlurImage}
                 className="w-100 h-auto"
-                lqImageOptimize={false}
+                lqImageUnOptimize={true}
               />
             </div>
             <div className="card-body">

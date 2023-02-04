@@ -16,7 +16,7 @@ export const ImageComponent: FunctionComponent<any> = ({
   highQualitySrc,
   fallBackType,
   fallbackImage,
-  lqImageOptimize = true,
+  lqImageUnOptimize = false,
 }) => {
   const [imageSource, setImageSource] = useState(src);
   const [highQualityImageSource, setHighQualityImageSource] =
@@ -29,7 +29,7 @@ export const ImageComponent: FunctionComponent<any> = ({
     <>
       <div className={highQualityImageLoaded ? "out-of-view" : ""}>
         <Image
-          unoptimized={lqImageOptimize}
+          unoptimized={lqImageUnOptimize}
           className={className || ""}
           src={imageSource}
           alt={alt || ""}
