@@ -219,7 +219,7 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
         autoHide={false}
         toastTitle={
           <div className="d-flex">
-            <span className="me-2">Service worker status</span>
+            <span className="me-2">Service worker</span>
             <div className="text-center">
               {serviceWorkerStatus === "loading" ? (
                 <FontAwesomeIcon

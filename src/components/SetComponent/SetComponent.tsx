@@ -113,22 +113,27 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
     return (
       <div className="container">
         <div className="d-flex justify-content-center mb-4 align-items-center">
-          <div style={{ width: "8rem" }}>
-            <ImageComponent
-              src={cardsObject.data[0].set?.images?.logo}
-              alt={cardsObject.data[0].set.name}
-              height={72}
-              width={192}
-              blurDataURL={logoBlurImage}
-              className="w-100 h-auto"
-            />
-          </div>
-          {/* 
-          <h4 className="mb-0 ms-3">
-            {cardsObject.data[0].set.name +
-              " expansion of " +
-              cardsObject.data[0].set.series}
-          </h4> */}
+          <IF condition={!appState.offLineMode}>
+            <div style={{ width: "8rem" }}>
+              <ImageComponent
+                src={cardsObject.data[0].set?.images?.logo}
+                alt={cardsObject.data[0].set.name}
+                height={72}
+                width={192}
+                blurDataURL={logoBlurImage}
+                className="w-100 h-auto"
+                fallBackType="logo"
+                fallbackImage={"/images/International_Pokémon_logo.svg"}
+              />
+            </div>
+          </IF>
+          <IF condition={appState.offLineMode}>
+            <h4 className="mb-0 ms-3">
+              {cardsObject.data[0].set.name +
+                " expansion of " +
+                cardsObject.data[0].set.series}
+            </h4>
+          </IF>
         </div>
         <div className="mb-4">
           <PagingComponent
