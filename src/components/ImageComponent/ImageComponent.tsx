@@ -1,15 +1,9 @@
-import {
-  FunctionComponent,
-  MutableRefObject,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { FunctionComponent, useState } from "react";
 import Image from "next/image";
 import { IF } from "../UtilityComponents/IF";
 import { DEFAULT_CARD_BACK_RATIO } from "../../constants/constants";
 import { defaultBlurImage } from "../../../base64Images/base64Images";
-import CardBack from "../../../public/images/Cardback.webp";
+// import CardBack from "../../../public/images/Cardback.webp";
 
 export const ImageComponent: FunctionComponent<any> = ({
   src,
@@ -22,6 +16,7 @@ export const ImageComponent: FunctionComponent<any> = ({
   highQualitySrc,
   fallBackType,
   fallbackImage,
+  lqImageOptimize = true,
 }) => {
   const [imageSource, setImageSource] = useState(src);
   const [highQualityImageSource, setHighQualityImageSource] =
@@ -34,7 +29,7 @@ export const ImageComponent: FunctionComponent<any> = ({
     <>
       <div className={highQualityImageLoaded ? "out-of-view" : ""}>
         <Image
-          // unoptimized={{process.env.NETLIFY !== "true"}}
+          unoptimized={lqImageOptimize}
           className={className || ""}
           src={imageSource}
           alt={alt || ""}
@@ -48,7 +43,8 @@ export const ImageComponent: FunctionComponent<any> = ({
             if (fallBackType === "logo") {
               setImageSource(fallbackImage);
             } else {
-              setImageSource(CardBack);
+              // setImageSource(CardBack);
+              setImageSource("/images/Cardback.webp");
             }
           }}
           onLoadingComplete={(e: any) => {
@@ -86,7 +82,8 @@ export const ImageComponent: FunctionComponent<any> = ({
               if (lowQualityImageLoaded) {
                 setHighQualityImageSource(imageSource);
               } else {
-                setHighQualityImageSource(CardBack);
+                // setHighQualityImageSource(CardBack);
+                setHighQualityImageSource("/images/Cardback.webp");
               }
             }}
             onLoadingComplete={(e: any) => {
