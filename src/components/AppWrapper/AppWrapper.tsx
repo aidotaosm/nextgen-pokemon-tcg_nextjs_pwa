@@ -13,7 +13,7 @@ import {
 import { IF } from "../UtilityComponents/IF";
 import { AppContext } from "../../contexts/AppContext";
 import { ImageComponent } from "../ImageComponent/ImageComponent";
-//import pokemonLogo from "../../../public/images/International_Pokémon_logo.svg";
+import pokemonLogo from "../../../public/images/International_Pokémon_logo.svg";
 import { Helper } from "../../utils/helper";
 import Link from "next/link";
 import { logoBlurImage } from "../../../base64Images/base64Images";
@@ -109,8 +109,8 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
           <div style={{ width: "180px", marginLeft: "calc(31.5px + 1rem)" }}>
             <Link href="/">
               <ImageComponent
-                // src={pokemonLogo}
-                src={"/images/International_Pokémon_logo.svg"}
+                src={pokemonLogo}
+                //  src={"/images/International_Pokémon_logo.svg"}
                 alt={"Pokemon"}
                 blurDataURL={logoBlurImage}
                 className="w-100 h-auto"
