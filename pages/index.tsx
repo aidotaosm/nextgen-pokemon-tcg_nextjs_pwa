@@ -7,10 +7,7 @@ import { defaultBlurImage } from "../base64Images/base64Images";
 
 const Index = () => {
   return (
-    <div
-      className="container align-self-center"
-      style={{ marginTop: "-2.8rem" }}
-    >
+    <div className="container align-self-center negative-margin-min-768">
       <div className="row row-cols-1 row-cols-md-3">
         <div className="col">
           <Link href="/series" className="un-styled-anchor ">

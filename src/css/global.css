@@ -337,3 +337,8 @@ a.white-hover:hover {
     padding: 0 2rem 1rem 2rem;
   }
 }
+@media (min-width: 768px) {
+  .negative-margin-min-768 {
+    margin-top: -1.4rem;
+  }
+}
