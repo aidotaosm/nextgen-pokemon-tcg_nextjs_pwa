@@ -218,7 +218,7 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
         </div>
       </header>
 
-      <main className="flex-grow-1">{children}</main>
+      <main className="flex-grow-1 d-flex">{children}</main>
 
       <footer className="container pt-4 pb-3">
         <div className="text-center  fs-6">
