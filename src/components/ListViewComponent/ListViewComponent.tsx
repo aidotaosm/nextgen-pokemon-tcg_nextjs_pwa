@@ -71,17 +71,13 @@ export const ListViewComponent: FunctionComponent<SetCardsProps> = ({
     );
   }, [selectedCard]);
   return (
-    <>
-      {setCards?.map((card: any, index: number) => (
-        <Fragment key={card.id}>
+    <Fragment>
+      <div className="list-view-wrapper">
+        {setCards?.map((card: any, index: number) => (
           <div
+            key={card.id}
             className={
-              "list-view align-items-center d-md-flex justify-content-center " +
-              (index == 0
-                ? "pb-3"
-                : index == setCards.length - 1
-                ? "pt-3"
-                : "py-3")
+              "list-view align-items-center d-md-flex justify-content-center mb-5"
             }
           >
             <PokemonCardAndDetailsComponent
@@ -89,8 +85,8 @@ export const ListViewComponent: FunctionComponent<SetCardsProps> = ({
               card={card}
             />
           </div>
-        </Fragment>
-      ))}
+        ))}
+      </div>
       <MemoizedModalComponent
         id="list-view-card-modal"
         primaryClasses="modal-xl vertical-align-modal"
@@ -100,6 +96,6 @@ export const ListViewComponent: FunctionComponent<SetCardsProps> = ({
       >
         {MemoizedCarouselComponent}
       </MemoizedModalComponent>
-    </>
+    </Fragment>
   );
 };

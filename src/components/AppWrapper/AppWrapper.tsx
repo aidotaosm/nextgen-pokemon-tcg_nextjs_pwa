@@ -123,7 +123,11 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
 
   return (
     <div
-      className={"d-flex flex-column " + (appState.darkMode ? "dark-mode" : "")}
+      className={
+        "d-flex flex-column " +
+        (appState.darkMode ? "dark-mode " : "") +
+        (appState.offLineMode ? "offline-mode " : "")
+      }
       style={{ minHeight: "100vh" }}
     >
       <header className="container pt-3 pb-4">

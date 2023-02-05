@@ -15,7 +15,7 @@ export const PokemonDetailComponent: FunctionComponent<PokemonDetailProps> = ({
   showCardOpenToNewTab = true,
 }) => {
   return (
-    <div className={classes} style={{ maxWidth: "35rem" }}>
+    <div className={"pokemon-details-wrapper " + classes}>
       <div className="pokemon-details rounded h-100 d-flex flex-column">
         <div className="name bg-secondary p-2 rounded-top d-flex align-items-center justify-content-between">
           <span className="text-lightgray fs-2"> {card.name}</span>
