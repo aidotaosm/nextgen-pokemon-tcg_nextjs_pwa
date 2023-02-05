@@ -16,7 +16,10 @@ export const CardComponent: FunctionComponent<CardObjectProps> = ({
     );
   } else {
     return (
-      <div className="container">
+      <div
+        className="container align-self-center"
+        style={{ marginTop: "-2.8rem" }}
+      >
         {/* <div className="d-flex justify-content-end mb-4">
           <h4 className="mb-0">
           </h4>
