@@ -11,16 +11,17 @@ export const PokemonCardAndDetailsComponent: FunctionComponent<
 > = ({
   card,
   cardClicked = () => {},
-  detailsClasses = "mt-5 mt-md-0 ps-xl-4 flex-grow-1 ms-md-5",
+  detailsClasses = "mt-5 mt-md-0 ms-md-5 flex-grow-1",
   showHQImage = false,
   showCardOpenToNewTab = true,
+  imageClasses = "",
 }) => {
   const { appState } = useContext(AppContext);
   return (
     <Fragment>
       <IF condition={!appState.offLineMode}>
         <div
-          className="pokemon-card-image mt-4 mt-md-0"
+          className={"pokemon-card-image " + imageClasses}
           onClick={(e) => {
             // e.stopPropagation();
             cardClicked(card);

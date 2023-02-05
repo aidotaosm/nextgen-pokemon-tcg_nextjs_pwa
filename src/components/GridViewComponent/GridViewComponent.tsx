@@ -29,13 +29,13 @@ export const GridViewComponent: FunctionComponent<SetCardsProps> = ({
       <div
         className={
           !appState.offLineMode
-            ? "row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 row-cols-xxl-5"
-            : "row row-cols-1 row-cols-md-2 row-cols-xl-3 row-cols-xxl-4"
+            ? "g-4 row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 row-cols-xxl-5"
+            : "g-4 row row-cols-1 row-cols-md-2 row-cols-xl-3 row-cols-xxl-4"
         }
       >
         {setCards?.map((card: any) => {
           return (
-            <div className="col mb-4" key={card.id}>
+            <div className="col" key={card.id}>
               <IF condition={!appState.offLineMode}>
                 <div className="card position-static">
                   <div className="card-body">
@@ -101,8 +101,8 @@ export const GridViewComponent: FunctionComponent<SetCardsProps> = ({
           >
             <PokemonCardAndDetailsComponent
               card={selectedCard}
-              detailsClasses={"mt-5 mt-md-0 ps-xl-4 flex-grow-1 ms-md-4"}
               showHQImage={true}
+              imageClasses="mt-4 mt-md-0"
             />
           </div>
         </IF>
