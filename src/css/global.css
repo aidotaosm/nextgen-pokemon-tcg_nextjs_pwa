@@ -341,12 +341,11 @@ a.white-hover:hover {
   .negative-margin-min-768 {
     margin-top: -1.4rem;
   }
-
+}
 .search {
   max-width: 450px;
   border-radius: 10px;
   margin-left: 16px;
 }
-
 .search:focus {
 }
