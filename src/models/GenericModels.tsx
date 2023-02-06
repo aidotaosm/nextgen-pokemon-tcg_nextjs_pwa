@@ -29,6 +29,7 @@ export interface PokemonDetailProps {
   showHQImage?: boolean;
   showCardOpenToNewTab?: boolean;
   cardClicked?: (e: any) => void;
+  imageClasses?: string;
 }
 export interface CarouselProps {
   children?: JSX.Element;

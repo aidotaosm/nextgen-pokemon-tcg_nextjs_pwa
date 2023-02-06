@@ -27,6 +27,7 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
   const [setCards, setSetCards] = useState<any>(getCardsForServerSide() || []);
   const [pageIndex, setPageIndex] = useState<number>(0);
   const [refPageNumber, setRefPageNumber] = useState<number>(0);
+  const { appState, updateGridView } = useContext(AppContext);
   const appContextValues = useContext(AppContext);
   const [searchValue, setSearchVaslue] = useState("");
   const [newChangedCardObject, setNewChangeCardObject] = useState([]);
@@ -48,7 +49,7 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
   //     });
   // };
   const getUpdatedView = (view: boolean) => {
-    appContextValues?.updateGridView(view);
+    updateGridView?.(view);
   };
 
   useEffect(() => {
@@ -136,22 +137,27 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
     return (
       <div className="container">
         <div className="d-flex justify-content-center mb-4 align-items-center">
-          <div style={{ width: "8rem" }}>
-            <ImageComponent
-              src={cardsObject.data[0].set?.images?.logo}
-              alt={cardsObject.data[0].set.name}
-              height={72}
-              width={192}
-              blurDataURL={logoBlurImage}
-              className="w-100 h-auto"
-            />
-          </div>
-          {/* 
-          <h4 className="mb-0 ms-3">
-            {cardsObject.data[0].set.name +
-              " expansion of " +
-              cardsObject.data[0].set.series}
-          </h4> */}
+          <IF condition={!appState.offLineMode}>
+            <div style={{ width: "8rem" }}>
+              <ImageComponent
+                src={cardsObject.data[0].set?.images?.logo}
+                alt={cardsObject.data[0].set.name}
+                height={72}
+                width={192}
+                blurDataURL={logoBlurImage}
+                className="w-100 h-auto"
+                fallBackType="logo"
+                fallbackImage={"/images/International_Pokémon_logo.svg"}
+              />
+            </div>
+          </IF>
+          <IF condition={appState.offLineMode}>
+            <h4 className="mb-0 ms-3">
+              {cardsObject.data[0].set.name +
+                " expansion of " +
+                cardsObject.data[0].set.series}
+            </h4>
+          </IF>
         </div>
         <div className="mb-4">
           <PagingComponent
@@ -170,16 +176,16 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
             setSearchValueFunction={setSearchValueFunction}
           >
             <ListOrGridViewToggle
-              isGridView={appContextValues?.appState.gridView}
+              isGridView={appState.gridView}
               getUpdatedView={getUpdatedView}
               additionalClasses="col-1"
             ></ListOrGridViewToggle>
           </PagingComponent>
         </div>
-        <IF condition={appContextValues?.appState.gridView}>
+        <IF condition={appState.gridView}>
           <GridViewComponent setCards={setCards}></GridViewComponent>
         </IF>
-        <IF condition={!appContextValues?.appState.gridView}>
+        <IF condition={!appState.gridView}>
           <ListViewComponent setCards={setCards}></ListViewComponent>
         </IF>
         <div className="mt-4">
@@ -198,7 +204,7 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
             showToggleButton={false}
           >
             <ListOrGridViewToggle
-              isGridView={appContextValues?.appState.gridView}
+              isGridView={appState.gridView}
               getUpdatedView={getUpdatedView}
               additionalClasses="col-1"
             ></ListOrGridViewToggle>

@@ -6,6 +6,8 @@ import { ExternalLinkComponent } from "../ExternalLinkComponent/ExternalLinkComp
 import { CopyToClipboardComponent } from "../UtilityComponents/CopyToClipboardComponent";
 import { useRouter } from "next/router";
 import { Helper } from "../../utils/helper";
+import { ImageComponent } from "../ImageComponent/ImageComponent";
+import { logoBlurImage } from "../../../base64Images/base64Images";
 
 export const PokemonDetailComponent: FunctionComponent<PokemonDetailProps> = ({
   card,
@@ -13,8 +15,8 @@ export const PokemonDetailComponent: FunctionComponent<PokemonDetailProps> = ({
   showCardOpenToNewTab = true,
 }) => {
   return (
-    <div className={classes} style={{ maxWidth: "35rem" }}>
-      <div className="pokemon-details rounded">
+    <div className={"pokemon-details-wrapper " + classes}>
+      <div className="pokemon-details rounded h-100 d-flex flex-column">
         <div className="name bg-secondary p-2 rounded-top d-flex align-items-center justify-content-between">
           <span className="text-lightgray fs-2"> {card.name}</span>
           <div className="">
@@ -115,7 +117,7 @@ export const PokemonDetailComponent: FunctionComponent<PokemonDetailProps> = ({
             </small>
           </div>
         </div>
-        <div className="pokemon-body">
+        <div className="pokemon-body flex-grow-1">
           <IF condition={card.rules}>
             <div className="rules p-3">
               {card.rules?.map((rule: string, ruleIndex: number) => (
@@ -291,13 +293,15 @@ export const PokemonDetailComponent: FunctionComponent<PokemonDetailProps> = ({
           >
             <div className="d-flex justify-content-between align-items-center flex-grow-1">
               <div className="d-flex align-items-center fw-bold">
-                <img
+                <ImageComponent
                   src={card.set?.images?.symbol}
                   alt={card.set?.name}
-                  width="25"
-                  height="25"
+                  height={25}
+                  width={25}
+                  blurDataURL={logoBlurImage}
                   className="disable-save set-symbol"
-                  title={card.set?.name}
+                  fallBackType="symbol"
+                  fallbackImage={"/images/free-energy.png"}
                 />
                 <span className="ms-2">{card.regulationMark}</span>
                 <small className=" ms-2">

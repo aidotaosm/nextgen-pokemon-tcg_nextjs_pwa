@@ -1,4 +1,4 @@
-import { FunctionComponent, useState } from "react";
+import { FunctionComponent, useEffect, useState } from "react";
 import Image from "next/image";
 import { IF } from "../UtilityComponents/IF";
 import { DEFAULT_CARD_BACK_RATIO } from "../../constants/constants";
@@ -24,7 +24,11 @@ export const ImageComponent: FunctionComponent<any> = ({
   const [highQualityImageLoaded, setHighQualityImageLoaded] = useState(false);
   const [lowQualityImageLoaded, setLowQualityImageLoaded] = useState(false);
   const [imageDimensions, setImageDimensions] = useState({ height, width });
-
+  useEffect(() => {
+    // this is required because of list view modal carousel hires image download
+    setHighQualityImageSource(highQualitySrc);
+    setHighQualityImageLoaded(false);
+  }, [highQualitySrc]);
   return (
     <>
       <div className={highQualityImageLoaded ? "out-of-view" : ""}>
@@ -40,7 +44,7 @@ export const ImageComponent: FunctionComponent<any> = ({
           placeholder="blur"
           onError={(e: any) => {
             console.log(imageSource, "lq image failed");
-            if (fallBackType === "logo") {
+            if (fallBackType === "logo" || fallBackType === "symbol") {
               setImageSource(fallbackImage);
             } else {
               // setImageSource(CardBack);
@@ -48,7 +52,7 @@ export const ImageComponent: FunctionComponent<any> = ({
             }
           }}
           onLoadingComplete={(e: any) => {
-            if (fallBackType === "logo" && e) {
+            if (fallBackType === "logo" || fallBackType === "symbol") {
               console.log(
                 e.naturalHeight / e.naturalWidth,
                 DEFAULT_CARD_BACK_RATIO,
