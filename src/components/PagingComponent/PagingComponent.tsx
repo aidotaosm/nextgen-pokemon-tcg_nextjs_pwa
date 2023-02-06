@@ -1,4 +1,10 @@
-import { useEffect, useState, FunctionComponent, useRef } from "react";
+import {
+  useEffect,
+  useState,
+  FunctionComponent,
+  useRef,
+  ReactNode,
+} from "react";
 import { DEFAULT_PAGE_SIZE } from "../../constants/constants";
 import styles from "./PagingComponent.module.css";
 import { IF } from "../UtilityComponents/IF";
@@ -84,7 +90,61 @@ export const PagingComponent: FunctionComponent<PagingComponentProps> = ({
     returnVal += from + " to " + to + " of " + numberOfElements;
     return returnVal;
   };
+  const animate = () => {
+    var ph = 'Search Website e.g. "Dancing Cats"',
+      searchBar = document.getElementById("search") as HTMLInputElement,
+      // placeholder loop counter
+      phCount = 0;
 
+    // function to return random number between
+    // with min/max range
+    function randDelay(min: number, max: number) {
+      return Math.floor(Math.random() * (max - min + 1) + min);
+    }
+
+    // function to print placeholder text in a
+    // 'typing' effect
+    function printLetter(string: string, el: HTMLInputElement) {
+      // split string into character seperated array
+      let arr = string.split(""),
+        input = el,
+        // store full placeholder
+        origString = string,
+        // get current placeholder value
+        curPlace = input.placeholder,
+        // append next letter to current placeholder
+        placeholder = curPlace + arr[phCount];
+
+      setTimeout(function () {
+        // print placeholder text
+        input.placeholder = placeholder;
+        // increase loop count
+        phCount++;
+        // run loop until placeholder is fully printed
+        if (phCount < arr.length) {
+          printLetter(origString, input);
+        }
+        // use random speed to simulate
+        // 'human' typing
+      }, randDelay(50, 90));
+    }
+
+    // function to init animation
+    function placeholder() {
+      searchBar.placeholder = "";
+      printLetter(ph, searchBar);
+    }
+
+    placeholder();
+    // $(".submit").click(function (e) {
+    //   phCount = 0;
+    //   e.preventDefault();
+    //   placeholder();
+    // });
+  };
+  useEffect(() => {
+    animate();
+  }, []);
   return (
     <>
       {/* <IF condition={numberOfElements > pageSize}> */}
@@ -95,6 +155,7 @@ export const PagingComponent: FunctionComponent<PagingComponentProps> = ({
               <FontAwesomeIcon className="fs-5" icon={faSearch} width={12} />
             </div>
             <input
+              id="search"
               className="search"
               placeholder="Search your Pokemon"
               onChange={(e) => setSearchValueFunction?.(e.target.value)}

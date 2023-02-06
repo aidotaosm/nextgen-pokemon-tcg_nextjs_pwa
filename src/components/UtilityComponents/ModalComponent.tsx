@@ -14,7 +14,7 @@ const ModalComponent: FunctionComponent<ModalProps> = ({
   okButtonText = "Ok",
   handleOkButtonPress = () => {},
 }) => {
-  console.log("modal component rendered");
+  // console.log("modal component rendered");
   useEffect(() => {
     let modal = document.getElementById(id);
     modal?.addEventListener("hidden.bs.modal", handleModalClose);
