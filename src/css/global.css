@@ -342,3 +342,6 @@ a.white-hover:hover {
     margin-top: -1.4rem;
   }
 }
+.search {
+  max-width: 15rem;
+}
