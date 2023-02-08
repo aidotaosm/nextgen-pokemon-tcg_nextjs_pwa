@@ -29,7 +29,7 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
   const [refPageNumber, setRefPageNumber] = useState<number>(0);
   const { appState, updateGridView } = useContext(AppContext);
   const appContextValues = useContext(AppContext);
-  const [searchValue, setSearchVaslue] = useState("");
+  const [searchValue, setSearchValue] = useState("");
   const [newChangedCardObject, setNewChangeCardObject] = useState([]);
 
   // const getSetCards = (paramPageIndex: number) => {
@@ -76,21 +76,40 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
     }
   }, [router.isReady]);
 
-  useEffect(() => {
-    const data = cardsObject.data.filter((item: any) => {
-      return item.name.toLowerCase().includes(searchValue.toLowerCase());
-    });
-    setNewChangeCardObject(data);
-    pageChanged(0, false);
-  }, [searchValue]);
+  const triggerSearch = (paramSearchValue: string) => {
+    let tempChangedCArdsObject = [];
+    if (paramSearchValue) {
+      const data = cardsObject.data.filter((item: any) => {
+        return item.name.toLowerCase().includes(paramSearchValue.toLowerCase());
+      });
+      console.log(data);
+      tempChangedCArdsObject = data;
+      setNewChangeCardObject(data);
+    } else {
+      setNewChangeCardObject([]);
+    }
+    pageChanged(0, false, paramSearchValue, tempChangedCArdsObject, true);
+  };
 
-  const pageChanged = (newPageIndex: number, updateRoute: boolean = true) => {
+  const pageChanged = (
+    newPageIndex: number,
+    updateRoute: boolean = true,
+    paramSearchValue?: string,
+    paramNewChangedCardObject?: [],
+    instantTrigger: boolean = false
+  ) => {
     // if (!isLoading) {
     let from = newPageIndex * DEFAULT_PAGE_SIZE;
     let to = (newPageIndex + 1) * DEFAULT_PAGE_SIZE;
     // let changedSetOfCards = cardsObject.data.slice(from, to);
-    if (searchValue) {
-      let changedSetOfCards = newChangedCardObject.slice(from, to);
+    let tempSearchValue: string | undefined = searchValue;
+    let temNewChangedCardObject: any = newChangedCardObject;
+    if (instantTrigger) {
+      tempSearchValue = paramSearchValue;
+      temNewChangedCardObject = paramNewChangedCardObject;
+    }
+    if (tempSearchValue) {
+      let changedSetOfCards = temNewChangedCardObject.slice(from, to);
       setSetCards(changedSetOfCards);
     } else {
       let changedSetOfCards = cardsObject.data.slice(from, to);
@@ -122,7 +141,8 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
   };
 
   const setSearchValueFunction = (value: string) => {
-    setSearchVaslue(value);
+    triggerSearch(value);
+    setSearchValue(value);
   };
   const syncPagingReferences = (pageNumber: number) => {
     setRefPageNumber(pageNumber);

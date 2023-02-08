@@ -343,9 +343,5 @@ a.white-hover:hover {
   }
 }
 .search {
-  max-width: 450px;
-  border-radius: 10px;
-  margin-left: 16px;
-}
-.search:focus {
+  max-width: 15rem;
 }
