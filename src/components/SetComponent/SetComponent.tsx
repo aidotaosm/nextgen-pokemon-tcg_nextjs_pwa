@@ -16,6 +16,7 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
   cardsObject,
 }) => {
   // console.log(cardsObject);
+
   let router = useRouter();
   const getCardsForServerSide = () => {
     let from = 0 * DEFAULT_PAGE_SIZE;
@@ -27,6 +28,9 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
   const [pageIndex, setPageIndex] = useState<number>(0);
   const [refPageNumber, setRefPageNumber] = useState<number>(0);
   const { appState, updateGridView } = useContext(AppContext);
+  const appContextValues = useContext(AppContext);
+  const [searchValue, setSearchValue] = useState("");
+  const [newChangedCardObject, setNewChangeCardObject] = useState([]);
 
   // const getSetCards = (paramPageIndex: number) => {
   //   setIsLoading(true);
@@ -72,12 +76,46 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
     }
   }, [router.isReady]);
 
-  const pageChanged = (newPageIndex: number, updateRoute: boolean = true) => {
+  const triggerSearch = (paramSearchValue: string) => {
+    let tempChangedCArdsObject = [];
+    if (paramSearchValue) {
+      const data = cardsObject.data.filter((item: any) => {
+        return item.name.toLowerCase().includes(paramSearchValue.toLowerCase());
+      });
+      console.log(data);
+      tempChangedCArdsObject = data;
+      setNewChangeCardObject(data);
+    } else {
+      setNewChangeCardObject([]);
+    }
+    pageChanged(0, false, paramSearchValue, tempChangedCArdsObject, true);
+  };
+
+  const pageChanged = (
+    newPageIndex: number,
+    updateRoute: boolean = true,
+    paramSearchValue?: string,
+    paramNewChangedCardObject?: [],
+    instantTrigger: boolean = false
+  ) => {
     // if (!isLoading) {
     let from = newPageIndex * DEFAULT_PAGE_SIZE;
     let to = (newPageIndex + 1) * DEFAULT_PAGE_SIZE;
-    let changedSetOfCards = cardsObject.data.slice(from, to);
-    setSetCards(changedSetOfCards);
+    // let changedSetOfCards = cardsObject.data.slice(from, to);
+    let tempSearchValue: string | undefined = searchValue;
+    let temNewChangedCardObject: any = newChangedCardObject;
+    if (instantTrigger) {
+      tempSearchValue = paramSearchValue;
+      temNewChangedCardObject = paramNewChangedCardObject;
+    }
+    if (tempSearchValue) {
+      let changedSetOfCards = temNewChangedCardObject.slice(from, to);
+      setSetCards(changedSetOfCards);
+    } else {
+      let changedSetOfCards = cardsObject.data.slice(from, to);
+      setSetCards(changedSetOfCards);
+    }
+
     setPageIndex(newPageIndex);
     if (updateRoute) {
       updateRouteWithQuery(newPageIndex);
@@ -96,10 +134,16 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
         { shallow: true }
       );
     } else {
-      router.push("/set/" + router.query.setId, undefined, { shallow: true });
+      router.push("/set/" + router.query.setId, undefined, {
+        shallow: true,
+      });
     }
   };
 
+  const setSearchValueFunction = (value: string) => {
+    triggerSearch(value);
+    setSearchValue(value);
+  };
   const syncPagingReferences = (pageNumber: number) => {
     setRefPageNumber(pageNumber);
   };
@@ -139,10 +183,17 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
           <PagingComponent
             pageChanged={pageChanged}
             paramPageSize={DEFAULT_PAGE_SIZE}
-            paramNumberOfElements={cardsObject?.totalCount}
+            paramNumberOfElements={
+              searchValue
+                ? newChangedCardObject.length
+                : cardsObject?.totalCount
+            }
             paramPageIndex={pageIndex}
             syncPagingReferences={syncPagingReferences}
             pageNumber={refPageNumber}
+            showSearchField={true}
+            showToggleButton={true}
+            setSearchValueFunction={setSearchValueFunction}
           >
             <ListOrGridViewToggle
               isGridView={appState.gridView}
@@ -161,10 +212,16 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
           <PagingComponent
             pageChanged={pageChanged}
             paramPageSize={DEFAULT_PAGE_SIZE}
-            paramNumberOfElements={cardsObject?.totalCount}
+            paramNumberOfElements={
+              searchValue
+                ? newChangedCardObject.length
+                : cardsObject?.totalCount
+            }
             paramPageIndex={pageIndex}
             syncPagingReferences={syncPagingReferences}
             pageNumber={refPageNumber}
+            showSearchField={false}
+            showToggleButton={false}
           >
             <ListOrGridViewToggle
               isGridView={appState.gridView}

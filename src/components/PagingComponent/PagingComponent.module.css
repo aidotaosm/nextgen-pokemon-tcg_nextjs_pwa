@@ -3,6 +3,7 @@
   padding: unset;
   -moz-appearance: textfield;
 }
+
 .style-less-input:hover,
 .style-less-input:focus:focus-visible {
   outline: none;
