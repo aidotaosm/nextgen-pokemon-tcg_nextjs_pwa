@@ -202,12 +202,16 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
             ></ListOrGridViewToggle>
           </PagingComponent>
         </div>
+        <div className="d-flex justify-content-center h-100">
+          <h2>No Cards found with {searchValue}</h2>
+        </div>
         <IF condition={appState.gridView}>
           <GridViewComponent setCards={setCards}></GridViewComponent>
         </IF>
         <IF condition={!appState.gridView}>
           <ListViewComponent setCards={setCards}></ListViewComponent>
         </IF>
+        <IF condition={!setCards.length && searchValue}></IF>
         <div className="mt-4">
           <PagingComponent
             pageChanged={pageChanged}

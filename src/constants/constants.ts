@@ -7,4 +7,18 @@ export const SuperTypes = {
 };
 export const Netlify_DEFAULT_URL = "https://osm-pokemon-tcg.netlify.app/";
 export const Vercel_DEFAULT_URL = "https://pkmn-tcg-osm.vercel.app/";
+
+export const random_pokemon_names = [
+  "Charizard",
+  "Mewtwo",
+  "Pikachu",
+  "Sceptile",
+  "Tyranitar",
+  "Venusaur",
+  "Feraligator",
+  "Tyranitar",
+  "Blastoise",
+  "Raikou",
+  "Zapdos",
+];
 //process.env.NETLIFY !== "true"

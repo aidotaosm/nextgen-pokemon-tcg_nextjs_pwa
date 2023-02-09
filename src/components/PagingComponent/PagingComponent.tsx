@@ -5,7 +5,10 @@ import {
   useRef,
   ReactNode,
 } from "react";
-import { DEFAULT_PAGE_SIZE } from "../../constants/constants";
+import {
+  DEFAULT_PAGE_SIZE,
+  random_pokemon_names,
+} from "../../constants/constants";
 import styles from "./PagingComponent.module.css";
 import { IF } from "../UtilityComponents/IF";
 import { faL, faSearch } from "@fortawesome/free-solid-svg-icons";
@@ -94,11 +97,15 @@ export const PagingComponent: FunctionComponent<PagingComponentProps> = ({
   };
 
   useEffect(() => {
+    let timeout: any = null;
     const animate = () => {
-      var ph = 'Search e.g. "Charizard"',
-        searchBar = document.getElementById("search") as HTMLInputElement,
-        // placeholder loop counter
-        phCount = 0;
+      let ph = "Search e.g. ";
+      let randomIndex = Math.floor(Math.random() * random_pokemon_names.length);
+      console.log(randomIndex), random_pokemon_names[randomIndex];
+      ph += random_pokemon_names[randomIndex];
+      let searchBar = document.getElementById("search") as HTMLInputElement;
+      // placeholder loop counter
+      let phCount = 0;
 
       // function to return random number between
       // with min/max range
@@ -119,7 +126,7 @@ export const PagingComponent: FunctionComponent<PagingComponentProps> = ({
           // append next letter to current placeholder
           placeholder = curPlace + arr[phCount];
 
-        let timeout = setTimeout(() => {
+        timeout = setTimeout(() => {
           // print placeholder text
           input.placeholder = placeholder;
           // increase loop count
@@ -133,33 +140,30 @@ export const PagingComponent: FunctionComponent<PagingComponentProps> = ({
           // use random speed to simulate
           // 'human' typing
         }, randDelay(50, 90));
-        return timeout;
       };
 
       // function to init animation
       const placeholder = () => {
         searchBar.placeholder = "";
-        let timeout = printLetter(ph, searchBar);
-        return timeout;
+        printLetter(ph, searchBar);
       };
-
-      return placeholder();
+      placeholder();
       // $(".submit").click(function (e) {
       //   phCount = 0;
       //   e.preventDefault();
       //   placeholder();
       // });
     };
-    let timeout: any = null;
+    clearTimeout(timeout);
     let interval = setInterval(() => {
-      timeout = animate();
+      animate();
     }, 5000);
 
     return () => {
       clearTimeout(timeout);
       clearInterval(interval);
     };
-  }, [triggerPlaceholderAutoTyping]);
+  }, []);
   return (
     <>
       {/* <IF condition={numberOfElements > pageSize}> */}
@@ -178,9 +182,9 @@ export const PagingComponent: FunctionComponent<PagingComponentProps> = ({
                 onChange={(e) => {
                   //
                   console.log(e.target.value);
-                  if (!e.target.value) {
-                    setTriggerPlaceholderAutoTyping((l) => !l);
-                  }
+                  // if (!e.target.value) {
+                  //   setTriggerPlaceholderAutoTyping((l) => !l);
+                  // }
                   setSearchValueFunction?.(e.target.value);
                 }}
               />
