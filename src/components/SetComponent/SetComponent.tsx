@@ -11,6 +11,7 @@ import { ListViewComponent } from "../ListViewComponent/ListViewComponent";
 import { AppContext } from "../../contexts/AppContext";
 import { ImageComponent } from "../ImageComponent/ImageComponent";
 import { logoBlurImage } from "../../../base64Images/base64Images";
+import { LocalSearchComponent } from "../LocalSearchComponent/LocalSearchComponent";
 
 export const SetComponent: FunctionComponent<CardsObjectProps> = ({
   cardsObject,
@@ -149,13 +150,13 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
   };
   if (router.isFallback) {
     return (
-      <div className="container d-flex h-100 align-items-center justify-content-center">
-        <h1>Set Loading...</h1>
+      <div className="container d-flex flex-grow-1 justify-content-center">
+        <h1 className="align-self-center">Set Loading...</h1>
       </div>
     );
   } else {
     return (
-      <div className="container">
+      <div className="container d-flex flex-column">
         <div className="d-flex justify-content-center mb-4 align-items-center">
           <IF condition={!appState.offLineMode}>
             <div style={{ width: "8rem" }}>
@@ -179,7 +180,12 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
             </h4>
           </IF>
         </div>
-        <div className="mb-4">
+        <div className="mb-4 row">
+          <div className="col d-flex align-items-center">
+            <LocalSearchComponent
+              setSearchValueFunction={setSearchValueFunction}
+            />
+          </div>
           <PagingComponent
             pageChanged={pageChanged}
             paramPageSize={DEFAULT_PAGE_SIZE}
@@ -191,9 +197,7 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
             paramPageIndex={pageIndex}
             syncPagingReferences={syncPagingReferences}
             pageNumber={refPageNumber}
-            showSearchField={true}
             showToggleButton={true}
-            setSearchValueFunction={setSearchValueFunction}
           >
             <ListOrGridViewToggle
               isGridView={appState.gridView}
@@ -203,8 +207,10 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
           </PagingComponent>
         </div>
         <IF condition={!setCards.length && searchValue}>
-          <div className="d-flex justify-content-center h-100">
-            <h2>No Cards found with {searchValue}</h2>
+          <div className="d-flex justify-content-center flex-grow-1">
+            <h2 className="align-self-center">
+              No Cards found with {searchValue}
+            </h2>
           </div>
         </IF>
         <IF condition={appState.gridView}>
@@ -213,8 +219,8 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
         <IF condition={!appState.gridView}>
           <ListViewComponent setCards={setCards}></ListViewComponent>
         </IF>
-
-        <div className="mt-4">
+        <div className="mt-4 row">
+          <div className="col"></div>
           <PagingComponent
             pageChanged={pageChanged}
             paramPageSize={DEFAULT_PAGE_SIZE}
@@ -226,8 +232,7 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
             paramPageIndex={pageIndex}
             syncPagingReferences={syncPagingReferences}
             pageNumber={refPageNumber}
-            showSearchField={false}
-            showToggleButton={false}
+            showToggleButton={true}
           >
             <ListOrGridViewToggle
               isGridView={appState.gridView}

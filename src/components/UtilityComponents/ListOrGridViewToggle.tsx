@@ -15,7 +15,7 @@ export const ListOrGridViewToggle: FunctionComponent<
   return (
     <div
       className={
-        "user-select-none cursor-pointer d-flex flex-column flex-sm-row align-items-center justify-content-center " +
+        "user-select-none cursor-pointer d-flex flex-column flex-md-row align-items-center justify-content-center " +
         additionalClasses
       }
       onClick={(e) => {

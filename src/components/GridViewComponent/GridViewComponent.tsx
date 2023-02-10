@@ -35,7 +35,7 @@ export const GridViewComponent: FunctionComponent<SetCardsProps> = ({
       >
         {setCards?.map((card: any) => {
           return (
-            <div className="col" key={card.id}>
+            <div className="col d-flex" key={card.id}>
               <IF condition={!appState.offLineMode}>
                 <div className="card position-static">
                   <div className="card-body">
@@ -75,7 +75,7 @@ export const GridViewComponent: FunctionComponent<SetCardsProps> = ({
               <IF condition={appState.offLineMode}>
                 <PokemonCardAndDetailsComponent
                   card={card}
-                  detailsClasses={"h-100"}
+                  detailsClasses={"d-flex"}
                 />
               </IF>
             </div>
