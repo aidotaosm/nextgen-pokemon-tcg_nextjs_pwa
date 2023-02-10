@@ -232,10 +232,11 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
         </div>
       </footer>
       <ToastComponent
-        autoHide={false}
+        autoHide={true}
+        delay={20000}
         toastTitle={
           <div className="d-flex">
-            <span className="me-2">Service worker</span>
+            <span className="me-2">Optimized User Experience</span>
             <div className="text-center">
               {serviceWorkerStatus === "loading" ? (
                 <FontAwesomeIcon
@@ -264,10 +265,10 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
       >
         <div>
           {serviceWorkerStatus === "loading"
-            ? "This feature allows you to use most of the site while offline and enhances the user experience. Give us a moment while it installs."
+            ? "This feature allows you to use offline features and enhances the user experience. Give us a moment while it installs."
             : serviceWorkerStatus === "done"
-            ? "Service worker is successfully running in the background. You can now benefit from supported offline features."
-            : "Service worker couldn't be installed. Offline features have been turned off. Try refreshing the page or using a different (newer) browser."}
+            ? "Service worker is successfully running. You can now enjoy an enhanced experience and benefit from supported offline features."
+            : "Service worker couldn't be installed. You can continue to use the site normally. But offline features have been turned off. You may try refreshing the page or using a different (newer) browser."}
         </div>
       </ToastComponent>
     </div>

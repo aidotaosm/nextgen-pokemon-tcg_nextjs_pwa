@@ -6,6 +6,7 @@ interface ToastProps {
   toastTitle: ReactNode;
   children: JSX.Element;
   toastPosition?: "top-0 end-0" | "bottom-0 end-0";
+  delay?: number;
 }
 export const ToastComponent: FunctionComponent<ToastProps> = ({
   autoHide = false,
@@ -13,6 +14,7 @@ export const ToastComponent: FunctionComponent<ToastProps> = ({
   toastTitle,
   children,
   toastPosition = "top-0 end-0",
+  delay = 5000,
 }) => {
   return (
     <Fragment>
@@ -24,6 +26,7 @@ export const ToastComponent: FunctionComponent<ToastProps> = ({
           aria-live="assertive"
           aria-atomic="true"
           data-bs-autohide={autoHide}
+          data-bs-delay={delay}
         >
           <div className="toast-header">
             {/* <img src="..." className="rounded me-2" alt="..." /> */}
