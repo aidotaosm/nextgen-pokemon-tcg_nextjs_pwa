@@ -12,12 +12,21 @@ interface CopyToClipboardComponentProps {
   copyText: string;
   children?: HTMLElement;
   classes?: string;
+  popOverId: string;
+  card: any;
 }
 export const CopyToClipboardComponent: FunctionComponent<
   CopyToClipboardComponentProps
-> = ({ copyText, children, classes }) => {
+> = ({ copyText, children, classes, popOverId, card }) => {
   const [isCopied, setIsCopied] = useState(false);
   const appContextValues = useContext(AppContext);
+  useEffect(() => {
+    let bootStrapMasterClass = appContextValues?.appState?.bootstrap;
+    const popoverTrigger = document.getElementById(popOverId) as any;
+    if (bootStrapMasterClass && popoverTrigger) {
+      new bootStrapMasterClass.Popover(popoverTrigger);
+    }
+  }, [appContextValues?.appState?.bootstrap]);
 
   // This is the function we wrote earlier
   const copyTextToClipboard = async (text: string) => {
@@ -48,13 +57,26 @@ export const CopyToClipboardComponent: FunctionComponent<
     <Fragment>
       <input type="text" value={copyText} readOnly className="d-none" />
       {/* Bind our handler function to the onClick button property */}
-      <span title={isCopied ? "Copied!" : "Copy to clipboard."}>
+      <a
+        tabIndex={0}
+        // title={isCopied ? "Copied!" : "Copy to clipboard."}
+        id={popOverId}
+        data-bs-toggle="popover"
+        //data-bs-title="Copy to clipboard."
+        onClick={(e) => {
+          e.stopPropagation();
+        }}
+        // data-bs-custom-class="bg-grey"
+        data-bs-trigger=" focus"
+        data-bs-content={`Link of ${card.name} Copied to clipboard!`}
+        className="text-warning white-hover"
+      >
         <FontAwesomeIcon
           className={"cursor-pointer user-select-none " + classes}
           icon={faCopy}
           onClick={handleCopyClick}
         />
-      </span>
+      </a>
     </Fragment>
   );
 };

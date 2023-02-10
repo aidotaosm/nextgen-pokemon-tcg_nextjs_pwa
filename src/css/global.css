@@ -185,9 +185,12 @@ html {
   height: 25px;
   width: 25px;
 }
+.dark-background-link {
+  color: lightskyblue;
+}
 a {
   text-decoration: none;
-  color: darkblue;
+  color: slateblue;
 }
 a:hover {
   color: grey !important;
@@ -240,6 +243,7 @@ a.white-hover:hover {
 .toast-header {
   border-color: #0000000d;
 }
+
 .dark-mode .toast {
   border-color: #ffffff2d;
   background-color: #202020;
@@ -251,6 +255,18 @@ a.white-hover:hover {
   background-color: #181818;
   color: #9ca8b3;
 }
+/* .dark-mode .popover-header {
+  border-color: #ffffff26;
+  background-color: #181818;
+  color: #9ca8b3;
+}
+.dark-mode .popover {
+  border-color: #ffffff2d;
+  background-color: #202020;
+  color: #bebebe;
+  box-shadow: 0 0.5rem 1rem #ffffff26;
+} */
+
 .accordion-item {
   background-color: #efefef;
   border-radius: 20px !important;

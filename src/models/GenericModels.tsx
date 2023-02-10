@@ -38,6 +38,7 @@ export interface CarouselProps {
 export interface ExternalLinkProps {
   card?: any;
   classes?: string;
+  toolTipId: string;
 }
 export interface ModalProps {
   primaryClasses?: string;

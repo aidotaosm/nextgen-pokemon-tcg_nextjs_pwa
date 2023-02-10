@@ -16,18 +16,21 @@ export const PokemonDetailComponent: FunctionComponent<PokemonDetailProps> = ({
 }) => {
   return (
     <div className={"pokemon-details-wrapper " + classes}>
-      <div className="pokemon-details rounded h-100 d-flex flex-column">
+      <div className="pokemon-details rounded d-flex flex-column">
         <div className="name bg-secondary p-2 rounded-top d-flex align-items-center justify-content-between">
           <span className="text-lightgray fs-2"> {card.name}</span>
           <div className="">
             <CopyToClipboardComponent
+              popOverId={card.id + "pop-over"}
               copyText={Helper.origin + "/card/" + card.id}
-              classes="fs-4 text-lightgray white-hover"
+              classes="fs-4"
+              card={card}
             />
             <IF condition={showCardOpenToNewTab}>
               <ExternalLinkComponent
                 card={card}
-                classes="fs-4 text-lightgray white-hover ms-2"
+                classes="fs-4 white-hover dark-background-link ms-2"
+                toolTipId={card.id + "tool-tip"}
               />
             </IF>
           </div>
