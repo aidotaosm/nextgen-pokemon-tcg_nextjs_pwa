@@ -25,6 +25,7 @@ import { ToastComponent } from "../UtilityComponents/ToastComponent";
 import MemoizedModalComponent from "../UtilityComponents/ModalComponent";
 import { IF } from "../UtilityComponents/IF";
 import { flushSync } from "react-dom";
+import { LocalSearchComponent } from "../LocalSearchComponent/LocalSearchComponent";
 //import pokemonLogo from "../../../public/images/International_Pokémon_logo.svg";
 
 export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
@@ -44,6 +45,8 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
     lastSeriesIndex: 0,
     lastSetOfSeriesIndex: 0,
   });
+  const [searchValue, setSearchValue] = useState("");
+
   useEffect(() => {
     if (router.isReady) {
       let selectedSeriesId = router.query["opened-series"]?.toString();
@@ -252,18 +255,30 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
     }
     setSetsBySeries([...setsBySeries]);
   };
+
+  const setSearchValueFunction = (value: string) => {
+    //triggerSearch(value);
+    setSearchValue(value);
+  };
   return (
     <Fragment>
       <div className="container">
-        <div className="d-flex justify-content-end mb-4">
-          <h4 className="me-4 mb-0">All Pokemon TCG expansions</h4>
-          <FontAwesomeIcon
-            icon={faClipboardCheck}
-            size="2x"
-            data-bs-toggle="modal"
-            data-bs-target={"#" + prefetchInitModalId}
-            className="cursor-pointer"
-          />
+        <div className="d-flex justify-content-between mb-4">
+          <div>
+            <LocalSearchComponent
+              setSearchValueFunction={setSearchValueFunction}
+            />
+          </div>
+          <div className="d-flex">
+            <h4 className="me-4 mb-0">All Pokemon TCG expansions</h4>
+            <FontAwesomeIcon
+              icon={faClipboardCheck}
+              size="2x"
+              data-bs-toggle="modal"
+              data-bs-target={"#" + prefetchInitModalId}
+              className="cursor-pointer"
+            />
+          </div>
         </div>
         <div className="accordion">
           {setsBySeries.map((series, seriesIndex) => {
