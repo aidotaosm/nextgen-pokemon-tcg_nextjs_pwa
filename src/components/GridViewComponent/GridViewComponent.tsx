@@ -44,7 +44,7 @@ export const GridViewComponent: FunctionComponent<SetCardsProps> = ({
                       <ExternalLinkComponent
                         card={card}
                         classes="fs-6 "
-                        toolTipId={card.id + "tool-tip"}
+                        toolTipId={card.id + "tool-tip-grid"}
                       />
                     </div>
                   </div>

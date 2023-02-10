@@ -38,7 +38,7 @@ const Index = () => {
             </div>
           </Link>
         </div>
-        <div className="col">
+        <div className="col opacity-75">
           <div className="card h-100">
             <div className="card-img-top">
               <ImageComponent
@@ -61,7 +61,7 @@ const Index = () => {
             </div>
           </div>
         </div>
-        <div className="col">
+        <div className="col opacity-50">
           <div className="card h-100">
             <div className="card-img-top">
               <ImageComponent
