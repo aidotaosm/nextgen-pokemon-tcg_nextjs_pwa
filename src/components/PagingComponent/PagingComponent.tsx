@@ -133,7 +133,7 @@ export const PagingComponent: FunctionComponent<PagingComponentProps> = ({
                 </span>
               </li>
             </ul>
-            <div className="align-self-center">{getPagingInfo()}</div>
+            <div className="align-self-center fw-light">{getPagingInfo()}</div>
           </div>
         </IF>
       </div>

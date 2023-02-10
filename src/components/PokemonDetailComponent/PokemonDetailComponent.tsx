@@ -21,13 +21,16 @@ export const PokemonDetailComponent: FunctionComponent<PokemonDetailProps> = ({
           <span className="text-lightgray fs-2"> {card.name}</span>
           <div className="">
             <CopyToClipboardComponent
+              popOverId={card.id + "pop-over"}
               copyText={Helper.origin + "/card/" + card.id}
-              classes="fs-4 text-lightgray white-hover"
+              classes="fs-4"
+              card={card}
             />
             <IF condition={showCardOpenToNewTab}>
               <ExternalLinkComponent
                 card={card}
-                classes="fs-4 text-lightgray white-hover ms-2"
+                classes="fs-4 white-hover dark-background-link ms-2"
+                toolTipId={card.id + "tool-tip"}
               />
             </IF>
           </div>

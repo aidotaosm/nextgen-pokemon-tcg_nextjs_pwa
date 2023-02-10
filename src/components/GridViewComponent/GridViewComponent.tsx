@@ -37,11 +37,15 @@ export const GridViewComponent: FunctionComponent<SetCardsProps> = ({
           return (
             <div className="col d-flex" key={card.id}>
               <IF condition={!appState.offLineMode}>
-                <div className="card position-static">
+                <div className="card position-static flex-grow-1">
                   <div className="card-body">
                     <div className="card-title mb-0 d-flex align-items-center justify-content-between">
                       <span className="fs-5 fs-bold">{card.name}</span>
-                      <ExternalLinkComponent card={card} classes="fs-6" />
+                      <ExternalLinkComponent
+                        card={card}
+                        classes="fs-6 "
+                        toolTipId={card.id + "tool-tip"}
+                      />
                     </div>
                   </div>
 
