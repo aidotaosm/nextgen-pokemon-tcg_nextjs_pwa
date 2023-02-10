@@ -97,72 +97,73 @@ export const PagingComponent: FunctionComponent<PagingComponentProps> = ({
   };
 
   useEffect(() => {
-    let timeout: any = null;
-    const animate = () => {
-      let ph = "Search e.g. ";
-      let randomIndex = Math.floor(Math.random() * random_pokemon_names.length);
-      console.log(randomIndex), random_pokemon_names[randomIndex];
-      ph += random_pokemon_names[randomIndex];
-      let searchBar = document.getElementById("search") as HTMLInputElement;
-      // placeholder loop counter
-      let phCount = 0;
+    if (showSearchField) {
+      let timeout: any = null;
+      const animate = (phParam: string, randomIndex: number) => {
+        console.log(randomIndex, random_pokemon_names[randomIndex]);
+        let ph = (phParam += random_pokemon_names[randomIndex]);
+        let searchBar = document.getElementById("search") as HTMLInputElement;
+        // placeholder loop counter
+        let phCount = 0;
 
-      // function to return random number between
-      // with min/max range
-      const randDelay = (min: number, max: number) => {
-        return Math.floor(Math.random() * (max - min + 1) + min);
+        // function to return random number between
+        // with min/max range
+        const randDelay = (min: number, max: number) => {
+          let delayValue = Math.floor(Math.random() * (max - min + 1) + min);
+          console.log(delayValue);
+          return delayValue;
+        };
+
+        // function to print placeholder text in a
+        // 'typing' effect
+        const printLetter = (string: string, el: HTMLInputElement) => {
+          // split string into character seperated array
+          let arr = string.split(""),
+            input = el,
+            // store full placeholder
+            origString = string,
+            // get current placeholder value
+            curPlace = input.placeholder,
+            // append next letter to current placeholder
+            placeholder = curPlace + arr[phCount];
+
+          timeout = setTimeout(() => {
+            // print placeholder text
+            input.placeholder = placeholder;
+            // increase loop count
+            phCount++;
+            // run loop until placeholder is fully printed
+            if (phCount < arr.length) {
+              //clearTimeout(timeout);
+              //timeout = printLetter(origString, input);
+              printLetter(origString, input);
+            }
+            // use random speed to simulate
+            // 'human' typing
+          }, randDelay(30, 130));
+        };
+
+        // function to init animation
+        const placeholder = () => {
+          searchBar.placeholder = "";
+          printLetter(ph, searchBar);
+        };
+        placeholder();
       };
+      let interval = setInterval(() => {
+        clearTimeout(timeout);
+        let ph = "Search e.g. ";
+        let randomIndex = Math.floor(
+          Math.random() * random_pokemon_names.length
+        );
+        animate(ph, randomIndex);
+      }, 4000);
 
-      // function to print placeholder text in a
-      // 'typing' effect
-      const printLetter = (string: string, el: HTMLInputElement) => {
-        // split string into character seperated array
-        let arr = string.split(""),
-          input = el,
-          // store full placeholder
-          origString = string,
-          // get current placeholder value
-          curPlace = input.placeholder,
-          // append next letter to current placeholder
-          placeholder = curPlace + arr[phCount];
-
-        timeout = setTimeout(() => {
-          // print placeholder text
-          input.placeholder = placeholder;
-          // increase loop count
-          phCount++;
-          // run loop until placeholder is fully printed
-          if (phCount < arr.length) {
-            //clearTimeout(timeout);
-            //timeout = printLetter(origString, input);
-            printLetter(origString, input);
-          }
-          // use random speed to simulate
-          // 'human' typing
-        }, randDelay(50, 90));
+      return () => {
+        clearTimeout(timeout);
+        clearInterval(interval);
       };
-
-      // function to init animation
-      const placeholder = () => {
-        searchBar.placeholder = "";
-        printLetter(ph, searchBar);
-      };
-      placeholder();
-      // $(".submit").click(function (e) {
-      //   phCount = 0;
-      //   e.preventDefault();
-      //   placeholder();
-      // });
-    };
-    clearTimeout(timeout);
-    let interval = setInterval(() => {
-      animate();
-    }, 5000);
-
-    return () => {
-      clearTimeout(timeout);
-      clearInterval(interval);
-    };
+    }
   }, []);
   return (
     <>
