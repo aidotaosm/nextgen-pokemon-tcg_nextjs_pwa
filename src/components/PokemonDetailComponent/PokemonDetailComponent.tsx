@@ -30,7 +30,7 @@ export const PokemonDetailComponent: FunctionComponent<PokemonDetailProps> = ({
               <ExternalLinkComponent
                 card={card}
                 classes="fs-4 white-hover dark-background-link ms-2"
-                toolTipId={card.id + "tool-tip"}
+                toolTipId={card.id + "tool-tip-detail"}
               />
             </IF>
           </div>
