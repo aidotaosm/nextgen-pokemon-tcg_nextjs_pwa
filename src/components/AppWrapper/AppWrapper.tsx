@@ -11,6 +11,7 @@ import {
   faSpinner,
   faCheck,
   faXmark,
+  faSearch,
 } from "@fortawesome/free-solid-svg-icons";
 
 import { IF } from "../UtilityComponents/IF";
@@ -53,7 +54,11 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
         setPathToRedirect("");
       } else if (splitPath === "series") {
         setPathToRedirect("/");
-      } else if (splitPath === "set" || splitPath === "card") {
+      } else if (
+        splitPath === "set" ||
+        splitPath === "card" ||
+        splitPath === "search"
+      ) {
         if (
           listOfPaths.length &&
           listOfPaths[listOfPaths.length - 1] != router.asPath
@@ -132,26 +137,31 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
     >
       <header className="container pt-3 pb-4">
         <div className={"d-flex align-items-center row"}>
-          <div
-            className="col "
-            onClick={(e) => {
-              e.preventDefault();
-              router.push(
-                navigator.onLine
-                  ? pathToRedirect || "/"
-                  : pathToRedirect
-                  ? pathToRedirect.split("?")[0]
-                  : "/"
-              );
-            }}
-          >
+          <div className="col d-flex align-items-center">
             <IF condition={pathToRedirect || router.pathname != "/"}>
               <FontAwesomeIcon
                 className="cursor-pointer user-select-none"
                 icon={faArrowLeftLong}
                 size="2x"
+                onClick={(e) => {
+                  e.preventDefault();
+                  router.push(
+                    navigator.onLine
+                      ? pathToRedirect || "/"
+                      : pathToRedirect
+                      ? pathToRedirect.split("?")[0]
+                      : "/"
+                  );
+                }}
               />
             </IF>
+            <Link href="/search">
+              <FontAwesomeIcon
+                className="cursor-pointer user-select-none ms-3"
+                icon={faSearch}
+                size="2x"
+              />
+            </Link>
           </div>
           <div className="col d-flex justify-content-center">
             <Link href="/" className="d-block " style={{ width: "180px" }}>
@@ -232,10 +242,11 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
         </div>
       </footer>
       <ToastComponent
-        autoHide={false}
+        autoHide={true}
+        delay={20000}
         toastTitle={
           <div className="d-flex">
-            <span className="me-2">Service worker</span>
+            <span className="me-2">Optimized User Experience</span>
             <div className="text-center">
               {serviceWorkerStatus === "loading" ? (
                 <FontAwesomeIcon
@@ -264,10 +275,10 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
       >
         <div>
           {serviceWorkerStatus === "loading"
-            ? "This feature allows you to use most of the site while offline and enhances the user experience. Give us a moment while it installs."
+            ? "This feature allows you to use offline features and enhances the user experience. Give us a moment while it installs."
             : serviceWorkerStatus === "done"
-            ? "Service worker is successfully running in the background. You can now benefit from supported offline features."
-            : "Service worker couldn't be installed. Offline features have been turned off. Try refreshing the page or using a different (newer) browser."}
+            ? "Service worker is successfully running. You can now enjoy an enhanced experience and benefit from supported offline features."
+            : "Service worker couldn't be installed. You can continue to use the site normally. But offline features have been turned off. You may try refreshing the page or using a different (newer) browser."}
         </div>
       </ToastComponent>
     </div>

@@ -42,7 +42,19 @@ export const getAllSetCards = async (setId?: string) => {
     });
   return setsObject;
 };
-
+export const getAllCards = async () => {
+  let pokemonSDKVariable = Helper.initializePokemonSDK();
+  let setsObject: any = {};
+  await pokemonSDKVariable.card
+    .all()
+    .then((response: any) => {
+      setsObject = response;
+    })
+    .catch((c: any) => {
+      console.error("error occurred on all");
+    });
+  return setsObject;
+};
 export const getCardById = async (cardId?: string) => {
   let pokemonSDKVariable = Helper.initializePokemonSDK();
   let returnObject: any = {};

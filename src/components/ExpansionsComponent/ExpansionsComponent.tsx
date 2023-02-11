@@ -18,13 +18,17 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCheck,
   faClipboardCheck,
+  faGear,
+  faGears,
   faSpinner,
+  faUserGear,
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
 import { ToastComponent } from "../UtilityComponents/ToastComponent";
 import MemoizedModalComponent from "../UtilityComponents/ModalComponent";
 import { IF } from "../UtilityComponents/IF";
 import { flushSync } from "react-dom";
+import { LocalSearchComponent } from "../LocalSearchComponent/LocalSearchComponent";
 //import pokemonLogo from "../../../public/images/International_Pokémon_logo.svg";
 
 export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
@@ -44,6 +48,11 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
     lastSeriesIndex: 0,
     lastSetOfSeriesIndex: 0,
   });
+  const [searchValue, setSearchValue] = useState("");
+  const [searchPageDownloaded, setSearchPageDownloaded] = useState<
+    "no" | "loading" | "yes"
+  >("no");
+
   useEffect(() => {
     if (router.isReady) {
       let selectedSeriesId = router.query["opened-series"]?.toString();
@@ -78,6 +87,7 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
   }, [router.isReady]);
   useEffect(() => {
     const onToastShowHandler = async () => {
+      triggerSearchPagePrefetch();
       await triggerPrefetch();
     };
     const myToastEl = document.getElementById(prefetchToastId) as HTMLElement;
@@ -142,7 +152,17 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
       }, 500);
     }
   };
-
+  const triggerSearchPagePrefetch = async () => {
+    setSearchPageDownloaded("loading");
+    router
+      .prefetch("/search")
+      .then((prefetchedData) => {
+        setSearchPageDownloaded("yes");
+      })
+      .catch((e) => {
+        setSearchPageDownloaded("no");
+      });
+  };
   const triggerPrefetch = async () => {
     let localShouldCancel = false;
     let setsWithCallUrls: any[] = [];
@@ -252,18 +272,49 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
     }
     setSetsBySeries([...setsBySeries]);
   };
+
+  const setSearchValueFunction = (
+    value: string,
+    eventType: "onChange" | "submit"
+  ) => {
+    //triggerSearch(value);
+    setSearchValue(value);
+    if (eventType === "submit") {
+      router.push("/search?searchTerm=" + value);
+    }
+  };
   return (
     <Fragment>
       <div className="container">
-        <div className="d-flex justify-content-end mb-4">
-          <h4 className="me-4 mb-0">All Pokemon TCG expansions</h4>
-          <FontAwesomeIcon
-            icon={faClipboardCheck}
-            size="2x"
-            data-bs-toggle="modal"
-            data-bs-target={"#" + prefetchInitModalId}
-            className="cursor-pointer"
-          />
+        <div className="d-flex justify-content-between mb-4">
+          <div className="me-2">
+            {/* <LocalSearchComponent
+              setSearchValueFunction={setSearchValueFunction}
+              initialPlaceHolder={"Search all e.g. "}
+            /> */}
+          </div>
+          <div className="d-flex">
+            <h4 className="me-4 mb-0">All Pokemon TCG expansions</h4>
+            <FontAwesomeIcon
+              icon={faGear}
+              size="2x"
+              data-bs-toggle="modal"
+              data-bs-target={"#" + prefetchInitModalId}
+              className="cursor-pointer"
+              spin={
+                totalNumberOfSetsDone === totalNumberOfSets ||
+                searchPageDownloaded === "yes"
+              }
+              spinPulse={
+                (totalNumberOfSetsDone === totalNumberOfSets ||
+                  searchPageDownloaded === "yes") &&
+                !(
+                  totalNumberOfSetsDone === totalNumberOfSets &&
+                  searchPageDownloaded === "yes"
+                )
+              }
+            />
+          </div>
         </div>
         <div className="accordion">
           {setsBySeries.map((series, seriesIndex) => {
@@ -377,6 +428,36 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
         id={prefetchToastId}
       >
         <div>
+          <div className="mb-2 d-flex justify-content-between align-items-center">
+            <div className="d-flex align-items-center">
+              <div className="">
+                {searchPageDownloaded == "loading" ? (
+                  <FontAwesomeIcon
+                    icon={faSpinner}
+                    spin={true}
+                    className="text-primary"
+                  />
+                ) : searchPageDownloaded == "yes" ? (
+                  <FontAwesomeIcon icon={faCheck} className="text-success" />
+                ) : (
+                  <FontAwesomeIcon icon={faXmark} className="text-danger" />
+                )}
+              </div>
+              <div className="ms-2"> Global search optimization</div>
+            </div>
+            {/* <IF condition={searchPageDownloaded == "no"}>
+              <a
+                className="cursor-pointer"
+                onClick={async () => {
+                  await triggerSearchPagePrefetch();
+                }}
+              >
+                {"Download"}
+              </a>
+            </IF> */}
+            {/* <IF condition={searchPageDownloaded == "no"}></IF> */}
+          </div>
+          <hr />
           <div
             className={
               "mb-2 d-flex fw-bold " +

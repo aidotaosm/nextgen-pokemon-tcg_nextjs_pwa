@@ -15,6 +15,7 @@ import { LocalSearchComponent } from "../LocalSearchComponent/LocalSearchCompone
 
 export const SetComponent: FunctionComponent<CardsObjectProps> = ({
   cardsObject,
+  isSearchPage = false,
 }) => {
   // console.log(cardsObject);
 
@@ -55,17 +56,50 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
 
   useEffect(() => {
     if (cardsObject && router.isReady) {
+      if (
+        router.query.searchTerm &&
+        typeof router.query.searchTerm === "string"
+      ) {
+        setSearchValueFunction(router.query.searchTerm, "onChange");
+      }
       let routerPageIndex = 0;
       if (
         router.query.page &&
         !isNaN(+router.query.page) &&
         !isNaN(parseFloat(router.query.page.toString()))
       ) {
+        // if (isSearchPage) {
+        //   if (
+        //     (+router.query.page + 1) * DEFAULT_PAGE_SIZE >
+        //     cardsObject.data.length
+        //   ) {
+        //     let lastPage = Math.floor(
+        //       cardsObject.data.length / DEFAULT_PAGE_SIZE
+        //     );
+        //     routerPageIndex = lastPage;
+        //   } else {
+        //     routerPageIndex = +router.query.page;
+        //   }
+        // } else {
+        //   if (
+        //     (+router.query.page + 1) * DEFAULT_PAGE_SIZE >
+        //     cardsObject.totalCount
+        //   ) {
+        //     let lastPage = Math.floor(
+        //       cardsObject.totalCount / DEFAULT_PAGE_SIZE
+        //     );
+        //     routerPageIndex = lastPage;
+        //   } else {
+        //     routerPageIndex = +router.query.page;
+        //   }
+        // }
         if (
           (+router.query.page + 1) * DEFAULT_PAGE_SIZE >
-          cardsObject.totalCount
+          cardsObject.data.length
         ) {
-          let lastPage = Math.floor(cardsObject.totalCount / DEFAULT_PAGE_SIZE);
+          let lastPage = Math.floor(
+            cardsObject.data.length / DEFAULT_PAGE_SIZE
+          );
           routerPageIndex = lastPage;
         } else {
           routerPageIndex = +router.query.page;
@@ -130,18 +164,27 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
   const updateRouteWithQuery = (newPageIndex: number) => {
     if (newPageIndex > 0) {
       router.push(
-        "/set/" + router.query.setId + "?page=" + newPageIndex,
+        (isSearchPage ? "/search" : "/set/" + router.query.setId) +
+          "?page=" +
+          newPageIndex,
         undefined,
         { shallow: true }
       );
     } else {
-      router.push("/set/" + router.query.setId, undefined, {
-        shallow: true,
-      });
+      router.push(
+        isSearchPage ? "/search" : "/set/" + router.query.setId,
+        undefined,
+        {
+          shallow: true,
+        }
+      );
     }
   };
 
-  const setSearchValueFunction = (value: string) => {
+  const setSearchValueFunction = (
+    value: string,
+    eventType: "onChange" | "submit"
+  ) => {
     triggerSearch(value);
     setSearchValue(value);
   };
@@ -158,7 +201,10 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
     return (
       <div className="container d-flex flex-column">
         <div className="d-flex justify-content-center mb-4 align-items-center">
-          <IF condition={!appState.offLineMode}>
+          <IF condition={isSearchPage}>
+            <h4>Search from all the cards ever printed!</h4>
+          </IF>
+          <IF condition={!appState.offLineMode && !isSearchPage}>
             <div style={{ width: "8rem" }}>
               <ImageComponent
                 src={cardsObject.data[0].set?.images?.logo}
@@ -172,7 +218,7 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
               />
             </div>
           </IF>
-          <IF condition={appState.offLineMode}>
+          <IF condition={appState.offLineMode && !isSearchPage}>
             <h4 className="mb-0 ms-3">
               {cardsObject.data[0].set.name +
                 " expansion of " +
@@ -184,6 +230,7 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
           <div className="col d-flex align-items-center">
             <LocalSearchComponent
               setSearchValueFunction={setSearchValueFunction}
+              defaultSearchTerm={searchValue}
             />
           </div>
           <PagingComponent
@@ -192,7 +239,7 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
             paramNumberOfElements={
               searchValue
                 ? newChangedCardObject.length
-                : cardsObject?.totalCount
+                : cardsObject?.data.length
             }
             paramPageIndex={pageIndex}
             syncPagingReferences={syncPagingReferences}
@@ -227,7 +274,7 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
             paramNumberOfElements={
               searchValue
                 ? newChangedCardObject.length
-                : cardsObject?.totalCount
+                : cardsObject?.data.length
             }
             paramPageIndex={pageIndex}
             syncPagingReferences={syncPagingReferences}

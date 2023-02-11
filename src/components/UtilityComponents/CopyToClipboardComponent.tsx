@@ -68,7 +68,7 @@ export const CopyToClipboardComponent: FunctionComponent<
         }}
         // data-bs-custom-class="bg-grey"
         data-bs-trigger=" focus"
-        data-bs-content={`Link of ${card.name} Copied to clipboard!`}
+        data-bs-content={`Link to ${card.name} copied to clipboard!`}
         className="text-warning white-hover"
       >
         <FontAwesomeIcon
