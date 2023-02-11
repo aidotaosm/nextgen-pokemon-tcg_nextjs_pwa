@@ -9,10 +9,15 @@ interface LocalSearchComponentProps {
     eventType: "onChange" | "submit"
   ) => void;
   initialPlaceHolder?: string;
+  defaultSearchTerm?: string;
 }
 export const LocalSearchComponent: FunctionComponent<
   LocalSearchComponentProps
-> = ({ setSearchValueFunction, initialPlaceHolder = "Search e.g. " }) => {
+> = ({
+  setSearchValueFunction,
+  initialPlaceHolder = "Search e.g. ",
+  defaultSearchTerm = "",
+}) => {
   useEffect(() => {
     let timeout: any = null;
     const animate = (phParam: string, randomIndex: number) => {
@@ -97,6 +102,7 @@ export const LocalSearchComponent: FunctionComponent<
             setSearchValueFunction(fieldValue, "submit");
           }
         }}
+        defaultValue={defaultSearchTerm}
         type="text"
         id="search"
         className="form-control search"

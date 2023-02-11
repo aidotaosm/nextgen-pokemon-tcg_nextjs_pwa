@@ -56,6 +56,12 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
 
   useEffect(() => {
     if (cardsObject && router.isReady) {
+      if (
+        router.query.searchTerm &&
+        typeof router.query.searchTerm === "string"
+      ) {
+        setSearchValueFunction(router.query.searchTerm, "onChange");
+      }
       let routerPageIndex = 0;
       if (
         router.query.page &&
@@ -224,6 +230,7 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
           <div className="col d-flex align-items-center">
             <LocalSearchComponent
               setSearchValueFunction={setSearchValueFunction}
+              defaultSearchTerm={searchValue}
             />
           </div>
           <PagingComponent
