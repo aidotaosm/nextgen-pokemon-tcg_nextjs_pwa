@@ -4,15 +4,23 @@ import { FunctionComponent, useEffect } from "react";
 import { random_pokemon_names } from "../../constants/constants";
 
 interface LocalSearchComponentProps {
-  setSearchValueFunction: Function;
+  setSearchValueFunction: (
+    searchParam: string,
+    eventType: "onChange" | "submit"
+  ) => void;
+  initialPlaceHolder?: string;
+  defaultSearchTerm?: string;
 }
 export const LocalSearchComponent: FunctionComponent<
   LocalSearchComponentProps
-> = ({ setSearchValueFunction }) => {
+> = ({
+  setSearchValueFunction,
+  initialPlaceHolder = "Search e.g. ",
+  defaultSearchTerm = "",
+}) => {
   useEffect(() => {
     let timeout: any = null;
     const animate = (phParam: string, randomIndex: number) => {
-      console.log(randomIndex, random_pokemon_names[randomIndex]);
       let ph = (phParam += random_pokemon_names[randomIndex]);
       let searchBar = document.getElementById("search") as HTMLInputElement;
       // placeholder loop counter
@@ -63,9 +71,8 @@ export const LocalSearchComponent: FunctionComponent<
     };
     let interval = setInterval(() => {
       clearTimeout(timeout);
-      let ph = "Search e.g. ";
       let randomIndex = Math.floor(Math.random() * random_pokemon_names.length);
-      animate(ph, randomIndex);
+      animate(initialPlaceHolder, randomIndex);
     }, 4000);
 
     return () => {
@@ -75,16 +82,33 @@ export const LocalSearchComponent: FunctionComponent<
   }, []);
   return (
     <div className="input-group flex-nowrap">
-      <span className="input-group-text">
+      <span
+        className="input-group-text"
+        onClick={() => {
+          let fieldValue = (
+            document.getElementById("search") as HTMLInputElement
+          ).value;
+          setSearchValueFunction(fieldValue, "submit");
+        }}
+      >
         <FontAwesomeIcon className="fs-5" icon={faSearch} />
       </span>
       <input
+        onKeyUp={(e) => {
+          if (e.key === "Enter") {
+            let fieldValue = (
+              document.getElementById("search") as HTMLInputElement
+            ).value;
+            setSearchValueFunction(fieldValue, "submit");
+          }
+        }}
+        defaultValue={defaultSearchTerm}
         type="text"
         id="search"
         className="form-control search"
         placeholder="Search your Pokemon"
         onChange={(e) => {
-          setSearchValueFunction?.(e.target.value);
+          setSearchValueFunction(e.target.value, "onChange");
         }}
       />
     </div>

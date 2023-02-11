@@ -11,6 +11,7 @@ import {
   faSpinner,
   faCheck,
   faXmark,
+  faSearch,
 } from "@fortawesome/free-solid-svg-icons";
 
 import { IF } from "../UtilityComponents/IF";
@@ -53,7 +54,11 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
         setPathToRedirect("");
       } else if (splitPath === "series") {
         setPathToRedirect("/");
-      } else if (splitPath === "set" || splitPath === "card") {
+      } else if (
+        splitPath === "set" ||
+        splitPath === "card" ||
+        splitPath === "search"
+      ) {
         if (
           listOfPaths.length &&
           listOfPaths[listOfPaths.length - 1] != router.asPath
@@ -132,26 +137,31 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
     >
       <header className="container pt-3 pb-4">
         <div className={"d-flex align-items-center row"}>
-          <div
-            className="col "
-            onClick={(e) => {
-              e.preventDefault();
-              router.push(
-                navigator.onLine
-                  ? pathToRedirect || "/"
-                  : pathToRedirect
-                  ? pathToRedirect.split("?")[0]
-                  : "/"
-              );
-            }}
-          >
+          <div className="col d-flex align-items-center">
             <IF condition={pathToRedirect || router.pathname != "/"}>
               <FontAwesomeIcon
                 className="cursor-pointer user-select-none"
                 icon={faArrowLeftLong}
                 size="2x"
+                onClick={(e) => {
+                  e.preventDefault();
+                  router.push(
+                    navigator.onLine
+                      ? pathToRedirect || "/"
+                      : pathToRedirect
+                      ? pathToRedirect.split("?")[0]
+                      : "/"
+                  );
+                }}
               />
             </IF>
+            <Link href="/search">
+              <FontAwesomeIcon
+                className="cursor-pointer user-select-none ms-3"
+                icon={faSearch}
+                size="2x"
+              />
+            </Link>
           </div>
           <div className="col d-flex justify-content-center">
             <Link href="/" className="d-block " style={{ width: "180px" }}>

@@ -5,6 +5,7 @@ export class BasicProps {
 export class CardsObjectProps {
   children?: JSX.Element;
   cardsObject?: any;
+  isSearchPage?: boolean;
 }
 export class CardObjectProps {
   children?: JSX.Element;
