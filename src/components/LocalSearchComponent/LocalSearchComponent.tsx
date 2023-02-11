@@ -12,7 +12,6 @@ export const LocalSearchComponent: FunctionComponent<
   useEffect(() => {
     let timeout: any = null;
     const animate = (phParam: string, randomIndex: number) => {
-      console.log(randomIndex, random_pokemon_names[randomIndex]);
       let ph = (phParam += random_pokemon_names[randomIndex]);
       let searchBar = document.getElementById("search") as HTMLInputElement;
       // placeholder loop counter

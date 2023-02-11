@@ -21,59 +21,55 @@ export const getStaticProps: GetStaticProps = async (context) => {
   }
 };
 
-const Set: FunctionComponent<CardsObjectProps> = ({ cardsObject }) => {
-  const [state, stState] = useState<any[]>([]);
+const SearchPage: FunctionComponent<CardsObjectProps> = ({ cardsObject }) => {
   console.log(cardsObject);
-  const title = cardsObject?.data[0].set.name;
-  const description =
-    title + " set from the" + cardsObject?.data[0].set.series + " expansion";
-  useEffect(() => {
-    // getAllCards().then((x) => {
-    //   console.log(x);
-    //   stState(x);
-    // });
-  }, []);
   return (
     <Fragment>
       <Head>
-        <title>{title}</title>
-        <meta name="description" content={description} key="description" />
-        <meta property="og:title" content={title} key="og:title" />
+        <title>Fastest Pokemon card search!</title>
+        <meta
+          name="description"
+          content="Search through all Pokemon cards ever printed, fast!"
+          key="description"
+        />
+        <meta
+          property="og:title"
+          content="Fastest Pokemon card search!"
+          key="og:title"
+        />
         <meta
           property="og:description"
-          content={description}
+          content="Search through all Pokemon cards ever printed, fast!"
           key="og:description"
         />
         <meta
           property="og:image"
-          content={cardsObject?.data[0].set?.images?.logo}
+          content="/images/pokemon_tcg_base_image.jpg"
           key="og:image"
         />
         <meta
           property="og:url"
-          content={
-            Helper.getBaseDomainServerSide() +
-            "set/" +
-            (cardsObject?.data[0].set.id == SpecialSetNames.pop2
-              ? SpecialSetNames.poptwo
-              : cardsObject?.data[0].set.id)
-          }
+          content={Helper.getBaseDomainServerSide() + "search"}
           key="og:url"
         />
-        <meta name="twitter:title" content={title} key="twitter:title" />
+        <meta
+          name="twitter:title"
+          content="Fastest Pokemon card search!"
+          key="twitter:title"
+        />
         <meta
           name="twitter:description"
-          content={description}
+          content="Search through all Pokemon cards ever printed, fast!"
           key="twitter:description"
         />
         <meta
           name="twitter:image"
-          content={cardsObject?.data[0].set?.images?.logo}
+          content="/images/pokemon_tcg_base_image.jpg"
           key="twitter:image"
         />
       </Head>
-      <SetComponent cardsObject={cardsObject} />
+      <SetComponent cardsObject={cardsObject} isSearchPage={true} />
     </Fragment>
   );
 };
-export default Set;
+export default SearchPage;

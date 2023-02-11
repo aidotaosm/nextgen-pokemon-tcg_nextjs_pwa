@@ -15,6 +15,7 @@ import { LocalSearchComponent } from "../LocalSearchComponent/LocalSearchCompone
 
 export const SetComponent: FunctionComponent<CardsObjectProps> = ({
   cardsObject,
+  isSearchPage = false,
 }) => {
   // console.log(cardsObject);
 
@@ -61,11 +62,38 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
         !isNaN(+router.query.page) &&
         !isNaN(parseFloat(router.query.page.toString()))
       ) {
+        // if (isSearchPage) {
+        //   if (
+        //     (+router.query.page + 1) * DEFAULT_PAGE_SIZE >
+        //     cardsObject.data.length
+        //   ) {
+        //     let lastPage = Math.floor(
+        //       cardsObject.data.length / DEFAULT_PAGE_SIZE
+        //     );
+        //     routerPageIndex = lastPage;
+        //   } else {
+        //     routerPageIndex = +router.query.page;
+        //   }
+        // } else {
+        //   if (
+        //     (+router.query.page + 1) * DEFAULT_PAGE_SIZE >
+        //     cardsObject.totalCount
+        //   ) {
+        //     let lastPage = Math.floor(
+        //       cardsObject.totalCount / DEFAULT_PAGE_SIZE
+        //     );
+        //     routerPageIndex = lastPage;
+        //   } else {
+        //     routerPageIndex = +router.query.page;
+        //   }
+        // }
         if (
           (+router.query.page + 1) * DEFAULT_PAGE_SIZE >
-          cardsObject.totalCount
+          cardsObject.data.length
         ) {
-          let lastPage = Math.floor(cardsObject.totalCount / DEFAULT_PAGE_SIZE);
+          let lastPage = Math.floor(
+            cardsObject.data.length / DEFAULT_PAGE_SIZE
+          );
           routerPageIndex = lastPage;
         } else {
           routerPageIndex = +router.query.page;
@@ -130,14 +158,20 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
   const updateRouteWithQuery = (newPageIndex: number) => {
     if (newPageIndex > 0) {
       router.push(
-        "/set/" + router.query.setId + "?page=" + newPageIndex,
+        (isSearchPage ? "/search" : "/set/" + router.query.setId) +
+          "?page=" +
+          newPageIndex,
         undefined,
         { shallow: true }
       );
     } else {
-      router.push("/set/" + router.query.setId, undefined, {
-        shallow: true,
-      });
+      router.push(
+        isSearchPage ? "/search" : "/set/" + router.query.setId,
+        undefined,
+        {
+          shallow: true,
+        }
+      );
     }
   };
 
@@ -192,7 +226,7 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
             paramNumberOfElements={
               searchValue
                 ? newChangedCardObject.length
-                : cardsObject?.totalCount
+                : cardsObject?.data.length
             }
             paramPageIndex={pageIndex}
             syncPagingReferences={syncPagingReferences}
@@ -227,7 +261,7 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
             paramNumberOfElements={
               searchValue
                 ? newChangedCardObject.length
-                : cardsObject?.totalCount
+                : cardsObject?.data.length
             }
             paramPageIndex={pageIndex}
             syncPagingReferences={syncPagingReferences}
