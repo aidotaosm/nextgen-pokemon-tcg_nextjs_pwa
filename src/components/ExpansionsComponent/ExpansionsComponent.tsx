@@ -256,9 +256,15 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
     setSetsBySeries([...setsBySeries]);
   };
 
-  const setSearchValueFunction = (value: string) => {
+  const setSearchValueFunction = (
+    value: string,
+    eventType: "onChange" | "submit"
+  ) => {
     //triggerSearch(value);
     setSearchValue(value);
+    if (eventType === "submit") {
+      router.push("/search?searchTerm=" + value);
+    }
   };
   return (
     <Fragment>
