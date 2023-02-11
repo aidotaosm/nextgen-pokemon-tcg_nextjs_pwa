@@ -7,7 +7,7 @@ import { SpecialSetNames } from "../src/models/Enums";
 import { CardsObjectProps } from "../src/models/GenericModels";
 import { Helper } from "../src/utils/helper";
 import { getAllCards } from "../src/utils/networkCalls";
-import allCardsJson from "../src/Jsons/AllCards.json";
+//import allCardsJson from "../src/Jsons/AllCards.json";
 
 interface IParams extends ParsedUrlQuery {}
 
