@@ -87,6 +87,7 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
   }, [router.isReady]);
   useEffect(() => {
     const onToastShowHandler = async () => {
+      triggerSearchPagePrefetch();
       await triggerPrefetch();
     };
     const myToastEl = document.getElementById(prefetchToastId) as HTMLElement;
@@ -444,7 +445,7 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
               </div>
               <div className="ms-2"> Global search optimization</div>
             </div>
-            <IF condition={searchPageDownloaded == "no"}>
+            {/* <IF condition={searchPageDownloaded == "no"}>
               <a
                 className="cursor-pointer"
                 onClick={async () => {
@@ -453,7 +454,7 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
               >
                 {"Download"}
               </a>
-            </IF>
+            </IF> */}
             {/* <IF condition={searchPageDownloaded == "no"}></IF> */}
           </div>
           <hr />

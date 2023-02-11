@@ -12,12 +12,13 @@ import allCardsJson from "../src/Jsons/AllCards.json";
 interface IParams extends ParsedUrlQuery {}
 
 export const getStaticProps: GetStaticProps = async (context) => {
-  const cardsObject = { data: JSON.parse((allCardsJson as any).cards) };
+  //  const cardsObject = { data: JSON.parse((allCardsJson as any).cards) };
+  const cardsObject = { data: await getAllCards() };
   console.log(cardsObject?.data?.length);
   if (!cardsObject?.data?.length) {
     return { notFound: true, revalidate: 60 };
   } else {
-    return { props: { cardsObject }, revalidate: 60 * 60 * 24 };
+    return { props: { cardsObject }, revalidate: 60 * 60 * 24 * 2 }; // 2 days
   }
 };
 
