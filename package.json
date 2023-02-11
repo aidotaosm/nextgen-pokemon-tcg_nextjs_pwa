@@ -16,6 +16,7 @@
     "pokemontcgsdk": "^2.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "sharp": "^0.31.3",
     "typescript": "^4.7.4"
   },
   "scripts": {
