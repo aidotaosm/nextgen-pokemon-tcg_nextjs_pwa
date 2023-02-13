@@ -95,11 +95,9 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
         // }
         if (
           (+router.query.page + 1) * DEFAULT_PAGE_SIZE >
-          cardsObject.data.length
+          cardsObject.totalCount
         ) {
-          let lastPage = Math.floor(
-            cardsObject.data.length / DEFAULT_PAGE_SIZE
-          );
+          let lastPage = Math.floor(cardsObject.totalCount / DEFAULT_PAGE_SIZE);
           routerPageIndex = lastPage;
         } else {
           routerPageIndex = +router.query.page;
@@ -239,7 +237,7 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
             paramNumberOfElements={
               searchValue
                 ? newChangedCardObject.length
-                : cardsObject?.data.length
+                : cardsObject?.totalCount
             }
             paramPageIndex={pageIndex}
             syncPagingReferences={syncPagingReferences}
@@ -274,7 +272,7 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
             paramNumberOfElements={
               searchValue
                 ? newChangedCardObject.length
-                : cardsObject?.data.length
+                : cardsObject?.totalCount
             }
             paramPageIndex={pageIndex}
             syncPagingReferences={syncPagingReferences}

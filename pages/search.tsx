@@ -8,11 +8,18 @@ import { CardsObjectProps } from "../src/models/GenericModels";
 import { Helper } from "../src/utils/helper";
 import { getAllCards } from "../src/utils/networkCalls";
 import allCardsJson from "../src/Jsons/AllCards.json";
+import { DEFAULT_PAGE_SIZE } from "../src/constants/constants";
 
 interface IParams extends ParsedUrlQuery {}
 
 export const getStaticProps: GetStaticProps = async (context) => {
-  const cardsObject = { data: JSON.parse((allCardsJson as any).cards) };
+  let parsedAllCards = JSON.parse((allCardsJson as any).cards);
+  let firstPageOfCards = parsedAllCards.slice(0, DEFAULT_PAGE_SIZE);
+  //console.log(firstPageOfCards);
+  const cardsObject = {
+    data: firstPageOfCards,
+    totalCount: parsedAllCards.length,
+  };
   //const cardsObject = { data: await getAllCards() };
   console.log(cardsObject?.data?.length);
   if (!cardsObject?.data?.length) {
