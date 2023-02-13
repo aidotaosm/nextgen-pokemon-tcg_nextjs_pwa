@@ -21,6 +21,7 @@ module.exports = withPWA({
     }, api: {
         responseLimit: false,
     },
+    staticPageGenerationTimeout: 1000,
     // target: 'serverless'
 })
 
