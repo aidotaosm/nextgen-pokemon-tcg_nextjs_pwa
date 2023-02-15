@@ -10,6 +10,7 @@ interface LocalSearchComponentProps {
   ) => void;
   initialPlaceHolder?: string;
   defaultSearchTerm?: string;
+  triggerSearchOnEnterOnly?: boolean;
 }
 export const LocalSearchComponent: FunctionComponent<
   LocalSearchComponentProps
@@ -17,6 +18,7 @@ export const LocalSearchComponent: FunctionComponent<
   setSearchValueFunction,
   initialPlaceHolder = "Search e.g. ",
   defaultSearchTerm = "",
+  triggerSearchOnEnterOnly = false,
 }) => {
   useEffect(() => {
     let timeout: any = null;
@@ -83,7 +85,7 @@ export const LocalSearchComponent: FunctionComponent<
   return (
     <div className="input-group flex-nowrap">
       <span
-        className="input-group-text"
+        className="input-group-text cursor-pointer"
         onClick={() => {
           let fieldValue = (
             document.getElementById("search") as HTMLInputElement
@@ -108,7 +110,9 @@ export const LocalSearchComponent: FunctionComponent<
         className="form-control search"
         placeholder="Search your Pokemon"
         onChange={(e) => {
-          setSearchValueFunction(e.target.value, "onChange");
+          if (!triggerSearchOnEnterOnly) {
+            setSearchValueFunction(e.target.value, "onChange");
+          }
         }}
       />
     </div>

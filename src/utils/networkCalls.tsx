@@ -1,4 +1,6 @@
+import axios, { AxiosInstance } from "axios";
 import { Helper } from "./helper";
+const axiosHttpClient: AxiosInstance = axios.create({});
 
 export async function getExpansions() {
   let pokemonSDKVariable = Helper.initializePokemonSDK();
@@ -67,4 +69,27 @@ export const getCardById = async (cardId?: string) => {
       console.error("error occurred on " + cardId);
     });
   return returnObject;
+};
+export const getCardsFromNextServer = async (
+  page?: number,
+  search?: string
+) => {
+  let url = "/api/search";
+  if (page === 0 || !!page || search) {
+    url += "?";
+    if (page === 0 || !!page) {
+      url += "page=" + page;
+    }
+    if (search) {
+      if (url.includes("?")) {
+        url += "&";
+      } else {
+        url += "?";
+      }
+      url += "search=" + search;
+    }
+  }
+
+  const response = await axiosHttpClient.get(url);
+  return response.data;
 };
