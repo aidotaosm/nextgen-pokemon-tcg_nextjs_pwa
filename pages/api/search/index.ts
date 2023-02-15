@@ -9,11 +9,20 @@ export default async function handler(
 ) {
   let parsedAllCards = JSON.parse((allCardsJson as any).cards);
   let requestedPageIndex = req.query.page;
+  let requestedSearchValue = req.query.search as string;
   let returnedPageOfCards: any[] = [];
+  if (requestedSearchValue && typeof requestedSearchValue === "string") {
+    parsedAllCards = parsedAllCards.filter((item: any) => {
+      return item.name
+        .toLowerCase()
+        .includes(requestedSearchValue.toLowerCase());
+    });
+  }
   if (
     requestedPageIndex &&
     !isNaN(+requestedPageIndex) &&
-    !isNaN(parseFloat(requestedPageIndex.toString()))
+    !isNaN(parseFloat(requestedPageIndex.toString())) &&
+    parsedAllCards.length
   ) {
     let from = +requestedPageIndex * DEFAULT_PAGE_SIZE;
     let to = (+requestedPageIndex + 1) * DEFAULT_PAGE_SIZE;

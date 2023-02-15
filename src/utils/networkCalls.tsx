@@ -70,11 +70,26 @@ export const getCardById = async (cardId?: string) => {
     });
   return returnObject;
 };
-export const getCardsFromNextServer = async (page?: number) => {
+export const getCardsFromNextServer = async (
+  page?: number,
+  search?: string
+) => {
   let url = "/api/search";
-  if (page) {
-    url += "?page=" + page;
+  if (page === 0 || !!page || search) {
+    url += "?";
+    if (page === 0 || !!page) {
+      url += "page=" + page;
+    }
+    if (search) {
+      if (url.includes("?")) {
+        url += "&";
+      } else {
+        url += "?";
+      }
+      url += "search=" + search;
+    }
   }
-  const response = await axiosHttpClient.get("/api/search");
+
+  const response = await axiosHttpClient.get(url);
   return response.data;
 };
