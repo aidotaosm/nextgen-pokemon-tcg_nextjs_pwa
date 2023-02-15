@@ -1,24 +1,24 @@
 import {
   GetServerSideProps,
   GetServerSidePropsContext,
-  GetStaticPaths,
   GetStaticProps,
 } from "next";
 import Head from "next/head";
 import { ParsedUrlQuery } from "querystring";
-import { Fragment, FunctionComponent, useEffect, useState } from "react";
+import { Fragment, FunctionComponent } from "react";
 import { SetComponent } from "../src/components/SetComponent/SetComponent";
-import { SpecialSetNames } from "../src/models/Enums";
 import { CardsObjectProps } from "../src/models/GenericModels";
 import { Helper } from "../src/utils/helper";
-import { getAllCards } from "../src/utils/networkCalls";
-import allCardsJson from "../public/Jsons/AllCards.json";
 import { DEFAULT_PAGE_SIZE } from "../src/constants/constants";
 
 interface IParams extends ParsedUrlQuery {}
 
 export const getStaticProps: GetStaticProps = async (context) => {
-  let parsedAllCards = JSON.parse((allCardsJson as any).cards);
+  const dynamicallyImportedJson: any = (
+    await import("../public/Jsons/AllCards.json")
+  ).default;
+
+  let parsedAllCards = JSON.parse(dynamicallyImportedJson.cards);
   let firstPageOfCards = parsedAllCards.slice(0, DEFAULT_PAGE_SIZE);
   //console.log(firstPageOfCards);
   const cardsObject = {
@@ -36,7 +36,10 @@ export const getStaticProps: GetStaticProps = async (context) => {
 // export const getServerSideProps = async (
 //   context: GetServerSidePropsContext
 // ) => {
-//   let parsedAllCards = JSON.parse((allCardsJson as any).cards);
+//   const dynamicallyImportedJson: any = (
+//     await import("../public/Jsons/AllCards.json")
+//   ).default;
+//   let parsedAllCards = JSON.parse(dynamicallyImportedJson.cards);
 //   let requestedPageIndex = context.query.page;
 //   let requestedSearchValue = context.query.search as string;
 //   let returnedPageOfCards: any[] = [];
