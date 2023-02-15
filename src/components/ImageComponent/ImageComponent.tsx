@@ -43,7 +43,7 @@ export const ImageComponent: FunctionComponent<any> = ({
           blurDataURL={blurDataURL || defaultBlurImage}
           placeholder="blur"
           onError={(e: any) => {
-            console.log(imageSource, "lq image failed");
+            // console.log(imageSource, "lq image failed");
             if (fallBackType === "logo" || fallBackType === "symbol") {
               setImageSource(fallbackImage);
             } else {
@@ -53,13 +53,13 @@ export const ImageComponent: FunctionComponent<any> = ({
           }}
           onLoadingComplete={(e: any) => {
             if (fallBackType === "logo" || fallBackType === "symbol") {
-              console.log(
-                e.naturalHeight / e.naturalWidth,
-                DEFAULT_CARD_BACK_RATIO,
-                "lq"
-              );
+              // console.log(
+              //   e.naturalHeight / e.naturalWidth,
+              //   DEFAULT_CARD_BACK_RATIO,
+              //   "lq"
+              // );
               if (e.naturalHeight / e.naturalWidth == DEFAULT_CARD_BACK_RATIO) {
-                console.log("default logo gotten in low quality view");
+                // console.log("default logo gotten in low quality view");
                 setImageSource(fallbackImage);
               }
             }
@@ -84,7 +84,7 @@ export const ImageComponent: FunctionComponent<any> = ({
             blurDataURL={blurDataURL || defaultBlurImage}
             placeholder="blur"
             onError={() => {
-              console.error("hires error occurred");
+              //console.error("hires error occurred");
               if (lowQualityImageLoaded) {
                 setHighQualityImageSource(imageSource);
               } else {
@@ -93,15 +93,15 @@ export const ImageComponent: FunctionComponent<any> = ({
               }
             }}
             onLoadingComplete={(e: any) => {
-              console.log(
-                e.naturalHeight / e.naturalWidth,
-                DEFAULT_CARD_BACK_RATIO,
-                "hq"
-              );
+              // console.log(
+              //   e.naturalHeight / e.naturalWidth,
+              //   DEFAULT_CARD_BACK_RATIO,
+              //   "hq"
+              // );
               if (e.naturalHeight / e.naturalWidth == DEFAULT_CARD_BACK_RATIO) {
-                console.log(
-                  "low quality image rendered in hires since high quality image cannot be loaded"
-                );
+                // console.log(
+                //   "low quality image rendered in hires since high quality image cannot be loaded"
+                //    );
                 //setHighQualityImageSource(imageSource);
                 return;
               }

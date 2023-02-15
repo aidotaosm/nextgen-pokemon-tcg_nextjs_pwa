@@ -10,7 +10,8 @@ const withPWA = require('next-pwa')({
     ],
     fallbacks: {
         image: '/images/Cardback.webp'
-    }
+    },
+    maximumFileSizeToCacheInBytes: 50000000
 })
 module.exports = withPWA({
     reactStrictMode: true,

@@ -12,6 +12,7 @@ import { AppContext } from "../../contexts/AppContext";
 import { ImageComponent } from "../ImageComponent/ImageComponent";
 import { logoBlurImage } from "../../../base64Images/base64Images";
 import { LocalSearchComponent } from "../LocalSearchComponent/LocalSearchComponent";
+import { getCardsFromNextServer } from "../../utils/networkCalls";
 
 export const SetComponent: FunctionComponent<CardsObjectProps> = ({
   cardsObject,
@@ -26,6 +27,9 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
     let changedSetOfCards = cardsObject?.data.slice(from, to);
     return changedSetOfCards;
   };
+  const [totalCount, setTotalCount] = useState<number>(
+    cardsObject?.totalCount || 0
+  );
   const [setCards, setSetCards] = useState<any>(getCardsForServerSide() || []);
   const [pageIndex, setPageIndex] = useState<number>(0);
   const [refPageNumber, setRefPageNumber] = useState<number>(0);
@@ -33,6 +37,7 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
   const appContextValues = useContext(AppContext);
   const [searchValue, setSearchValue] = useState("");
   const [newChangedCardObject, setNewChangeCardObject] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   // const getSetCards = (paramPageIndex: number) => {
   //   setIsLoading(true);
@@ -56,109 +61,148 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
 
   useEffect(() => {
     if (cardsObject && router.isReady) {
-      if (
-        router.query.searchTerm &&
-        typeof router.query.searchTerm === "string"
-      ) {
-        setSearchValueFunction(router.query.searchTerm, "onChange");
-      }
       let routerPageIndex = 0;
       if (
         router.query.page &&
         !isNaN(+router.query.page) &&
         !isNaN(parseFloat(router.query.page.toString()))
       ) {
-        // if (isSearchPage) {
-        //   if (
-        //     (+router.query.page + 1) * DEFAULT_PAGE_SIZE >
-        //     cardsObject.data.length
-        //   ) {
-        //     let lastPage = Math.floor(
-        //       cardsObject.data.length / DEFAULT_PAGE_SIZE
-        //     );
-        //     routerPageIndex = lastPage;
-        //   } else {
-        //     routerPageIndex = +router.query.page;
-        //   }
-        // } else {
-        //   if (
-        //     (+router.query.page + 1) * DEFAULT_PAGE_SIZE >
-        //     cardsObject.totalCount
-        //   ) {
-        //     let lastPage = Math.floor(
-        //       cardsObject.totalCount / DEFAULT_PAGE_SIZE
-        //     );
-        //     routerPageIndex = lastPage;
-        //   } else {
-        //     routerPageIndex = +router.query.page;
-        //   }
-        // }
         if (
           (+router.query.page + 1) * DEFAULT_PAGE_SIZE >
-          cardsObject.data.length
+          cardsObject.totalCount
         ) {
-          let lastPage = Math.floor(
-            cardsObject.data.length / DEFAULT_PAGE_SIZE
-          );
+          let lastPage = Math.floor(cardsObject.totalCount / DEFAULT_PAGE_SIZE);
           routerPageIndex = lastPage;
         } else {
           routerPageIndex = +router.query.page;
         }
       }
-      if (routerPageIndex !== pageIndex) {
-        pageChanged(routerPageIndex, false);
+      let searchTerm = "";
+      if (
+        router.query.searchTerm &&
+        typeof router.query.searchTerm === "string"
+      ) {
+        searchTerm = router.query.searchTerm;
+      }
+      if (routerPageIndex !== pageIndex || searchTerm != searchValue) {
+        pageChanged(routerPageIndex, false, searchTerm);
       }
     }
   }, [router.isReady]);
 
   const triggerSearch = (paramSearchValue: string) => {
-    let tempChangedCArdsObject = [];
-    if (paramSearchValue) {
-      const data = cardsObject.data.filter((item: any) => {
-        return item.name.toLowerCase().includes(paramSearchValue.toLowerCase());
-      });
-      console.log(data);
-      tempChangedCArdsObject = data;
-      setNewChangeCardObject(data);
+    let tempChangedCArdsObject: any[] = [];
+    if (isSearchPage) {
+      pageChanged(0, false, paramSearchValue);
     } else {
-      setNewChangeCardObject([]);
+      if (paramSearchValue) {
+        const data = cardsObject.data.filter((item: any) => {
+          return item.name
+            .toLowerCase()
+            .includes(paramSearchValue.toLowerCase());
+        });
+        tempChangedCArdsObject = data;
+        setNewChangeCardObject(data);
+      } else {
+        setNewChangeCardObject([]);
+      }
+      pageChanged(0, false, paramSearchValue, tempChangedCArdsObject, true);
     }
-    pageChanged(0, false, paramSearchValue, tempChangedCArdsObject, true);
   };
 
-  const pageChanged = (
+  const pageChanged = async (
     newPageIndex: number,
     updateRoute: boolean = true,
     paramSearchValue?: string,
-    paramNewChangedCardObject?: [],
+    paramNewChangedCardObject?: any[],
     instantTrigger: boolean = false
   ) => {
     // if (!isLoading) {
-    let from = newPageIndex * DEFAULT_PAGE_SIZE;
-    let to = (newPageIndex + 1) * DEFAULT_PAGE_SIZE;
-    // let changedSetOfCards = cardsObject.data.slice(from, to);
-    let tempSearchValue: string | undefined = searchValue;
-    let temNewChangedCardObject: any = newChangedCardObject;
-    if (instantTrigger) {
-      tempSearchValue = paramSearchValue;
-      temNewChangedCardObject = paramNewChangedCardObject;
-    }
-    if (tempSearchValue) {
-      let changedSetOfCards = temNewChangedCardObject.slice(from, to);
-      setSetCards(changedSetOfCards);
-    } else {
-      let changedSetOfCards = cardsObject.data.slice(from, to);
-      setSetCards(changedSetOfCards);
-    }
+    if (isSearchPage) {
+      setIsLoading(true);
 
-    setPageIndex(newPageIndex);
-    if (updateRoute) {
-      updateRouteWithQuery(newPageIndex);
+      try {
+        if (navigator.onLine) {
+          let cardsParentObject = await getCardsFromNextServer(
+            newPageIndex,
+            paramSearchValue || searchValue
+          );
+          setIsLoading(false);
+          setSetCards(cardsParentObject.data);
+          setTotalCount(cardsParentObject.totalCount);
+          setPageIndex(newPageIndex);
+          updateRouteWithQuery(newPageIndex);
+          setRefPageNumber(newPageIndex + 1);
+        } else {
+          import("../../../public/Jsons/AllCards.json").then(
+            (allCardsModule) => {
+              if (allCardsModule.default) {
+                try {
+                  let allCardsFromCache = JSON.parse(
+                    (allCardsModule.default as any).cards
+                  );
+                  console.log(allCardsFromCache);
+                  let tempChangedCArdsObject = null;
+                  if (paramSearchValue || searchValue) {
+                    let tempSearchValue = paramSearchValue || searchValue;
+                    tempChangedCArdsObject = allCardsFromCache.filter(
+                      (item: any) => {
+                        return item.name
+                          .toLowerCase()
+                          .includes(tempSearchValue.toLowerCase());
+                      }
+                    );
+                  }
+                  let from = newPageIndex * DEFAULT_PAGE_SIZE;
+                  let to = (newPageIndex + 1) * DEFAULT_PAGE_SIZE;
+                  if (tempChangedCArdsObject) {
+                    let changedSetOfCards = tempChangedCArdsObject.slice(
+                      from,
+                      to
+                    );
+                    setSetCards(changedSetOfCards);
+                    setTotalCount(tempChangedCArdsObject.length);
+                  } else {
+                    let changedSetOfCards = allCardsFromCache.slice(from, to);
+                    setSetCards(changedSetOfCards);
+                    setTotalCount(allCardsFromCache.length);
+                  }
+                  setPageIndex(newPageIndex);
+                  updateRouteWithQuery(newPageIndex);
+                  setRefPageNumber(newPageIndex + 1);
+                  setIsLoading(false);
+                } catch (e) {
+                  console.log(e);
+                  setIsLoading(false);
+                }
+              }
+            }
+          );
+        }
+      } catch (e) {
+        setIsLoading(false);
+      }
     } else {
+      let from = newPageIndex * DEFAULT_PAGE_SIZE;
+      let to = (newPageIndex + 1) * DEFAULT_PAGE_SIZE;
+      // let changedSetOfCards = cardsObject.data.slice(from, to);
+      let tempSearchValue: string | undefined = searchValue;
+      let temNewChangedCardObject: any = newChangedCardObject;
+      if (instantTrigger) {
+        tempSearchValue = paramSearchValue;
+        temNewChangedCardObject = paramNewChangedCardObject;
+      }
+      if (tempSearchValue) {
+        let changedSetOfCards = temNewChangedCardObject.slice(from, to);
+        setSetCards(changedSetOfCards);
+      } else {
+        let changedSetOfCards = cardsObject.data.slice(from, to);
+        setSetCards(changedSetOfCards);
+      }
+      setPageIndex(newPageIndex);
+      updateRouteWithQuery(newPageIndex);
       setRefPageNumber(newPageIndex + 1);
     }
-    //getSetCards(newPageIndex);
-    //}
   };
 
   const updateRouteWithQuery = (newPageIndex: number) => {
@@ -185,7 +229,11 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
     value: string,
     eventType: "onChange" | "submit"
   ) => {
-    triggerSearch(value);
+    if (!isLoading) {
+      if ((isSearchPage && eventType === "submit") || !isSearchPage) {
+        triggerSearch(value);
+      }
+    }
     setSearchValue(value);
   };
   const syncPagingReferences = (pageNumber: number) => {
@@ -237,14 +285,15 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
             pageChanged={pageChanged}
             paramPageSize={DEFAULT_PAGE_SIZE}
             paramNumberOfElements={
-              searchValue
+              searchValue && !isSearchPage
                 ? newChangedCardObject.length
-                : cardsObject?.data.length
+                : totalCount
             }
             paramPageIndex={pageIndex}
             syncPagingReferences={syncPagingReferences}
             pageNumber={refPageNumber}
             showToggleButton={true}
+            isLoading={isLoading}
           >
             <ListOrGridViewToggle
               isGridView={appState.gridView}
@@ -272,14 +321,15 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
             pageChanged={pageChanged}
             paramPageSize={DEFAULT_PAGE_SIZE}
             paramNumberOfElements={
-              searchValue
+              searchValue && !isSearchPage
                 ? newChangedCardObject.length
-                : cardsObject?.data.length
+                : totalCount
             }
             paramPageIndex={pageIndex}
             syncPagingReferences={syncPagingReferences}
             pageNumber={refPageNumber}
             showToggleButton={true}
+            isLoading={isLoading}
           >
             <ListOrGridViewToggle
               isGridView={appState.gridView}
