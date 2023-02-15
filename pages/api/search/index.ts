@@ -2,7 +2,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { NextRequest, NextResponse } from "next/server";
 import { DEFAULT_PAGE_SIZE } from "../../../src/constants/constants";
-import allCardsJson from "../../../src/Jsons/AllCards.json";
+import allCardsJson from "../../../public/Jsons/AllCards.json";
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse

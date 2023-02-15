@@ -120,13 +120,68 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
     // if (!isLoading) {
     if (isSearchPage) {
       setIsLoading(true);
-      let cardsParentObject = await getCardsFromNextServer(
-        newPageIndex,
-        paramSearchValue || searchValue
-      );
-      setIsLoading(false);
-      setSetCards(cardsParentObject.data);
-      setTotalCount(cardsParentObject.totalCount);
+
+      try {
+        if (navigator.onLine) {
+          let cardsParentObject = await getCardsFromNextServer(
+            newPageIndex,
+            paramSearchValue || searchValue
+          );
+          setIsLoading(false);
+          setSetCards(cardsParentObject.data);
+          setTotalCount(cardsParentObject.totalCount);
+          setPageIndex(newPageIndex);
+          updateRouteWithQuery(newPageIndex);
+          setRefPageNumber(newPageIndex + 1);
+        } else {
+          import("../../../public/Jsons/AllCards.json").then(
+            (allCardsModule) => {
+              if (allCardsModule.default) {
+                try {
+                  let allCardsFromCache = JSON.parse(
+                    (allCardsModule.default as any).cards
+                  );
+                  console.log(allCardsFromCache);
+                  let tempChangedCArdsObject = null;
+                  if (paramSearchValue || searchValue) {
+                    let tempSearchValue = paramSearchValue || searchValue;
+                    tempChangedCArdsObject = allCardsFromCache.filter(
+                      (item: any) => {
+                        return item.name
+                          .toLowerCase()
+                          .includes(tempSearchValue.toLowerCase());
+                      }
+                    );
+                  }
+                  let from = newPageIndex * DEFAULT_PAGE_SIZE;
+                  let to = (newPageIndex + 1) * DEFAULT_PAGE_SIZE;
+                  if (tempChangedCArdsObject) {
+                    let changedSetOfCards = tempChangedCArdsObject.slice(
+                      from,
+                      to
+                    );
+                    setSetCards(changedSetOfCards);
+                    setTotalCount(tempChangedCArdsObject.length);
+                  } else {
+                    let changedSetOfCards = allCardsFromCache.slice(from, to);
+                    setSetCards(changedSetOfCards);
+                    setTotalCount(allCardsFromCache.length);
+                  }
+                  setPageIndex(newPageIndex);
+                  updateRouteWithQuery(newPageIndex);
+                  setRefPageNumber(newPageIndex + 1);
+                  setIsLoading(false);
+                } catch (e) {
+                  console.log(e);
+                  setIsLoading(false);
+                }
+              }
+            }
+          );
+        }
+      } catch (e) {
+        setIsLoading(false);
+      }
     } else {
       let from = newPageIndex * DEFAULT_PAGE_SIZE;
       let to = (newPageIndex + 1) * DEFAULT_PAGE_SIZE;
@@ -144,11 +199,10 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
         let changedSetOfCards = cardsObject.data.slice(from, to);
         setSetCards(changedSetOfCards);
       }
+      setPageIndex(newPageIndex);
+      updateRouteWithQuery(newPageIndex);
+      setRefPageNumber(newPageIndex + 1);
     }
-
-    setPageIndex(newPageIndex);
-    updateRouteWithQuery(newPageIndex);
-    setRefPageNumber(newPageIndex + 1);
   };
 
   const updateRouteWithQuery = (newPageIndex: number) => {
