@@ -157,9 +157,9 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
             </IF>
             <Link href="/search">
               <FontAwesomeIcon
-                className="cursor-pointer user-select-none ms-3"
+                className="cursor-pointer user-select-none ms-3 fs-2"
                 icon={faSearch}
-                size="2x"
+                // size="2x"
               />
             </Link>
           </div>

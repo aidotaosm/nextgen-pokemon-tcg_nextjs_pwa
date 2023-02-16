@@ -55,6 +55,7 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
 
   useEffect(() => {
     if (router.isReady) {
+      triggerSearchPagePrefetch();
       let selectedSeriesId = router.query["opened-series"]?.toString();
       let element = document.getElementById(selectedSeriesId || "");
       if (element && selectedSeriesId !== setsBySeries[0].id) {
