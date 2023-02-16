@@ -41,7 +41,7 @@ export const ImageComponent: FunctionComponent<any> = ({
           height={imageDimensions.height}
           //loading="eager"
           blurDataURL={blurDataURL || defaultBlurImage}
-          placeholder="blur"
+          placeholder={fallBackType === "symbol" ? undefined : "blur"}
           onError={(e: any) => {
             // console.log(imageSource, "lq image failed");
             if (fallBackType === "logo" || fallBackType === "symbol") {

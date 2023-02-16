@@ -17,11 +17,8 @@ import { SpecialSetNames } from "../../models/Enums";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCheck,
-  faClipboardCheck,
   faGear,
-  faGears,
   faSpinner,
-  faUserGear,
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
 import { ToastComponent } from "../UtilityComponents/ToastComponent";
@@ -299,8 +296,9 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
             <FontAwesomeIcon
               icon={faGear}
               size="2x"
-              data-bs-toggle="modal"
-              data-bs-target={"#" + prefetchInitModalId}
+              onClick={handleToastClick}
+              // data-bs-toggle="modal"
+              // data-bs-target={"#" + prefetchInitModalId}
               className="cursor-pointer"
               spin={
                 totalNumberOfSetsDone === totalNumberOfSets ||
@@ -408,27 +406,32 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
           })}
         </div>
       </div>
-      <MemoizedModalComponent
+      {/* <MemoizedModalComponent
         id={prefetchInitModalId}
         primaryClasses="vertical-align-modal"
         hideFooter={false}
         hideHeader={false}
-        modalTitle="Download all expansion data"
+        modalTitle="Download data"
         modalCloseButton={modalCloseButton}
         handleOkButtonPress={handleToastClick}
         okButtonText={"Download"}
       >
         <div>
-          Do you want to pre-load all the sets for offline use? You can continue
+          Do you want to pre-load expansions for offline use? You can continue
           using the site as it runs in the background.
         </div>
-      </MemoizedModalComponent>
+      </MemoizedModalComponent> */}
       <ToastComponent
         autoHide={false}
         toastTitle="Prefetch Status"
         id={prefetchToastId}
       >
         <div>
+          <p>
+            Pre-load expansions for offline use. You can continue using the site
+            as it runs in the background.
+          </p>
+          <hr />
           <div className="mb-2 d-flex justify-content-between align-items-center">
             <div className="d-flex align-items-center">
               <div className="">
@@ -444,7 +447,7 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
                   <FontAwesomeIcon icon={faXmark} className="text-danger" />
                 )}
               </div>
-              <div className="ms-2"> Global search optimization</div>
+              <div className="ms-2">Offline Global search</div>
             </div>
             {/* <IF condition={searchPageDownloaded == "no"}>
               <a
