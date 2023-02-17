@@ -138,9 +138,7 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
             (allCardsModule) => {
               if (allCardsModule.default) {
                 try {
-                  let allCardsFromCache = JSON.parse(
-                    (allCardsModule.default as any).cards
-                  );
+                  let allCardsFromCache = allCardsModule.default as any[];
                   console.log(allCardsFromCache);
                   let tempChangedCArdsObject = null;
                   if (paramSearchValue || searchValue) {

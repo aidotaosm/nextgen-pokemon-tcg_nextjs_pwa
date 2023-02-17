@@ -316,7 +316,9 @@ a.white-hover:hover {
   /* max-width: 15rem; */
   width: 100% !important;
 }
-
+.tooltip {
+  z-index: 1100;
+}
 @media (max-width: 1399px) {
   .list-view .pokemon-card-image {
     min-width: 25vw;

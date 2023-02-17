@@ -16,7 +16,9 @@ import { AppContext } from "../../contexts/AppContext";
 import { SpecialSetNames } from "../../models/Enums";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
+  faArrowsSpin,
   faCheck,
+  faDownload,
   faGear,
   faSpinner,
   faXmark,
@@ -26,6 +28,8 @@ import MemoizedModalComponent from "../UtilityComponents/ModalComponent";
 import { IF } from "../UtilityComponents/IF";
 import { flushSync } from "react-dom";
 import { LocalSearchComponent } from "../LocalSearchComponent/LocalSearchComponent";
+import { getAllCards } from "../../utils/networkCalls";
+import { Helper } from "../../utils/helper";
 //import pokemonLogo from "../../../public/images/International_Pokémon_logo.svg";
 
 export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
@@ -49,7 +53,9 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
   const [searchPageDownloaded, setSearchPageDownloaded] = useState<
     "no" | "loading" | "yes"
   >("no");
-
+  const [downloadAllCardsLoading, setDownloadAllCardsLoading] = useState(false);
+  const downloadLatestAllCardsJsonTooltipId =
+    "downloadLatestAllCardsJsonTooltipId";
   useEffect(() => {
     if (router.isReady) {
       triggerSearchPagePrefetch();
@@ -83,6 +89,15 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
       }
     }
   }, [router.isReady]);
+  useEffect(() => {
+    let bootStrapMasterClass = appContextValues?.appState?.bootstrap;
+    const tooltipTrigger = document.getElementById(
+      downloadLatestAllCardsJsonTooltipId
+    ) as any;
+    if (bootStrapMasterClass && tooltipTrigger) {
+      new bootStrapMasterClass.Tooltip(tooltipTrigger);
+    }
+  }, [appContextValues?.appState?.bootstrap]);
   useEffect(() => {
     const onToastShowHandler = async () => {
       triggerSearchPagePrefetch();
@@ -271,6 +286,18 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
     setSetsBySeries([...setsBySeries]);
   };
 
+  const downloadAllCardsJson = () => {
+    setDownloadAllCardsLoading(true);
+    getAllCards()
+      .then((cardsParentObject) => {
+        Helper.saveTemplateAsFile("AllCards.json", cardsParentObject);
+        cardsParentObject;
+      })
+      .finally(() => {
+        setDownloadAllCardsLoading(false);
+      });
+  };
+
   const setSearchValueFunction = (
     value: string,
     eventType: "onChange" | "submit"
@@ -449,17 +476,23 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
               </div>
               <div className="ms-2 fw-bold">Offline Global search</div>
             </div>
-            {/* <IF condition={searchPageDownloaded == "no"}>
-              <a
-                className="cursor-pointer"
-                onClick={async () => {
-                  await triggerSearchPagePrefetch();
-                }}
-              >
-                {"Download"}
-              </a>
-            </IF> */}
-            {/* <IF condition={searchPageDownloaded == "no"}></IF> */}
+            <a
+              className="cursor-pointer"
+              onClick={() => {
+                downloadAllCardsJson();
+              }}
+            >
+              <FontAwesomeIcon
+                data-bs-title={
+                  "(For developers only) Download all cards data in a JSON file. This might take around 3 minutes."
+                }
+                data-bs-toggle="tooltip"
+                id={downloadLatestAllCardsJsonTooltipId}
+                spin={downloadAllCardsLoading ? true : false}
+                icon={downloadAllCardsLoading ? faArrowsSpin : faDownload}
+                className=""
+              />
+            </a>
           </div>
           <hr />
           <div
