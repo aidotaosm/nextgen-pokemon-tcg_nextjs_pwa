@@ -7,7 +7,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  let parsedAllCards = JSON.parse((allCardsJson as any).cards);
+  let parsedAllCards = allCardsJson as any[];
   let requestedPageIndex = req.query.page;
   let requestedSearchValue = req.query.search as string;
   let returnedPageOfCards: any[] = [];

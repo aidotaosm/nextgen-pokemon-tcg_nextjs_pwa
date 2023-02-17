@@ -309,6 +309,16 @@ a.white-hover:hover {
   max-width: 50rem;
   margin-left: 0 !important;
 }
+.main-logo {
+  width: 12rem;
+}
+.search {
+  /* max-width: 15rem; */
+  width: 100% !important;
+}
+.tooltip {
+  z-index: 1100;
+}
 @media (max-width: 1399px) {
   .list-view .pokemon-card-image {
     min-width: 25vw;
@@ -352,12 +362,12 @@ a.white-hover:hover {
   .special-card-wrapper {
     padding: 0 2rem 1rem 2rem;
   }
+  .main-logo {
+    width: 8rem;
+  }
 }
 @media (min-width: 768px) {
   .negative-margin-min-768 {
     margin-top: -1.4rem;
   }
-}
-.search {
-  max-width: 15rem;
 }

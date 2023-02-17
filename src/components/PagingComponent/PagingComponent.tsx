@@ -1,4 +1,10 @@
-import { useEffect, useState, FunctionComponent, useRef } from "react";
+import {
+  useEffect,
+  useState,
+  FunctionComponent,
+  useRef,
+  Fragment,
+} from "react";
 import { DEFAULT_PAGE_SIZE } from "../../constants/constants";
 import styles from "./PagingComponent.module.css";
 import { IF } from "../UtilityComponents/IF";
@@ -11,7 +17,6 @@ interface PagingComponentProps {
   syncPagingReferences: (e: number) => void;
   pageNumber: number;
   children?: any;
-  showToggleButton: boolean;
   isLoading: boolean;
 }
 
@@ -23,7 +28,6 @@ export const PagingComponent: FunctionComponent<PagingComponentProps> = ({
   syncPagingReferences,
   pageNumber,
   children,
-  showToggleButton = false,
   isLoading = false,
 }) => {
   const [pageIndex, setPageIndex] = useState<number>(paramPageIndex);
@@ -84,9 +88,9 @@ export const PagingComponent: FunctionComponent<PagingComponentProps> = ({
 
   return (
     <>
-      <IF condition={showToggleButton}>{children}</IF>
-      <div className="col d-flex justify-content-end">
-        <IF condition={numberOfElements > pageSize}>
+      <Fragment>{children}</Fragment>
+      <IF condition={numberOfElements > pageSize}>
+        <div className="col d-flex justify-content-center justify-content-md-end">
           <div className="d-flex flex-column">
             <ul className="pagination mb-2 ">
               <li className="page-item cursor-pointer">
@@ -138,8 +142,8 @@ export const PagingComponent: FunctionComponent<PagingComponentProps> = ({
             </ul>
             <div className="align-self-center fw-light">{getPagingInfo()}</div>
           </div>
-        </IF>
-      </div>
+        </div>
+      </IF>
     </>
   );
 };

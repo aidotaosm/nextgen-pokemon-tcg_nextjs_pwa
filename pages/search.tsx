@@ -18,7 +18,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
     await import("../public/Jsons/AllCards.json")
   ).default;
 
-  let parsedAllCards = JSON.parse(dynamicallyImportedJson.cards);
+  let parsedAllCards = dynamicallyImportedJson;
   let firstPageOfCards = parsedAllCards.slice(0, DEFAULT_PAGE_SIZE);
   //console.log(firstPageOfCards);
   const cardsObject = {

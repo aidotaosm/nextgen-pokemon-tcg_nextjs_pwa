@@ -164,7 +164,7 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
             </Link>
           </div>
           <div className="col d-flex justify-content-center">
-            <Link href="/" className="d-block " style={{ width: "180px" }}>
+            <Link href="/" className="d-block main-logo">
               <ImageComponent
                 src={pokemonLogo}
                 //  src={"/images/International_Pokémon_logo.svg"}
@@ -175,7 +175,7 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
               />
             </Link>
           </div>
-          <div className="d-flex col align-items-center justify-content-end">
+          <div className="col d-flex col align-items-center justify-content-end">
             <div
               className="cursor-pointer user-select-none me-sm-3 me-2"
               title="Offline mode toggle"
@@ -235,15 +235,15 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
           <small>
             Pokemon TCG by{" "}
             <Link href="https://github.com/aidotaosm" target="_blank">
-              OSM
+              Osama (GitHub)
             </Link>{" "}
-            ©2022
+            ©2023
           </small>
         </div>
       </footer>
       <ToastComponent
         autoHide={true}
-        delay={20000}
+        delay={30000}
         toastTitle={
           <div className="d-flex">
             <span className="me-2">Optimized User Experience</span>

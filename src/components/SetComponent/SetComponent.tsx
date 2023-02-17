@@ -122,8 +122,7 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
       setIsLoading(true);
 
       try {
-        if (!appState.darkMode) {
-          //navigator.onLine
+        if (!appState.darkMode && navigator.onLine) {
           let cardsParentObject = await getCardsFromNextServer(
             newPageIndex,
             paramSearchValue || searchValue
@@ -139,9 +138,7 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
             (allCardsModule) => {
               if (allCardsModule.default) {
                 try {
-                  let allCardsFromCache = JSON.parse(
-                    (allCardsModule.default as any).cards
-                  );
+                  let allCardsFromCache = allCardsModule.default as any[];
                   console.log(allCardsFromCache);
                   let tempChangedCArdsObject = null;
                   if (paramSearchValue || searchValue) {
@@ -240,6 +237,8 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
   const syncPagingReferences = (pageNumber: number) => {
     setRefPageNumber(pageNumber);
   };
+  let numberOfElements =
+    searchValue && !isSearchPage ? newChangedCardObject.length : totalCount;
   if (router.isFallback) {
     return (
       <div className="container d-flex flex-grow-1 justify-content-center">
@@ -275,8 +274,8 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
             </h4>
           </IF>
         </div>
-        <div className="mb-4 row">
-          <div className="col d-flex align-items-center">
+        <div className="mb-4 row row-cols-2 row-cols-md-3 ">
+          <div className="col col-12 col-md-4 d-flex align-items-center mb-4 mb-md-0">
             <LocalSearchComponent
               setSearchValueFunction={setSearchValueFunction}
               defaultSearchTerm={searchValue}
@@ -285,21 +284,18 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
           <PagingComponent
             pageChanged={pageChanged}
             paramPageSize={DEFAULT_PAGE_SIZE}
-            paramNumberOfElements={
-              searchValue && !isSearchPage
-                ? newChangedCardObject.length
-                : totalCount
-            }
+            paramNumberOfElements={numberOfElements}
             paramPageIndex={pageIndex}
             syncPagingReferences={syncPagingReferences}
             pageNumber={refPageNumber}
-            showToggleButton={true}
             isLoading={isLoading}
           >
             <ListOrGridViewToggle
               isGridView={appState.gridView}
               getUpdatedView={getUpdatedView}
-              additionalClasses="col-1"
+              additionalClasses={
+                numberOfElements > DEFAULT_PAGE_SIZE ? "col" : "col-12"
+              }
             ></ListOrGridViewToggle>
           </PagingComponent>
         </div>
@@ -317,25 +313,22 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
           <ListViewComponent setCards={setCards}></ListViewComponent>
         </IF>
         <div className="mt-4 row">
-          <div className="col"></div>
+          <div className="col d-none d-md-block"></div>
           <PagingComponent
             pageChanged={pageChanged}
             paramPageSize={DEFAULT_PAGE_SIZE}
-            paramNumberOfElements={
-              searchValue && !isSearchPage
-                ? newChangedCardObject.length
-                : totalCount
-            }
+            paramNumberOfElements={numberOfElements}
             paramPageIndex={pageIndex}
             syncPagingReferences={syncPagingReferences}
             pageNumber={refPageNumber}
-            showToggleButton={true}
             isLoading={isLoading}
           >
             <ListOrGridViewToggle
               isGridView={appState.gridView}
               getUpdatedView={getUpdatedView}
-              additionalClasses="col-1"
+              additionalClasses={
+                numberOfElements > DEFAULT_PAGE_SIZE ? "col" : "col-12"
+              }
             ></ListOrGridViewToggle>
           </PagingComponent>
         </div>
