@@ -90,7 +90,7 @@ export const PagingComponent: FunctionComponent<PagingComponentProps> = ({
     <>
       <Fragment>{children}</Fragment>
       <IF condition={numberOfElements > pageSize}>
-        <div className="col d-flex justify-content-center justify-content-md-end">
+        <div className="col-8 d-flex justify-content-center justify-content-md-end">
           <div className="d-flex flex-column">
             <ul className="pagination mb-2 ">
               <li className="page-item cursor-pointer">

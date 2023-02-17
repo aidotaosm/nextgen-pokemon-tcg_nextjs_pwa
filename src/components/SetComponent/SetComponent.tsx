@@ -294,7 +294,7 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
               isGridView={appState.gridView}
               getUpdatedView={getUpdatedView}
               additionalClasses={
-                numberOfElements > DEFAULT_PAGE_SIZE ? "col" : "col-12"
+                numberOfElements > DEFAULT_PAGE_SIZE ? "col-4" : "col-12"
               }
             ></ListOrGridViewToggle>
           </PagingComponent>
@@ -327,7 +327,7 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
               isGridView={appState.gridView}
               getUpdatedView={getUpdatedView}
               additionalClasses={
-                numberOfElements > DEFAULT_PAGE_SIZE ? "col" : "col-12"
+                numberOfElements > DEFAULT_PAGE_SIZE ? "col-4" : "col-12"
               }
             ></ListOrGridViewToggle>
           </PagingComponent>
