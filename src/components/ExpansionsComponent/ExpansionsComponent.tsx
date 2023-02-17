@@ -481,13 +481,13 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
               onClick={() => {
                 downloadAllCardsJson();
               }}
+              data-bs-title={
+                "(For developers only) Download all cards data in a JSON file. This might take around 3 minutes."
+              }
+              data-bs-toggle="tooltip"
+              id={downloadLatestAllCardsJsonTooltipId}
             >
               <FontAwesomeIcon
-                data-bs-title={
-                  "(For developers only) Download all cards data in a JSON file. This might take around 3 minutes."
-                }
-                data-bs-toggle="tooltip"
-                id={downloadLatestAllCardsJsonTooltipId}
                 spin={downloadAllCardsLoading ? true : false}
                 icon={downloadAllCardsLoading ? faArrowsSpin : faDownload}
                 className=""
