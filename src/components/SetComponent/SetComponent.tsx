@@ -312,7 +312,7 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
         <IF condition={!appState.gridView}>
           <ListViewComponent setCards={setCards}></ListViewComponent>
         </IF>
-        <div className="mt-4 row">
+        <div className="mt-4 row row-cols-2 row-cols-md-3 ">
           <div className="col d-none d-md-block"></div>
           <PagingComponent
             pageChanged={pageChanged}
