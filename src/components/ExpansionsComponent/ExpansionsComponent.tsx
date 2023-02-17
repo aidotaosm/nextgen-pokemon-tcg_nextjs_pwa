@@ -479,6 +479,9 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
             <a
               className="cursor-pointer"
               onClick={() => {
+                if (downloadAllCardsLoading) {
+                  return;
+                }
                 downloadAllCardsJson();
               }}
               data-bs-title={
