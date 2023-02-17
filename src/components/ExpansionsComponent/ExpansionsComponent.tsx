@@ -423,7 +423,7 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
       </MemoizedModalComponent> */}
       <ToastComponent
         autoHide={false}
-        toastTitle="Prefetch Status"
+        toastTitle="Optimization Status"
         id={prefetchToastId}
       >
         <div>
@@ -447,7 +447,7 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
                   <FontAwesomeIcon icon={faXmark} className="text-danger" />
                 )}
               </div>
-              <div className="ms-2">Offline Global search</div>
+              <div className="ms-2 fw-bold">Offline Global search</div>
             </div>
             {/* <IF condition={searchPageDownloaded == "no"}>
               <a
