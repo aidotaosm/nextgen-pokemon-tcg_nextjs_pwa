@@ -185,6 +185,12 @@ html {
   height: 25px;
   width: 25px;
 }
+.set-symbol-in-expansions {
+  height: 17px;
+  width: 17px;
+  position: absolute;
+  top: 4px;
+}
 .dark-background-link {
   color: lightskyblue;
 }
@@ -318,6 +324,12 @@ a.white-hover:hover {
 }
 .tooltip {
   z-index: 1100;
+}
+.back-to-top-wrapper {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  z-index: 900;
 }
 @media (max-width: 1399px) {
   .list-view .pokemon-card-image {
