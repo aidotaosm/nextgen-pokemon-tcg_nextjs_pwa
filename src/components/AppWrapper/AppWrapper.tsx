@@ -151,7 +151,7 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
           <div className="col d-flex align-items-center">
             <IF condition={pathToRedirect || router.pathname != "/"}>
               <FontAwesomeIcon
-                className="cursor-pointer user-select-none"
+                className="cursor-pointer user-select-none me-3"
                 icon={faArrowLeftLong}
                 size="2x"
                 onClick={(e) => {
@@ -168,7 +168,7 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
             </IF>
             <Link href="/search">
               <FontAwesomeIcon
-                className="cursor-pointer user-select-none ms-3 fs-2"
+                className="cursor-pointer user-select-none fs-2"
                 icon={faSearch}
                 // size="2x"
               />
