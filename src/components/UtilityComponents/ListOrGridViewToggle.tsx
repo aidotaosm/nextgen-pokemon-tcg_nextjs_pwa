@@ -24,13 +24,19 @@ export const ListOrGridViewToggle: FunctionComponent<
     >
       <IF condition={isGridView}>
         <FontAwesomeIcon className="fs-5" icon={faBoxes} />
-        <span className="ms-sm-2 mt-1 mt-sm-0" style={{ whiteSpace: "nowrap" }}>
+        <span
+          className="ms-0 ms-md-2 mt-1 mt-md-0"
+          style={{ whiteSpace: "nowrap" }}
+        >
           Grid View
         </span>
       </IF>
       <IF condition={!isGridView}>
         <FontAwesomeIcon className="fs-5" icon={faList} />
-        <span className="ms-sm-2 mt-1 mt-sm-0" style={{ whiteSpace: "nowrap" }}>
+        <span
+          className="ms-0 ms-md-2 mt-1 mt-md-0"
+          style={{ whiteSpace: "nowrap" }}
+        >
           List View
         </span>
       </IF>
