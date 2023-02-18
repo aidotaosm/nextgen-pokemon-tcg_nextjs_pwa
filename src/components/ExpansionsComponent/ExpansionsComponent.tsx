@@ -31,14 +31,13 @@ import { flushSync } from "react-dom";
 import { LocalSearchComponent } from "../LocalSearchComponent/LocalSearchComponent";
 import { getAllCards } from "../../utils/networkCalls";
 import { Helper } from "../../utils/helper";
-//import pokemonLogo from "../../../public/images/International_Pokémon_logo.svg";
 
 export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
   arrayOfSeries,
   totalNumberOfSets,
 }: any) => {
   let router = useRouter();
-  const appContextValues = useContext(AppContext);
+  const { appState, updateGlobalSearchTerm } = useContext(AppContext);
   const [setsBySeries, setSetsBySeries] = useState<any[]>(arrayOfSeries);
   const modalCloseButton = useRef<any>();
   const prefetchToastId = "prefetchToast";
@@ -93,7 +92,7 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
     }
   }, [router.isReady]);
   useEffect(() => {
-    let bootStrapMasterClass = appContextValues?.appState?.bootstrap;
+    let bootStrapMasterClass = appState?.bootstrap;
     const tooltipTrigger = document.getElementById(
       downloadLatestAllCardsJsonTooltipId
     ) as any;
@@ -106,7 +105,7 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
     if (bootStrapMasterClass && cacheTooltipTrigger) {
       new bootStrapMasterClass.Tooltip(cacheTooltipTrigger);
     }
-  }, [appContextValues?.appState?.bootstrap]);
+  }, [appState?.bootstrap]);
   useEffect(() => {
     const onToastShowHandler = async () => {
       triggerSearchPagePrefetch();
@@ -121,21 +120,23 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
     };
   }, []);
   const handleToastClick = async () => {
-    const toastLiveExample = document.getElementById(prefetchToastId);
-    let bootStrapMasterClass = appContextValues?.appState?.bootstrap;
-    if (modalCloseButton.current) {
-      modalCloseButton.current.click();
-    }
-    if (toastLiveExample && bootStrapMasterClass) {
-      new bootStrapMasterClass.Toast(toastLiveExample).show();
-      //resetting all related states for new fetch session
-      setPrefetchingSets([]);
-      setTotalNumberOfSetsDone(0);
-      setShouldCancel(false);
-      setLastSeriesAndSetIndexes({
-        lastSeriesIndex: 0,
-        lastSetOfSeriesIndex: 0,
-      });
+    if (navigator.onLine) {
+      const toastLiveExample = document.getElementById(prefetchToastId);
+      let bootStrapMasterClass = appState?.bootstrap;
+      if (modalCloseButton.current) {
+        modalCloseButton.current.click();
+      }
+      if (toastLiveExample && bootStrapMasterClass) {
+        new bootStrapMasterClass.Toast(toastLiveExample).show();
+        //resetting all related states for new fetch session
+        setPrefetchingSets([]);
+        setTotalNumberOfSetsDone(0);
+        setShouldCancel(false);
+        setLastSeriesAndSetIndexes({
+          lastSeriesIndex: 0,
+          lastSetOfSeriesIndex: 0,
+        });
+      }
     }
   };
   const toggleAccordion = (seriesId: any) => {
@@ -326,7 +327,8 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
     //triggerSearch(value);
     setSearchValue(value);
     if (eventType === "submit") {
-      router.push("/search?searchTerm=" + value);
+      updateGlobalSearchTerm?.(value || "");
+      router.push("/search");
     }
   };
   return (
@@ -334,10 +336,10 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
       <div className="container">
         <div className="d-flex justify-content-between mb-4">
           <div className="me-2">
-            {/* <LocalSearchComponent
+            <LocalSearchComponent
               setSearchValueFunction={setSearchValueFunction}
               initialPlaceHolder={"Search all e.g. "}
-            /> */}
+            />
           </div>
           <div className="d-flex">
             <h4 className="me-4 mb-0">All Pokemon TCG expansions</h4>
@@ -559,10 +561,12 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
               <a
                 className="cursor-pointer"
                 onClick={async () => {
-                  flushSync(() => {
-                    setShouldCancel(false);
-                  });
-                  await triggerPrefetch();
+                  if (navigator.onLine) {
+                    flushSync(() => {
+                      setShouldCancel(false);
+                    });
+                    await triggerPrefetch();
+                  }
                 }}
               >
                 Resume
@@ -576,7 +580,9 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
               <a
                 className="cursor-pointer"
                 onClick={() => {
-                  setShouldCancel(true);
+                  if (navigator.onLine) {
+                    setShouldCancel(true);
+                  }
                 }}
               >
                 Pause

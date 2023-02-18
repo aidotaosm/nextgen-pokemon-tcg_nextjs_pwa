@@ -9,6 +9,7 @@ interface AppContextInterface {
     gridView: boolean;
     bootstrap: any;
     offLineMode: boolean;
+    globalSearchTerm: string;
   };
   setAppState?: any;
   updateDarkMode?: (e: boolean) => void;
@@ -21,6 +22,7 @@ interface AppContextInterface {
     offLineMode?: boolean;
   }) => void;
   saveBootstrap?: (e: any) => void;
+  updateGlobalSearchTerm?: (e: string) => void;
 }
 
 export const AppContext = createContext<AppContextInterface>({
@@ -29,6 +31,7 @@ export const AppContext = createContext<AppContextInterface>({
     gridView: false,
     bootstrap: null,
     offLineMode: false,
+    globalSearchTerm: "",
   },
 });
 
@@ -61,6 +64,7 @@ export const AppProvider: FunctionComponent<BasicProps> = (props) => {
     gridView: false,
     bootstrap: null,
     offLineMode: false,
+    globalSearchTerm: "",
   });
 
   const updateDarkMode = (value: boolean) => {
@@ -100,7 +104,11 @@ export const AppProvider: FunctionComponent<BasicProps> = (props) => {
       return { ...e, bootstrap: object };
     });
   };
-
+  const updateGlobalSearchTerm = (searchTerm: string) => {
+    setAppState((e) => {
+      return { ...e, globalSearchTerm: searchTerm };
+    });
+  };
   return (
     <AppContext.Provider
       value={{
@@ -111,6 +119,7 @@ export const AppProvider: FunctionComponent<BasicProps> = (props) => {
         updateGridView,
         multiUpdate,
         saveBootstrap,
+        updateGlobalSearchTerm,
       }}
     >
       {props.children}
