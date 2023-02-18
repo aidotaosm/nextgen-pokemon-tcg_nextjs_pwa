@@ -20,6 +20,7 @@ import {
   faCheck,
   faDownload,
   faGear,
+  faRecycle,
   faSpinner,
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
@@ -30,14 +31,13 @@ import { flushSync } from "react-dom";
 import { LocalSearchComponent } from "../LocalSearchComponent/LocalSearchComponent";
 import { getAllCards } from "../../utils/networkCalls";
 import { Helper } from "../../utils/helper";
-//import pokemonLogo from "../../../public/images/International_Pokémon_logo.svg";
 
 export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
   arrayOfSeries,
   totalNumberOfSets,
 }: any) => {
   let router = useRouter();
-  const appContextValues = useContext(AppContext);
+  const { appState, updateGlobalSearchTerm } = useContext(AppContext);
   const [setsBySeries, setSetsBySeries] = useState<any[]>(arrayOfSeries);
   const modalCloseButton = useRef<any>();
   const prefetchToastId = "prefetchToast";
@@ -56,6 +56,8 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
   const [downloadAllCardsLoading, setDownloadAllCardsLoading] = useState(false);
   const downloadLatestAllCardsJsonTooltipId =
     "downloadLatestAllCardsJsonTooltipId";
+  const clearCacheUnregisterSWARefreshTooltipId =
+    "clearCacheUnregisterSWARefreshTooltipId";
   useEffect(() => {
     if (router.isReady) {
       triggerSearchPagePrefetch();
@@ -90,14 +92,20 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
     }
   }, [router.isReady]);
   useEffect(() => {
-    let bootStrapMasterClass = appContextValues?.appState?.bootstrap;
+    let bootStrapMasterClass = appState?.bootstrap;
     const tooltipTrigger = document.getElementById(
       downloadLatestAllCardsJsonTooltipId
     ) as any;
     if (bootStrapMasterClass && tooltipTrigger) {
       new bootStrapMasterClass.Tooltip(tooltipTrigger);
     }
-  }, [appContextValues?.appState?.bootstrap]);
+    const cacheTooltipTrigger = document.getElementById(
+      clearCacheUnregisterSWARefreshTooltipId
+    ) as any;
+    if (bootStrapMasterClass && cacheTooltipTrigger) {
+      new bootStrapMasterClass.Tooltip(cacheTooltipTrigger);
+    }
+  }, [appState?.bootstrap]);
   useEffect(() => {
     const onToastShowHandler = async () => {
       triggerSearchPagePrefetch();
@@ -112,21 +120,23 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
     };
   }, []);
   const handleToastClick = async () => {
-    const toastLiveExample = document.getElementById(prefetchToastId);
-    let bootStrapMasterClass = appContextValues?.appState?.bootstrap;
-    if (modalCloseButton.current) {
-      modalCloseButton.current.click();
-    }
-    if (toastLiveExample && bootStrapMasterClass) {
-      new bootStrapMasterClass.Toast(toastLiveExample).show();
-      //resetting all related states for new fetch session
-      setPrefetchingSets([]);
-      setTotalNumberOfSetsDone(0);
-      setShouldCancel(false);
-      setLastSeriesAndSetIndexes({
-        lastSeriesIndex: 0,
-        lastSetOfSeriesIndex: 0,
-      });
+    if (navigator.onLine) {
+      const toastLiveExample = document.getElementById(prefetchToastId);
+      let bootStrapMasterClass = appState?.bootstrap;
+      if (modalCloseButton.current) {
+        modalCloseButton.current.click();
+      }
+      if (toastLiveExample && bootStrapMasterClass) {
+        new bootStrapMasterClass.Toast(toastLiveExample).show();
+        //resetting all related states for new fetch session
+        setPrefetchingSets([]);
+        setTotalNumberOfSetsDone(0);
+        setShouldCancel(false);
+        setLastSeriesAndSetIndexes({
+          lastSeriesIndex: 0,
+          lastSetOfSeriesIndex: 0,
+        });
+      }
     }
   };
   const toggleAccordion = (seriesId: any) => {
@@ -297,7 +307,19 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
         setDownloadAllCardsLoading(false);
       });
   };
-
+  const clearCacheUnregisterSWARefresh = async () => {
+    console.log(self.caches);
+    self.caches.keys().then((keys) => {
+      keys.forEach((key) => self.caches.delete(key));
+    });
+    const registeredServiceWorkers =
+      await navigator.serviceWorker.getRegistrations();
+    registeredServiceWorkers.forEach((registration) => {
+      console.log(registration);
+      registration.unregister();
+    });
+    window.location.reload();
+  };
   const setSearchValueFunction = (
     value: string,
     eventType: "onChange" | "submit"
@@ -305,21 +327,22 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
     //triggerSearch(value);
     setSearchValue(value);
     if (eventType === "submit") {
-      router.push("/search?searchTerm=" + value);
+      updateGlobalSearchTerm?.(value || "");
+      router.push("/search");
     }
   };
   return (
     <Fragment>
       <div className="container">
-        <div className="d-flex justify-content-between mb-4">
-          <div className="me-2">
-            {/* <LocalSearchComponent
+        <div className="d-md-flex justify-content-between mb-4">
+          <div className="mb-4 mb-md-0 search-wrapper">
+            <LocalSearchComponent
               setSearchValueFunction={setSearchValueFunction}
               initialPlaceHolder={"Search all e.g. "}
-            /> */}
+            />
           </div>
-          <div className="d-flex">
-            <h4 className="me-4 mb-0">All Pokemon TCG expansions</h4>
+          <div className="d-flex justify-content-center justify-content-md-end">
+            <h4 className="me-4 mb-0">Pokemon TCG Expansions</h4>
             <FontAwesomeIcon
               icon={faGear}
               size="2x"
@@ -382,47 +405,54 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
                   aria-labelledby={series.id + "-heading"}
                 >
                   <div className="accordion-body pb-2 pt-3">
-                    <div className="row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 row-cols-xxl-5">
+                    <div className="row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 row-cols-xxl-5 align-items-center">
                       {series.sets.map((set: any, setIndex: number) => {
                         return (
-                          <div
+                          <Link
                             className={"col mb-2 " + styles.set}
                             key={set.id}
                             id={set.id}
+                            //only the first 2 sets of each expansion are prefetched upon viewport entry
+                            prefetch={setIndex < 2}
+                            href={
+                              // this is done because pop2 is blocked by ad blocker
+                              "/set/" +
+                              (set.id === SpecialSetNames.pop2
+                                ? SpecialSetNames.poptwo
+                                : set.id)
+                            }
                           >
-                            <Link
-                              //only the first 2 sets of each expansion are prefetched upon viewport entry
-                              prefetch={setIndex < 2}
-                              href={
-                                // this is done because pop2 is blocked by ad blocker
-                                "/set/" +
-                                (set.id === SpecialSetNames.pop2
-                                  ? SpecialSetNames.poptwo
-                                  : set.id)
-                              }
-                            >
-                              <>
-                                <div className={styles["set-image"]}>
-                                  <ImageComponent
-                                    src={set?.images?.logo}
-                                    alt={set.name}
-                                    height={72}
-                                    width={192}
-                                    blurDataURL={logoBlurImage}
-                                    className="w-100 h-auto"
-                                    fallBackType="logo"
-                                    //  fallbackImage={'pokemonLogo'}
-                                    fallbackImage={
-                                      "/images/International_Pokémon_logo.svg"
-                                    }
-                                  />
-                                </div>
-                                <div className={styles["set-name"]}>
-                                  <span className="fw-bold">{set.name}</span>
-                                </div>
-                              </>
-                            </Link>
-                          </div>
+                            <>
+                              <div className={styles["set-image"]}>
+                                <ImageComponent
+                                  src={set?.images?.logo}
+                                  alt={set.name}
+                                  height={72}
+                                  width={192}
+                                  blurDataURL={logoBlurImage}
+                                  className="w-100 h-auto"
+                                  fallBackType="logo"
+                                  //  fallbackImage={'pokemonLogo'}
+                                  fallbackImage={
+                                    "/images/International_Pokémon_logo.svg"
+                                  }
+                                />
+                              </div>
+                              <div className={styles["set-name"]}>
+                                <span className="fw-bold me-2">{set.name}</span>
+                                <ImageComponent
+                                  src={set?.images?.symbol}
+                                  alt={set?.name + " Symbol"}
+                                  height={25}
+                                  width={25}
+                                  blurDataURL={logoBlurImage}
+                                  className="disable-save set-symbol-in-expansions"
+                                  fallBackType="symbol"
+                                  fallbackImage={"/images/free-energy.png"}
+                                />
+                              </div>
+                            </>
+                          </Link>
                         );
                       })}
                     </div>
@@ -450,7 +480,24 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
       </MemoizedModalComponent> */}
       <ToastComponent
         autoHide={false}
-        toastTitle="Optimization Status"
+        toastTitle={
+          <div>
+            <span className="me-2">Optimization Status</span>
+            <a
+              className="cursor-pointer"
+              onClick={() => {
+                clearCacheUnregisterSWARefresh();
+              }}
+              data-bs-title={
+                "If you are facing any problems you man use this feature. It should fix any issues on the app's end. Note that the optimizations will need to be re-run."
+              }
+              data-bs-toggle="tooltip"
+              id={clearCacheUnregisterSWARefreshTooltipId}
+            >
+              <FontAwesomeIcon icon={faRecycle} className="" />
+            </a>
+          </div>
+        }
         id={prefetchToastId}
       >
         <div>
@@ -479,15 +526,18 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
             <a
               className="cursor-pointer"
               onClick={() => {
+                if (downloadAllCardsLoading) {
+                  return;
+                }
                 downloadAllCardsJson();
               }}
+              data-bs-title={
+                "(For developers only) Download all cards data in a JSON file. This might take around 3 minutes."
+              }
+              data-bs-toggle="tooltip"
+              id={downloadLatestAllCardsJsonTooltipId}
             >
               <FontAwesomeIcon
-                data-bs-title={
-                  "(For developers only) Download all cards data in a JSON file. This might take around 3 minutes."
-                }
-                data-bs-toggle="tooltip"
-                id={downloadLatestAllCardsJsonTooltipId}
                 spin={downloadAllCardsLoading ? true : false}
                 icon={downloadAllCardsLoading ? faArrowsSpin : faDownload}
                 className=""
@@ -511,10 +561,12 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
               <a
                 className="cursor-pointer"
                 onClick={async () => {
-                  flushSync(() => {
-                    setShouldCancel(false);
-                  });
-                  await triggerPrefetch();
+                  if (navigator.onLine) {
+                    flushSync(() => {
+                      setShouldCancel(false);
+                    });
+                    await triggerPrefetch();
+                  }
                 }}
               >
                 Resume
@@ -528,7 +580,9 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
               <a
                 className="cursor-pointer"
                 onClick={() => {
-                  setShouldCancel(true);
+                  if (navigator.onLine) {
+                    setShouldCancel(true);
+                  }
                 }}
               >
                 Pause

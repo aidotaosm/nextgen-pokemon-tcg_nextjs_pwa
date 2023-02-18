@@ -185,6 +185,12 @@ html {
   height: 25px;
   width: 25px;
 }
+.set-symbol-in-expansions {
+  height: 1rem;
+  width: 1rem;
+  position: absolute;
+  top: 4px;
+}
 .dark-background-link {
   color: lightskyblue;
 }
@@ -313,11 +319,20 @@ a.white-hover:hover {
   width: 12rem;
 }
 .search {
-  /* max-width: 15rem; */
+  min-width: 15rem;
   width: 100% !important;
 }
 .tooltip {
   z-index: 1100;
+}
+.back-to-top-wrapper {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  z-index: 900;
+}
+.search-wrapper {
+  width: 17rem;
 }
 @media (max-width: 1399px) {
   .list-view .pokemon-card-image {
@@ -355,6 +370,9 @@ a.white-hover:hover {
   }
   .tall-content.vertical-align-modal {
     height: auto;
+  }
+  .search-wrapper {
+    width: 100% !important;
   }
 }
 

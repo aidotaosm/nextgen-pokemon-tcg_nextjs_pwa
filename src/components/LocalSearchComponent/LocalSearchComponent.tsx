@@ -101,6 +101,8 @@ export const LocalSearchComponent: FunctionComponent<
             let fieldValue = (
               document.getElementById("search") as HTMLInputElement
             ).value;
+            console.log(document.getElementById("search"));
+            console.log(fieldValue);
             setSearchValueFunction(fieldValue, "submit");
           }
         }}

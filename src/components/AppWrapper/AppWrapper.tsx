@@ -12,6 +12,7 @@ import {
   faCheck,
   faXmark,
   faSearch,
+  faAnglesUp,
 } from "@fortawesome/free-solid-svg-icons";
 
 import { IF } from "../UtilityComponents/IF";
@@ -40,6 +41,7 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
   let router = useRouter();
   const [pathToRedirect, setPathToRedirect] = useState<string>("");
   const [listOfPaths, setListOfPaths] = useState<string[]>([]);
+  const [scrollTop, setScrollTop] = useState(0);
   const [serviceWorkerStatus, setServiceWorkerStatus] =
     useState<string>("loading");
   const swLoaderToastId = "swLoaderToast";
@@ -124,6 +126,15 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
           });
       }
     });
+    const handleScroll = (event: any) => {
+      setScrollTop(window.scrollY);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, []);
 
   return (
@@ -241,6 +252,17 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
           </small>
         </div>
       </footer>
+
+      <a className={"back-to-top-wrapper" + (scrollTop > 0 ? "" : " d-none")}>
+        <FontAwesomeIcon
+          icon={faAnglesUp}
+          className=" fs-2 cursor-pointer"
+          onClick={() => {
+            window.scrollTo(0, 0);
+          }}
+        />
+      </a>
+
       <ToastComponent
         autoHide={true}
         delay={30000}

@@ -2,7 +2,6 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
 }
 .set:not(:last-child) {
   padding-bottom: 1rem;
@@ -10,10 +9,11 @@
 .set .set-image {
   width: 12rem;
   margin-bottom: 1rem;
-  text-align: center;
   /* height: 4rem; */
   /* position: relative; */
 }
 .set .set-name {
-  text-align: center;
+  display: flex;
+  align-items: center;
+  position: relative;
 }

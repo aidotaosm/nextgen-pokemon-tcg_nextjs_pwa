@@ -34,27 +34,10 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
   const [pageIndex, setPageIndex] = useState<number>(0);
   const [refPageNumber, setRefPageNumber] = useState<number>(0);
   const { appState, updateGridView } = useContext(AppContext);
-  const appContextValues = useContext(AppContext);
   const [searchValue, setSearchValue] = useState("");
   const [newChangedCardObject, setNewChangeCardObject] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  // const getSetCards = (paramPageIndex: number) => {
-  //   setIsLoading(true);
-  //   let pokemonSDKVariable = Helper.initializePokemonSDK();
-  //   pokemonSDKVariable.card
-  //     .where({
-  //       q: "set.id:" + router.query.setId,
-  //       pageSize: DEFAULT_PAGE_SIZE,
-  //       page: paramPageIndex + 1,
-  //     })
-  //     .then((response: any) => {
-  //       console.log(response);
-  //       setSetCards(response);
-  //       setPageIndex(paramPageIndex);
-  //       setIsLoading(false);
-  //     });
-  // };
   const getUpdatedView = (view: boolean) => {
     updateGridView?.(view);
   };
@@ -77,15 +60,19 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
           routerPageIndex = +router.query.page;
         }
       }
-      let searchTerm = "";
+      // let searchTerm = "";
+      // if (
+      //   router.query.searchTerm &&
+      //   typeof router.query.searchTerm === "string"
+      // ) {
+      //   searchTerm = router.query.searchTerm;
+      // }
       if (
-        router.query.searchTerm &&
-        typeof router.query.searchTerm === "string"
+        routerPageIndex !== pageIndex ||
+        appState.globalSearchTerm != searchValue
       ) {
-        searchTerm = router.query.searchTerm;
-      }
-      if (routerPageIndex !== pageIndex || searchTerm != searchValue) {
-        pageChanged(routerPageIndex, false, searchTerm);
+        pageChanged(routerPageIndex, false, appState.globalSearchTerm);
+        setSearchValue(appState.globalSearchTerm);
       }
     }
   }, [router.isReady]);
@@ -117,15 +104,15 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
     paramNewChangedCardObject?: any[],
     instantTrigger: boolean = false
   ) => {
-    // if (!isLoading) {
     if (isSearchPage) {
       setIsLoading(true);
-
       try {
         if (!appState.darkMode && navigator.onLine) {
           let cardsParentObject = await getCardsFromNextServer(
             newPageIndex,
-            paramSearchValue || searchValue
+            paramSearchValue === "" || paramSearchValue
+              ? paramSearchValue
+              : searchValue
           );
           setIsLoading(false);
           setSetCards(cardsParentObject.data);
@@ -139,10 +126,16 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
               if (allCardsModule.default) {
                 try {
                   let allCardsFromCache = allCardsModule.default as any[];
-                  console.log(allCardsFromCache);
                   let tempChangedCArdsObject = null;
-                  if (paramSearchValue || searchValue) {
-                    let tempSearchValue = paramSearchValue || searchValue;
+                  if (
+                    paramSearchValue ||
+                    paramSearchValue === "" ||
+                    searchValue
+                  ) {
+                    let tempSearchValue =
+                      paramSearchValue === "" || paramSearchValue
+                        ? paramSearchValue
+                        : searchValue;
                     tempChangedCArdsObject = allCardsFromCache.filter(
                       (item: any) => {
                         return item.name
@@ -230,9 +223,9 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
     if (!isLoading) {
       if ((isSearchPage && eventType === "submit") || !isSearchPage) {
         triggerSearch(value);
+        setSearchValue(value);
       }
     }
-    setSearchValue(value);
   };
   const syncPagingReferences = (pageNumber: number) => {
     setRefPageNumber(pageNumber);
@@ -294,7 +287,7 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
               isGridView={appState.gridView}
               getUpdatedView={getUpdatedView}
               additionalClasses={
-                numberOfElements > DEFAULT_PAGE_SIZE ? "col" : "col-12"
+                numberOfElements > DEFAULT_PAGE_SIZE ? "col-4" : "col-12"
               }
             ></ListOrGridViewToggle>
           </PagingComponent>
@@ -312,7 +305,7 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
         <IF condition={!appState.gridView}>
           <ListViewComponent setCards={setCards}></ListViewComponent>
         </IF>
-        <div className="mt-4 row">
+        <div className="mt-4 row row-cols-2 row-cols-md-3 ">
           <div className="col d-none d-md-block"></div>
           <PagingComponent
             pageChanged={pageChanged}
@@ -327,7 +320,7 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
               isGridView={appState.gridView}
               getUpdatedView={getUpdatedView}
               additionalClasses={
-                numberOfElements > DEFAULT_PAGE_SIZE ? "col" : "col-12"
+                numberOfElements > DEFAULT_PAGE_SIZE ? "col-4" : "col-12"
               }
             ></ListOrGridViewToggle>
           </PagingComponent>
