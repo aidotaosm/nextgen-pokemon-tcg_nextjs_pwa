@@ -332,7 +332,7 @@ a.white-hover:hover {
   z-index: 900;
 }
 .search-wrapper {
-  width: 17rem;
+  width: 20rem;
 }
 @media (max-width: 1399px) {
   .list-view .pokemon-card-image {

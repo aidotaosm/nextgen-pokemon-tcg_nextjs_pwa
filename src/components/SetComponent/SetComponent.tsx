@@ -33,7 +33,8 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
   const [setCards, setSetCards] = useState<any>(getCardsForServerSide() || []);
   const [pageIndex, setPageIndex] = useState<number>(0);
   const [refPageNumber, setRefPageNumber] = useState<number>(0);
-  const { appState, updateGridView } = useContext(AppContext);
+  const { appState, updateGridView, updateGlobalSearchTerm } =
+    useContext(AppContext);
   const [searchValue, setSearchValue] = useState("");
   const [newChangedCardObject, setNewChangeCardObject] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -76,7 +77,11 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
       }
     }
   }, [router.isReady]);
-
+  useEffect(() => {
+    return () => {
+      updateGlobalSearchTerm?.("");
+    };
+  }, []);
   const triggerSearch = (paramSearchValue: string) => {
     let tempChangedCArdsObject: any[] = [];
     if (isSearchPage) {
