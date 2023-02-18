@@ -334,15 +334,15 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
   return (
     <Fragment>
       <div className="container">
-        <div className="d-flex justify-content-between mb-4">
-          <div className="me-2">
+        <div className="d-md-flex justify-content-between mb-4">
+          <div className="mb-4 mb-md-0 search-wrapper">
             <LocalSearchComponent
               setSearchValueFunction={setSearchValueFunction}
               initialPlaceHolder={"Search all e.g. "}
             />
           </div>
-          <div className="d-flex">
-            <h4 className="me-4 mb-0">All Pokemon TCG expansions</h4>
+          <div className="d-flex justify-content-center justify-content-md-end">
+            <h4 className="me-4 mb-0">Pokemon TCG Expansions</h4>
             <FontAwesomeIcon
               icon={faGear}
               size="2x"

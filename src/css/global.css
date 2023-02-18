@@ -319,7 +319,7 @@ a.white-hover:hover {
   width: 12rem;
 }
 .search {
-  /* max-width: 15rem; */
+  min-width: 15rem;
   width: 100% !important;
 }
 .tooltip {
@@ -330,6 +330,9 @@ a.white-hover:hover {
   bottom: 1rem;
   right: 1rem;
   z-index: 900;
+}
+.search-wrapper {
+  width: 17rem;
 }
 @media (max-width: 1399px) {
   .list-view .pokemon-card-image {
@@ -367,6 +370,9 @@ a.white-hover:hover {
   }
   .tall-content.vertical-align-modal {
     height: auto;
+  }
+  .search-wrapper {
+    width: 100% !important;
   }
 }
 
