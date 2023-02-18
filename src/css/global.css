@@ -186,8 +186,8 @@ html {
   width: 25px;
 }
 .set-symbol-in-expansions {
-  height: 17px;
-  width: 17px;
+  height: 1rem;
+  width: 1rem;
   position: absolute;
   top: 4px;
 }
