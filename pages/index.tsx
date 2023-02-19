@@ -1,6 +1,9 @@
 import { ImageComponent } from "../src/components/ImageComponent/ImageComponent";
-import PokemonTCGCardsLaidOut from "../images/Pokemon-TCG-Cards-Laid-Out.webp";
-import codeRedemption from "../images/code-redemption-169.jpg";
+//import PokemonTCGCardsLaidOut from "../images/Pokemon-TCG-Cards-Laid-Out.webp";
+//import codeRedemption from "../images/code-redemption-169.jpg";
+//import buildPokemonTcgDecks from "../images/build-pokemon-tcg-decks-169-en.jpg";
+import swsh125 from "../images/swsh125-preview-cards-1-169-en.jpg";
+
 import Link from "next/link";
 import { defaultBlurImage } from "../base64Images/base64Images";
 import { GetStaticProps } from "next";
@@ -49,13 +52,14 @@ const Index = ({ setCards }: any) => {
         <div className="col">
           <Link href="/series" className="un-styled-anchor ">
             <div className="card h-100 cursor-pointer">
-              <div className="card-body">
+              <div className="card-body d-flex flex-column pb-0">
                 <h4 className="card-title text-decoration-none mb-0 text-center">
                   Browse Cards
                 </h4>
-                <div className="d-flex h-100 align-items-center">
+                <hr className="mb-0" />
+                <div className="d-flex align-items-center justify-content-center flex-grow-1">
                   <ImageComponent
-                    src={PokemonTCGCardsLaidOut}
+                    src={swsh125}
                     alt={"Browse cards"}
                     blurDataURL={defaultBlurImage}
                     className="w-100 h-auto card-img-top"

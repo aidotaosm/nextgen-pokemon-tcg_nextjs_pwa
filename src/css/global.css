@@ -338,6 +338,15 @@ a.white-hover:hover {
 .carousel-control-next {
   opacity: 1;
 }
+header {
+  position: sticky;
+  top: 0;
+  background-color: white;
+  z-index: 900;
+}
+.dark-mode header {
+  background-color: #181818;
+}
 @media (max-width: 1399px) {
   .list-view .pokemon-card-image {
     min-width: 25vw;
