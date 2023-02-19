@@ -79,4 +79,8 @@ export class Helper {
     link.dispatchEvent(evt);
     link.remove();
   };
+  static randDelay = (min: number, max: number) => {
+    let delayValue = Math.floor(Math.random() * (max - min + 1) + min);
+    return delayValue;
+  };
 }

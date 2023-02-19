@@ -49,7 +49,6 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
     lastSeriesIndex: 0,
     lastSetOfSeriesIndex: 0,
   });
-  const [searchValue, setSearchValue] = useState("");
   const [searchPageDownloaded, setSearchPageDownloaded] = useState<
     "no" | "loading" | "yes"
   >("no");
@@ -324,8 +323,6 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
     value: string,
     eventType: "onChange" | "submit"
   ) => {
-    //triggerSearch(value);
-    setSearchValue(value);
     if (eventType === "submit") {
       updateGlobalSearchTerm?.(value || "");
       router.push("/search");

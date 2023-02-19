@@ -110,7 +110,7 @@ export const LocalSearchComponent: FunctionComponent<
         type="text"
         id="search"
         className="form-control search"
-        placeholder="Search your Pokemon"
+        placeholder="Search for any card..."
         onChange={(e) => {
           if (!triggerSearchOnEnterOnly) {
             setSearchValueFunction(e.target.value, "onChange");

@@ -35,6 +35,7 @@ export interface PokemonDetailProps {
 export interface CarouselProps {
   children?: JSX.Element;
   classes?: string;
+  isLandingPage?: boolean;
 }
 export interface ExternalLinkProps {
   card?: any;

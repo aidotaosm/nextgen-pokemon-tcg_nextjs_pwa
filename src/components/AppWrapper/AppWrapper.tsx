@@ -38,6 +38,7 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
     updateOfflineMode,
     updateDarkMode,
   } = useContext(AppContext);
+
   let router = useRouter();
   const [pathToRedirect, setPathToRedirect] = useState<string>("");
   const [listOfPaths, setListOfPaths] = useState<string[]>([]);
@@ -166,13 +167,17 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
                 }}
               />
             </IF>
-            <Link href="/search">
-              <FontAwesomeIcon
-                className="cursor-pointer user-select-none fs-2"
-                icon={faSearch}
-                // size="2x"
-              />
-            </Link>
+            <IF
+              condition={router.pathname != "/" && router.pathname != "/series"}
+            >
+              <Link href="/search">
+                <FontAwesomeIcon
+                  className="cursor-pointer user-select-none fs-2"
+                  icon={faSearch}
+                  // size="2x"
+                />
+              </Link>
+            </IF>
           </div>
           <div className="col d-flex justify-content-center">
             <Link href="/" className="d-block main-logo">
