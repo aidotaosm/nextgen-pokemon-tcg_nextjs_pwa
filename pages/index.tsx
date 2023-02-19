@@ -98,14 +98,19 @@ const Index = ({ setCards }: any) => {
                           e.stopPropagation();
                         }}
                       >
-                        <ImageComponent
-                          src={card?.images?.small}
-                          highQualitySrc={card?.images?.large}
-                          alt={card.name}
-                          width={734}
-                          height={1024}
-                          className="position-relative h-auto w-100"
-                        />
+                        <Link
+                          href={"/card/" + card.id}
+                          className="un-styled-anchor "
+                        >
+                          <ImageComponent
+                            src={card?.images?.small}
+                            highQualitySrc={card?.images?.large}
+                            alt={card.name}
+                            width={734}
+                            height={1024}
+                            className="position-relative h-auto w-100"
+                          />
+                        </Link>
                       </div>
                     </div>
                   </Fragment>

@@ -251,7 +251,7 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
           <small>
             Pokemon TCG by{" "}
             <Link href="https://github.com/aidotaosm" target="_blank">
-              Osama (GitHub)
+              Osama
             </Link>{" "}
             ©2023
           </small>
