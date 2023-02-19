@@ -84,17 +84,6 @@ export const LocalSearchComponent: FunctionComponent<
   }, []);
   return (
     <div className="input-group flex-nowrap">
-      <span
-        className="input-group-text cursor-pointer"
-        onClick={() => {
-          let fieldValue = (
-            document.getElementById("search") as HTMLInputElement
-          ).value;
-          setSearchValueFunction(fieldValue, "submit");
-        }}
-      >
-        <FontAwesomeIcon className="fs-5" icon={faSearch} />
-      </span>
       <input
         onKeyUp={(e) => {
           if (e.key === "Enter") {
@@ -116,7 +105,18 @@ export const LocalSearchComponent: FunctionComponent<
             setSearchValueFunction(e.target.value, "onChange");
           }
         }}
-      />
+      />{" "}
+      <span
+        className="input-group-text cursor-pointer"
+        onClick={() => {
+          let fieldValue = (
+            document.getElementById("search") as HTMLInputElement
+          ).value;
+          setSearchValueFunction(fieldValue, "submit");
+        }}
+      >
+        <FontAwesomeIcon className="fs-5" icon={faSearch} />
+      </span>
     </div>
   );
 };
