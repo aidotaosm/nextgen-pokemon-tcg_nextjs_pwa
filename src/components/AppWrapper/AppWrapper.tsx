@@ -45,6 +45,38 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
   const [serviceWorkerStatus, setServiceWorkerStatus] =
     useState<string>("loading");
   const swLoaderToastId = "swLoaderToast";
+  const backButtonTooltipId = "backButtonTooltipId";
+  const darkModeButtonTooltipId = "darkModeButtonTooltipId";
+  const offlineButtonTooltipId = "offlineButtonTooltipId";
+  const globalSearchButtonTooltipId = "globalSearchButtonTooltipId";
+
+  useEffect(() => {
+    let bootStrapMasterClass = appState?.bootstrap;
+    const backButtonTrigger = document.getElementById(
+      backButtonTooltipId
+    ) as any;
+    if (bootStrapMasterClass && backButtonTrigger) {
+      new bootStrapMasterClass.Tooltip(backButtonTrigger);
+    }
+    const offlineButtonTrigger = document.getElementById(
+      offlineButtonTooltipId
+    ) as any;
+    if (bootStrapMasterClass && offlineButtonTrigger) {
+      new bootStrapMasterClass.Tooltip(offlineButtonTrigger);
+    }
+    const darkModeButtonTrigger = document.getElementById(
+      darkModeButtonTooltipId
+    ) as any;
+    if (bootStrapMasterClass && darkModeButtonTrigger) {
+      new bootStrapMasterClass.Tooltip(darkModeButtonTrigger);
+    }
+    const globalSearchButtonTrigger = document.getElementById(
+      globalSearchButtonTooltipId
+    ) as any;
+    if (bootStrapMasterClass && globalSearchButtonTrigger) {
+      new bootStrapMasterClass.Tooltip(globalSearchButtonTrigger);
+    }
+  }, [appState?.bootstrap]);
 
   useEffect(() => {
     if (router.isReady) {
@@ -108,16 +140,15 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
         if (!navigator.serviceWorker.controller) {
           showToast(bootstrap);
         } else {
-          console.log("sw already found");
+          //console.log("sw already found");
         }
         navigator.serviceWorker.oncontrollerchange = () => {
-          "new sw ver added";
           showToast(bootstrap);
         };
 
         navigator.serviceWorker.ready
           .then((x) => {
-            console.log(x);
+            // console.log(x);
             //x.pushManager.
             setServiceWorkerStatus("done");
           })
@@ -150,29 +181,45 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
         <div className={"d-flex align-items-center row"}>
           <div className="col d-flex align-items-center">
             <IF condition={pathToRedirect || router.pathname != "/"}>
-              <FontAwesomeIcon
-                className="cursor-pointer user-select-none me-3"
-                icon={faArrowLeftLong}
-                size="2x"
-                onClick={(e) => {
-                  e.preventDefault();
-                  router.push(
-                    navigator.onLine
-                      ? pathToRedirect || "/"
-                      : pathToRedirect
-                      ? pathToRedirect.split("?")[0]
-                      : "/"
-                  );
-                }}
-              />
+              <span
+                data-bs-title={"Go back to last page."}
+                data-bs-toggle="tooltip"
+                id={backButtonTooltipId}
+              >
+                <FontAwesomeIcon
+                  className="cursor-pointer user-select-none me-3"
+                  icon={faArrowLeftLong}
+                  size="2x"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    router.push(
+                      navigator.onLine
+                        ? pathToRedirect || "/"
+                        : pathToRedirect
+                        ? pathToRedirect.split("?")[0]
+                        : "/"
+                    );
+                  }}
+                />
+              </span>
             </IF>
-            <Link href="/search">
-              <FontAwesomeIcon
-                className="cursor-pointer user-select-none fs-2"
-                icon={faSearch}
-                // size="2x"
-              />
-            </Link>
+            <IF
+              condition={router.pathname != "/" && router.pathname != "/series"}
+            >
+              <Link href="/search">
+                <span
+                  data-bs-title={"Go to Global Search page."}
+                  data-bs-toggle="tooltip"
+                  id={globalSearchButtonTooltipId}
+                >
+                  <FontAwesomeIcon
+                    className="cursor-pointer user-select-none fs-2"
+                    icon={faSearch}
+                    // size="2x"
+                  />
+                </span>
+              </Link>
+            </IF>
           </div>
           <div className="col d-flex justify-content-center">
             <Link href="/" className="d-block main-logo">
@@ -189,10 +236,14 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
           <div className="col d-flex col align-items-center justify-content-end">
             <div
               className="cursor-pointer user-select-none me-sm-3 me-2"
-              title="Offline mode toggle"
               onClick={() => {
                 updateOfflineMode?.(!appState.offLineMode);
               }}
+              data-bs-title={
+                "Trigger offline mode. This allows you to hide/show redundant default card images when you are using the app offline."
+              }
+              data-bs-toggle="tooltip"
+              id={offlineButtonTooltipId}
             >
               <IF
                 condition={
@@ -222,11 +273,13 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
               </IF>
             </div>
             <div
-              title="Dark mode toggle"
               className="cursor-pointer user-select-none"
               onClick={() => {
                 updateDarkMode?.(!appState.darkMode);
               }}
+              data-bs-title={"Trigger dark mode on/off."}
+              data-bs-toggle="tooltip"
+              id={darkModeButtonTooltipId}
             >
               <IF condition={appState.darkMode}>
                 <FontAwesomeIcon icon={faToggleOn} size="2x" />
@@ -246,7 +299,7 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
           <small>
             Pokemon TCG by{" "}
             <Link href="https://github.com/aidotaosm" target="_blank">
-              Osama (GitHub)
+              Osama
             </Link>{" "}
             ©2023
           </small>
@@ -268,7 +321,7 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
         delay={30000}
         toastTitle={
           <div className="d-flex">
-            <span className="me-2">Optimized User Experience</span>
+            <span className="me-2">Optimize User Experience</span>
             <div className="text-center">
               {serviceWorkerStatus === "loading" ? (
                 <FontAwesomeIcon

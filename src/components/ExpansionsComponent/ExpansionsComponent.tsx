@@ -49,7 +49,6 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
     lastSeriesIndex: 0,
     lastSetOfSeriesIndex: 0,
   });
-  const [searchValue, setSearchValue] = useState("");
   const [searchPageDownloaded, setSearchPageDownloaded] = useState<
     "no" | "loading" | "yes"
   >("no");
@@ -58,6 +57,8 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
     "downloadLatestAllCardsJsonTooltipId";
   const clearCacheUnregisterSWARefreshTooltipId =
     "clearCacheUnregisterSWARefreshTooltipId";
+  const settingsTooltipId = "settingsTooltipId";
+
   useEffect(() => {
     if (router.isReady) {
       triggerSearchPagePrefetch();
@@ -104,6 +105,10 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
     ) as any;
     if (bootStrapMasterClass && cacheTooltipTrigger) {
       new bootStrapMasterClass.Tooltip(cacheTooltipTrigger);
+    }
+    const settingsTrigger = document.getElementById(settingsTooltipId) as any;
+    if (bootStrapMasterClass && settingsTrigger) {
+      new bootStrapMasterClass.Tooltip(settingsTrigger);
     }
   }, [appState?.bootstrap]);
   useEffect(() => {
@@ -324,8 +329,6 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
     value: string,
     eventType: "onChange" | "submit"
   ) => {
-    //triggerSearch(value);
-    setSearchValue(value);
     if (eventType === "submit") {
       updateGlobalSearchTerm?.(value || "");
       router.push("/search");
@@ -343,26 +346,34 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
           </div>
           <div className="d-flex justify-content-center justify-content-md-end">
             <h4 className="me-4 mb-0">Pokemon TCG Expansions</h4>
-            <FontAwesomeIcon
-              icon={faGear}
-              size="2x"
-              onClick={handleToastClick}
-              // data-bs-toggle="modal"
-              // data-bs-target={"#" + prefetchInitModalId}
-              className="cursor-pointer"
-              spin={
-                totalNumberOfSetsDone === totalNumberOfSets ||
-                searchPageDownloaded === "yes"
+            <span
+              data-bs-title={
+                "Settings - Preload data for offline use. Fix unexpected issues and more."
               }
-              spinPulse={
-                (totalNumberOfSetsDone === totalNumberOfSets ||
-                  searchPageDownloaded === "yes") &&
-                !(
-                  totalNumberOfSetsDone === totalNumberOfSets &&
+              data-bs-toggle="tooltip"
+              id={settingsTooltipId}
+            >
+              <FontAwesomeIcon
+                icon={faGear}
+                size="2x"
+                onClick={handleToastClick}
+                // data-bs-toggle="modal"
+                // data-bs-target={"#" + prefetchInitModalId}
+                className="cursor-pointer"
+                spin={
+                  totalNumberOfSetsDone === totalNumberOfSets ||
                   searchPageDownloaded === "yes"
-                )
-              }
-            />
+                }
+                spinPulse={
+                  (totalNumberOfSetsDone === totalNumberOfSets ||
+                    searchPageDownloaded === "yes") &&
+                  !(
+                    totalNumberOfSetsDone === totalNumberOfSets &&
+                    searchPageDownloaded === "yes"
+                  )
+                }
+              />
+            </span>
           </div>
         </div>
         <div className="accordion">
