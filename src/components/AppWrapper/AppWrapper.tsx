@@ -51,6 +51,7 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
   const globalSearchButtonTooltipId = "globalSearchButtonTooltipId";
 
   useEffect(() => {
+    //if (router.isReady) {
     let bootStrapMasterClass = appState?.bootstrap;
     const backButtonTrigger = document.getElementById(
       backButtonTooltipId
@@ -76,7 +77,8 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
     if (bootStrapMasterClass && globalSearchButtonTrigger) {
       new bootStrapMasterClass.Tooltip(globalSearchButtonTrigger);
     }
-  }, [appState?.bootstrap]);
+    // }
+  }, [appState?.bootstrap, router.pathname]);
 
   useEffect(() => {
     if (router.isReady) {
