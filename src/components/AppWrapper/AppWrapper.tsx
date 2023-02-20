@@ -23,6 +23,7 @@ import { Helper } from "../../utils/helper";
 import Link from "next/link";
 import { logoBlurImage } from "../../../base64Images/base64Images";
 import { ToastComponent } from "../UtilityComponents/ToastComponent";
+import { Tooltip } from "bootstrap";
 //declare let self: ServiceWorkerGlobalScope;
 
 interface LocalAppInterface {
@@ -56,27 +57,47 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
     const backButtonTrigger = document.getElementById(
       backButtonTooltipId
     ) as any;
+    let backTooltipInstance: Tooltip,
+      offLineTooltipInstance: Tooltip,
+      darkModeTooltipInstance: Tooltip,
+      globalSearchTooltipInstance: Tooltip;
     if (bootStrapMasterClass && backButtonTrigger) {
-      new bootStrapMasterClass.Tooltip(backButtonTrigger);
+      backTooltipInstance = new bootStrapMasterClass.Tooltip(backButtonTrigger);
     }
     const offlineButtonTrigger = document.getElementById(
       offlineButtonTooltipId
     ) as any;
     if (bootStrapMasterClass && offlineButtonTrigger) {
-      new bootStrapMasterClass.Tooltip(offlineButtonTrigger);
+      offLineTooltipInstance = new bootStrapMasterClass.Tooltip(
+        offlineButtonTrigger
+      );
     }
     const darkModeButtonTrigger = document.getElementById(
       darkModeButtonTooltipId
     ) as any;
     if (bootStrapMasterClass && darkModeButtonTrigger) {
-      new bootStrapMasterClass.Tooltip(darkModeButtonTrigger);
+      darkModeTooltipInstance = new bootStrapMasterClass.Tooltip(
+        darkModeButtonTrigger
+      );
     }
     const globalSearchButtonTrigger = document.getElementById(
       globalSearchButtonTooltipId
     ) as any;
     if (bootStrapMasterClass && globalSearchButtonTrigger) {
-      new bootStrapMasterClass.Tooltip(globalSearchButtonTrigger);
+      globalSearchTooltipInstance = new bootStrapMasterClass.Tooltip(
+        globalSearchButtonTrigger
+      );
     }
+    return () => {
+      console.log(backTooltipInstance);
+      console.log(offLineTooltipInstance);
+      console.log(darkModeTooltipInstance);
+      console.log(globalSearchTooltipInstance);
+      backTooltipInstance?.dispose();
+      offLineTooltipInstance?.dispose();
+      darkModeTooltipInstance?.dispose();
+      globalSearchTooltipInstance?.dispose();
+    };
     // }
   }, [appState?.bootstrap, router.pathname]);
 
