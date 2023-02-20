@@ -230,6 +230,7 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
                 <span
                   data-bs-title={"Go to Global Search page."}
                   data-bs-toggle="tooltip"
+                  data-bs-trigger="hover"
                   id={globalSearchButtonTooltipId}
                 >
                   <FontAwesomeIcon
@@ -263,6 +264,7 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
                 "Trigger offline mode. This allows you to hide/show redundant default card images when you are using the app offline."
               }
               data-bs-toggle="tooltip"
+              data-bs-trigger="hover"
               id={offlineButtonTooltipId}
             >
               <IF
@@ -299,6 +301,7 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
               }}
               data-bs-title={"Trigger dark mode on/off."}
               data-bs-toggle="tooltip"
+              data-bs-trigger="hover"
               id={darkModeButtonTooltipId}
             >
               <IF condition={appState.darkMode}>

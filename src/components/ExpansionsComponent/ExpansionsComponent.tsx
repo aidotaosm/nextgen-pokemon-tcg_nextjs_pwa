@@ -351,6 +351,7 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
                 "Settings - Preload data for offline use. Fix unexpected issues and more."
               }
               data-bs-toggle="tooltip"
+              data-bs-trigger="hover"
               id={settingsTooltipId}
             >
               <FontAwesomeIcon
@@ -503,6 +504,7 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
                 "If you are facing any problems you man use this feature. It should fix any issues on the app's end. Note that the optimizations will need to be re-run."
               }
               data-bs-toggle="tooltip"
+              data-bs-trigger="hover"
               id={clearCacheUnregisterSWARefreshTooltipId}
             >
               <FontAwesomeIcon icon={faRecycle} className="" />
@@ -546,6 +548,7 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
                 "(For developers only) Download all cards data in a JSON file. This might take around 3 minutes."
               }
               data-bs-toggle="tooltip"
+              data-bs-trigger="hover"
               id={downloadLatestAllCardsJsonTooltipId}
             >
               <FontAwesomeIcon
