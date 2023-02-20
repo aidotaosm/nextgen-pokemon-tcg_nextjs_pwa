@@ -341,7 +341,7 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
           <div className="mb-4 mb-md-0 search-wrapper">
             <LocalSearchComponent
               setSearchValueFunction={setSearchValueFunction}
-              initialPlaceHolder={"Search all e.g. "}
+              initialPlaceHolder={"Global search e.g. "}
             />
           </div>
           <div className="d-flex justify-content-center justify-content-md-end">

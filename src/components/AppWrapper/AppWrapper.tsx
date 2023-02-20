@@ -89,10 +89,6 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
       );
     }
     return () => {
-      console.log(backTooltipInstance);
-      console.log(offLineTooltipInstance);
-      console.log(darkModeTooltipInstance);
-      console.log(globalSearchTooltipInstance);
       backTooltipInstance?.dispose();
       offLineTooltipInstance?.dispose();
       darkModeTooltipInstance?.dispose();
@@ -207,6 +203,7 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
               <span
                 data-bs-title={"Go back to last page."}
                 data-bs-toggle="tooltip"
+                data-bs-trigger="hover"
                 id={backButtonTooltipId}
               >
                 <FontAwesomeIcon
