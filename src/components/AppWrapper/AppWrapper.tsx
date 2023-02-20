@@ -224,7 +224,11 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
               </span>
             </IF>
             <IF
-              condition={router.pathname != "/" && router.pathname != "/series"}
+              condition={
+                router.pathname != "/" &&
+                router.pathname != "/series" &&
+                router.pathname != "/search"
+              }
             >
               <Link href="/search">
                 <span
