@@ -45,7 +45,7 @@ const Index = ({ setCards }: any) => {
       <div className="mb-4 search-wrapper">
         <LocalSearchComponent
           setSearchValueFunction={setSearchValueFunction}
-          initialPlaceHolder={"Search all e.g. "}
+          initialPlaceHolder={"Global search e.g. "}
         />
       </div>
       <div className="row row-cols-1 row-cols-md-2">

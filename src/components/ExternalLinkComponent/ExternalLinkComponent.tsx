@@ -25,6 +25,7 @@ export const ExternalLinkComponent: FunctionComponent<ExternalLinkProps> = ({
       className={classes}
       target="_blank"
       data-bs-toggle="tooltip"
+      data-bs-trigger="hover"
       id={toolTipId}
       data-bs-title={"Open external link to " + card.name}
     >

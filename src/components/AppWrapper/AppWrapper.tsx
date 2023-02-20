@@ -23,6 +23,7 @@ import { Helper } from "../../utils/helper";
 import Link from "next/link";
 import { logoBlurImage } from "../../../base64Images/base64Images";
 import { ToastComponent } from "../UtilityComponents/ToastComponent";
+import { Tooltip } from "bootstrap";
 //declare let self: ServiceWorkerGlobalScope;
 
 interface LocalAppInterface {
@@ -51,32 +52,50 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
   const globalSearchButtonTooltipId = "globalSearchButtonTooltipId";
 
   useEffect(() => {
+    //if (router.isReady) {
     let bootStrapMasterClass = appState?.bootstrap;
     const backButtonTrigger = document.getElementById(
       backButtonTooltipId
     ) as any;
+    let backTooltipInstance: Tooltip,
+      offLineTooltipInstance: Tooltip,
+      darkModeTooltipInstance: Tooltip,
+      globalSearchTooltipInstance: Tooltip;
     if (bootStrapMasterClass && backButtonTrigger) {
-      new bootStrapMasterClass.Tooltip(backButtonTrigger);
+      backTooltipInstance = new bootStrapMasterClass.Tooltip(backButtonTrigger);
     }
     const offlineButtonTrigger = document.getElementById(
       offlineButtonTooltipId
     ) as any;
     if (bootStrapMasterClass && offlineButtonTrigger) {
-      new bootStrapMasterClass.Tooltip(offlineButtonTrigger);
+      offLineTooltipInstance = new bootStrapMasterClass.Tooltip(
+        offlineButtonTrigger
+      );
     }
     const darkModeButtonTrigger = document.getElementById(
       darkModeButtonTooltipId
     ) as any;
     if (bootStrapMasterClass && darkModeButtonTrigger) {
-      new bootStrapMasterClass.Tooltip(darkModeButtonTrigger);
+      darkModeTooltipInstance = new bootStrapMasterClass.Tooltip(
+        darkModeButtonTrigger
+      );
     }
     const globalSearchButtonTrigger = document.getElementById(
       globalSearchButtonTooltipId
     ) as any;
     if (bootStrapMasterClass && globalSearchButtonTrigger) {
-      new bootStrapMasterClass.Tooltip(globalSearchButtonTrigger);
+      globalSearchTooltipInstance = new bootStrapMasterClass.Tooltip(
+        globalSearchButtonTrigger
+      );
     }
-  }, [appState?.bootstrap]);
+    return () => {
+      backTooltipInstance?.dispose();
+      offLineTooltipInstance?.dispose();
+      darkModeTooltipInstance?.dispose();
+      globalSearchTooltipInstance?.dispose();
+    };
+    // }
+  }, [appState?.bootstrap, router.pathname]);
 
   useEffect(() => {
     if (router.isReady) {
@@ -184,6 +203,7 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
               <span
                 data-bs-title={"Go back to last page."}
                 data-bs-toggle="tooltip"
+                data-bs-trigger="hover"
                 id={backButtonTooltipId}
               >
                 <FontAwesomeIcon
@@ -210,6 +230,7 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
                 <span
                   data-bs-title={"Go to Global Search page."}
                   data-bs-toggle="tooltip"
+                  data-bs-trigger="hover"
                   id={globalSearchButtonTooltipId}
                 >
                   <FontAwesomeIcon
@@ -243,6 +264,7 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
                 "Trigger offline mode. This allows you to hide/show redundant default card images when you are using the app offline."
               }
               data-bs-toggle="tooltip"
+              data-bs-trigger="hover"
               id={offlineButtonTooltipId}
             >
               <IF
@@ -279,6 +301,7 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
               }}
               data-bs-title={"Trigger dark mode on/off."}
               data-bs-toggle="tooltip"
+              data-bs-trigger="hover"
               id={darkModeButtonTooltipId}
             >
               <IF condition={appState.darkMode}>
