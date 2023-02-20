@@ -170,6 +170,7 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
             // console.log(x);
             //x.pushManager.
             setServiceWorkerStatus("done");
+            window.location.reload();
           })
           .catch((e) => {
             setServiceWorkerStatus("error");
