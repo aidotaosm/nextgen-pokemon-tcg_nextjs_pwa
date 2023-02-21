@@ -1,5 +1,6 @@
 import { faExternalLink } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Tooltip } from "bootstrap";
 import Link from "next/link";
 import { FunctionComponent, useContext, useEffect } from "react";
 import { AppContext } from "../../contexts/AppContext";
@@ -13,11 +14,15 @@ export const ExternalLinkComponent: FunctionComponent<ExternalLinkProps> = ({
   //" fs-5"
   const appContextValues = useContext(AppContext);
   useEffect(() => {
+    let tooltipTriggerInstance: Tooltip;
     let bootStrapMasterClass = appContextValues?.appState?.bootstrap;
     const tooltipTrigger = document.getElementById(toolTipId) as any;
     if (bootStrapMasterClass && tooltipTrigger) {
-      new bootStrapMasterClass.Tooltip(tooltipTrigger);
+      tooltipTriggerInstance = new bootStrapMasterClass.Tooltip(tooltipTrigger);
     }
+    return () => {
+      tooltipTriggerInstance?.dispose();
+    };
   }, [appContextValues?.appState?.bootstrap]);
   return (
     <Link
