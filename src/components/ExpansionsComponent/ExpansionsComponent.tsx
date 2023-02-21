@@ -31,6 +31,7 @@ import { flushSync } from "react-dom";
 import { LocalSearchComponent } from "../LocalSearchComponent/LocalSearchComponent";
 import { getAllCards } from "../../utils/networkCalls";
 import { Helper } from "../../utils/helper";
+import { Tooltip } from "bootstrap";
 
 export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
   arrayOfSeries,
@@ -93,24 +94,36 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
     }
   }, [router.isReady]);
   useEffect(() => {
+    let tooltipTriggerInstance: Tooltip,
+      cacheTooltipInstance: Tooltip,
+      settingsTooltipInstance: Tooltip;
     let bootStrapMasterClass = appState?.bootstrap;
     const tooltipTrigger = document.getElementById(
       downloadLatestAllCardsJsonTooltipId
     ) as any;
     if (bootStrapMasterClass && tooltipTrigger) {
-      new bootStrapMasterClass.Tooltip(tooltipTrigger);
+      tooltipTriggerInstance = new bootStrapMasterClass.Tooltip(tooltipTrigger);
     }
     const cacheTooltipTrigger = document.getElementById(
       clearCacheUnregisterSWARefreshTooltipId
     ) as any;
     if (bootStrapMasterClass && cacheTooltipTrigger) {
-      new bootStrapMasterClass.Tooltip(cacheTooltipTrigger);
+      cacheTooltipInstance = new bootStrapMasterClass.Tooltip(
+        cacheTooltipTrigger
+      );
     }
     const settingsTrigger = document.getElementById(settingsTooltipId) as any;
     if (bootStrapMasterClass && settingsTrigger) {
-      new bootStrapMasterClass.Tooltip(settingsTrigger);
+      settingsTooltipInstance = new bootStrapMasterClass.Tooltip(
+        settingsTrigger
+      );
     }
-  }, [appState?.bootstrap]);
+    return () => {
+      tooltipTriggerInstance?.dispose();
+      cacheTooltipInstance?.dispose();
+      settingsTooltipInstance?.dispose();
+    };
+  }, [appState?.bootstrap, router.pathname]);
   useEffect(() => {
     const onToastShowHandler = async () => {
       triggerSearchPagePrefetch();

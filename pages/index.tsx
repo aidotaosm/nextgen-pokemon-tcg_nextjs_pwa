@@ -52,12 +52,12 @@ const Index = ({ setCards }: any) => {
         <div className="col">
           <Link href="/series" className="un-styled-anchor ">
             <div className="card h-100 cursor-pointer">
-              <div className="card-body d-flex flex-column pb-0">
+              <div className="card-body d-flex flex-column">
                 <h4 className="card-title text-decoration-none mb-0 text-center">
                   Browse Cards
                 </h4>
                 <hr className="mb-0" />
-                <div className="d-flex align-items-center justify-content-center flex-grow-1">
+                <div className="flex-grow-1 flex-column justify-content-center d-flex">
                   <ImageComponent
                     src={swsh125}
                     alt={"Browse cards"}
@@ -112,7 +112,7 @@ const Index = ({ setCards }: any) => {
                             alt={card.name}
                             width={734}
                             height={1024}
-                            className="position-relative h-auto w-100"
+                            className="h-auto w-100"
                           />
                         </Link>
                       </div>
