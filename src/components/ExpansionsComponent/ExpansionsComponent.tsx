@@ -32,6 +32,7 @@ import { LocalSearchComponent } from "../LocalSearchComponent/LocalSearchCompone
 import { getAllCards } from "../../utils/networkCalls";
 import { Helper } from "../../utils/helper";
 import { Tooltip } from "bootstrap";
+import { DEFAULT_PAGE_SIZE } from "../../constants/constants";
 
 export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
   arrayOfSeries,
@@ -318,8 +319,9 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
     setDownloadAllCardsLoading(true);
     getAllCards()
       .then((cardsParentObject) => {
+        let firstPageOfCards = cardsParentObject.slice(0, DEFAULT_PAGE_SIZE);
+        Helper.saveTemplateAsFile("FirstPageOfCards.json", firstPageOfCards);
         Helper.saveTemplateAsFile("AllCards.json", cardsParentObject);
-        cardsParentObject;
       })
       .finally(() => {
         setDownloadAllCardsLoading(false);
