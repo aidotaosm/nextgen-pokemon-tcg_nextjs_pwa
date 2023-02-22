@@ -14,7 +14,7 @@ export const ImageComponent: FunctionComponent<any> = ({
   highQualitySrc,
   fallBackType,
   fallbackImage,
-  lqImageUnOptimize = false,
+  lqImageUnOptimize = true,
 }) => {
   const [imageSource, setImageSource] = useState(src);
   const [highQualityImageSource, setHighQualityImageSource] =

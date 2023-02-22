@@ -35,8 +35,8 @@ export const getStaticPaths: GetStaticPaths = async (qry) => {
     });
   });
   if (process.env.APP_ENV == "local") {
-    // returnPaths.splice(1, returnPaths.length - 1);
-    returnPaths = [];
+    returnPaths.splice(1, returnPaths.length - 1);
+    //returnPaths = [];
   }
   //process.env.NODE_ENV
   // console.log(process.env);
@@ -57,8 +57,6 @@ export const getStaticProps: GetStaticProps = async (context) => {
   let correctedSetId =
     setId == SpecialSetNames.poptwo ? SpecialSetNames.pop2 : setId;
   const cardsObject = await getAllSetCards(correctedSetId);
-  console.log(setId);
-  console.log(cardsObject?.data?.length);
   if (!cardsObject?.data?.length) {
     return { notFound: true, revalidate: 60 };
   } else {
