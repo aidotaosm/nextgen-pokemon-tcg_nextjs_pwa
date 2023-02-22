@@ -18,7 +18,7 @@ import {
 import { IF } from "../UtilityComponents/IF";
 import { AppContext } from "../../contexts/AppContext";
 import { ImageComponent } from "../ImageComponent/ImageComponent";
-import pokemonLogo from "../../../public/images/International_Pokémon_logo.svg";
+import pokemonLogo from "../../../public/images/International_Pokémon_logo.png";
 import { Helper } from "../../utils/helper";
 import Link from "next/link";
 import { logoBlurImage } from "../../../base64Images/base64Images";
@@ -250,9 +250,7 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
             <Link href="/" className="d-block main-logo">
               <ImageComponent
                 src={pokemonLogo}
-                //  src={"/images/International_Pokémon_logo.svg"}
-                alt={"Pokemon"}
-                blurDataURL={logoBlurImage}
+                alt={"Pokemon logo"}
                 className="w-100 h-auto"
                 lqImageUnOptimize={true}
               />

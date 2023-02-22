@@ -6,6 +6,7 @@ import {
   useRef,
   useState,
 } from "react";
+import { defaultBlurImage } from "../../../base64Images/base64Images";
 import { SetCardsProps } from "../../models/GenericModels";
 import { ImageComponent } from "../ImageComponent/ImageComponent";
 import { PokemonCardAndDetailsComponent } from "../PokemonCardAndDetailsComponent/PokemonCardAndDetailsComponent";
@@ -61,6 +62,7 @@ export const ListViewComponent: FunctionComponent<SetCardsProps> = ({
                   alt={card.name}
                   width={734}
                   height={1024}
+                  blurDataURL={defaultBlurImage}
                   className="position-relative h-auto w-100"
                 />
               </div>
