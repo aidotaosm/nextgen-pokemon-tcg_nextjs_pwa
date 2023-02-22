@@ -9,24 +9,23 @@ import { Fragment, FunctionComponent } from "react";
 import { SetComponent } from "../src/components/SetComponent/SetComponent";
 import { CardsObjectProps } from "../src/models/GenericModels";
 import { Helper } from "../src/utils/helper";
-import { DEFAULT_PAGE_SIZE } from "../src/constants/constants";
-
+import importedFirstPageOfCards from "../src/InternalJsons/FirstPageOfCards.json";
 interface IParams extends ParsedUrlQuery {}
 
 export const getStaticProps: GetStaticProps = async (context) => {
-  const dynamicallyImportedJson: any = (
-    await import("../public/Jsons/AllCards.json")
-  ).default;
+  // const dynamicallyImportedJson: any = (
+  //   await import("../public/Jsons/AllCards.json")
+  // ).default;
 
-  let parsedAllCards = dynamicallyImportedJson;
-  let firstPageOfCards = parsedAllCards.slice(0, DEFAULT_PAGE_SIZE);
+  // let parsedAllCards = dynamicallyImportedJson;
+  // let firstPageOfCards = parsedAllCards.slice(0, DEFAULT_PAGE_SIZE);
   //console.log(firstPageOfCards);
   const cardsObject = {
-    data: firstPageOfCards,
-    totalCount: parsedAllCards.length,
+    data: importedFirstPageOfCards,
+    totalCount: importedFirstPageOfCards.length,
   };
   //const cardsObject = { data: await getAllCards() };
-  console.log(cardsObject?.data?.length);
+
   if (!cardsObject?.data?.length) {
     return { notFound: true, revalidate: 60 };
   } else {
