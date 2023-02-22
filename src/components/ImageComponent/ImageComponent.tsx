@@ -2,8 +2,6 @@ import { FunctionComponent, useEffect, useState } from "react";
 import Image from "next/image";
 import { IF } from "../UtilityComponents/IF";
 import { DEFAULT_CARD_BACK_RATIO } from "../../constants/constants";
-import { defaultBlurImage } from "../../../base64Images/base64Images";
-// import CardBack from "../../../public/images/Cardback.webp";
 
 export const ImageComponent: FunctionComponent<any> = ({
   src,
@@ -40,14 +38,12 @@ export const ImageComponent: FunctionComponent<any> = ({
           width={imageDimensions.width}
           height={imageDimensions.height}
           //loading="eager"
-          blurDataURL={blurDataURL || defaultBlurImage}
+          blurDataURL={blurDataURL}
           placeholder={fallBackType === "symbol" ? undefined : "blur"}
           onError={(e: any) => {
-            // console.log(imageSource, "lq image failed");
             if (fallBackType === "logo" || fallBackType === "symbol") {
               setImageSource(fallbackImage);
             } else {
-              // setImageSource(CardBack);
               setImageSource("/images/Cardback.webp");
             }
           }}
@@ -81,14 +77,13 @@ export const ImageComponent: FunctionComponent<any> = ({
             width={imageDimensions.width}
             height={imageDimensions.height}
             loading="eager"
-            blurDataURL={blurDataURL || defaultBlurImage}
+            blurDataURL={blurDataURL}
             placeholder="blur"
             onError={() => {
               //console.error("hires error occurred");
               if (lowQualityImageLoaded) {
                 setHighQualityImageSource(imageSource);
               } else {
-                // setHighQualityImageSource(CardBack);
                 setHighQualityImageSource("/images/Cardback.webp");
               }
             }}

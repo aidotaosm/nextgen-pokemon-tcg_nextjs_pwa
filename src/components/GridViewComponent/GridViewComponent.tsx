@@ -13,6 +13,7 @@ import MemoizedModalComponent from "../UtilityComponents/ModalComponent";
 import { ExternalLinkComponent } from "../ExternalLinkComponent/ExternalLinkComponent";
 import { Helper } from "../../utils/helper";
 import { AppContext } from "../../contexts/AppContext";
+import { defaultBlurImage } from "../../../base64Images/base64Images";
 
 export const GridViewComponent: FunctionComponent<SetCardsProps> = ({
   setCards,
@@ -64,6 +65,7 @@ export const GridViewComponent: FunctionComponent<SetCardsProps> = ({
                         alt={card.name}
                         width={245}
                         height={342}
+                        blurDataURL={defaultBlurImage}
                         className="position-relative card-img-top special-card disable-save h-auto w-100"
                       />
                     </div>

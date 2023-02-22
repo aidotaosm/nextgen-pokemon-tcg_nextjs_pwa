@@ -61,7 +61,6 @@ const Index = ({ setCards }: any) => {
                   <ImageComponent
                     src={swsh125}
                     alt={"Browse cards"}
-                    blurDataURL={defaultBlurImage}
                     className="w-100 h-auto card-img-top"
                     lqImageUnOptimize={true}
                   />
@@ -112,6 +111,7 @@ const Index = ({ setCards }: any) => {
                             alt={card.name}
                             width={734}
                             height={1024}
+                            blurDataURL={defaultBlurImage}
                             className="h-auto w-100"
                           />
                         </Link>

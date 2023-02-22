@@ -261,7 +261,7 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
                 blurDataURL={logoBlurImage}
                 className="w-100 h-auto"
                 fallBackType="logo"
-                fallbackImage={"/images/International_Pokémon_logo.svg"}
+                fallbackImage={"/images/International_Pokémon_logo.png"}
               />
             </div>
           </IF>

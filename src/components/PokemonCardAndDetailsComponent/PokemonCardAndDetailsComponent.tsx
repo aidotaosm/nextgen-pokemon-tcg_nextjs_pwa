@@ -1,4 +1,5 @@
 import { Fragment, FunctionComponent, useContext, useState } from "react";
+import { defaultBlurImage } from "../../../base64Images/base64Images";
 import { AppContext } from "../../contexts/AppContext";
 import { PokemonDetailProps } from "../../models/GenericModels";
 import { Helper } from "../../utils/helper";
@@ -48,6 +49,7 @@ export const PokemonCardAndDetailsComponent: FunctionComponent<
                 alt={card.name}
                 width={245}
                 height={342}
+                blurDataURL={defaultBlurImage}
                 className={
                   "special-card position-relative h-auto w-100 " +
                   (showHQImage ? "" : "disable-save")
