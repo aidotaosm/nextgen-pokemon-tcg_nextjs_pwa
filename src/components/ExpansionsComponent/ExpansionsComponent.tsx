@@ -514,7 +514,7 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
                 clearCacheUnregisterSWARefresh();
               }}
               data-bs-title={
-                "If you are facing any problems you man use this feature. It should fix any issues on the app's end. Note that the optimizations will need to be re-run."
+                "If you are facing any problems you may use this feature. It should fix any issues on the app's end. Note that the optimizations will need to be re-run."
               }
               data-bs-toggle="tooltip"
               data-bs-trigger="hover"
