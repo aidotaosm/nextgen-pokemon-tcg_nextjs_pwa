@@ -112,7 +112,8 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
     if (isSearchPage) {
       setIsLoading(true);
       try {
-        if (!appState.darkMode && navigator.onLine) {
+        // if (!appState.darkMode && navigator.onLine) {
+        if (false) {
           let cardsParentObject = await getCardsFromNextServer(
             newPageIndex,
             paramSearchValue === "" || paramSearchValue

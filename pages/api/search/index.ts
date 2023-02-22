@@ -2,12 +2,13 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { NextRequest, NextResponse } from "next/server";
 import { DEFAULT_PAGE_SIZE } from "../../../src/constants/constants";
-import allCardsJson from "../../../public/Jsons/AllCards.json";
+//import allCardsJson from "../../../public/Jsons/AllCards.json";
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  let parsedAllCards = allCardsJson as any[];
+  //let parsedAllCards = allCardsJson as any[];
+  let parsedAllCards: any[] = [];
   let requestedPageIndex = req.query.page;
   let requestedSearchValue = req.query.search as string;
   let returnedPageOfCards: any[] = [];
