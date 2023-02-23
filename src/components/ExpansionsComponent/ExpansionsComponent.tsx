@@ -320,7 +320,14 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
     getAllCards()
       .then((cardsParentObject) => {
         let firstPageOfCards = cardsParentObject.slice(0, DEFAULT_PAGE_SIZE);
-        Helper.saveTemplateAsFile("FirstPageOfCards.json", firstPageOfCards);
+        let firstPageOfCardsWithTotalCount = {
+          firstPageOfCards,
+          totalCount: cardsParentObject.length,
+        };
+        Helper.saveTemplateAsFile(
+          "firstPageOfCardsWithTotalCount.json",
+          firstPageOfCardsWithTotalCount
+        );
         Helper.saveTemplateAsFile("AllCards.json", cardsParentObject);
       })
       .finally(() => {
