@@ -90,22 +90,18 @@ export const LocalSearchComponent: FunctionComponent<
             let fieldValue = (
               document.getElementById("search") as HTMLInputElement
             ).value;
-            console.log(document.getElementById("search"));
-            console.log(fieldValue);
             setSearchValueFunction(fieldValue, "submit");
           }
         }}
-        defaultValue={defaultSearchTerm}
+        value={defaultSearchTerm}
         type="text"
         id="search"
         className="form-control search"
         placeholder="Search for a card..."
         onChange={(e) => {
-          if (!triggerSearchOnEnterOnly) {
-            setSearchValueFunction(e.target.value, "onChange");
-          }
+          setSearchValueFunction(e.target.value, "onChange");
         }}
-      />{" "}
+      />
       <span
         className="input-group-text cursor-pointer"
         onClick={() => {
