@@ -15,9 +15,8 @@ export const ImageComponent: FunctionComponent<any> = ({
   fallBackType,
   fallbackImage,
   //change here to turn on or off image optimization - true is off
-  lqImageUnOptimize = true,
+  lqImageUnOptimize = process.env.IS_VERCEL === "true",
 }) => {
-  console.log(process.env.IS_VERCEL, "process.env.IS_VERCEL");
   const [imageSource, setImageSource] = useState(src);
   const [highQualityImageSource, setHighQualityImageSource] =
     useState(highQualitySrc);
