@@ -18,8 +18,6 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
   cardsObject,
   isSearchPage = false,
 }) => {
-  // console.log(cardsObject);
-
   let router = useRouter();
   const getCardsForServerSide = () => {
     let from = 0 * DEFAULT_PAGE_SIZE;
@@ -61,19 +59,16 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
           routerPageIndex = +router.query.page;
         }
       }
-      // let searchTerm = "";
-      // if (
-      //   router.query.searchTerm &&
-      //   typeof router.query.searchTerm === "string"
-      // ) {
-      //   searchTerm = router.query.searchTerm;
-      // }
-      if (
-        routerPageIndex !== pageIndex ||
-        appState.globalSearchTerm != searchValue
-      ) {
-        pageChanged(routerPageIndex, false, appState.globalSearchTerm);
-        setSearchValue(appState.globalSearchTerm);
+      let searchTerm = "";
+      if (router.query.search && typeof router.query.search === "string") {
+        searchTerm = router.query.search;
+      }
+      if (appState.globalSearchTerm) {
+        searchTerm = appState.globalSearchTerm;
+      }
+      if (routerPageIndex !== pageIndex || searchTerm) {
+        pageChanged(routerPageIndex, searchTerm);
+        setSearchValue(searchTerm);
       }
     }
   }, [router.isReady]);
@@ -82,32 +77,10 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
       updateGlobalSearchTerm?.("");
     };
   }, []);
-  const triggerSearch = (paramSearchValue: string) => {
-    let tempChangedCArdsObject: any[] = [];
-    if (isSearchPage) {
-      pageChanged(0, false, paramSearchValue);
-    } else {
-      if (paramSearchValue) {
-        const data = cardsObject.data.filter((item: any) => {
-          return item.name
-            .toLowerCase()
-            .includes(paramSearchValue.toLowerCase());
-        });
-        tempChangedCArdsObject = data;
-        setNewChangeCardObject(data);
-      } else {
-        setNewChangeCardObject([]);
-      }
-      pageChanged(0, false, paramSearchValue, tempChangedCArdsObject, true);
-    }
-  };
 
   const pageChanged = async (
     newPageIndex: number,
-    updateRoute: boolean = true,
-    paramSearchValue?: string,
-    paramNewChangedCardObject?: any[],
-    instantTrigger: boolean = false
+    paramSearchValue?: string
   ) => {
     if (isSearchPage) {
       setIsLoading(true);
@@ -133,12 +106,13 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
                 try {
                   let allCardsFromCache = allCardsModule.default as any[];
                   let tempChangedCArdsObject = null;
+                  let tempSearchValue = "";
                   if (
                     paramSearchValue ||
                     paramSearchValue === "" ||
                     searchValue
                   ) {
-                    let tempSearchValue =
+                    tempSearchValue =
                       paramSearchValue === "" || paramSearchValue
                         ? paramSearchValue
                         : searchValue;
@@ -165,7 +139,7 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
                     setTotalCount(allCardsFromCache.length);
                   }
                   setPageIndex(newPageIndex);
-                  updateRouteWithQuery(newPageIndex);
+                  updateRouteWithQuery(newPageIndex, tempSearchValue);
                   setRefPageNumber(newPageIndex + 1);
                   setIsLoading(false);
                 } catch (e) {
@@ -182,62 +156,63 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
     } else {
       let from = newPageIndex * DEFAULT_PAGE_SIZE;
       let to = (newPageIndex + 1) * DEFAULT_PAGE_SIZE;
-      // let changedSetOfCards = cardsObject.data.slice(from, to);
-      let tempSearchValue: string | undefined = searchValue;
-      let temNewChangedCardObject: any = newChangedCardObject;
-      if (instantTrigger) {
-        tempSearchValue = paramSearchValue;
-        temNewChangedCardObject = paramNewChangedCardObject;
+      let tempSearchValue: string =
+        paramSearchValue === "" || paramSearchValue
+          ? paramSearchValue
+          : searchValue;
+      let temNewChangedCardObject: any[] = newChangedCardObject;
+      if (tempSearchValue) {
+        const data = cardsObject.data.filter((item: any) => {
+          return item.name
+            .toLowerCase()
+            .includes(tempSearchValue.toLowerCase());
+        });
+        temNewChangedCardObject = data;
+        setNewChangeCardObject(data);
+      } else {
+        setNewChangeCardObject([]);
       }
       if (tempSearchValue) {
-        let changedSetOfCards = temNewChangedCardObject.slice(from, to);
-        setSetCards(changedSetOfCards);
+        setSetCards(temNewChangedCardObject.slice(from, to));
       } else {
-        let changedSetOfCards = cardsObject.data.slice(from, to);
-        setSetCards(changedSetOfCards);
+        setSetCards(cardsObject.data.slice(from, to));
       }
       setPageIndex(newPageIndex);
-      updateRouteWithQuery(newPageIndex);
+      updateRouteWithQuery(newPageIndex, tempSearchValue);
       setRefPageNumber(newPageIndex + 1);
     }
   };
 
-  const updateRouteWithQuery = (newPageIndex: number) => {
-    if (newPageIndex > 0) {
-      router.push(
-        (isSearchPage ? "/search" : "/set/" + router.query.setId) +
-          "?page=" +
-          newPageIndex,
-        undefined,
-        { shallow: true }
-      );
-    } else {
-      router.push(
-        isSearchPage ? "/search" : "/set/" + router.query.setId,
-        undefined,
-        {
-          shallow: true,
-        }
-      );
-    }
+  const updateRouteWithQuery = (newPageIndex: number, searchValue?: string) => {
+    router.push(
+      (isSearchPage ? "/search" : "/set/" + router.query.setId) +
+        (newPageIndex || searchValue ? "?" : "") +
+        (newPageIndex ? "page=" + newPageIndex : "") +
+        (newPageIndex && searchValue ? "&" : "") +
+        (searchValue ? "search=" + searchValue : ""),
+      undefined,
+      { shallow: true }
+    );
   };
 
   const setSearchValueFunction = (
     value: string,
     eventType: "onChange" | "submit"
   ) => {
-    if (!isLoading) {
-      if ((isSearchPage && eventType === "submit") || !isSearchPage) {
-        triggerSearch(value);
-        setSearchValue(value);
-      }
+    if (
+      !isLoading &&
+      ((isSearchPage && eventType === "submit") || !isSearchPage)
+    ) {
+      pageChanged(0, value);
     }
+    setSearchValue(value);
   };
   const syncPagingReferences = (pageNumber: number) => {
     setRefPageNumber(pageNumber);
   };
   let numberOfElements =
     searchValue && !isSearchPage ? newChangedCardObject.length : totalCount;
+
   if (router.isFallback) {
     return (
       <div className="container d-flex flex-grow-1 justify-content-center">
