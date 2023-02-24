@@ -66,7 +66,7 @@ const Series: FunctionComponent<SeriesArrayProps> = ({
         />
         <meta
           name="twitter:image"
-          content="/images/pokemon_tcg_base_image.jpg"
+          content="/images/expansions_image.jpg"
           key="twitter:image"
         />
       </Head>
