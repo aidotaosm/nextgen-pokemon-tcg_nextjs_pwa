@@ -143,13 +143,17 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
     if (navigator.onLine) {
       const toastLiveExample = document.getElementById(prefetchToastId);
       let bootStrapMasterClass = appState?.bootstrap;
-      if (modalCloseButton.current) {
-        modalCloseButton.current.click();
-      }
+      // if (modalCloseButton.current) {
+      //   modalCloseButton.current.click();
+      // }
       if (toastLiveExample && bootStrapMasterClass) {
         const settingsTooltipInstance: Tooltip =
           bootStrapMasterClass.Tooltip.getInstance("#" + settingsTooltipId);
-        settingsTooltipInstance?.hide();
+
+        setTimeout(() => {
+          settingsTooltipInstance?.hide();
+        }, 0);
+
         new bootStrapMasterClass.Toast(toastLiveExample).show();
         //resetting all related states for new fetch session
         setPrefetchingSets([]);
