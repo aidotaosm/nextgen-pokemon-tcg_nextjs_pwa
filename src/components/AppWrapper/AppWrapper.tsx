@@ -187,9 +187,29 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
+  const hideAllTollTips = () => {
+    let bootStrapMasterClass = appState?.bootstrap;
+    if (bootStrapMasterClass) {
+      const darkModeButtonTooltipInstance: Tooltip =
+        bootStrapMasterClass.Tooltip.getInstance("#" + darkModeButtonTooltipId);
+      darkModeButtonTooltipInstance?.hide();
+      const backButtonTooltipInstance: Tooltip =
+        bootStrapMasterClass.Tooltip.getInstance("#" + backButtonTooltipId);
+      backButtonTooltipInstance?.hide();
+      const offlineButtonTooltipInstance: Tooltip =
+        bootStrapMasterClass.Tooltip.getInstance("#" + offlineButtonTooltipId);
+      offlineButtonTooltipInstance?.hide();
+      const globalSearchButtonTooltipInstance: Tooltip =
+        bootStrapMasterClass.Tooltip.getInstance(
+          "#" + globalSearchButtonTooltipId
+        );
+      globalSearchButtonTooltipInstance?.hide();
+    }
+  };
 
   return (
     <div
+      onClick={hideAllTollTips}
       className={
         "d-flex flex-column " +
         (appState.darkMode ? "dark-mode " : "") +
@@ -212,6 +232,7 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
                   icon={faArrowLeftLong}
                   size="2x"
                   onClick={(e) => {
+                    e.stopPropagation();
                     e.preventDefault();
                     router.push(
                       navigator.onLine
@@ -233,6 +254,7 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
             >
               <Link href="/search">
                 <span
+                  onClick={(e) => e.stopPropagation()}
                   data-bs-title={"Go to Global Search page."}
                   data-bs-toggle="tooltip"
                   data-bs-trigger="hover"
@@ -260,7 +282,8 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
           <div className="col d-flex col align-items-center justify-content-end">
             <div
               className="cursor-pointer user-select-none me-sm-3 me-2"
-              onClick={() => {
+              onClick={(e) => {
+                e.stopPropagation();
                 updateOfflineMode?.(!appState.offLineMode);
               }}
               data-bs-title={
@@ -299,7 +322,8 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
             </div>
             <div
               className="cursor-pointer user-select-none"
-              onClick={() => {
+              onClick={(e) => {
+                e.stopPropagation();
                 updateDarkMode?.(!appState.darkMode);
               }}
               data-bs-title={"Trigger dark mode on/off."}
