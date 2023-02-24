@@ -119,7 +119,7 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
         ) {
           setPathToRedirect(listOfPaths[listOfPaths.length - 1]);
         } else {
-          setPathToRedirect("/series");
+          setPathToRedirect("/");
         }
       }
     }
