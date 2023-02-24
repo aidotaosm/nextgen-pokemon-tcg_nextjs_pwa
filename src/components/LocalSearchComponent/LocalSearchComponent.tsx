@@ -10,15 +10,13 @@ interface LocalSearchComponentProps {
   ) => void;
   initialPlaceHolder?: string;
   defaultSearchTerm?: string;
-  triggerSearchOnEnterOnly?: boolean;
 }
 export const LocalSearchComponent: FunctionComponent<
   LocalSearchComponentProps
 > = ({
   setSearchValueFunction,
-  initialPlaceHolder = "Search e.g. ",
+  initialPlaceHolder = "Set search e.g. ",
   defaultSearchTerm = "",
-  triggerSearchOnEnterOnly = false,
 }) => {
   useEffect(() => {
     let timeout: any = null;

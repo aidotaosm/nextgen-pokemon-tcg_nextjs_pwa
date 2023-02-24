@@ -112,6 +112,7 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
         splitPath === "card" ||
         splitPath === "search"
       ) {
+        console.log(listOfPaths);
         if (
           listOfPaths.length &&
           listOfPaths[listOfPaths.length - 1] != router.asPath
