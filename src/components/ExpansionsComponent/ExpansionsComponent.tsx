@@ -147,6 +147,9 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
         modalCloseButton.current.click();
       }
       if (toastLiveExample && bootStrapMasterClass) {
+        const settingsTooltipInstance: Tooltip =
+          bootStrapMasterClass.Tooltip.getInstance("#" + settingsTooltipId);
+        settingsTooltipInstance?.hide();
         new bootStrapMasterClass.Toast(toastLiveExample).show();
         //resetting all related states for new fetch session
         setPrefetchingSets([]);

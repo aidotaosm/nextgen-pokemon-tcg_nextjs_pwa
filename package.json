@@ -12,7 +12,7 @@
     "@types/react-dom": "^18.0.6",
     "axios": "^1.3.2",
     "bootstrap": "^5.2.3",
-    "next": "^13.1.2",
+    "next": "^13.2.1",
     "next-pwa": "^5.6.0",
     "pokemontcgsdk": "^2.0.0",
     "react": "^18.2.0",
