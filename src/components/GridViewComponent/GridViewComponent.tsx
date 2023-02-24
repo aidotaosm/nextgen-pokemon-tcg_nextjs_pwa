@@ -14,6 +14,7 @@ import { ExternalLinkComponent } from "../ExternalLinkComponent/ExternalLinkComp
 import { Helper } from "../../utils/helper";
 import { AppContext } from "../../contexts/AppContext";
 import { defaultBlurImage } from "../../../base64Images/base64Images";
+import { Layout } from "antd";
 
 export const GridViewComponent: FunctionComponent<SetCardsProps> = ({
   setCards,
@@ -26,7 +27,13 @@ export const GridViewComponent: FunctionComponent<SetCardsProps> = ({
     setSelectedCard(null);
   }, []);
   return (
-    <>
+    <div className="d-flex">
+      <Layout.Sider trigger={null} collapsible collapsed={false}>
+        <div className="d-flex flex-column me-3">
+          <div className="mb-2">a</div>
+          <div>b</div>
+        </div>
+      </Layout.Sider>
       <div
         className={
           !appState.offLineMode
@@ -113,6 +120,6 @@ export const GridViewComponent: FunctionComponent<SetCardsProps> = ({
           </div>
         </IF>
       </MemoizedModalComponent>
-    </>
+    </div>
   );
 };

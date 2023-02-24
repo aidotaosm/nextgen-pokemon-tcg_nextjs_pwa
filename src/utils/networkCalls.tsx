@@ -93,3 +93,26 @@ export const getCardsFromNextServer = async (
   const response = await axiosHttpClient.get(url);
   return response.data;
 };
+// pokemonSDKVariable.card
+//   .all({ q: "!name:charizard", page: 0, pageSize: 100 })
+//   .then((cards: any[]) => {
+//     console.log(cards);
+//   });
+// pokemonSDKVariable.type.all({ page: 0 }).then((cards: any[]) => {
+//   console.log(cards);
+// });
+// pokemonSDKVariable.subtype
+//   .all({ page: 0 })
+//   .then((cards: any[]) => {
+//     console.log(cards);
+//   });
+// pokemonSDKVariable.rarity
+//   .all({ page: 0 })
+//   .then((cards: any[]) => {
+//     console.log(cards);
+//   });
+// pokemonSDKVariable.supertype
+//   .all({ page: 0 })
+//   .then((cards: any[]) => {
+//     console.log(cards);
+//   });
