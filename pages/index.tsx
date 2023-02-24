@@ -8,7 +8,7 @@ import Link from "next/link";
 import { defaultBlurImage } from "../base64Images/base64Images";
 import { GetStaticProps } from "next";
 import { CarouselComponent } from "../src/components/UtilityComponents/CarouselComponent";
-import { Fragment, useContext } from "react";
+import { Fragment, useContext, useState } from "react";
 import { Helper } from "../src/utils/helper";
 import { useRouter } from "next/router";
 import { AppContext } from "../src/contexts/AppContext";
@@ -29,6 +29,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
 };
 
 const Index = ({ setCards }: any) => {
+  const [searchValue, setSearchValue] = useState("");
   const { appState, updateGlobalSearchTerm } = useContext(AppContext);
   let router = useRouter();
   const setSearchValueFunction = (
@@ -39,6 +40,7 @@ const Index = ({ setCards }: any) => {
       updateGlobalSearchTerm?.(value || "");
       router.push("/search");
     }
+    setSearchValue(value);
   };
   return (
     <div className="container">
@@ -46,6 +48,7 @@ const Index = ({ setCards }: any) => {
         <LocalSearchComponent
           setSearchValueFunction={setSearchValueFunction}
           initialPlaceHolder={"Global search e.g. "}
+          defaultSearchTerm={searchValue}
         />
       </div>
       <div className="row row-cols-1 row-cols-md-2">

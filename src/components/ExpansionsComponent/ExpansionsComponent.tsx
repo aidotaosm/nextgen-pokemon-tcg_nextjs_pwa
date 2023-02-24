@@ -55,6 +55,7 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
     "no" | "loading" | "yes"
   >("no");
   const [downloadAllCardsLoading, setDownloadAllCardsLoading] = useState(false);
+  const [searchValue, setSearchValue] = useState("");
   const downloadLatestAllCardsJsonTooltipId =
     "downloadLatestAllCardsJsonTooltipId";
   const clearCacheUnregisterSWARefreshTooltipId =
@@ -355,6 +356,7 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
       updateGlobalSearchTerm?.(value || "");
       router.push("/search");
     }
+    setSearchValue(value);
   };
   return (
     <Fragment>
@@ -364,6 +366,7 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
             <LocalSearchComponent
               setSearchValueFunction={setSearchValueFunction}
               initialPlaceHolder={"Global search e.g. "}
+              defaultSearchTerm={searchValue}
             />
           </div>
           <div className="d-flex justify-content-center justify-content-md-end">
