@@ -15,6 +15,9 @@ import { Helper } from "../../utils/helper";
 import { AppContext } from "../../contexts/AppContext";
 import { defaultBlurImage } from "../../../base64Images/base64Images";
 import energyTypes from "../../InternalJsons/AllTypes.json";
+import superTypes from "../../InternalJsons/AllSuperTypes.json";
+import subTypes from "../../InternalJsons/AllSubtypes.json";
+import rarities from "../../InternalJsons/AllRarities.json";
 import {
   Checkbox,
   Col,
@@ -48,8 +51,8 @@ export const GridViewComponent: FunctionComponent<SetCardsProps> = ({
           >
             <Form name="sidebar-filter" layout="vertical">
               <Form.Item
-                name="checkbox-group"
-                label="Type"
+                name="energy-types"
+                label="Energy Type"
                 className="energy-checkbox-group"
               >
                 <Checkbox.Group>
@@ -73,24 +76,35 @@ export const GridViewComponent: FunctionComponent<SetCardsProps> = ({
                   </Row>
                 </Checkbox.Group>
               </Form.Item>
-              <Form.Item
-                name="select-multiple"
-                label="Select[multiple]"
-                rules={[
-                  {
-                    required: true,
-                    message: "Please select your favourite colors!",
-                    type: "array",
-                  },
-                ]}
-              >
-                <Select
-                  mode="multiple"
-                  placeholder="Please select favourite colors"
-                >
-                  <Select.Option value="red">Red</Select.Option>
-                  <Select.Option value="green">Green</Select.Option>
-                  <Select.Option value="blue">Blue</Select.Option>
+              <Form.Item name="card-type" label="Card Type">
+                <Select mode="multiple" placeholder="Select card type">
+                  {superTypes.map((superType: string, index: number) => {
+                    return (
+                      <Select.Option value={superType}>
+                        {superType}
+                      </Select.Option>
+                    );
+                  })}
+                </Select>
+              </Form.Item>
+              <Form.Item name="sub-type" label="Sub Type">
+                <Select mode="multiple" placeholder="Select sub type e.g. ex.">
+                  {subTypes.map((superType: string, index: number) => {
+                    return (
+                      <Select.Option value={superType}>
+                        {superType}
+                      </Select.Option>
+                    );
+                  })}
+                </Select>
+              </Form.Item>
+              <Form.Item name="rarity" label="Rarity">
+                <Select mode="multiple" placeholder="Select rarity e.g. Rare">
+                  {rarities.map((rarity: string, index: number) => {
+                    return (
+                      <Select.Option value={rarity}>{rarity}</Select.Option>
+                    );
+                  })}
                 </Select>
               </Form.Item>
             </Form>
