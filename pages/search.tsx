@@ -9,7 +9,7 @@ import { Fragment, FunctionComponent } from "react";
 import { SetComponent } from "../src/components/SetComponent/SetComponent";
 import { CardsObjectProps } from "../src/models/GenericModels";
 import { Helper } from "../src/utils/helper";
-import importedFirstPageOfCardsWithTotalCount from "../src/InternalJsons/firstPageOfCardsWithTotalCount.json";
+import importedFirstPageOfCardsWithTotalCount from "../src/InternalJsons/FirstPageOfCardsWithTotalCount.json";
 interface IParams extends ParsedUrlQuery {}
 
 export const getStaticProps: GetStaticProps = async (context) => {
