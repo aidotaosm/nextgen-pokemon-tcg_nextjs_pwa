@@ -13,6 +13,7 @@ import { ImageComponent } from "../ImageComponent/ImageComponent";
 import { logoBlurImage } from "../../../base64Images/base64Images";
 import { LocalSearchComponent } from "../LocalSearchComponent/LocalSearchComponent";
 import { getCardsFromNextServer } from "../../utils/networkCalls";
+import { SidebarFiltersComponent } from "../SidebarFiltersComponent/SidebarFiltersComponent";
 
 export const SetComponent: FunctionComponent<CardsObjectProps> = ({
   cardsObject,
@@ -280,12 +281,15 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
             </h2>
           </div>
         </IF>
-        <IF condition={appState.gridView}>
-          <GridViewComponent setCards={setCards}></GridViewComponent>
-        </IF>
-        <IF condition={!appState.gridView}>
-          <ListViewComponent setCards={setCards}></ListViewComponent>
-        </IF>
+        <div className="d-flex">
+          <SidebarFiltersComponent />
+          <IF condition={appState.gridView}>
+            <GridViewComponent setCards={setCards}></GridViewComponent>
+          </IF>
+          <IF condition={!appState.gridView}>
+            <ListViewComponent setCards={setCards}></ListViewComponent>
+          </IF>
+        </div>
         <div className="mt-4 row row-cols-2 row-cols-md-3 ">
           <div className="col d-none d-md-block"></div>
           <PagingComponent

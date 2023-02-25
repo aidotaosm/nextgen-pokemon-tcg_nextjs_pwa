@@ -37,6 +37,7 @@ export interface CarouselProps {
   classes?: string;
   isLandingPage?: boolean;
 }
+export interface SidebarFiltersComponentProps {}
 export interface EnergyComponentProps {
   type: string;
   toolTipId: string;

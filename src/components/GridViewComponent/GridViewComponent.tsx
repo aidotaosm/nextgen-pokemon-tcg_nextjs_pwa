@@ -14,22 +14,6 @@ import { ExternalLinkComponent } from "../ExternalLinkComponent/ExternalLinkComp
 import { Helper } from "../../utils/helper";
 import { AppContext } from "../../contexts/AppContext";
 import { defaultBlurImage } from "../../../base64Images/base64Images";
-import energyTypes from "../../InternalJsons/AllTypes.json";
-import superTypes from "../../InternalJsons/AllSuperTypes.json";
-import subTypes from "../../InternalJsons/AllSubtypes.json";
-import rarities from "../../InternalJsons/AllRarities.json";
-import {
-  Checkbox,
-  Col,
-  ConfigProvider,
-  Form,
-  Layout,
-  Row,
-  Select,
-  theme,
-} from "antd";
-import { EnergyComponent } from "../UtilityComponents/ExternalLinkComponent";
-const { defaultAlgorithm, darkAlgorithm } = theme;
 
 export const GridViewComponent: FunctionComponent<SetCardsProps> = ({
   setCards,
@@ -41,76 +25,7 @@ export const GridViewComponent: FunctionComponent<SetCardsProps> = ({
     setSelectedCard(null);
   }, []);
   return (
-    <div className="d-flex">
-      <Layout.Sider trigger={null} collapsible collapsed={false}>
-        <div className="d-flex flex-column me-3">
-          <ConfigProvider
-            theme={{
-              algorithm: appState.darkMode ? darkAlgorithm : defaultAlgorithm,
-            }}
-          >
-            <Form name="sidebar-filter" layout="vertical">
-              <Form.Item
-                name="energy-types"
-                label="Energy Type"
-                className="energy-checkbox-group"
-              >
-                <Checkbox.Group>
-                  <Row>
-                    {energyTypes.map((type: string, index: number) => {
-                      return (
-                        <Col span={8}>
-                          <Checkbox
-                            value={type}
-                            style={{ lineHeight: "32px" }}
-                            className=""
-                          >
-                            <EnergyComponent
-                              type={type}
-                              toolTipId={type + index}
-                            />
-                          </Checkbox>
-                        </Col>
-                      );
-                    })}
-                  </Row>
-                </Checkbox.Group>
-              </Form.Item>
-              <Form.Item name="card-type" label="Card Type">
-                <Select mode="multiple" placeholder="Select card type">
-                  {superTypes.map((superType: string, index: number) => {
-                    return (
-                      <Select.Option value={superType}>
-                        {superType}
-                      </Select.Option>
-                    );
-                  })}
-                </Select>
-              </Form.Item>
-              <Form.Item name="sub-type" label="Sub Type">
-                <Select mode="multiple" placeholder="Select sub type e.g. ex.">
-                  {subTypes.map((superType: string, index: number) => {
-                    return (
-                      <Select.Option value={superType}>
-                        {superType}
-                      </Select.Option>
-                    );
-                  })}
-                </Select>
-              </Form.Item>
-              <Form.Item name="rarity" label="Rarity">
-                <Select mode="multiple" placeholder="Select rarity e.g. Rare">
-                  {rarities.map((rarity: string, index: number) => {
-                    return (
-                      <Select.Option value={rarity}>{rarity}</Select.Option>
-                    );
-                  })}
-                </Select>
-              </Form.Item>
-            </Form>
-          </ConfigProvider>
-        </div>
-      </Layout.Sider>
+    <>
       <div
         className={
           !appState.offLineMode
@@ -197,6 +112,6 @@ export const GridViewComponent: FunctionComponent<SetCardsProps> = ({
           </div>
         </IF>
       </MemoizedModalComponent>
-    </div>
+    </>
   );
 };
