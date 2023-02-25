@@ -23,8 +23,11 @@ export const SidebarFiltersComponent: FunctionComponent<
 > = ({}) => {
   const { appState } = useContext(AppContext);
   return (
-    <Layout.Sider trigger={null} collapsible collapsed={false}>
-      <div className="d-flex flex-column me-3">
+    <div
+      className=" me-4 rounded card"
+      style={{ minWidth: "220px", width: "220px" }}
+    >
+      <div className="d-flex flex-column card-body">
         <ConfigProvider
           theme={{
             algorithm: appState.darkMode ? darkAlgorithm : defaultAlgorithm,
@@ -43,7 +46,7 @@ export const SidebarFiltersComponent: FunctionComponent<
                       <div key={type} className="col ">
                         <Checkbox
                           value={type}
-                          style={{ lineHeight: "2.3rem" }}
+                          style={{ lineHeight: "2.2rem" }}
                           className=""
                         >
                           <EnergyComponent
@@ -93,6 +96,6 @@ export const SidebarFiltersComponent: FunctionComponent<
           </Form>
         </ConfigProvider>
       </div>
-    </Layout.Sider>
+    </div>
   );
 };
