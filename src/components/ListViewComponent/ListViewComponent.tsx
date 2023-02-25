@@ -19,7 +19,6 @@ export const ListViewComponent: FunctionComponent<SetCardsProps> = ({
   const [selectedCard, setSelectedCard] = useState<any>(null);
   const modalCloseButton = useRef<any>();
   const cardClicked = (card: any) => {
-    console.log(card);
     setSelectedCard(card);
   };
 
@@ -30,7 +29,6 @@ export const ListViewComponent: FunctionComponent<SetCardsProps> = ({
     arrayOFCarouselItems.forEach((carouselItem) => {
       carouselItem.classList.remove("active");
     });
-    console.log(arrayOFCarouselItems);
     setSelectedCard(null);
   }, []);
   const MemoizedCarouselComponent = useMemo(() => {

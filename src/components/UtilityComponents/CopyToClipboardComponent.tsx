@@ -8,6 +8,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCopy } from "@fortawesome/free-solid-svg-icons";
 import { AppContext } from "../../contexts/AppContext";
+import { Popover } from "bootstrap";
 interface CopyToClipboardComponentProps {
   copyText: string;
   children?: HTMLElement;
@@ -21,11 +22,15 @@ export const CopyToClipboardComponent: FunctionComponent<
   const [isCopied, setIsCopied] = useState(false);
   const appContextValues = useContext(AppContext);
   useEffect(() => {
+    let popoverInstance: Popover;
     let bootStrapMasterClass = appContextValues?.appState?.bootstrap;
     const popoverTrigger = document.getElementById(popOverId) as any;
     if (bootStrapMasterClass && popoverTrigger) {
-      new bootStrapMasterClass.Popover(popoverTrigger);
+      popoverInstance = new bootStrapMasterClass.Popover(popoverTrigger);
     }
+    return () => {
+      popoverInstance?.dispose();
+    };
   }, [appContextValues?.appState?.bootstrap]);
 
   // This is the function we wrote earlier

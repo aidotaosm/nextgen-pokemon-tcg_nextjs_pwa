@@ -347,6 +347,9 @@ a.white-hover:hover {
 .dark-mode header {
   background-color: #181818;
 } */
+.energy-checkbox-group .ant-checkbox + span {
+  align-self: center;
+}
 @media (max-width: 1399px) {
   .list-view .pokemon-card-image {
     min-width: 25vw;

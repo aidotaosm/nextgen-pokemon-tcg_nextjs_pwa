@@ -37,6 +37,10 @@ export interface CarouselProps {
   classes?: string;
   isLandingPage?: boolean;
 }
+export interface EnergyComponentProps {
+  type: string;
+  toolTipId: string;
+}
 export interface ExternalLinkProps {
   card?: any;
   classes?: string;

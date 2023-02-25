@@ -14,7 +14,19 @@ import { ExternalLinkComponent } from "../ExternalLinkComponent/ExternalLinkComp
 import { Helper } from "../../utils/helper";
 import { AppContext } from "../../contexts/AppContext";
 import { defaultBlurImage } from "../../../base64Images/base64Images";
-import { Layout } from "antd";
+import energyTypes from "../../InternalJsons/AllTypes.json";
+import {
+  Checkbox,
+  Col,
+  ConfigProvider,
+  Form,
+  Layout,
+  Row,
+  Select,
+  theme,
+} from "antd";
+import { EnergyComponent } from "../UtilityComponents/ExternalLinkComponent";
+const { defaultAlgorithm, darkAlgorithm } = theme;
 
 export const GridViewComponent: FunctionComponent<SetCardsProps> = ({
   setCards,
@@ -23,15 +35,66 @@ export const GridViewComponent: FunctionComponent<SetCardsProps> = ({
   const modalCloseButton = useRef<any>();
   const { appState } = useContext(AppContext);
   const handleModalClose = useCallback((e: Event) => {
-    console.log("custom modal close called");
     setSelectedCard(null);
   }, []);
   return (
     <div className="d-flex">
       <Layout.Sider trigger={null} collapsible collapsed={false}>
         <div className="d-flex flex-column me-3">
-          <div className="mb-2">a</div>
-          <div>b</div>
+          <ConfigProvider
+            theme={{
+              algorithm: appState.darkMode ? darkAlgorithm : defaultAlgorithm,
+            }}
+          >
+            <Form name="sidebar-filter" layout="vertical">
+              <Form.Item
+                name="checkbox-group"
+                label="Type"
+                className="energy-checkbox-group"
+              >
+                <Checkbox.Group>
+                  <Row>
+                    {energyTypes.map((type: string, index: number) => {
+                      return (
+                        <Col span={8}>
+                          <Checkbox
+                            value={type}
+                            style={{ lineHeight: "32px" }}
+                            className=""
+                          >
+                            <EnergyComponent
+                              type={type}
+                              toolTipId={type + index}
+                            />
+                          </Checkbox>
+                        </Col>
+                      );
+                    })}
+                  </Row>
+                </Checkbox.Group>
+              </Form.Item>
+              <Form.Item
+                name="select-multiple"
+                label="Select[multiple]"
+                rules={[
+                  {
+                    required: true,
+                    message: "Please select your favourite colors!",
+                    type: "array",
+                  },
+                ]}
+              >
+                <Select
+                  mode="multiple"
+                  placeholder="Please select favourite colors"
+                >
+                  <Select.Option value="red">Red</Select.Option>
+                  <Select.Option value="green">Green</Select.Option>
+                  <Select.Option value="blue">Blue</Select.Option>
+                </Select>
+              </Form.Item>
+            </Form>
+          </ConfigProvider>
         </div>
       </Layout.Sider>
       <div
