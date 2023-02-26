@@ -25,7 +25,7 @@ export const SidebarFiltersComponent: FunctionComponent<
   return (
     <div
       className=" me-4 rounded card"
-      style={{ minWidth: "220px", width: "220px" }}
+      style={{ minWidth: "225px", width: "225px" }}
     >
       <div className="d-flex flex-column card-body">
         <ConfigProvider
