@@ -4,16 +4,7 @@ import energyTypes from "../../InternalJsons/AllTypes.json";
 import superTypes from "../../InternalJsons/AllSuperTypes.json";
 import subTypes from "../../InternalJsons/AllSubtypes.json";
 import rarities from "../../InternalJsons/AllRarities.json";
-import {
-  Checkbox,
-  Col,
-  ConfigProvider,
-  Form,
-  Layout,
-  Row,
-  Select,
-  theme,
-} from "antd";
+import { Checkbox, ConfigProvider, Form, Select, theme } from "antd";
 import { EnergyComponent } from "../UtilityComponents/EnergyComponent";
 import { AppContext } from "../../contexts/AppContext";
 const { defaultAlgorithm, darkAlgorithm } = theme;
@@ -48,7 +39,7 @@ export const SidebarFiltersComponent: FunctionComponent<
                       <div key={type} className="col ">
                         <Checkbox
                           value={type}
-                          style={{ lineHeight: "2.2rem" }}
+                          style={{ lineHeight: "1.8rem" }}
                           className=""
                         >
                           <EnergyComponent

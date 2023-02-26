@@ -109,16 +109,11 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
                 try {
                   let allCardsFromCache = allCardsModule.default as any[];
                   let tempChangedCArdsObject = null;
-                  let tempSearchValue = "";
-                  if (
-                    paramSearchValue ||
-                    paramSearchValue === "" ||
-                    searchValue
-                  ) {
-                    tempSearchValue =
-                      paramSearchValue === "" || paramSearchValue
-                        ? paramSearchValue
-                        : searchValue;
+                  let tempSearchValue =
+                    paramSearchValue === "" || paramSearchValue
+                      ? paramSearchValue
+                      : searchValue;
+                  if (tempSearchValue) {
                     tempChangedCArdsObject = allCardsFromCache.filter(
                       (item: any) => {
                         return item.name
@@ -202,13 +197,13 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
     value: string,
     eventType: "onChange" | "submit"
   ) => {
+    setSearchValue(value);
     if (
-      !isLoading &&
-      ((isSearchPage && eventType === "submit") || !isSearchPage)
+      (!isLoading && isSearchPage && eventType === "submit") ||
+      !isSearchPage
     ) {
       pageChanged(0, value);
     }
-    setSearchValue(value);
   };
   const syncPagingReferences = (pageNumber: number) => {
     setRefPageNumber(pageNumber);
@@ -216,6 +211,7 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
   let numberOfElements =
     searchValue && !isSearchPage ? newChangedCardObject.length : totalCount;
   const triggerFilter = () => {
+    pageChanged(0);
     console.log(formInstance.getFieldsValue());
   };
   if (router.isFallback) {

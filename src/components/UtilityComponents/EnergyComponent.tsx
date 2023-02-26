@@ -21,6 +21,7 @@ export const EnergyComponent: FunctionComponent<EnergyComponentProps> = ({
   }, [appContextValues?.appState?.bootstrap]);
   return (
     <div
+      style={{ scale: "0.8" }}
       data-bs-toggle="tooltip"
       data-bs-trigger="hover"
       id={toolTipId}
