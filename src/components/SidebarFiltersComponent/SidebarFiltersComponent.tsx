@@ -23,17 +23,14 @@ export const SidebarFiltersComponent: FunctionComponent<
 > = ({}) => {
   const { appState } = useContext(AppContext);
   return (
-    <div
-      className=" me-4 rounded card"
-      style={{ minWidth: "225px", width: "225px" }}
-    >
-      <div className="d-flex flex-column card-body">
+    <div className=" me-4 " style={{ minWidth: "225px", width: "225px" }}>
+      <div className="d-flex flex-column rounded card">
         <ConfigProvider
           theme={{
             algorithm: appState.darkMode ? darkAlgorithm : defaultAlgorithm,
           }}
         >
-          <Form name="sidebar-filter" layout="vertical">
+          <Form name="sidebar-filter" layout="vertical" className="card-body ">
             <Form.Item
               name="energy-types"
               label="Energy Type"
