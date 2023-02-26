@@ -20,7 +20,7 @@ const { defaultAlgorithm, darkAlgorithm } = theme;
 
 export const SidebarFiltersComponent: FunctionComponent<
   SidebarFiltersComponentProps
-> = ({}) => {
+> = ({ formInstance, triggerFilter }) => {
   const { appState } = useContext(AppContext);
   return (
     <div className=" me-4 " style={{ minWidth: "225px", width: "225px" }}>
@@ -30,13 +30,18 @@ export const SidebarFiltersComponent: FunctionComponent<
             algorithm: appState.darkMode ? darkAlgorithm : defaultAlgorithm,
           }}
         >
-          <Form name="sidebar-filter" layout="vertical" className="card-body ">
+          <Form
+            name="sidebar-filter"
+            layout="vertical"
+            className="card-body "
+            form={formInstance}
+          >
             <Form.Item
               name="energy-types"
               label="Energy Type"
               className="energy-checkbox-group"
             >
-              <Checkbox.Group>
+              <Checkbox.Group onChange={triggerFilter}>
                 <div className="row row-cols-3">
                   {energyTypes.map((type: string, index: number) => {
                     return (
@@ -58,7 +63,11 @@ export const SidebarFiltersComponent: FunctionComponent<
               </Checkbox.Group>
             </Form.Item>
             <Form.Item name="card-type" label="Card Type">
-              <Select mode="multiple" placeholder="Select card type">
+              <Select
+                mode="multiple"
+                placeholder="Select card type"
+                onChange={triggerFilter}
+              >
                 {superTypes.map((cardType: string, index: number) => {
                   return (
                     <Select.Option key={cardType} value={cardType}>
@@ -69,7 +78,11 @@ export const SidebarFiltersComponent: FunctionComponent<
               </Select>
             </Form.Item>
             <Form.Item name="sub-type" label="Sub Type">
-              <Select mode="multiple" placeholder="Select sub type e.g. ex.">
+              <Select
+                mode="multiple"
+                placeholder="Select sub type e.g. ex."
+                onChange={triggerFilter}
+              >
                 {subTypes.map((subType: string, index: number) => {
                   return (
                     <Select.Option key={subType} value={subType}>
@@ -80,7 +93,11 @@ export const SidebarFiltersComponent: FunctionComponent<
               </Select>
             </Form.Item>
             <Form.Item name="rarity" label="Rarity">
-              <Select mode="multiple" placeholder="Select rarity e.g. Rare">
+              <Select
+                mode="multiple"
+                placeholder="Select rarity e.g. Rare"
+                onChange={triggerFilter}
+              >
                 {rarities.map((rarity: string, index: number) => {
                   return (
                     <Select.Option key={rarity} value={rarity}>

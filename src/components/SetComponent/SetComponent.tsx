@@ -14,11 +14,13 @@ import { logoBlurImage } from "../../../base64Images/base64Images";
 import { LocalSearchComponent } from "../LocalSearchComponent/LocalSearchComponent";
 import { getCardsFromNextServer } from "../../utils/networkCalls";
 import { SidebarFiltersComponent } from "../SidebarFiltersComponent/SidebarFiltersComponent";
+import { Form } from "antd";
 
 export const SetComponent: FunctionComponent<CardsObjectProps> = ({
   cardsObject,
   isSearchPage = false,
 }) => {
+  const [formInstance] = Form.useForm();
   let router = useRouter();
   const getCardsForServerSide = () => {
     let from = 0 * DEFAULT_PAGE_SIZE;
@@ -213,7 +215,9 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
   };
   let numberOfElements =
     searchValue && !isSearchPage ? newChangedCardObject.length : totalCount;
-
+  const triggerFilter = () => {
+    console.log(formInstance.getFieldsValue());
+  };
   if (router.isFallback) {
     return (
       <div className="container d-flex flex-grow-1 justify-content-center">
@@ -282,7 +286,10 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
           </div>
         </IF>
         <div className="d-flex">
-          <SidebarFiltersComponent />
+          <SidebarFiltersComponent
+            formInstance={formInstance}
+            triggerFilter={triggerFilter}
+          />
           <IF condition={appState.gridView}>
             <GridViewComponent setCards={setCards}></GridViewComponent>
           </IF>
