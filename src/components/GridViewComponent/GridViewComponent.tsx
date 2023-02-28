@@ -29,8 +29,8 @@ export const GridViewComponent: FunctionComponent<SetCardsProps> = ({
       <div
         className={
           !appState.offLineMode
-            ? "g-4 row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 row-cols-xxl-5"
-            : "g-4 row row-cols-1 row-cols-md-2 row-cols-xl-3 row-cols-xxl-4"
+            ? "g-4 row row-cols-1 row-cols-sm-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 row-cols-xxl-4"
+            : "g-4 row row-cols-1 row-cols-md-1 row-cols-xl-2 row-cols-xxl-3"
         }
       >
         {setCards?.map((card: any) => {
@@ -96,9 +96,8 @@ export const GridViewComponent: FunctionComponent<SetCardsProps> = ({
       >
         <IF condition={selectedCard?.images}>
           <div
-            className="align-items-center d-md-flex justify-content-center list-view"
+            className="align-items-center d-md-flex justify-content-center full-screen-view"
             onClick={() => {
-              console.log(modalCloseButton);
               if (modalCloseButton.current) {
                 modalCloseButton.current.click();
               }
@@ -108,6 +107,7 @@ export const GridViewComponent: FunctionComponent<SetCardsProps> = ({
               card={selectedCard}
               showHQImage={true}
               imageClasses="mt-4 mt-md-0"
+              detailsClasses="mt-5 mt-md-0 ms-md-5 flex-grow-1"
             />
           </div>
         </IF>

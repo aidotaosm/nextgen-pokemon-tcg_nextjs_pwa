@@ -1,5 +1,7 @@
 :root {
   --bs-body-font-size: 15px;
+  --tw-space-x-reverse: 0;
+  --tw-space-y-reverse: 0;
 }
 
 @media (max-width: 500px) {

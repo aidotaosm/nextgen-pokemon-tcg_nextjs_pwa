@@ -18,24 +18,24 @@ export const PokemonDetailComponent: FunctionComponent<PokemonDetailProps> = ({
     <div className={"pokemon-details-wrapper " + classes}>
       <div className="pokemon-details rounded d-flex flex-column">
         <div className="name bg-secondary p-2 rounded-top d-flex align-items-center justify-content-between">
-          <span className="text-lightgray fs-2"> {card.name}</span>
+          <span className="text-lightgray fs-3 fs-md-2"> {card.name}</span>
           <div className="">
             <CopyToClipboardComponent
               popOverId={card.id + "pop-over"}
               copyText={Helper.origin + "/card/" + card.id}
-              classes="fs-4"
+              classes="fs-md-4 fs-5"
               card={card}
             />
             <IF condition={showCardOpenToNewTab}>
               <ExternalLinkComponent
                 card={card}
-                classes="fs-4 white-hover dark-background-link ms-2"
+                classes="fs-md-4 fs-5 white-hover dark-background-link ms-2"
                 toolTipId={card.id + "tool-tip-detail"}
               />
             </IF>
           </div>
         </div>
-        <div className="pokemon-header bg-grey fs-4 p-2 text-dark">
+        <div className="pokemon-header bg-grey fs-md-4 fs-5 p-2 text-dark">
           <div className="subtype-hp d-flex justify-content-between align-items-center flex-grow-1">
             <IF condition={card.subtypes}>
               <div className="subtype">
@@ -56,8 +56,8 @@ export const PokemonDetailComponent: FunctionComponent<PokemonDetailProps> = ({
             <div className=" hp-and-type d-flex align-items-center">
               <IF condition={card.hp}>
                 <div className="fw-bold">
-                  <span className="fs-5">HP</span>
-                  <span className="fs-3 ms-1">{card.hp}</span>
+                  <span className="fs-md-5 fs-6">HP</span>
+                  <span className="fs-md-3 fs-4 ms-1">{card.hp}</span>
                 </div>
               </IF>
 
@@ -158,7 +158,7 @@ export const PokemonDetailComponent: FunctionComponent<PokemonDetailProps> = ({
               {card.abilities?.map((ability: any, abilityIndex: number) => (
                 <div key={abilityIndex}>
                   <span className="text-danger">{ability.type}</span>
-                  <span className="fs-4 ms-2">{ability.name}</span>
+                  <span className="fs-md-4 fs-5 ms-2">{ability.name}</span>
                   <div
                     className={
                       abilityIndex !== card.abilities.length - 1
@@ -178,7 +178,7 @@ export const PokemonDetailComponent: FunctionComponent<PokemonDetailProps> = ({
                 <Fragment key={attackIndex}>
                   <div className="d-flex justify-content-between">
                     <div className="d-flex align-items-center">
-                      <div className="d-flex">
+                      <div className="d-flex flex-wrap energy-cost ">
                         <IF condition={attack.cost?.length}>
                           {attack.cost.map(
                             (type: string, costIndex: number) => (
@@ -186,7 +186,7 @@ export const PokemonDetailComponent: FunctionComponent<PokemonDetailProps> = ({
                                 key={costIndex}
                                 title={type == "[-]" ? "Free" : type + " Type"}
                                 className={
-                                  "energy-type me-1 " +
+                                  "energy-type me-1  " +
                                   (type == "[-]" ? "Free" : type)
                                 }
                               ></div>
@@ -196,13 +196,13 @@ export const PokemonDetailComponent: FunctionComponent<PokemonDetailProps> = ({
                         <IF condition={!attack.cost?.length}>
                           <div
                             title={"Free"}
-                            className="energy-type me-1 Free"
+                            className="energy-type Free"
                           ></div>
                         </IF>
                       </div>
-                      <span className="fs-4 ms-2">{attack.name}</span>
+                      <span className="fs-md-4 fs-5 ms-2">{attack.name}</span>
                     </div>
-                    <span className="fs-4 ms-2">{attack.damage}</span>
+                    <span className="fs-md-4 fs-5 ms-2">{attack.damage}</span>
                   </div>
                   <IF condition={attack.text}></IF>
                   <div
@@ -219,7 +219,7 @@ export const PokemonDetailComponent: FunctionComponent<PokemonDetailProps> = ({
             </div>
           </IF>
         </div>
-        <div className="pokemon-footer bg-grey fs-5 p-2 text-dark rounded-bottom">
+        <div className="pokemon-footer bg-grey fs-md-5 fs-6 p-2 text-dark rounded-bottom">
           <IF condition={card.supertype === SuperTypes.Pokemon}>
             <div className="weakness-resistance-retreat d-flex justify-content-between">
               <div className="weakness">
@@ -273,13 +273,13 @@ export const PokemonDetailComponent: FunctionComponent<PokemonDetailProps> = ({
               <div className="retreat">
                 Retreat Cost
                 <IF condition={card.retreatCost}>
-                  <div className="d-flex justify-content-center mt-1">
+                  <div className="d-flex justify-content-center mt-1 energy-cost flex-wrap">
                     {card.retreatCost?.map(
                       (type: string, costIndex: number) => (
                         <div
                           key={costIndex}
                           title={type + " Type"}
-                          className={"energy-type me-1 " + type}
+                          className={"energy-type me-1  " + type}
                         ></div>
                       )
                     )}

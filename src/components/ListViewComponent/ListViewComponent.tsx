@@ -76,9 +76,7 @@ export const ListViewComponent: FunctionComponent<SetCardsProps> = ({
         {setCards?.map((card: any, index: number) => (
           <div
             key={card.id}
-            className={
-              "list-view align-items-center d-md-flex justify-content-center mb-5"
-            }
+            className={"list-view align-items-center d-lg-flex mb-5"}
           >
             <PokemonCardAndDetailsComponent
               cardClicked={cardClicked}

@@ -118,13 +118,14 @@ html {
 .list-view-wrapper .list-view:last-child {
   margin-bottom: 0 !important;
 }
+.full-screen-view .pokemon-card-image {
+  width: 20vw;
+}
 .list-view .pokemon-card-image {
   width: 20vw;
-  /* max-width: 20rem; */
 }
 .carousel-item .pokemon-card-image {
   width: 30vw;
-  /* max-width: 20rem; */
 }
 
 .energy-type {
@@ -350,7 +351,14 @@ a.white-hover:hover {
 .energy-checkbox-group .ant-checkbox + span {
   align-self: center;
 }
+.energy-cost {
+  max-width: calc(4 * (25px + 0.25rem));
+}
+
 @media (max-width: 1399px) {
+  .full-screen-view .pokemon-card-image {
+    min-width: 25vw;
+  }
   .list-view .pokemon-card-image {
     min-width: 25vw;
   }
@@ -359,8 +367,11 @@ a.white-hover:hover {
   }
 }
 @media (max-width: 1199px) {
-  .list-view .pokemon-card-image {
+  .full-screen-view .pokemon-card-image {
     min-width: 35vw;
+  }
+  .list-view .pokemon-card-image {
+    min-width: 25vw;
   }
   .carousel-item .pokemon-card-image {
     min-width: 45vw;
@@ -368,18 +379,21 @@ a.white-hover:hover {
 }
 @media (max-width: 991px) {
   .list-view .pokemon-card-image {
-    /* min-width: 45vw; */
+    min-width: 35vw;
+    margin: auto;
+    text-align: center;
+    width: 95%;
   }
   .carousel-item .pokemon-card-image {
     min-width: 35vw;
   }
 }
 @media (max-width: 767px) {
-  .list-view .pokemon-card-image {
+  .full-screen-view .pokemon-card-image {
     min-width: 45vw;
     margin: auto;
     text-align: center;
-    width: 90%;
+    width: 95%;
   }
   .carousel-item .pokemon-card-image {
     width: 75%;
@@ -389,6 +403,9 @@ a.white-hover:hover {
   }
   .search-wrapper {
     width: 100% !important;
+  }
+  .energy-cost {
+    max-width: calc(2 * (25px + 0.25rem));
   }
 }
 

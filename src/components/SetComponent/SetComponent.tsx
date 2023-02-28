@@ -281,7 +281,7 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
             </h2>
           </div>
         </IF>
-        <div className="d-flex">
+        <div className="d-flex justify-content-between">
           <SidebarFiltersComponent
             formInstance={formInstance}
             triggerFilter={triggerFilter}
