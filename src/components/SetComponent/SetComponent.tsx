@@ -15,6 +15,8 @@ import { LocalSearchComponent } from "../LocalSearchComponent/LocalSearchCompone
 import { getCardsFromNextServer } from "../../utils/networkCalls";
 import { SidebarFiltersComponent } from "../SidebarFiltersComponent/SidebarFiltersComponent";
 import { Form } from "antd";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBars, faBarsStaggered } from "@fortawesome/free-solid-svg-icons";
 
 export const SetComponent: FunctionComponent<CardsObjectProps> = ({
   cardsObject,
@@ -34,8 +36,12 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
   const [setCards, setSetCards] = useState<any>(getCardsForServerSide() || []);
   const [pageIndex, setPageIndex] = useState<number>(0);
   const [refPageNumber, setRefPageNumber] = useState<number>(0);
-  const { appState, updateGridView, updateGlobalSearchTerm } =
-    useContext(AppContext);
+  const {
+    appState,
+    updateGridView,
+    updateGlobalSearchTerm,
+    updateSidebarCollapsed,
+  } = useContext(AppContext);
   const [searchValue, setSearchValue] = useState("");
   const [newChangedCardObject, setNewChangeCardObject] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -250,11 +256,33 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
           </IF>
         </div>
         <div className="mb-4 row row-cols-2 row-cols-md-3 ">
-          <div className="col col-12 col-md-4 d-flex align-items-center mb-4 mb-md-0">
-            <LocalSearchComponent
-              setSearchValueFunction={setSearchValueFunction}
-              defaultSearchTerm={searchValue}
-            />
+          <div className="d-flex align-items-center col col-12 col-md-4 d-flex align-items-center mb-4 mb-md-0">
+            <div className="cursor-pointer" style={{ width: "30px" }}>
+              <IF condition={!appState.sidebarCollapsed}>
+                <FontAwesomeIcon
+                  size="2x"
+                  icon={faBars}
+                  onClick={(e) => {
+                    updateSidebarCollapsed?.(!appState.sidebarCollapsed);
+                  }}
+                />
+              </IF>
+              <IF condition={appState.sidebarCollapsed}>
+                <FontAwesomeIcon
+                  size="2x"
+                  icon={faBarsStaggered}
+                  onClick={(e) => {
+                    updateSidebarCollapsed?.(!appState.sidebarCollapsed);
+                  }}
+                />
+              </IF>
+            </div>
+            <div className=" flex-grow-1 ms-2">
+              <LocalSearchComponent
+                setSearchValueFunction={setSearchValueFunction}
+                defaultSearchTerm={searchValue}
+              />
+            </div>
           </div>
           <PagingComponent
             pageChanged={pageChanged}
