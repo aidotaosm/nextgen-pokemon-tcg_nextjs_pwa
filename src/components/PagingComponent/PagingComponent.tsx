@@ -41,7 +41,6 @@ export const PagingComponent: FunctionComponent<PagingComponentProps> = ({
     if (newPageIndex != pageIndex && !isLoading) {
       if (newPageIndex >= 0) {
         let lastPage = Math.floor((numberOfElements - 1) / pageSize);
-        console.log(lastPage, newPageIndex);
         if (newPageIndex > lastPage) {
           setPageIndex(lastPage);
           inputElementRef.current.value = lastPage + 1;

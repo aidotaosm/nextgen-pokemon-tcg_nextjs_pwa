@@ -257,11 +257,11 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
         </div>
         <div className="mb-4 row row-cols-2 row-cols-md-3 ">
           <div className="d-flex align-items-center col col-12 col-md-4 d-flex align-items-center mb-4 mb-md-0">
-            <div className="cursor-pointer" style={{ width: "30px" }}>
+            <div className="cursor-pointer" style={{ width: "2rem" }}>
               <IF condition={!appState.sidebarCollapsed}>
                 <FontAwesomeIcon
                   size="2x"
-                  icon={faBars}
+                  icon={faBarsStaggered}
                   onClick={(e) => {
                     updateSidebarCollapsed?.(!appState.sidebarCollapsed);
                   }}
@@ -270,7 +270,7 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
               <IF condition={appState.sidebarCollapsed}>
                 <FontAwesomeIcon
                   size="2x"
-                  icon={faBarsStaggered}
+                  icon={faBars}
                   onClick={(e) => {
                     updateSidebarCollapsed?.(!appState.sidebarCollapsed);
                   }}
@@ -309,11 +309,25 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
             </h2>
           </div>
         </IF>
-        <div className="d-flex justify-content-between">
-          <SidebarFiltersComponent
-            formInstance={formInstance}
-            triggerFilter={triggerFilter}
-          />
+        <div
+          className={
+            "d-flex " +
+            (appState.sidebarCollapsed
+              ? "justify-content-center"
+              : "justify-content-between")
+          }
+        >
+          <div
+            className={
+              "sidebar me-4 " + (appState.sidebarCollapsed ? "collapsed" : "")
+            }
+            style={{ minWidth: "225px", width: "225px" }}
+          >
+            <SidebarFiltersComponent
+              formInstance={formInstance}
+              triggerFilter={triggerFilter}
+            />{" "}
+          </div>
           <IF condition={appState.gridView}>
             <GridViewComponent setCards={setCards}></GridViewComponent>
           </IF>

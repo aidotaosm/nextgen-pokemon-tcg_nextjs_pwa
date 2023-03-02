@@ -195,6 +195,9 @@ html {
 .dark-background-link {
   color: lightskyblue;
 }
+.sidebar.collapsed {
+  display: none;
+}
 a {
   text-decoration: none;
   color: slateblue;

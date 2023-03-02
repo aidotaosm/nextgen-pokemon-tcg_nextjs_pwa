@@ -29,8 +29,14 @@ export const GridViewComponent: FunctionComponent<SetCardsProps> = ({
       <div
         className={
           !appState.offLineMode
-            ? "g-4 row row-cols-1 row-cols-sm-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 row-cols-xxl-4"
-            : "g-4 row row-cols-1 row-cols-md-1 row-cols-xl-2 row-cols-xxl-3"
+            ? "g-4 row row-cols-1 " +
+              (appState.sidebarCollapsed
+                ? "row-cols-sm-2 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 row-cols-xxl-5"
+                : "row-cols-sm-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 row-cols-xxl-4")
+            : "g-4 row row-cols-1 " +
+              (appState.sidebarCollapsed
+                ? "row-cols-md-2 row-cols-xl-3 row-cols-xxl-4"
+                : "row-cols-md-1 row-cols-xl-2 row-cols-xxl-3")
         }
       >
         {setCards?.map((card: any) => {
