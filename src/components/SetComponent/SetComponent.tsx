@@ -229,19 +229,20 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
   } else {
     return (
       <div className="container d-flex flex-column">
-        <div className="d-flex justify-content-center mb-4 align-items-center">
+        <div
+          className="d-flex justify-content-center mb-4 align-items-center"
+          style={{ height: "5rem", overflow: "hidden" }}
+        >
           <IF condition={isSearchPage}>
             <h4>Search from all the cards ever printed!</h4>
           </IF>
           <IF condition={!appState.offLineMode && !isSearchPage}>
-            <div style={{ width: "8rem" }}>
+            <div className="position-relative w-100" style={{ height: "5rem" }}>
               <ImageComponent
                 src={cardsObject.data[0].set?.images?.logo}
                 alt={cardsObject.data[0].set.name}
-                height={72}
-                width={192}
+                shouldFill={true}
                 blurDataURL={logoBlurImage}
-                className="w-100 h-auto"
                 fallBackType="logo"
                 fallbackImage={"/images/International_Pokémon_logo.png"}
               />
@@ -257,7 +258,7 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
         </div>
         <div className="mb-4 row row-cols-2 row-cols-md-3 ">
           <div className="d-flex align-items-center col col-12 col-md-4 d-flex align-items-center mb-4 mb-md-0">
-            <div className="cursor-pointer" style={{ width: "2rem" }}>
+            <div className="sidebar-trigger cursor-pointer">
               <IF condition={!appState.sidebarCollapsed}>
                 <FontAwesomeIcon
                   size="2x"
@@ -311,16 +312,12 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
         </IF>
         <div
           className={
-            "d-flex " +
-            (appState.sidebarCollapsed
-              ? "justify-content-center"
-              : "justify-content-between")
+            "d-flex sidebar-content-wrapper " +
+            (appState.sidebarCollapsed ? "collapsed" : "")
           }
         >
           <div
-            className={
-              "sidebar me-4 " + (appState.sidebarCollapsed ? "collapsed" : "")
-            }
+            className={"sidebar"}
             style={{ minWidth: "225px", width: "225px" }}
           >
             <SidebarFiltersComponent

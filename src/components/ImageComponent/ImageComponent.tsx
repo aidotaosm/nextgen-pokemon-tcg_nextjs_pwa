@@ -10,10 +10,10 @@ export const ImageComponent: FunctionComponent<any> = ({
   height,
   className,
   alt,
-  layout,
   highQualitySrc,
   fallBackType,
   fallbackImage,
+  shouldFill = false,
   //change here to turn on or off image optimization - true is off
   lqImageUnOptimize = process.env.IS_VERCEL === "true",
 }) => {
@@ -32,6 +32,7 @@ export const ImageComponent: FunctionComponent<any> = ({
     <>
       <div className={highQualityImageLoaded ? "out-of-view" : ""}>
         <Image
+          style={{ objectFit: "contain" }}
           unoptimized={lqImageUnOptimize}
           className={className || ""}
           src={imageSource}
@@ -39,6 +40,8 @@ export const ImageComponent: FunctionComponent<any> = ({
           width={imageDimensions.width}
           height={imageDimensions.height}
           //loading="eager"
+          //sizes
+          fill={shouldFill}
           blurDataURL={blurDataURL}
           placeholder={fallBackType === "symbol" ? undefined : "blur"}
           onError={(e: any) => {
@@ -60,10 +63,12 @@ export const ImageComponent: FunctionComponent<any> = ({
                 setImageSource(fallbackImage);
               }
             }
-            setImageDimensions({
-              width: e.naturalWidth,
-              height: e.naturalHeight,
-            });
+            if (!shouldFill) {
+              setImageDimensions({
+                width: e.naturalWidth,
+                height: e.naturalHeight,
+              });
+            }
             setLowQualityImageLoaded(true);
           }}
         />

@@ -195,8 +195,26 @@ html {
 .dark-background-link {
   color: lightskyblue;
 }
-.sidebar.collapsed {
-  display: none;
+.sidebar-trigger {
+  width: 28px;
+}
+.sidebar-content-wrapper {
+  justify-content: space-between;
+}
+.sidebar {
+}
+.sidebar-content-wrapper.collapsed {
+  justify-content: center;
+}
+
+.sidebar-content-wrapper.collapsed .sidebar {
+  width: 0 !important;
+  min-width: 0 !important;
+  overflow: hidden;
+  margin-right: 0;
+}
+.sidebar-content-wrapper:not(.collapsed) .sidebar {
+  margin-right: 1.5rem;
 }
 a {
   text-decoration: none;
@@ -413,6 +431,29 @@ a.white-hover:hover {
 }
 
 @media (max-width: 575px) {
+  /* .sidebar-trigger {
+    z-index: 500;
+    position: fixed;
+    top: 3.5rem;
+    background-color: grey;
+    border-radius: 5px;
+    padding: 5px;
+    max-width: 42px;
+    width: 36px;
+  }
+  .sidebar-trigger svg {
+    vertical-align: middle;
+  }*/
+  .sidebar-content-wrapper .sidebar {
+    position: absolute;
+    left: 12px;
+    z-index: 500;
+    margin-right: 0;
+    top: 15rem;
+  }
+  .sidebar-content-wrapper {
+    justify-content: center;
+  }
   .special-card-wrapper {
     padding: 0 2rem 1rem 2rem;
   }
