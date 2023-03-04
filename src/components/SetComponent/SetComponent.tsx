@@ -17,6 +17,7 @@ import { SidebarFiltersComponent } from "../SidebarFiltersComponent/SidebarFilte
 import { Form } from "antd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faBarsStaggered } from "@fortawesome/free-solid-svg-icons";
+import Tooltip from "bootstrap/js/dist/tooltip";
 
 export const SetComponent: FunctionComponent<CardsObjectProps> = ({
   cardsObject,
@@ -45,6 +46,7 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
   const [searchValue, setSearchValue] = useState("");
   const [newChangedCardObject, setNewChangeCardObject] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const filterButtonTooltipId = "filterButtonTooltipId";
 
   const getUpdatedView = (view: boolean) => {
     updateGridView?.(view);
@@ -81,6 +83,24 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
       }
     }
   }, [router.isReady]);
+  useEffect(() => {
+    //if (router.isReady) {
+    let bootStrapMasterClass = appState?.bootstrap;
+    const filterButtonTrigger = document.getElementById(
+      filterButtonTooltipId
+    ) as any;
+    let filterTooltipInstance: Tooltip;
+    if (bootStrapMasterClass && filterButtonTrigger) {
+      filterTooltipInstance = new bootStrapMasterClass.Tooltip(
+        filterButtonTrigger
+      );
+    }
+
+    return () => {
+      filterTooltipInstance?.dispose();
+    };
+    // }
+  }, [appState?.bootstrap, router.pathname]);
   useEffect(() => {
     return () => {
       updateGlobalSearchTerm?.("");
@@ -258,7 +278,13 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
         </div>
         <div className="mb-4 row row-cols-2 row-cols-md-3 ">
           <div className="d-flex align-items-center col col-12 col-md-4 d-flex align-items-center mb-4 mb-md-0">
-            <div className="sidebar-trigger cursor-pointer">
+            <div
+              className="sidebar-trigger cursor-pointer"
+              data-bs-title={"Show / Hide filters."}
+              data-bs-toggle="tooltip"
+              data-bs-trigger="hover"
+              id={filterButtonTooltipId}
+            >
               <IF condition={!appState.sidebarCollapsed}>
                 <FontAwesomeIcon
                   size="2x"

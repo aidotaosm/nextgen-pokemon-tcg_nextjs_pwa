@@ -339,7 +339,7 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
           totalCount: cardsParentObject.length,
         };
         Helper.saveTemplateAsFile(
-          "FirstPageOfCardsWithTotalCount.json",
+          "firstPageOfCardsWithTotalCount.json",
           firstPageOfCardsWithTotalCount
         );
         Helper.saveTemplateAsFile("AllCards.json", cardsParentObject);
