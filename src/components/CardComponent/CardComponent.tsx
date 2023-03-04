@@ -17,15 +17,12 @@ export const CardComponent: FunctionComponent<CardObjectProps> = ({
   } else {
     return (
       <div className="container align-self-center negative-margin-min-768">
-        {/* <div className="d-flex justify-content-end mb-4">
-          <h4 className="mb-0">
-          </h4>
-        </div> */}
-        <div className="list-view align-items-center d-md-flex justify-content-center">
+        <div className="full-screen-view align-items-center d-md-flex justify-content-center">
           <PokemonCardAndDetailsComponent
             card={cardObject}
             showHQImage={true}
             showCardOpenToNewTab={false}
+            detailsClasses="mt-5 mt-md-0 ms-md-5 flex-grow-1"
           />
         </div>
       </div>

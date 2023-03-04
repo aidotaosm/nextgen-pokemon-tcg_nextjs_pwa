@@ -1,3 +1,5 @@
+import { FormInstance } from "antd";
+
 export class BasicProps {
   children?: JSX.Element;
   qry?: any;
@@ -36,6 +38,14 @@ export interface CarouselProps {
   children?: JSX.Element;
   classes?: string;
   isLandingPage?: boolean;
+}
+export interface SidebarFiltersComponentProps {
+  formInstance: FormInstance;
+  triggerFilter: () => void;
+}
+export interface EnergyComponentProps {
+  type: string;
+  toolTipId: string;
 }
 export interface ExternalLinkProps {
   card?: any;

@@ -4,6 +4,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import "../src/css/default.css";
 import "../src/css/dark-mode.css";
 import "../src/css/global.css";
+import "../src/css/fs-breakpoint-n.css";
 import { AppWrapper } from "../src/components/AppWrapper/AppWrapper";
 import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";

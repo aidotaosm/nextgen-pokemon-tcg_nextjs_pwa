@@ -7,9 +7,7 @@
     "@fortawesome/free-regular-svg-icons": "^6.2.0",
     "@fortawesome/free-solid-svg-icons": "^6.2.0",
     "@fortawesome/react-fontawesome": "^0.2.0",
-    "@types/node": "^17.0.45",
-    "@types/react": "^18.0.15",
-    "@types/react-dom": "^18.0.6",
+    "antd": "^5.2.2",
     "axios": "^1.3.2",
     "bootstrap": "^5.2.3",
     "next": "^13.2.1",
@@ -17,14 +15,13 @@
     "pokemontcgsdk": "^2.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "sharp": "^0.31.3",
-    "typescript": "^4.7.4"
+    "sharp": "^0.31.3"
   },
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -p 3001",
     "build": "next build",
     "build:local": "SET APP_ENV=local& next build",
-    "start": "next start"
+    "start": "next start -p 3001"
   },
   "eslintConfig": {
     "extends": [
@@ -45,6 +42,10 @@
     ]
   },
   "devDependencies": {
-    "@types/bootstrap": "^5.2.1"
+    "@types/bootstrap": "^5.2.1",
+    "typescript": "^4.9.5",
+    "@types/node": "^17.0.45",
+    "@types/react": "^18.0.15",
+    "@types/react-dom": "^18.0.6"
   }
 }

@@ -12,7 +12,7 @@ export const PokemonCardAndDetailsComponent: FunctionComponent<
 > = ({
   card,
   cardClicked = () => {},
-  detailsClasses = "mt-5 mt-md-0 ms-md-5 flex-grow-1",
+  detailsClasses = "mt-5 mt-lg-0 ms-lg-5 flex-grow-1",
   showHQImage = false,
   showCardOpenToNewTab = true,
   imageClasses = "",

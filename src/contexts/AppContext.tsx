@@ -10,16 +10,19 @@ interface AppContextInterface {
     bootstrap: any;
     offLineMode: boolean;
     globalSearchTerm: string;
+    sidebarCollapsed: boolean;
   };
   setAppState?: any;
   updateDarkMode?: (e: boolean) => void;
   updateOfflineMode?: (e: boolean) => void;
   updateGridView?: (e: boolean) => void;
+  updateSidebarCollapsed?: (e: boolean) => void;
   multiUpdate?: (e: {
     darkMode?: boolean;
     gridView?: boolean;
     bootstrap?: any;
     offLineMode?: boolean;
+    sidebarCollapsed?: boolean;
   }) => void;
   saveBootstrap?: (e: any) => void;
   updateGlobalSearchTerm?: (e: string) => void;
@@ -32,6 +35,7 @@ export const AppContext = createContext<AppContextInterface>({
     bootstrap: null,
     offLineMode: false,
     globalSearchTerm: "",
+    sidebarCollapsed: false,
   },
 });
 
@@ -65,6 +69,7 @@ export const AppProvider: FunctionComponent<BasicProps> = (props) => {
     bootstrap: null,
     offLineMode: false,
     globalSearchTerm: "",
+    sidebarCollapsed: false,
   });
 
   const updateDarkMode = (value: boolean) => {
@@ -86,12 +91,18 @@ export const AppProvider: FunctionComponent<BasicProps> = (props) => {
     });
     setLocalStorageItem("gridView", value);
   };
-
+  const updateSidebarCollapsed = (value: boolean) => {
+    setAppState((e) => {
+      return { ...e, sidebarCollapsed: value };
+    });
+    setLocalStorageItem("sidebarCollapsed", value);
+  };
   const multiUpdate = (object: {
     darkMode?: boolean;
     gridView?: boolean;
     bootstrap?: any;
     offLineMode?: boolean;
+    sidebarCollapsed?: boolean;
   }) => {
     setAppState((e) => {
       return { ...e, ...object };
@@ -120,6 +131,7 @@ export const AppProvider: FunctionComponent<BasicProps> = (props) => {
         multiUpdate,
         saveBootstrap,
         updateGlobalSearchTerm,
+        updateSidebarCollapsed,
       }}
     >
       {props.children}
