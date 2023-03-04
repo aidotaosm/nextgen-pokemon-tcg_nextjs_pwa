@@ -15,17 +15,17 @@ export const ListOrGridViewToggle: FunctionComponent<
   return (
     <div
       className={
-        "user-select-none cursor-pointer d-flex flex-column flex-md-row align-items-center justify-content-center " +
+        "d-flex flex-column flex-md-row align-items-center justify-content-center " +
         additionalClasses
       }
-      onClick={(e) => {
-        getUpdatedView(!isGridView);
-      }}
     >
       <IF condition={isGridView}>
         <FontAwesomeIcon className="fs-5" icon={faBoxes} />
         <span
-          className="ms-0 ms-md-2 mt-1 mt-md-0"
+          onClick={(e) => {
+            getUpdatedView(!isGridView);
+          }}
+          className="ms-0 ms-md-2 mt-1 mt-md-0 user-select-none cursor-pointer "
           style={{ whiteSpace: "nowrap" }}
         >
           Grid View
@@ -34,7 +34,10 @@ export const ListOrGridViewToggle: FunctionComponent<
       <IF condition={!isGridView}>
         <FontAwesomeIcon className="fs-5" icon={faList} />
         <span
-          className="ms-0 ms-md-2 mt-1 mt-md-0"
+          onClick={(e) => {
+            getUpdatedView(!isGridView);
+          }}
+          className="ms-0 ms-md-2 mt-1 mt-md-0 user-select-none cursor-pointer "
           style={{ whiteSpace: "nowrap" }}
         >
           List View
