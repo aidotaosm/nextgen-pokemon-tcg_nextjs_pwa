@@ -80,10 +80,10 @@ export const PokemonDetailComponent: FunctionComponent<PokemonDetailProps> = ({
               (card.supertype === SuperTypes.Pokemon ? "" : "d-none")
             }
           >
-            <small>
+            <small className="d-flex flex-wrap">
               <IF condition={card.evolvesTo}>
-                <span>
-                  Evolves To:
+                <span className="me-2 d-flex flex-wrap">
+                  <span>Evolves To:</span>
                   {card.evolvesTo?.map(
                     (evolvesInto: string, evolvesIntoIndex: number) => (
                       <b key={evolvesIntoIndex} className={"ms-1"}>
@@ -94,7 +94,7 @@ export const PokemonDetailComponent: FunctionComponent<PokemonDetailProps> = ({
                 </span>
               </IF>
               <IF condition={card.nationalPokedexNumbers}>
-                <span className="ms-2">
+                <span className="">
                   Pokédex No.
                   {card.nationalPokedexNumbers?.map(
                     (

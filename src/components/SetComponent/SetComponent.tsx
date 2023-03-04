@@ -83,8 +83,8 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
       }
     }
   }, [router.isReady]);
+
   useEffect(() => {
-    //if (router.isReady) {
     let bootStrapMasterClass = appState?.bootstrap;
     const filterButtonTrigger = document.getElementById(
       filterButtonTooltipId
@@ -99,8 +99,8 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
     return () => {
       filterTooltipInstance?.dispose();
     };
-    // }
   }, [appState?.bootstrap, router.pathname]);
+
   useEffect(() => {
     return () => {
       updateGlobalSearchTerm?.("");
@@ -240,6 +240,14 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
     pageChanged(0);
     console.log(formInstance.getFieldsValue());
   };
+  const hideAllTollTips = () => {
+    let bootStrapMasterClass = appState?.bootstrap;
+    if (bootStrapMasterClass) {
+      const filterButtonTooltipInstance: Tooltip =
+        bootStrapMasterClass.Tooltip.getInstance("#" + filterButtonTooltipId);
+      filterButtonTooltipInstance?.hide();
+    }
+  };
   if (router.isFallback) {
     return (
       <div className="container d-flex flex-grow-1 justify-content-center">
@@ -248,7 +256,7 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
     );
   } else {
     return (
-      <div className="container d-flex flex-column">
+      <div className="container d-flex flex-column" onClick={hideAllTollTips}>
         <div
           className="d-flex justify-content-center mb-4 align-items-center"
           style={{ height: "5rem", overflow: "hidden" }}
@@ -349,7 +357,7 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
             <SidebarFiltersComponent
               formInstance={formInstance}
               triggerFilter={triggerFilter}
-            />{" "}
+            />
           </div>
           <IF condition={appState.gridView}>
             <GridViewComponent setCards={setCards}></GridViewComponent>
