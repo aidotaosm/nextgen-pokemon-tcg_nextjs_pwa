@@ -1,15 +1,16 @@
-import { Fragment } from "react";
-import type { AppProps } from "next/app";
-import "bootstrap/dist/css/bootstrap.css";
-import "../src/css/default.css";
-import "../src/css/dark-mode.css";
-import "../src/css/global.css";
-import "../src/css/fs-breakpoint-n.css";
-import { AppWrapper } from "../src/components/AppWrapper/AppWrapper";
 import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
-import { AppProvider } from "../src/contexts/AppContext";
+import { Analytics } from "@vercel/analytics/react";
+import "bootstrap/dist/css/bootstrap.css";
+import type { AppProps } from "next/app";
 import Head from "next/head";
+import { Fragment } from "react";
+import { AppWrapper } from "../src/components/AppWrapper/AppWrapper";
+import { AppProvider } from "../src/contexts/AppContext";
+import "../src/css/dark-mode.css";
+import "../src/css/default.css";
+import "../src/css/fs-breakpoint-n.css";
+import "../src/css/global.css";
 import { Helper } from "../src/utils/helper";
 config.autoAddCss = false;
 
@@ -76,6 +77,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
             />
           </Head>
           <Component {...pageProps} />
+          <Analytics />
         </Fragment>
       </AppWrapper>
     </AppProvider>
