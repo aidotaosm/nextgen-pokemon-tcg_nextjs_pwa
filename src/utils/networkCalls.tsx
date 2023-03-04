@@ -93,3 +93,50 @@ export const getCardsFromNextServer = async (
   const response = await axiosHttpClient.get(url);
   return response.data;
 };
+
+export const getAllRarities = async () => {
+  let pokemonSDKVariable = Helper.initializePokemonSDK();
+  let rarityList = [];
+  try {
+    rarityList = await pokemonSDKVariable.rarity.all();
+  } catch (e) {
+    console.log(e, "rarity error");
+  }
+  return rarityList;
+};
+export const getAllSuperTypes = async () => {
+  let pokemonSDKVariable = Helper.initializePokemonSDK();
+  let superTypeList = [];
+  try {
+    superTypeList = await pokemonSDKVariable.supertype.all();
+  } catch (e) {
+    console.log(e, "supertype error");
+  }
+  return superTypeList;
+};
+
+export const getAllSubtypes = async () => {
+  let pokemonSDKVariable = Helper.initializePokemonSDK();
+  let subtypeList = [];
+  try {
+    subtypeList = await pokemonSDKVariable.subtype.all();
+  } catch (e) {
+    console.log(e, "subtype error");
+  }
+  return subtypeList;
+};
+export const getAllTypes = async () => {
+  let pokemonSDKVariable = Helper.initializePokemonSDK();
+  let typeList = [];
+  try {
+    typeList = await pokemonSDKVariable.type.all();
+  } catch (e) {
+    console.log(e, "type error");
+  }
+  return typeList;
+};
+// pokemonSDKVariable.card
+//   .all({ q: "!name:charizard", page: 0, pageSize: 100 })
+//   .then((cards: any[]) => {
+//     console.log(cards);
+//   });

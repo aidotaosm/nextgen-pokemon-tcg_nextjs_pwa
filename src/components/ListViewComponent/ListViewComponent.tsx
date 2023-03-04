@@ -2,11 +2,13 @@ import {
   Fragment,
   FunctionComponent,
   useCallback,
+  useContext,
   useMemo,
   useRef,
   useState,
 } from "react";
 import { defaultBlurImage } from "../../../base64Images/base64Images";
+import { AppContext } from "../../contexts/AppContext";
 import { SetCardsProps } from "../../models/GenericModels";
 import { ImageComponent } from "../ImageComponent/ImageComponent";
 import { PokemonCardAndDetailsComponent } from "../PokemonCardAndDetailsComponent/PokemonCardAndDetailsComponent";
@@ -17,9 +19,9 @@ export const ListViewComponent: FunctionComponent<SetCardsProps> = ({
   setCards,
 }) => {
   const [selectedCard, setSelectedCard] = useState<any>(null);
+  const { appState } = useContext(AppContext);
   const modalCloseButton = useRef<any>();
   const cardClicked = (card: any) => {
-    console.log(card);
     setSelectedCard(card);
   };
 
@@ -30,7 +32,6 @@ export const ListViewComponent: FunctionComponent<SetCardsProps> = ({
     arrayOFCarouselItems.forEach((carouselItem) => {
       carouselItem.classList.remove("active");
     });
-    console.log(arrayOFCarouselItems);
     setSelectedCard(null);
   }, []);
   const MemoizedCarouselComponent = useMemo(() => {
@@ -79,12 +80,20 @@ export const ListViewComponent: FunctionComponent<SetCardsProps> = ({
           <div
             key={card.id}
             className={
-              "list-view align-items-center d-md-flex justify-content-center mb-5"
+              "align-items-center mb-5 " +
+              (appState.sidebarCollapsed
+                ? "full-screen-view d-md-flex"
+                : "d-lg-flex list-view")
             }
           >
             <PokemonCardAndDetailsComponent
               cardClicked={cardClicked}
               card={card}
+              detailsClasses={
+                appState.sidebarCollapsed
+                  ? "mt-5 mt-md-0 ms-md-5 flex-grow-1"
+                  : "mt-5 mt-lg-0 ms-lg-5 flex-grow-1"
+              }
             />
           </div>
         ))}

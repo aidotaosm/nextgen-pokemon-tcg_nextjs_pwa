@@ -30,6 +30,7 @@ interface LocalAppInterface {
   darkMode: boolean;
   gridView: boolean;
   offLineMode: boolean;
+  sidebarCollapsed: boolean;
 }
 export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
   const {
@@ -112,7 +113,6 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
         splitPath === "card" ||
         splitPath === "search"
       ) {
-        console.log(listOfPaths);
         if (
           listOfPaths.length &&
           listOfPaths[listOfPaths.length - 1] != router.asPath
@@ -143,6 +143,11 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
       typeof localAppState.gridView === "boolean"
         ? localAppState.gridView
         : false;
+    let sidebarCollapsedValue =
+      localAppState?.hasOwnProperty("sidebarCollapsed") &&
+      typeof localAppState.sidebarCollapsed === "boolean"
+        ? localAppState.sidebarCollapsed
+        : false;
     let offLineModeValue =
       localAppState?.hasOwnProperty("offLineMode") &&
       typeof localAppState.offLineMode === "boolean"
@@ -152,6 +157,7 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
       darkMode: darkModeValue,
       gridView: gridViewValue,
       offLineMode: offLineModeValue,
+      sidebarCollapsed: sidebarCollapsedValue,
     });
     //this is needed for accordion toggle etc
     import("bootstrap").then((bootstrap) => {

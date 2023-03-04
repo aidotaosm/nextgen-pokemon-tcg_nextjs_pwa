@@ -13,11 +13,17 @@ import { ImageComponent } from "../ImageComponent/ImageComponent";
 import { logoBlurImage } from "../../../base64Images/base64Images";
 import { LocalSearchComponent } from "../LocalSearchComponent/LocalSearchComponent";
 import { getCardsFromNextServer } from "../../utils/networkCalls";
+import { SidebarFiltersComponent } from "../SidebarFiltersComponent/SidebarFiltersComponent";
+import { Form } from "antd";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBars, faBarsStaggered } from "@fortawesome/free-solid-svg-icons";
+import Tooltip from "bootstrap/js/dist/tooltip";
 
 export const SetComponent: FunctionComponent<CardsObjectProps> = ({
   cardsObject,
   isSearchPage = false,
 }) => {
+  const [formInstance] = Form.useForm();
   let router = useRouter();
   const getCardsForServerSide = () => {
     let from = 0 * DEFAULT_PAGE_SIZE;
@@ -31,11 +37,16 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
   const [setCards, setSetCards] = useState<any>(getCardsForServerSide() || []);
   const [pageIndex, setPageIndex] = useState<number>(0);
   const [refPageNumber, setRefPageNumber] = useState<number>(0);
-  const { appState, updateGridView, updateGlobalSearchTerm } =
-    useContext(AppContext);
+  const {
+    appState,
+    updateGridView,
+    updateGlobalSearchTerm,
+    updateSidebarCollapsed,
+  } = useContext(AppContext);
   const [searchValue, setSearchValue] = useState("");
   const [newChangedCardObject, setNewChangeCardObject] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const filterButtonTooltipId = "filterButtonTooltipId";
 
   const getUpdatedView = (view: boolean) => {
     updateGridView?.(view);
@@ -73,6 +84,24 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
     }
   }, [router.isReady]);
   useEffect(() => {
+    //if (router.isReady) {
+    let bootStrapMasterClass = appState?.bootstrap;
+    const filterButtonTrigger = document.getElementById(
+      filterButtonTooltipId
+    ) as any;
+    let filterTooltipInstance: Tooltip;
+    if (bootStrapMasterClass && filterButtonTrigger) {
+      filterTooltipInstance = new bootStrapMasterClass.Tooltip(
+        filterButtonTrigger
+      );
+    }
+
+    return () => {
+      filterTooltipInstance?.dispose();
+    };
+    // }
+  }, [appState?.bootstrap, router.pathname]);
+  useEffect(() => {
     return () => {
       updateGlobalSearchTerm?.("");
     };
@@ -106,16 +135,11 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
                 try {
                   let allCardsFromCache = allCardsModule.default as any[];
                   let tempChangedCArdsObject = null;
-                  let tempSearchValue = "";
-                  if (
-                    paramSearchValue ||
-                    paramSearchValue === "" ||
-                    searchValue
-                  ) {
-                    tempSearchValue =
-                      paramSearchValue === "" || paramSearchValue
-                        ? paramSearchValue
-                        : searchValue;
+                  let tempSearchValue =
+                    paramSearchValue === "" || paramSearchValue
+                      ? paramSearchValue
+                      : searchValue;
+                  if (tempSearchValue) {
                     tempChangedCArdsObject = allCardsFromCache.filter(
                       (item: any) => {
                         return item.name
@@ -199,20 +223,23 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
     value: string,
     eventType: "onChange" | "submit"
   ) => {
+    setSearchValue(value);
     if (
-      !isLoading &&
-      ((isSearchPage && eventType === "submit") || !isSearchPage)
+      (!isLoading && isSearchPage && eventType === "submit") ||
+      !isSearchPage
     ) {
       pageChanged(0, value);
     }
-    setSearchValue(value);
   };
   const syncPagingReferences = (pageNumber: number) => {
     setRefPageNumber(pageNumber);
   };
   let numberOfElements =
     searchValue && !isSearchPage ? newChangedCardObject.length : totalCount;
-
+  const triggerFilter = () => {
+    pageChanged(0);
+    console.log(formInstance.getFieldsValue());
+  };
   if (router.isFallback) {
     return (
       <div className="container d-flex flex-grow-1 justify-content-center">
@@ -222,19 +249,20 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
   } else {
     return (
       <div className="container d-flex flex-column">
-        <div className="d-flex justify-content-center mb-4 align-items-center">
+        <div
+          className="d-flex justify-content-center mb-4 align-items-center"
+          style={{ height: "5rem", overflow: "hidden" }}
+        >
           <IF condition={isSearchPage}>
             <h4>Search from all the cards ever printed!</h4>
           </IF>
           <IF condition={!appState.offLineMode && !isSearchPage}>
-            <div style={{ width: "8rem" }}>
+            <div className="position-relative w-100" style={{ height: "5rem" }}>
               <ImageComponent
                 src={cardsObject.data[0].set?.images?.logo}
                 alt={cardsObject.data[0].set.name}
-                height={72}
-                width={192}
+                shouldFill={true}
                 blurDataURL={logoBlurImage}
-                className="w-100 h-auto"
                 fallBackType="logo"
                 fallbackImage={"/images/International_Pokémon_logo.png"}
               />
@@ -249,11 +277,39 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
           </IF>
         </div>
         <div className="mb-4 row row-cols-2 row-cols-md-3 ">
-          <div className="col col-12 col-md-4 d-flex align-items-center mb-4 mb-md-0">
-            <LocalSearchComponent
-              setSearchValueFunction={setSearchValueFunction}
-              defaultSearchTerm={searchValue}
-            />
+          <div className="d-flex align-items-center col col-12 col-md-4 d-flex align-items-center mb-4 mb-md-0">
+            <div
+              className="sidebar-trigger cursor-pointer"
+              data-bs-title={"Show / Hide filters."}
+              data-bs-toggle="tooltip"
+              data-bs-trigger="hover"
+              id={filterButtonTooltipId}
+            >
+              <IF condition={!appState.sidebarCollapsed}>
+                <FontAwesomeIcon
+                  size="2x"
+                  icon={faBarsStaggered}
+                  onClick={(e) => {
+                    updateSidebarCollapsed?.(!appState.sidebarCollapsed);
+                  }}
+                />
+              </IF>
+              <IF condition={appState.sidebarCollapsed}>
+                <FontAwesomeIcon
+                  size="2x"
+                  icon={faBars}
+                  onClick={(e) => {
+                    updateSidebarCollapsed?.(!appState.sidebarCollapsed);
+                  }}
+                />
+              </IF>
+            </div>
+            <div className=" flex-grow-1 ms-2">
+              <LocalSearchComponent
+                setSearchValueFunction={setSearchValueFunction}
+                defaultSearchTerm={searchValue}
+              />
+            </div>
           </div>
           <PagingComponent
             pageChanged={pageChanged}
@@ -280,12 +336,28 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
             </h2>
           </div>
         </IF>
-        <IF condition={appState.gridView}>
-          <GridViewComponent setCards={setCards}></GridViewComponent>
-        </IF>
-        <IF condition={!appState.gridView}>
-          <ListViewComponent setCards={setCards}></ListViewComponent>
-        </IF>
+        <div
+          className={
+            "d-flex sidebar-content-wrapper " +
+            (appState.sidebarCollapsed ? "collapsed" : "")
+          }
+        >
+          <div
+            className={"sidebar"}
+            style={{ minWidth: "225px", width: "225px" }}
+          >
+            <SidebarFiltersComponent
+              formInstance={formInstance}
+              triggerFilter={triggerFilter}
+            />{" "}
+          </div>
+          <IF condition={appState.gridView}>
+            <GridViewComponent setCards={setCards}></GridViewComponent>
+          </IF>
+          <IF condition={!appState.gridView}>
+            <ListViewComponent setCards={setCards}></ListViewComponent>
+          </IF>
+        </div>
         <div className="mt-4 row row-cols-2 row-cols-md-3 ">
           <div className="col d-none d-md-block"></div>
           <PagingComponent

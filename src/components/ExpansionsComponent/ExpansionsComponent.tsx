@@ -29,7 +29,13 @@ import MemoizedModalComponent from "../UtilityComponents/ModalComponent";
 import { IF } from "../UtilityComponents/IF";
 import { flushSync } from "react-dom";
 import { LocalSearchComponent } from "../LocalSearchComponent/LocalSearchComponent";
-import { getAllCards } from "../../utils/networkCalls";
+import {
+  getAllCards,
+  getAllRarities,
+  getAllSubtypes,
+  getAllSuperTypes,
+  getAllTypes,
+} from "../../utils/networkCalls";
 import { Helper } from "../../utils/helper";
 import { Tooltip } from "bootstrap";
 import { DEFAULT_PAGE_SIZE } from "../../constants/constants";
@@ -341,6 +347,21 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
       .finally(() => {
         setDownloadAllCardsLoading(false);
       });
+    Promise.all([
+      getAllRarities(),
+      getAllSuperTypes(),
+      getAllTypes(),
+      getAllSubtypes(),
+    ]).then((responseArray) => {
+      const allRarities = responseArray[0];
+      const allSuperTypes = responseArray[1];
+      const allTypes = responseArray[2];
+      const allSubtypes = responseArray[3];
+      Helper.saveTemplateAsFile("AllRarities.json", allRarities);
+      Helper.saveTemplateAsFile("AllSuperTypes.json", allSuperTypes);
+      Helper.saveTemplateAsFile("AllTypes.json", allTypes);
+      Helper.saveTemplateAsFile("AllSubtypes.json", allSubtypes);
+    });
   };
   const clearCacheUnregisterSWARefresh = async () => {
     console.log(self.caches);
@@ -702,28 +723,3 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
     </Fragment>
   );
 };
-
-//   localExpansionsGet();
-// pokemonSDKVariable.card
-//   .all({ q: "!name:charizard", page: 0, pageSize: 100 })
-//   .then((cards: any[]) => {
-//     console.log(cards);
-//   });
-// pokemonSDKVariable.type.all({ page: 0 }).then((cards: any[]) => {
-//   console.log(cards);
-// });
-// pokemonSDKVariable.subtype
-//   .all({ page: 0 })
-//   .then((cards: any[]) => {
-//     console.log(cards);
-//   });
-// pokemonSDKVariable.rarity
-//   .all({ page: 0 })
-//   .then((cards: any[]) => {
-//     console.log(cards);
-//   });
-// pokemonSDKVariable.supertype
-//   .all({ page: 0 })
-//   .then((cards: any[]) => {
-//     console.log(cards);
-//   });
