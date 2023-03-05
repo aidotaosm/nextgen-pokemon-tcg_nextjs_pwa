@@ -188,15 +188,15 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
   };
 
   const updateRouteWithQuery = (newPageIndex: number, searchValue?: string) => {
-    router.push(
+    let updatedQuery =
       (isSearchPage ? "/search" : "/set/" + router.query.setId) +
-        (newPageIndex || searchValue ? "?" : "") +
-        (newPageIndex ? "page=" + newPageIndex : "") +
-        (newPageIndex && searchValue ? "&" : "") +
-        (searchValue ? "search=" + searchValue : ""),
-      undefined,
-      { shallow: true }
-    );
+      (newPageIndex || searchValue
+        ? "?" +
+          (newPageIndex ? "&page=" + newPageIndex : "") +
+          (searchValue ? "&search=" + searchValue : "")
+        : "");
+    const fixedQuery = updatedQuery.replace("?&", "?");
+    router.push(fixedQuery, undefined, { shallow: true });
   };
 
   const setSearchValueFunction = (
