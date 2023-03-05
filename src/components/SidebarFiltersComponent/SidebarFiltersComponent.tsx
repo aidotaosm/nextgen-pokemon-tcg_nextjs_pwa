@@ -27,7 +27,7 @@ export const SidebarFiltersComponent: FunctionComponent<
           form={formInstance}
         >
           <Form.Item
-            name="energy-types"
+            name="energy-type"
             label="Energy Type"
             className="energy-checkbox-group"
           >
