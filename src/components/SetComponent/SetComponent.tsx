@@ -139,29 +139,21 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
                     paramSearchValue === "" || paramSearchValue
                       ? paramSearchValue
                       : searchValue;
-                  if (tempSearchValue) {
-                    tempChangedCArdsObject = allCardsFromCache.filter(
-                      (item: any) => {
-                        return item.name
-                          .toLowerCase()
-                          .includes(tempSearchValue.toLowerCase());
-                      }
-                    );
-                  }
+                  tempChangedCArdsObject = allCardsFromCache.filter(
+                    (item: any) => {
+                      return item.name
+                        .toLowerCase()
+                        .includes(tempSearchValue.toLowerCase());
+                    }
+                  );
                   let from = newPageIndex * DEFAULT_PAGE_SIZE;
                   let to = (newPageIndex + 1) * DEFAULT_PAGE_SIZE;
-                  if (tempChangedCArdsObject) {
-                    let changedSetOfCards = tempChangedCArdsObject.slice(
-                      from,
-                      to
-                    );
-                    setSetCards(changedSetOfCards);
-                    setTotalCount(tempChangedCArdsObject.length);
-                  } else {
-                    let changedSetOfCards = allCardsFromCache.slice(from, to);
-                    setSetCards(changedSetOfCards);
-                    setTotalCount(allCardsFromCache.length);
-                  }
+                  let changedSetOfCards = tempChangedCArdsObject.slice(
+                    from,
+                    to
+                  );
+                  setSetCards(changedSetOfCards);
+                  setTotalCount(tempChangedCArdsObject.length);
                   setPageIndex(newPageIndex);
                   updateRouteWithQuery(newPageIndex, tempSearchValue);
                   setRefPageNumber(newPageIndex + 1);
@@ -184,23 +176,11 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
         paramSearchValue === "" || paramSearchValue
           ? paramSearchValue
           : searchValue;
-      let temNewChangedCardObject: any[] = newChangedCardObject;
-      if (tempSearchValue) {
-        const data = cardsObject.data.filter((item: any) => {
-          return item.name
-            .toLowerCase()
-            .includes(tempSearchValue.toLowerCase());
-        });
-        temNewChangedCardObject = data;
-        setNewChangeCardObject(data);
-      } else {
-        setNewChangeCardObject([]);
-      }
-      if (tempSearchValue) {
-        setSetCards(temNewChangedCardObject.slice(from, to));
-      } else {
-        setSetCards(cardsObject.data.slice(from, to));
-      }
+      const data = cardsObject.data.filter((item: any) => {
+        return item.name.toLowerCase().includes(tempSearchValue.toLowerCase());
+      });
+      setNewChangeCardObject(data);
+      setSetCards(data.slice(from, to));
       setPageIndex(newPageIndex);
       updateRouteWithQuery(newPageIndex, tempSearchValue);
       setRefPageNumber(newPageIndex + 1);
@@ -208,15 +188,15 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
   };
 
   const updateRouteWithQuery = (newPageIndex: number, searchValue?: string) => {
-    router.push(
+    let updatedQuery =
       (isSearchPage ? "/search" : "/set/" + router.query.setId) +
-        (newPageIndex || searchValue ? "?" : "") +
-        (newPageIndex ? "page=" + newPageIndex : "") +
-        (newPageIndex && searchValue ? "&" : "") +
-        (searchValue ? "search=" + searchValue : ""),
-      undefined,
-      { shallow: true }
-    );
+      (newPageIndex || searchValue
+        ? "?" +
+          (newPageIndex ? "&page=" + newPageIndex : "") +
+          (searchValue ? "&search=" + searchValue : "")
+        : "");
+    const fixedQuery = updatedQuery.replace("?&", "?");
+    router.push(fixedQuery, undefined, { shallow: true });
   };
 
   const setSearchValueFunction = (
@@ -238,7 +218,6 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
     searchValue && !isSearchPage ? newChangedCardObject.length : totalCount;
   const triggerFilter = () => {
     pageChanged(0);
-    console.log(formInstance.getFieldsValue());
   };
   const hideAllTollTips = () => {
     let bootStrapMasterClass = appState?.bootstrap;
@@ -350,10 +329,7 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
             (appState.sidebarCollapsed ? "collapsed" : "")
           }
         >
-          <div
-            className={"sidebar"}
-            style={{ minWidth: "225px", width: "225px" }}
-          >
+          <div className={"sidebar"}>
             <SidebarFiltersComponent
               formInstance={formInstance}
               triggerFilter={triggerFilter}

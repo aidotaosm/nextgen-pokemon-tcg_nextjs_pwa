@@ -202,6 +202,8 @@ html {
   justify-content: space-between;
 }
 .sidebar {
+  min-width: 225px;
+  width: 225px;
 }
 .sidebar-content-wrapper.collapsed {
   justify-content: center;
