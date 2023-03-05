@@ -329,10 +329,7 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
             (appState.sidebarCollapsed ? "collapsed" : "")
           }
         >
-          <div
-            className={"sidebar"}
-            style={{ minWidth: "225px", width: "225px" }}
-          >
+          <div className={"sidebar"}>
             <SidebarFiltersComponent
               formInstance={formInstance}
               triggerFilter={triggerFilter}
