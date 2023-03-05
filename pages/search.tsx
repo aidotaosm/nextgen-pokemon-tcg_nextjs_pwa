@@ -95,7 +95,7 @@ const SearchPage: FunctionComponent<CardsObjectProps> = ({ cardsObject }) => {
         />
         <meta
           property="og:image"
-          content="/images/pokemon_tcg_base_image.jpg"
+          content="/images/pokemon_tcg_base_image.webp"
           key="og:image"
         />
         <meta
@@ -115,7 +115,7 @@ const SearchPage: FunctionComponent<CardsObjectProps> = ({ cardsObject }) => {
         />
         <meta
           name="twitter:image"
-          content="/images/pokemon_tcg_base_image.jpg"
+          content="/images/pokemon_tcg_base_image.webp"
           key="twitter:image"
         />
       </Head>
