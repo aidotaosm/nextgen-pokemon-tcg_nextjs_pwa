@@ -1,7 +1,7 @@
 {
   "short_name": "Pokemon TCG",
-  "name": "Pokemon TCG by OSM",
-  "description": "Browse Pokemon cards. Build your deck (coming soon). Play TCG with your friends (coming later)!",
+  "name": "Next generation Pokemon cards database by OSM",
+  "description": "Browse Pokemon cards. Build your deck (coming soon).",
   "icons": [
     {
       "src": "/images/pokeball-3d.png",
@@ -12,8 +12,7 @@
     {
       "src": "/images/pokeball-bw.png",
       "type": "image/png",
-      "sizes": "192x192"
-      ,
+      "sizes": "192x192",
       "purpose": "maskable"
     },
     {
@@ -27,5 +26,4 @@
   "display": "standalone",
   "theme_color": "#000000",
   "background_color": "#ffffff"
-  
 }

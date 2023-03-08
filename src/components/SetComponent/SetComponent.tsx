@@ -146,6 +146,7 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
                         .includes(tempSearchValue.toLowerCase());
                     }
                   );
+
                   let from = newPageIndex * DEFAULT_PAGE_SIZE;
                   let to = (newPageIndex + 1) * DEFAULT_PAGE_SIZE;
                   let changedSetOfCards = tempChangedCArdsObject.slice(
