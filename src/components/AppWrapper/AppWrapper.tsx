@@ -352,12 +352,18 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
 
       <footer className="container pt-4 pb-3">
         <div className="text-center  fs-6">
-          <small>
-            Pokemon TCG by{" "}
-            <Link href="https://github.com/aidotaosm" target="_blank">
-              Osama
-            </Link>{" "}
-            ©2023
+          <small className="d-flex flex-column">
+            <span>
+              Next generation Pokemon cards database by{" "}
+              <Link href="https://github.com/aidotaosm" target="_blank">
+                Osama
+              </Link>{" "}
+              ©2023
+            </span>
+            <span className="mt-1">
+              This website is not produced, endorsed, supported, or affiliated
+              with Nintendo or The Pokémon Company.
+            </span>
           </small>
         </div>
       </footer>

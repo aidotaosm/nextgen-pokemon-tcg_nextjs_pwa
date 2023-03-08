@@ -35,7 +35,7 @@ const Series: FunctionComponent<SeriesArrayProps> = ({
         />
         <meta
           property="og:title"
-          content="Pokemon TCG by Expansions"
+          content="Pokemon TCG Expansions"
           key="og:title"
         />
         <meta

@@ -20,21 +20,21 @@ export default function MyApp({ Component, pageProps }: AppProps) {
       <AppWrapper>
         <Fragment>
           <Head>
-            <title>Pokemon TCG by OSM</title>
+            <title>Next generation Pokemon cards database by OSM</title>
             <meta
               name="description"
-              content="Browse Pokemon cards. Build your deck (coming soon). Play TCG with your friends (coming later)!"
+              content="Browse Pokemon cards. Build your deck (coming soon)."
               key="description"
             />
             <meta property="og:type" content="games.plays" />
             <meta
               property="og:title"
-              content="Pokemon TCG by OSM"
+              content="Next generation Pokemon cards database by OSM"
               key="og:title"
             />
             <meta
               property="og:description"
-              content="Browse Pokemon cards. Build your deck (coming soon). Play TCG with your friends (coming later)!"
+              content="Browse Pokemon cards. Build your deck (coming soon)."
               key="og:description"
             />
             <meta
@@ -58,16 +58,19 @@ export default function MyApp({ Component, pageProps }: AppProps) {
               content={Helper.getBaseDomainServerSide()}
               key="og:url"
             />
-            <meta property="og:site_name" content="Pokemon TCG by OSM" />
+            <meta
+              property="og:site_name"
+              content="Next generation Pokemon cards database by OSM"
+            />
 
             <meta
               name="twitter:title"
-              content="Pokemon TCG by OSM"
+              content="Next generation Pokemon cards database by OSM"
               key="twitter:title"
             />
             <meta
               name="twitter:description"
-              content="Browse Pokemon cards. Build your deck (coming soon). Play TCG with your friends (coming later)!"
+              content="Browse Pokemon cards. Build your deck (coming soon)."
               key="twitter:description"
             />
             <meta
