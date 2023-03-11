@@ -7,6 +7,7 @@ import rarities from "../../InternalJsons/AllRarities.json";
 import { Checkbox, ConfigProvider, Form, Select, theme } from "antd";
 import { EnergyComponent } from "../UtilityComponents/EnergyComponent";
 import { AppContext } from "../../contexts/AppContext";
+import { FilterFieldNames } from "../../models/Enums";
 const { defaultAlgorithm, darkAlgorithm } = theme;
 
 export const SidebarFiltersComponent: FunctionComponent<
@@ -27,7 +28,7 @@ export const SidebarFiltersComponent: FunctionComponent<
           form={formInstance}
         >
           <Form.Item
-            name="energy-type"
+            name={FilterFieldNames.energyType}
             label="Energy Type"
             className="energy-checkbox-group"
           >
@@ -49,7 +50,7 @@ export const SidebarFiltersComponent: FunctionComponent<
               </div>
             </Checkbox.Group>
           </Form.Item>
-          <Form.Item name="card-type" label="Card Type">
+          <Form.Item name={FilterFieldNames.cardType} label="Card Type">
             <Select
               mode="multiple"
               placeholder="Select card type"
@@ -64,7 +65,7 @@ export const SidebarFiltersComponent: FunctionComponent<
               })}
             </Select>
           </Form.Item>
-          <Form.Item name="sub-type" label="Sub Type">
+          <Form.Item name={FilterFieldNames.subType} label="Sub Type">
             <Select
               mode="multiple"
               placeholder="Select sub type e.g. ex."
@@ -79,7 +80,7 @@ export const SidebarFiltersComponent: FunctionComponent<
               })}
             </Select>
           </Form.Item>
-          <Form.Item name="rarity" label="Rarity">
+          <Form.Item name={FilterFieldNames.rarity} label="Rarity">
             <Select
               mode="multiple"
               placeholder="Select rarity e.g. Rare"
