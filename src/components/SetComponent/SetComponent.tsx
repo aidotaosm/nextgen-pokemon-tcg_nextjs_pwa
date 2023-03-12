@@ -19,6 +19,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faBarsStaggered } from "@fortawesome/free-solid-svg-icons";
 import Tooltip from "bootstrap/js/dist/tooltip";
 import { FilterFieldNames } from "../../models/Enums";
+import energyTypes from "../../InternalJsons/AllTypes.json";
+import superTypes from "../../InternalJsons/AllSuperTypes.json";
+import subTypes from "../../InternalJsons/AllSubtypes.json";
+import rarities from "../../InternalJsons/AllRarities.json";
 
 export const SetComponent: FunctionComponent<CardsObjectProps> = ({
   cardsObject,
@@ -47,7 +51,6 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
     updateSidebarCollapsed,
   } = useContext(AppContext);
   const [searchValue, setSearchValue] = useState("");
-  const [newChangedCardObject, setNewChangeCardObject] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const filterButtonTooltipId = "filterButtonTooltipId";
 
@@ -58,6 +61,65 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
   useEffect(() => {
     if (cardsObject && router.isReady) {
       let routerPageIndex = 0;
+      const fieldValues = router.query as any;
+      const filterNames = Object.keys(fieldValues);
+      let correctedFieldValues: any = {};
+      filterNames.forEach((fieldName) => {
+        if (fieldValues[fieldName]) {
+          const fieldValue = fieldValues[fieldName];
+          switch (fieldName) {
+            case FilterFieldNames.energyType:
+              if (fieldValue) {
+                let TypedFieldValue = fieldValue.split(",") as string[];
+                correctedFieldValues[fieldName] = [];
+                TypedFieldValue.forEach((energy) => {
+                  if (energyTypes.includes(energy)) {
+                    correctedFieldValues[fieldName].push(energy);
+                  }
+                });
+              }
+              break;
+            case FilterFieldNames.cardType:
+              if (fieldValue.length) {
+                let TypedFieldValue = fieldValue.split(",") as string[];
+                correctedFieldValues[fieldName] = [];
+                TypedFieldValue.forEach((cardType) => {
+                  if (superTypes.includes(cardType)) {
+                    correctedFieldValues[fieldName].push(cardType);
+                  }
+                });
+              }
+              break;
+            case FilterFieldNames.subType:
+              if (fieldValue.length) {
+                let TypedFieldValue = fieldValue.split(",") as string[];
+                correctedFieldValues[fieldName] = [];
+                TypedFieldValue.forEach((subType) => {
+                  if (subTypes.includes(subType)) {
+                    correctedFieldValues[fieldName].push(subType);
+                  }
+                });
+              }
+              break;
+            case FilterFieldNames.rarity:
+              if (fieldValue.length) {
+                let TypedFieldValue = fieldValue.split(",") as string[];
+                correctedFieldValues[fieldName] = [];
+                TypedFieldValue.forEach((rarity) => {
+                  if (rarities.includes(rarity)) {
+                    correctedFieldValues[fieldName].push(rarity);
+                  }
+                });
+              }
+              break;
+          }
+        }
+      });
+      const filterInQueryExists = Object.keys(correctedFieldValues).length;
+      if (filterInQueryExists) {
+        formInstance.setFieldsValue(correctedFieldValues);
+      }
+
       if (
         router.query.page &&
         !isNaN(+router.query.page) &&
@@ -80,8 +142,8 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
       if (appState.globalSearchTerm) {
         searchTerm = appState.globalSearchTerm;
       }
-      if (routerPageIndex !== pageIndex || searchTerm) {
-        pageChanged(routerPageIndex, searchTerm);
+      if (routerPageIndex !== pageIndex || searchTerm || filterInQueryExists) {
+        pageChanged(routerPageIndex, searchTerm, correctedFieldValues);
         setSearchValue(searchTerm);
       }
     }
@@ -102,7 +164,7 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
     return () => {
       filterTooltipInstance?.dispose();
     };
-  }, [appState?.bootstrap, router.pathname]);
+  }, [appState?.bootstrap]);
 
   useEffect(() => {
     return () => {
@@ -110,133 +172,139 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
     };
   }, []);
 
+  const handleSearchAndFilter = (
+    paramSearchValue: string | undefined,
+    initialCards: any[],
+    newPageIndex: number,
+    instantFilterValues?: any
+  ) => {
+    let tempSearchValue: string =
+      paramSearchValue === "" || paramSearchValue
+        ? paramSearchValue
+        : searchValue;
+    let tempChangedCards: any[] = initialCards.filter((item: any) => {
+      return item.name.toLowerCase().includes(tempSearchValue.toLowerCase());
+    });
+    const fieldValues = instantFilterValues || formInstance.getFieldsValue();
+    const filterNames = Object.keys(fieldValues);
+    filterNames.forEach((fieldName) => {
+      if (fieldValues[fieldName]) {
+        const fieldValue = fieldValues[fieldName];
+        switch (fieldName) {
+          case FilterFieldNames.energyType:
+            if (fieldValue.length) {
+              let TypedFieldValue = fieldValue as string[];
+              TypedFieldValue.forEach((energy) => {
+                tempChangedCards = tempChangedCards.filter((card: any) => {
+                  return (
+                    card.types && (card.types as string[]).includes(energy)
+                  );
+                });
+              });
+            }
+            break;
+          case FilterFieldNames.cardType:
+            if (fieldValue.length) {
+              let TypedFieldValue = fieldValue as string[];
+              let cardTypeResult: any[] = [];
+              TypedFieldValue.forEach((cardType) => {
+                cardTypeResult = [
+                  ...cardTypeResult,
+                  ...tempChangedCards.filter((card: any) => {
+                    return card.supertype === cardType;
+                  }),
+                ];
+              });
+              tempChangedCards = cardTypeResult;
+            }
+            break;
+          case FilterFieldNames.subType:
+            if (fieldValue.length) {
+              let TypedFieldValue = fieldValue as string[];
+              let subTypeResult: any[] = [];
+              TypedFieldValue.forEach((subtype) => {
+                subTypeResult = [
+                  ...subTypeResult,
+                  ...tempChangedCards.filter((card: any) => {
+                    return (
+                      card.subtypes &&
+                      (card.subtypes as string[]).includes(subtype)
+                    );
+                  }),
+                ];
+              });
+              tempChangedCards = subTypeResult.filter(
+                (value, index, self) =>
+                  self.findIndex((v) => v.id === value.id) === index
+              );
+            }
+            break;
+          case FilterFieldNames.rarity:
+            if (fieldValue.length) {
+              let TypedFieldValue = fieldValue as string[];
+              let subTypeResult: any[] = [];
+              TypedFieldValue.forEach((rarity) => {
+                subTypeResult = [
+                  ...subTypeResult,
+                  ...tempChangedCards.filter((card: any) => {
+                    return card.rarity === rarity;
+                  }),
+                ];
+              });
+              tempChangedCards = subTypeResult.filter(
+                (value, index, self) =>
+                  self.findIndex((v) => v.id === value.id) === index
+              );
+            }
+            break;
+        }
+      }
+    });
+    let from = newPageIndex * DEFAULT_PAGE_SIZE;
+    let to = (newPageIndex + 1) * DEFAULT_PAGE_SIZE;
+    setSetCards(tempChangedCards.slice(from, to));
+    setTotalCount(tempChangedCards.length);
+    setPageIndex(newPageIndex);
+    updateRouteWithQuery(newPageIndex, tempSearchValue, instantFilterValues);
+    setRefPageNumber(newPageIndex + 1);
+  };
+
   const pageChanged = async (
     newPageIndex: number,
-    paramSearchValue?: string
+    paramSearchValue?: string,
+    instantFilterValues?: any
   ) => {
     if (isSearchPage) {
       setIsLoading(true);
       try {
         // if (!appState.darkMode && navigator.onLine) {
         if (false) {
-          let cardsParentObject = await getCardsFromNextServer(
-            newPageIndex,
+          let tempSearchValue: string | undefined =
             paramSearchValue === "" || paramSearchValue
               ? paramSearchValue
-              : searchValue
+              : searchValue;
+          let cardsParentObject = await getCardsFromNextServer(
+            newPageIndex,
+            tempSearchValue
           );
-          setIsLoading(false);
           setSetCards(cardsParentObject.data);
           setTotalCount(cardsParentObject.totalCount);
           setPageIndex(newPageIndex);
-          updateRouteWithQuery(newPageIndex);
+          updateRouteWithQuery(newPageIndex, tempSearchValue);
           setRefPageNumber(newPageIndex + 1);
+          setIsLoading(false);
         } else {
           import("../../../public/Jsons/AllCards.json").then(
             (allCardsModule) => {
               if (allCardsModule.default) {
                 try {
                   let allCardsFromCache = allCardsModule.default as any[];
-                  let tempChangedCards: any[] = [];
-                  let tempSearchValue =
-                    paramSearchValue === "" || paramSearchValue
-                      ? paramSearchValue
-                      : searchValue;
-                  tempChangedCards = allCardsFromCache.filter((item: any) => {
-                    return item.name
-                      .toLowerCase()
-                      .includes(tempSearchValue.toLowerCase());
-                  });
-                  const fieldValues = formInstance.getFieldsValue();
-                  const filterNames = Object.keys(fieldValues);
-                  filterNames.forEach((fieldName) => {
-                    if (fieldValues[fieldName]) {
-                      const fieldValue = fieldValues[fieldName];
-                      switch (fieldName) {
-                        case FilterFieldNames.energyType:
-                          if (fieldValue.length) {
-                            let TypedFieldValue = fieldValue as string[];
-                            TypedFieldValue.forEach((energy) => {
-                              tempChangedCards = tempChangedCards.filter(
-                                (card: any) => {
-                                  return (
-                                    card.types &&
-                                    (card.types as string[]).includes(energy)
-                                  );
-                                }
-                              );
-                            });
-                          }
-                          break;
-                        case FilterFieldNames.cardType:
-                          if (fieldValue.length) {
-                            let TypedFieldValue = fieldValue as string[];
-                            let cardTypeResult: any[] = [];
-                            TypedFieldValue.forEach((cardType) => {
-                              cardTypeResult = [
-                                ...cardTypeResult,
-                                ...tempChangedCards.filter((card: any) => {
-                                  return card.supertype === cardType;
-                                }),
-                              ];
-                            });
-                            tempChangedCards = cardTypeResult;
-                          }
-                          break;
-                        case FilterFieldNames.subType:
-                          if (fieldValue.length) {
-                            let TypedFieldValue = fieldValue as string[];
-                            let subTypeResult: any[] = [];
-                            TypedFieldValue.forEach((subtype) => {
-                              subTypeResult = [
-                                ...subTypeResult,
-                                ...tempChangedCards.filter((card: any) => {
-                                  return (
-                                    card.subtypes &&
-                                    (card.subtypes as string[]).includes(
-                                      subtype
-                                    )
-                                  );
-                                }),
-                              ];
-                            });
-                            tempChangedCards = subTypeResult.filter(
-                              (value, index, self) =>
-                                self.findIndex((v) => v.id === value.id) ===
-                                index
-                            );
-                          }
-                          break;
-                        case FilterFieldNames.rarity:
-                          if (fieldValue.length) {
-                            let TypedFieldValue = fieldValue as string[];
-                            let subTypeResult: any[] = [];
-                            TypedFieldValue.forEach((rarity) => {
-                              subTypeResult = [
-                                ...subTypeResult,
-                                ...tempChangedCards.filter((card: any) => {
-                                  return card.rarity === rarity;
-                                }),
-                              ];
-                            });
-                            tempChangedCards = subTypeResult.filter(
-                              (value, index, self) =>
-                                self.findIndex((v) => v.id === value.id) ===
-                                index
-                            );
-                          }
-                          break;
-                      }
-                    }
-                  });
-                  let from = newPageIndex * DEFAULT_PAGE_SIZE;
-                  let to = (newPageIndex + 1) * DEFAULT_PAGE_SIZE;
-                  let changedSetOfCards = tempChangedCards.slice(from, to);
-                  setSetCards(changedSetOfCards);
-                  setTotalCount(tempChangedCards.length);
-                  setPageIndex(newPageIndex);
-                  updateRouteWithQuery(newPageIndex, tempSearchValue);
-                  setRefPageNumber(newPageIndex + 1);
+                  handleSearchAndFilter(
+                    paramSearchValue,
+                    allCardsFromCache,
+                    newPageIndex,
+                    instantFilterValues
+                  );
                   setIsLoading(false);
                 } catch (e) {
                   console.log(e);
@@ -250,107 +318,68 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
         setIsLoading(false);
       }
     } else {
-      let from = newPageIndex * DEFAULT_PAGE_SIZE;
-      let to = (newPageIndex + 1) * DEFAULT_PAGE_SIZE;
-      let tempSearchValue: string =
-        paramSearchValue === "" || paramSearchValue
-          ? paramSearchValue
-          : searchValue;
-      let tempChangedCards: any[] = cardsObject.data.filter((item: any) => {
-        return item.name.toLowerCase().includes(tempSearchValue.toLowerCase());
-      });
-      const fieldValues = formInstance.getFieldsValue();
-      const filterNames = Object.keys(fieldValues);
-      filterNames.forEach((fieldName) => {
-        if (fieldValues[fieldName]) {
-          const fieldValue = fieldValues[fieldName];
-          switch (fieldName) {
-            case FilterFieldNames.energyType:
-              if (fieldValue.length) {
-                let TypedFieldValue = fieldValue as string[];
-                TypedFieldValue.forEach((energy) => {
-                  tempChangedCards = tempChangedCards.filter((card: any) => {
-                    return (
-                      card.types && (card.types as string[]).includes(energy)
-                    );
-                  });
-                });
-              }
-              break;
-            case FilterFieldNames.cardType:
-              if (fieldValue.length) {
-                let TypedFieldValue = fieldValue as string[];
-                let cardTypeResult: any[] = [];
-                TypedFieldValue.forEach((cardType) => {
-                  cardTypeResult = [
-                    ...cardTypeResult,
-                    ...tempChangedCards.filter((card: any) => {
-                      return card.supertype === cardType;
-                    }),
-                  ];
-                });
-                tempChangedCards = cardTypeResult;
-              }
-              break;
-            case FilterFieldNames.subType:
-              if (fieldValue.length) {
-                let TypedFieldValue = fieldValue as string[];
-                let subTypeResult: any[] = [];
-                TypedFieldValue.forEach((subtype) => {
-                  subTypeResult = [
-                    ...subTypeResult,
-                    ...tempChangedCards.filter((card: any) => {
-                      return (
-                        card.subtypes &&
-                        (card.subtypes as string[]).includes(subtype)
-                      );
-                    }),
-                  ];
-                });
-                tempChangedCards = subTypeResult.filter(
-                  (value, index, self) =>
-                    self.findIndex((v) => v.id === value.id) === index
-                );
-              }
-              break;
-            case FilterFieldNames.rarity:
-              if (fieldValue.length) {
-                let TypedFieldValue = fieldValue as string[];
-                let subTypeResult: any[] = [];
-                TypedFieldValue.forEach((rarity) => {
-                  subTypeResult = [
-                    ...subTypeResult,
-                    ...tempChangedCards.filter((card: any) => {
-                      return card.rarity === rarity;
-                    }),
-                  ];
-                });
-                tempChangedCards = subTypeResult.filter(
-                  (value, index, self) =>
-                    self.findIndex((v) => v.id === value.id) === index
-                );
-              }
-              break;
-          }
-        }
-      });
-      setNewChangeCardObject(tempChangedCards);
-      setSetCards(tempChangedCards.slice(from, to));
-      setPageIndex(newPageIndex);
-      updateRouteWithQuery(newPageIndex, tempSearchValue);
-      setRefPageNumber(newPageIndex + 1);
+      handleSearchAndFilter(
+        paramSearchValue,
+        cardsObject.data,
+        newPageIndex,
+        instantFilterValues
+      );
     }
   };
 
-  const updateRouteWithQuery = (newPageIndex: number, searchValue?: string) => {
+  const updateRouteWithQuery = (
+    newPageIndex: number,
+    searchValue?: string,
+    instantFilterValues?: any
+  ) => {
+    const fieldValues = instantFilterValues || formInstance.getFieldsValue();
+    const filterNames = Object.keys(fieldValues);
+    let filterQuery = "";
+    filterNames.forEach((fieldName) => {
+      if (fieldValues[fieldName]) {
+        const fieldValue = fieldValues[fieldName];
+        switch (fieldName) {
+          case FilterFieldNames.energyType:
+            if (fieldValue.length) {
+              let TypedFieldValue = fieldValue as string[];
+              TypedFieldValue.join(",");
+              filterQuery += "&" + fieldName + "=" + TypedFieldValue;
+            }
+            break;
+          case FilterFieldNames.cardType:
+            if (fieldValue.length) {
+              let TypedFieldValue = fieldValue as string[];
+              TypedFieldValue.join(",");
+              filterQuery += "&" + fieldName + "=" + TypedFieldValue;
+            }
+            break;
+          case FilterFieldNames.subType:
+            if (fieldValue.length) {
+              let TypedFieldValue = fieldValue as string[];
+              TypedFieldValue.join(",");
+              filterQuery += "&" + fieldName + "=" + TypedFieldValue;
+            }
+            break;
+          case FilterFieldNames.rarity:
+            if (fieldValue.length) {
+              let TypedFieldValue = fieldValue as string[];
+              TypedFieldValue.join(",");
+              filterQuery += "&" + fieldName + "=" + TypedFieldValue;
+            }
+            break;
+        }
+      }
+    });
+
     let updatedQuery =
       (isSearchPage ? "/search" : "/set/" + router.query.setId) +
-      (newPageIndex || searchValue
+      (newPageIndex || searchValue || filterQuery
         ? "?" +
           (newPageIndex ? "&page=" + newPageIndex : "") +
-          (searchValue ? "&search=" + searchValue : "")
+          (searchValue ? "&search=" + searchValue : "") +
+          filterQuery
         : "");
-    const fixedQuery = updatedQuery.replace("?&", "?");
+    const fixedQuery = updatedQuery.replaceAll("?&", "?");
     router.push(fixedQuery, undefined, { shallow: true });
   };
 
@@ -369,8 +398,7 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
   const syncPagingReferences = (pageNumber: number) => {
     setRefPageNumber(pageNumber);
   };
-  let numberOfElements =
-    searchValue && !isSearchPage ? newChangedCardObject.length : totalCount;
+
   const triggerFilter = () => {
     pageChanged(0);
   };
@@ -393,7 +421,7 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
       <div className="container d-flex flex-column" onClick={hideAllTollTips}>
         <div
           className="d-flex justify-content-center mb-4 align-items-center"
-          style={{ height: "5rem", overflow: "hidden" }}
+          style={{ height: "5rem", minHeight: "5rem", overflow: "hidden" }}
         >
           <IF condition={isSearchPage}>
             <h4>Search from all the cards ever printed!</h4>
@@ -418,7 +446,7 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
             </h4>
           </IF>
         </div>
-        <div className="mb-4 row row-cols-2 row-cols-md-3 ">
+        <div className="mb-4 row row-cols-2 row-cols-md-3 buttons-wrapper">
           <div className="d-flex align-items-center col col-12 col-md-4 d-flex align-items-center mb-4 mb-md-0">
             <div
               className="sidebar-trigger cursor-pointer"
@@ -456,7 +484,7 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
           <PagingComponent
             pageChanged={pageChanged}
             paramPageSize={DEFAULT_PAGE_SIZE}
-            paramNumberOfElements={numberOfElements}
+            paramNumberOfElements={totalCount}
             paramPageIndex={pageIndex}
             syncPagingReferences={syncPagingReferences}
             pageNumber={refPageNumber}
@@ -466,21 +494,14 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
               isGridView={appState.gridView}
               getUpdatedView={getUpdatedView}
               additionalClasses={
-                numberOfElements > DEFAULT_PAGE_SIZE ? "col-4" : "col-12"
+                totalCount > DEFAULT_PAGE_SIZE ? "col-4" : "col-12"
               }
             ></ListOrGridViewToggle>
           </PagingComponent>
         </div>
-        <IF condition={!setCards.length && searchValue}>
-          <div className="d-flex justify-content-center flex-grow-1">
-            <h2 className="align-self-center">
-              No Cards found with {searchValue}
-            </h2>
-          </div>
-        </IF>
         <div
           className={
-            "d-flex sidebar-content-wrapper " +
+            "d-flex sidebar-content-wrapper h-100 " +
             (appState.sidebarCollapsed ? "collapsed" : "")
           }
         >
@@ -497,12 +518,12 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
             <ListViewComponent setCards={setCards}></ListViewComponent>
           </IF>
         </div>
-        <div className="mt-4 row row-cols-2 row-cols-md-3 ">
+        <div className="mt-4 row row-cols-2 row-cols-md-3 buttons-wrapper">
           <div className="col d-none d-md-block"></div>
           <PagingComponent
             pageChanged={pageChanged}
             paramPageSize={DEFAULT_PAGE_SIZE}
-            paramNumberOfElements={numberOfElements}
+            paramNumberOfElements={totalCount}
             paramPageIndex={pageIndex}
             syncPagingReferences={syncPagingReferences}
             pageNumber={refPageNumber}
@@ -512,7 +533,7 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
               isGridView={appState.gridView}
               getUpdatedView={getUpdatedView}
               additionalClasses={
-                numberOfElements > DEFAULT_PAGE_SIZE ? "col-4" : "col-12"
+                totalCount > DEFAULT_PAGE_SIZE ? "col-4" : "col-12"
               }
             ></ListOrGridViewToggle>
           </PagingComponent>
