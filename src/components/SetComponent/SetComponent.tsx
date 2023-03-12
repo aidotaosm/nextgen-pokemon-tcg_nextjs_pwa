@@ -335,6 +335,7 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
         }
       });
       setNewChangeCardObject(tempChangedCards);
+      setTotalCount(tempChangedCards.length);
       setSetCards(tempChangedCards.slice(from, to));
       setPageIndex(newPageIndex);
       updateRouteWithQuery(newPageIndex, tempSearchValue);
@@ -369,8 +370,7 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
   const syncPagingReferences = (pageNumber: number) => {
     setRefPageNumber(pageNumber);
   };
-  let numberOfElements =
-    searchValue && !isSearchPage ? newChangedCardObject.length : totalCount;
+
   const triggerFilter = () => {
     pageChanged(0);
   };
@@ -456,7 +456,7 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
           <PagingComponent
             pageChanged={pageChanged}
             paramPageSize={DEFAULT_PAGE_SIZE}
-            paramNumberOfElements={numberOfElements}
+            paramNumberOfElements={totalCount}
             paramPageIndex={pageIndex}
             syncPagingReferences={syncPagingReferences}
             pageNumber={refPageNumber}
@@ -466,7 +466,7 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
               isGridView={appState.gridView}
               getUpdatedView={getUpdatedView}
               additionalClasses={
-                numberOfElements > DEFAULT_PAGE_SIZE ? "col-4" : "col-12"
+                totalCount > DEFAULT_PAGE_SIZE ? "col-4" : "col-12"
               }
             ></ListOrGridViewToggle>
           </PagingComponent>
@@ -502,7 +502,7 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
           <PagingComponent
             pageChanged={pageChanged}
             paramPageSize={DEFAULT_PAGE_SIZE}
-            paramNumberOfElements={numberOfElements}
+            paramNumberOfElements={totalCount}
             paramPageIndex={pageIndex}
             syncPagingReferences={syncPagingReferences}
             pageNumber={refPageNumber}
@@ -512,7 +512,7 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
               isGridView={appState.gridView}
               getUpdatedView={getUpdatedView}
               additionalClasses={
-                numberOfElements > DEFAULT_PAGE_SIZE ? "col-4" : "col-12"
+                totalCount > DEFAULT_PAGE_SIZE ? "col-4" : "col-12"
               }
             ></ListOrGridViewToggle>
           </PagingComponent>
