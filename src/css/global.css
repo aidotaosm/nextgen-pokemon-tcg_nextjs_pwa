@@ -115,7 +115,7 @@ html {
   -webkit-user-select: none;
   -webkit-touch-callout: none;
 }
-.list-view-wrapper .list-view:last-child {
+.list-view-wrapper .full-screen-view:last-child {
   margin-bottom: 0 !important;
 }
 .full-screen-view .pokemon-card-image {
@@ -191,6 +191,9 @@ html {
   width: 1rem;
   position: absolute;
   top: 4px;
+}
+.buttons-wrapper {
+  max-height: 4.093rem;
 }
 .dark-background-link {
   color: lightskyblue;
@@ -430,6 +433,9 @@ a.white-hover:hover {
   .energy-cost {
     max-width: calc(2 * (25px + 0.25rem));
   }
+  .buttons-wrapper {
+    max-height: 7.233rem;
+  }
 }
 
 @media (max-width: 575px) {
@@ -446,6 +452,7 @@ a.white-hover:hover {
   .sidebar-trigger svg {
     vertical-align: middle;
   }*/
+
   .sidebar-content-wrapper .sidebar {
     position: absolute;
     left: 12px;

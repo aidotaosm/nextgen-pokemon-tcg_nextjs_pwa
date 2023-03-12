@@ -20,7 +20,13 @@ export const ListOrGridViewToggle: FunctionComponent<
       }
     >
       <IF condition={isGridView}>
-        <FontAwesomeIcon className="fs-5" icon={faBoxes} />
+        <FontAwesomeIcon
+          className="fs-5 cursor-pointer"
+          icon={faBoxes}
+          onClick={(e) => {
+            getUpdatedView(!isGridView);
+          }}
+        />
         <span
           onClick={(e) => {
             getUpdatedView(!isGridView);
@@ -32,7 +38,13 @@ export const ListOrGridViewToggle: FunctionComponent<
         </span>
       </IF>
       <IF condition={!isGridView}>
-        <FontAwesomeIcon className="fs-5" icon={faList} />
+        <FontAwesomeIcon
+          className="fs-5 cursor-pointer"
+          icon={faList}
+          onClick={(e) => {
+            getUpdatedView(!isGridView);
+          }}
+        />
         <span
           onClick={(e) => {
             getUpdatedView(!isGridView);
