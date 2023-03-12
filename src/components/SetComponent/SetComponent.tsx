@@ -372,7 +372,10 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
             </h4>
           </IF>
         </div>
-        <div className="mb-4 row row-cols-2 row-cols-md-3 ">
+        <div
+          className="mb-4 row row-cols-2 row-cols-md-3 "
+          style={{ minHeight: "4.093rem" }}
+        >
           <div className="d-flex align-items-center col col-12 col-md-4 d-flex align-items-center mb-4 mb-md-0">
             <div
               className="sidebar-trigger cursor-pointer"
@@ -444,7 +447,10 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
             <ListViewComponent setCards={setCards}></ListViewComponent>
           </IF>
         </div>
-        <div className="mt-4 row row-cols-2 row-cols-md-3 ">
+        <div
+          className="mt-4 row row-cols-2 row-cols-md-3 "
+          style={{ minHeight: "4.093rem" }}
+        >
           <div className="col d-none d-md-block"></div>
           <PagingComponent
             pageChanged={pageChanged}
