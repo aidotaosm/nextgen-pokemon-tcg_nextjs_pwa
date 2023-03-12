@@ -5,8 +5,10 @@ export const DEFAULT_CARD_BACK_RATIO: number = 1.38671875;
 export const SuperTypes = {
   Pokemon: "Pokémon",
 };
-export const Netlify_DEFAULT_URL = "https://osm-pokemon-tcg.netlify.app/";
-export const Vercel_DEFAULT_URL = "https://pkmn-tcg-osm.vercel.app/";
+export const Netlify_DEFAULT_URL = "https://pokemon-tcg-osm.netlify.app/";
+export const Vercel_DEFAULT_URL = "https://pokemon-tcg-osm.vercel.app/";
+export const APP_PRIMARY_URL = "pokemon-tcg-osm";
+export const VERCEL_PRIMARY_HOST = "vercel.app";
 
 export const random_pokemon_names = [
   "Charizard",

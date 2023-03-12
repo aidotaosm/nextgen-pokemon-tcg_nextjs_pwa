@@ -1,7 +1,11 @@
 import { FunctionComponent, useEffect, useState } from "react";
 import Image from "next/image";
 import { IF } from "../UtilityComponents/IF";
-import { DEFAULT_CARD_BACK_RATIO } from "../../constants/constants";
+import {
+  DEFAULT_CARD_BACK_RATIO,
+  VERCEL_PRIMARY_HOST,
+} from "../../constants/constants";
+import { Helper } from "../../utils/helper";
 
 export const ImageComponent: FunctionComponent<any> = ({
   src,
@@ -15,7 +19,9 @@ export const ImageComponent: FunctionComponent<any> = ({
   fallbackImage,
   shouldFill = false,
   //change here to turn on or off image optimization - true is off
-  lqImageUnOptimize = process.env.IS_VERCEL === "true",
+  lqImageUnOptimize = process.env.IS_VERCEL === "true" ||
+    Helper.primaryHost === VERCEL_PRIMARY_HOST,
+  //lqImageUnOptimize = true,
 }) => {
   const [imageSource, setImageSource] = useState(src);
   const [highQualityImageSource, setHighQualityImageSource] =
@@ -28,6 +34,7 @@ export const ImageComponent: FunctionComponent<any> = ({
     setHighQualityImageSource(highQualitySrc);
     setHighQualityImageLoaded(false);
   }, [highQualitySrc]);
+  // console.log(lqImageUnOptimize);
   return (
     <>
       <div className={highQualityImageLoaded ? "out-of-view" : ""}>
