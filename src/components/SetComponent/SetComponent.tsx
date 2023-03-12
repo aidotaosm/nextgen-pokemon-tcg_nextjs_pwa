@@ -19,6 +19,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faBarsStaggered } from "@fortawesome/free-solid-svg-icons";
 import Tooltip from "bootstrap/js/dist/tooltip";
 import { FilterFieldNames } from "../../models/Enums";
+import energyTypes from "../../InternalJsons/AllTypes.json";
+import superTypes from "../../InternalJsons/AllSuperTypes.json";
+import subTypes from "../../InternalJsons/AllSubtypes.json";
+import rarities from "../../InternalJsons/AllRarities.json";
 
 export const SetComponent: FunctionComponent<CardsObjectProps> = ({
   cardsObject,
@@ -57,7 +61,65 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
   useEffect(() => {
     if (cardsObject && router.isReady) {
       let routerPageIndex = 0;
-      console.log(router.query);
+      const fieldValues = router.query as any;
+      const filterNames = Object.keys(fieldValues);
+      let correctedFieldValues: any = {};
+      filterNames.forEach((fieldName) => {
+        if (fieldValues[fieldName]) {
+          const fieldValue = fieldValues[fieldName];
+          switch (fieldName) {
+            case FilterFieldNames.energyType:
+              if (fieldValue) {
+                let TypedFieldValue = fieldValue.split(",") as string[];
+                correctedFieldValues[fieldName] = [];
+                TypedFieldValue.forEach((energy) => {
+                  if (energyTypes.includes(energy)) {
+                    correctedFieldValues[fieldName].push(energy);
+                  }
+                });
+              }
+              break;
+            case FilterFieldNames.cardType:
+              if (fieldValue.length) {
+                let TypedFieldValue = fieldValue.split(",") as string[];
+                correctedFieldValues[fieldName] = [];
+                TypedFieldValue.forEach((cardType) => {
+                  if (superTypes.includes(cardType)) {
+                    correctedFieldValues[fieldName].push(cardType);
+                  }
+                });
+              }
+              break;
+            case FilterFieldNames.subType:
+              if (fieldValue.length) {
+                let TypedFieldValue = fieldValue.split(",") as string[];
+                correctedFieldValues[fieldName] = [];
+                TypedFieldValue.forEach((subType) => {
+                  if (subTypes.includes(subType)) {
+                    correctedFieldValues[fieldName].push(subType);
+                  }
+                });
+              }
+              break;
+            case FilterFieldNames.rarity:
+              if (fieldValue.length) {
+                let TypedFieldValue = fieldValue.split(",") as string[];
+                correctedFieldValues[fieldName] = [];
+                TypedFieldValue.forEach((rarity) => {
+                  if (rarities.includes(rarity)) {
+                    correctedFieldValues[fieldName].push(rarity);
+                  }
+                });
+              }
+              break;
+          }
+        }
+      });
+      const filterInQueryExists = Object.keys(correctedFieldValues).length;
+      if (filterInQueryExists) {
+        formInstance.setFieldsValue(correctedFieldValues);
+      }
+
       if (
         router.query.page &&
         !isNaN(+router.query.page) &&
@@ -80,8 +142,8 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
       if (appState.globalSearchTerm) {
         searchTerm = appState.globalSearchTerm;
       }
-      if (routerPageIndex !== pageIndex || searchTerm) {
-        pageChanged(routerPageIndex, searchTerm);
+      if (routerPageIndex !== pageIndex || searchTerm || filterInQueryExists) {
+        pageChanged(routerPageIndex, searchTerm, correctedFieldValues);
         setSearchValue(searchTerm);
       }
     }
@@ -113,7 +175,8 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
   const handleSearchAndFilter = (
     paramSearchValue: string | undefined,
     initialCards: any[],
-    newPageIndex: number
+    newPageIndex: number,
+    instantFilterValues?: any
   ) => {
     let tempSearchValue: string =
       paramSearchValue === "" || paramSearchValue
@@ -122,7 +185,7 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
     let tempChangedCards: any[] = initialCards.filter((item: any) => {
       return item.name.toLowerCase().includes(tempSearchValue.toLowerCase());
     });
-    const fieldValues = formInstance.getFieldsValue();
+    const fieldValues = instantFilterValues || formInstance.getFieldsValue();
     const filterNames = Object.keys(fieldValues);
     filterNames.forEach((fieldName) => {
       if (fieldValues[fieldName]) {
@@ -202,13 +265,14 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
     setSetCards(tempChangedCards.slice(from, to));
     setTotalCount(tempChangedCards.length);
     setPageIndex(newPageIndex);
-    updateRouteWithQuery(newPageIndex, tempSearchValue);
+    updateRouteWithQuery(newPageIndex, tempSearchValue, instantFilterValues);
     setRefPageNumber(newPageIndex + 1);
   };
 
   const pageChanged = async (
     newPageIndex: number,
-    paramSearchValue?: string
+    paramSearchValue?: string,
+    instantFilterValues?: any
   ) => {
     if (isSearchPage) {
       setIsLoading(true);
@@ -238,7 +302,8 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
                   handleSearchAndFilter(
                     paramSearchValue,
                     allCardsFromCache,
-                    newPageIndex
+                    newPageIndex,
+                    instantFilterValues
                   );
                   setIsLoading(false);
                 } catch (e) {
@@ -253,12 +318,21 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
         setIsLoading(false);
       }
     } else {
-      handleSearchAndFilter(paramSearchValue, cardsObject.data, newPageIndex);
+      handleSearchAndFilter(
+        paramSearchValue,
+        cardsObject.data,
+        newPageIndex,
+        instantFilterValues
+      );
     }
   };
 
-  const updateRouteWithQuery = (newPageIndex: number, searchValue?: string) => {
-    const fieldValues = formInstance.getFieldsValue();
+  const updateRouteWithQuery = (
+    newPageIndex: number,
+    searchValue?: string,
+    instantFilterValues?: any
+  ) => {
+    const fieldValues = instantFilterValues || formInstance.getFieldsValue();
     const filterNames = Object.keys(fieldValues);
     let filterQuery = "";
     filterNames.forEach((fieldName) => {
