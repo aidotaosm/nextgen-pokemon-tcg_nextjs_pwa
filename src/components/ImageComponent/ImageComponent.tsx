@@ -28,6 +28,7 @@ export const ImageComponent: FunctionComponent<any> = ({
     setHighQualityImageSource(highQualitySrc);
     setHighQualityImageLoaded(false);
   }, [highQualitySrc]);
+  console.log(lqImageUnOptimize);
   return (
     <>
       <div className={highQualityImageLoaded ? "out-of-view" : ""}>

@@ -229,21 +229,26 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
     const batchAndExecutePrefetchThenClearUrls = async (setIndex: number) => {
       setPrefetchingSets(setsWithCallUrls);
       let calls = setsWithCallUrls.map(async (set) => {
-        return router.prefetch(set.callUrl).then((prefetchedData) => {
-          flushSync(() => {
-            setShouldCancel((x) => {
-              localShouldCancel = x;
-              return x;
+        return router
+          .prefetch(set.callUrl, undefined, { unstable_skipClientCache: true })
+          .then((prefetchedData) => {
+            flushSync(() => {
+              setShouldCancel((x) => {
+                localShouldCancel = x;
+                return x;
+              });
             });
-          });
 
-          set.done = true;
-          setPrefetchingSets([...setsWithCallUrls]);
-          setTotalNumberOfSetsDone((e) => ++e);
-          if (localShouldCancel) {
-            throw new Error("manual abort");
-          }
-        });
+            set.done = true;
+            setPrefetchingSets([...setsWithCallUrls]);
+            setTotalNumberOfSetsDone((e) => ++e);
+            if (localShouldCancel) {
+              throw new Error("manual abort");
+            }
+          })
+          .catch((e) => {
+            console.log(e, "prefetch error");
+          });
       });
       let res = null;
       try {
