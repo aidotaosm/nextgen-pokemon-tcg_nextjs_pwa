@@ -1,4 +1,5 @@
 import {
+  APP_PRIMARY_URL,
   DEV_POKEMONTCG_IO_API_KEY,
   Netlify_DEFAULT_URL,
   Vercel_DEFAULT_URL,
@@ -51,13 +52,22 @@ export class Helper {
     }
   }
   static getBaseDomainServerSide() {
-    return process.env.NETLIFY !== "true"
+    return process.env.IS_VERCEL === "true"
       ? Vercel_DEFAULT_URL
       : Netlify_DEFAULT_URL;
   }
   static get isServerSide() {
     return typeof window === "undefined";
   }
+  static get primaryHost() {
+    const host =
+      typeof window !== "undefined" && window.location.host
+        ? window.location.host
+        : "";
+    let primaryHost = host.replace(APP_PRIMARY_URL + ".", "");
+    return primaryHost;
+  }
+
   static saveTemplateAsFile = (filename: string, dataObjToWrite: any) => {
     const blob = new Blob([JSON.stringify(dataObjToWrite)], {
       type: "text/json",
