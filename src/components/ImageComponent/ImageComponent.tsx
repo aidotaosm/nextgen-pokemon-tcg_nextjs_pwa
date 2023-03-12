@@ -15,7 +15,8 @@ export const ImageComponent: FunctionComponent<any> = ({
   fallbackImage,
   shouldFill = false,
   //change here to turn on or off image optimization - true is off
-  lqImageUnOptimize = process.env.IS_VERCEL === "true",
+  //  lqImageUnOptimize = process.env.IS_VERCEL === "true",
+  lqImageUnOptimize = true,
 }) => {
   const [imageSource, setImageSource] = useState(src);
   const [highQualityImageSource, setHighQualityImageSource] =
