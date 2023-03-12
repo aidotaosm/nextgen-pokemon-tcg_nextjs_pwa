@@ -229,26 +229,22 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
     const batchAndExecutePrefetchThenClearUrls = async (setIndex: number) => {
       setPrefetchingSets(setsWithCallUrls);
       let calls = setsWithCallUrls.map(async (set) => {
-        return router
-          .prefetch(set.callUrl, undefined, { unstable_skipClientCache: true })
-          .then((prefetchedData) => {
-            flushSync(() => {
-              setShouldCancel((x) => {
-                localShouldCancel = x;
-                return x;
-              });
-            });
-
-            set.done = true;
-            setPrefetchingSets([...setsWithCallUrls]);
-            setTotalNumberOfSetsDone((e) => ++e);
-            if (localShouldCancel) {
-              throw new Error("manual abort");
-            }
-          })
-          .catch((e) => {
-            console.log(e, "prefetch error");
+        await router.prefetch(set.callUrl, undefined, {
+          unstable_skipClientCache: true,
+        });
+        flushSync(() => {
+          setShouldCancel((x) => {
+            localShouldCancel = x;
+            return x;
           });
+        });
+
+        set.done = true;
+        setPrefetchingSets([...setsWithCallUrls]);
+        setTotalNumberOfSetsDone((e) => ++e);
+        if (localShouldCancel) {
+          throw new Error("manual abort");
+        }
       });
       let res = null;
       try {
@@ -369,14 +365,12 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
     });
   };
   const clearCacheUnregisterSWARefresh = async () => {
-    console.log(self.caches);
     self.caches.keys().then((keys) => {
       keys.forEach((key) => self.caches.delete(key));
     });
     const registeredServiceWorkers =
       await navigator.serviceWorker.getRegistrations();
     registeredServiceWorkers.forEach((registration) => {
-      console.log(registration);
       registration.unregister();
     });
     window.location.reload();
