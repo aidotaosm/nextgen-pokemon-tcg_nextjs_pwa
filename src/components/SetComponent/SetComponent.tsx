@@ -47,7 +47,6 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
     updateSidebarCollapsed,
   } = useContext(AppContext);
   const [searchValue, setSearchValue] = useState("");
-  const [newChangedCardObject, setNewChangeCardObject] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const filterButtonTooltipId = "filterButtonTooltipId";
 
@@ -110,6 +109,102 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
     };
   }, []);
 
+  const handleSearchAndFilter = (
+    paramSearchValue: string | undefined,
+    initialCards: any[],
+    newPageIndex: number
+  ) => {
+    let tempSearchValue: string =
+      paramSearchValue === "" || paramSearchValue
+        ? paramSearchValue
+        : searchValue;
+    let tempChangedCards: any[] = initialCards.filter((item: any) => {
+      return item.name.toLowerCase().includes(tempSearchValue.toLowerCase());
+    });
+    const fieldValues = formInstance.getFieldsValue();
+    const filterNames = Object.keys(fieldValues);
+    filterNames.forEach((fieldName) => {
+      if (fieldValues[fieldName]) {
+        const fieldValue = fieldValues[fieldName];
+        switch (fieldName) {
+          case FilterFieldNames.energyType:
+            if (fieldValue.length) {
+              let TypedFieldValue = fieldValue as string[];
+              TypedFieldValue.forEach((energy) => {
+                tempChangedCards = tempChangedCards.filter((card: any) => {
+                  return (
+                    card.types && (card.types as string[]).includes(energy)
+                  );
+                });
+              });
+            }
+            break;
+          case FilterFieldNames.cardType:
+            if (fieldValue.length) {
+              let TypedFieldValue = fieldValue as string[];
+              let cardTypeResult: any[] = [];
+              TypedFieldValue.forEach((cardType) => {
+                cardTypeResult = [
+                  ...cardTypeResult,
+                  ...tempChangedCards.filter((card: any) => {
+                    return card.supertype === cardType;
+                  }),
+                ];
+              });
+              tempChangedCards = cardTypeResult;
+            }
+            break;
+          case FilterFieldNames.subType:
+            if (fieldValue.length) {
+              let TypedFieldValue = fieldValue as string[];
+              let subTypeResult: any[] = [];
+              TypedFieldValue.forEach((subtype) => {
+                subTypeResult = [
+                  ...subTypeResult,
+                  ...tempChangedCards.filter((card: any) => {
+                    return (
+                      card.subtypes &&
+                      (card.subtypes as string[]).includes(subtype)
+                    );
+                  }),
+                ];
+              });
+              tempChangedCards = subTypeResult.filter(
+                (value, index, self) =>
+                  self.findIndex((v) => v.id === value.id) === index
+              );
+            }
+            break;
+          case FilterFieldNames.rarity:
+            if (fieldValue.length) {
+              let TypedFieldValue = fieldValue as string[];
+              let subTypeResult: any[] = [];
+              TypedFieldValue.forEach((rarity) => {
+                subTypeResult = [
+                  ...subTypeResult,
+                  ...tempChangedCards.filter((card: any) => {
+                    return card.rarity === rarity;
+                  }),
+                ];
+              });
+              tempChangedCards = subTypeResult.filter(
+                (value, index, self) =>
+                  self.findIndex((v) => v.id === value.id) === index
+              );
+            }
+            break;
+        }
+      }
+    });
+    let from = newPageIndex * DEFAULT_PAGE_SIZE;
+    let to = (newPageIndex + 1) * DEFAULT_PAGE_SIZE;
+    setSetCards(tempChangedCards.slice(from, to));
+    setTotalCount(tempChangedCards.length);
+    setPageIndex(newPageIndex);
+    updateRouteWithQuery(newPageIndex, tempSearchValue);
+    setRefPageNumber(newPageIndex + 1);
+  };
+
   const pageChanged = async (
     newPageIndex: number,
     paramSearchValue?: string
@@ -119,124 +214,31 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
       try {
         // if (!appState.darkMode && navigator.onLine) {
         if (false) {
-          let cardsParentObject = await getCardsFromNextServer(
-            newPageIndex,
+          let tempSearchValue: string | undefined =
             paramSearchValue === "" || paramSearchValue
               ? paramSearchValue
-              : searchValue
+              : searchValue;
+          let cardsParentObject = await getCardsFromNextServer(
+            newPageIndex,
+            tempSearchValue
           );
-          setIsLoading(false);
           setSetCards(cardsParentObject.data);
           setTotalCount(cardsParentObject.totalCount);
           setPageIndex(newPageIndex);
-          updateRouteWithQuery(newPageIndex);
+          updateRouteWithQuery(newPageIndex, tempSearchValue);
           setRefPageNumber(newPageIndex + 1);
+          setIsLoading(false);
         } else {
           import("../../../public/Jsons/AllCards.json").then(
             (allCardsModule) => {
               if (allCardsModule.default) {
                 try {
                   let allCardsFromCache = allCardsModule.default as any[];
-                  let tempChangedCards: any[] = [];
-                  let tempSearchValue =
-                    paramSearchValue === "" || paramSearchValue
-                      ? paramSearchValue
-                      : searchValue;
-                  tempChangedCards = allCardsFromCache.filter((item: any) => {
-                    return item.name
-                      .toLowerCase()
-                      .includes(tempSearchValue.toLowerCase());
-                  });
-                  const fieldValues = formInstance.getFieldsValue();
-                  const filterNames = Object.keys(fieldValues);
-                  filterNames.forEach((fieldName) => {
-                    if (fieldValues[fieldName]) {
-                      const fieldValue = fieldValues[fieldName];
-                      switch (fieldName) {
-                        case FilterFieldNames.energyType:
-                          if (fieldValue.length) {
-                            let TypedFieldValue = fieldValue as string[];
-                            TypedFieldValue.forEach((energy) => {
-                              tempChangedCards = tempChangedCards.filter(
-                                (card: any) => {
-                                  return (
-                                    card.types &&
-                                    (card.types as string[]).includes(energy)
-                                  );
-                                }
-                              );
-                            });
-                          }
-                          break;
-                        case FilterFieldNames.cardType:
-                          if (fieldValue.length) {
-                            let TypedFieldValue = fieldValue as string[];
-                            let cardTypeResult: any[] = [];
-                            TypedFieldValue.forEach((cardType) => {
-                              cardTypeResult = [
-                                ...cardTypeResult,
-                                ...tempChangedCards.filter((card: any) => {
-                                  return card.supertype === cardType;
-                                }),
-                              ];
-                            });
-                            tempChangedCards = cardTypeResult;
-                          }
-                          break;
-                        case FilterFieldNames.subType:
-                          if (fieldValue.length) {
-                            let TypedFieldValue = fieldValue as string[];
-                            let subTypeResult: any[] = [];
-                            TypedFieldValue.forEach((subtype) => {
-                              subTypeResult = [
-                                ...subTypeResult,
-                                ...tempChangedCards.filter((card: any) => {
-                                  return (
-                                    card.subtypes &&
-                                    (card.subtypes as string[]).includes(
-                                      subtype
-                                    )
-                                  );
-                                }),
-                              ];
-                            });
-                            tempChangedCards = subTypeResult.filter(
-                              (value, index, self) =>
-                                self.findIndex((v) => v.id === value.id) ===
-                                index
-                            );
-                          }
-                          break;
-                        case FilterFieldNames.rarity:
-                          if (fieldValue.length) {
-                            let TypedFieldValue = fieldValue as string[];
-                            let subTypeResult: any[] = [];
-                            TypedFieldValue.forEach((rarity) => {
-                              subTypeResult = [
-                                ...subTypeResult,
-                                ...tempChangedCards.filter((card: any) => {
-                                  return card.rarity === rarity;
-                                }),
-                              ];
-                            });
-                            tempChangedCards = subTypeResult.filter(
-                              (value, index, self) =>
-                                self.findIndex((v) => v.id === value.id) ===
-                                index
-                            );
-                          }
-                          break;
-                      }
-                    }
-                  });
-                  let from = newPageIndex * DEFAULT_PAGE_SIZE;
-                  let to = (newPageIndex + 1) * DEFAULT_PAGE_SIZE;
-                  let changedSetOfCards = tempChangedCards.slice(from, to);
-                  setSetCards(changedSetOfCards);
-                  setTotalCount(tempChangedCards.length);
-                  setPageIndex(newPageIndex);
-                  updateRouteWithQuery(newPageIndex, tempSearchValue);
-                  setRefPageNumber(newPageIndex + 1);
+                  handleSearchAndFilter(
+                    paramSearchValue,
+                    allCardsFromCache,
+                    newPageIndex
+                  );
                   setIsLoading(false);
                 } catch (e) {
                   console.log(e);
@@ -250,96 +252,7 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
         setIsLoading(false);
       }
     } else {
-      let from = newPageIndex * DEFAULT_PAGE_SIZE;
-      let to = (newPageIndex + 1) * DEFAULT_PAGE_SIZE;
-      let tempSearchValue: string =
-        paramSearchValue === "" || paramSearchValue
-          ? paramSearchValue
-          : searchValue;
-      let tempChangedCards: any[] = cardsObject.data.filter((item: any) => {
-        return item.name.toLowerCase().includes(tempSearchValue.toLowerCase());
-      });
-      const fieldValues = formInstance.getFieldsValue();
-      const filterNames = Object.keys(fieldValues);
-      filterNames.forEach((fieldName) => {
-        if (fieldValues[fieldName]) {
-          const fieldValue = fieldValues[fieldName];
-          switch (fieldName) {
-            case FilterFieldNames.energyType:
-              if (fieldValue.length) {
-                let TypedFieldValue = fieldValue as string[];
-                TypedFieldValue.forEach((energy) => {
-                  tempChangedCards = tempChangedCards.filter((card: any) => {
-                    return (
-                      card.types && (card.types as string[]).includes(energy)
-                    );
-                  });
-                });
-              }
-              break;
-            case FilterFieldNames.cardType:
-              if (fieldValue.length) {
-                let TypedFieldValue = fieldValue as string[];
-                let cardTypeResult: any[] = [];
-                TypedFieldValue.forEach((cardType) => {
-                  cardTypeResult = [
-                    ...cardTypeResult,
-                    ...tempChangedCards.filter((card: any) => {
-                      return card.supertype === cardType;
-                    }),
-                  ];
-                });
-                tempChangedCards = cardTypeResult;
-              }
-              break;
-            case FilterFieldNames.subType:
-              if (fieldValue.length) {
-                let TypedFieldValue = fieldValue as string[];
-                let subTypeResult: any[] = [];
-                TypedFieldValue.forEach((subtype) => {
-                  subTypeResult = [
-                    ...subTypeResult,
-                    ...tempChangedCards.filter((card: any) => {
-                      return (
-                        card.subtypes &&
-                        (card.subtypes as string[]).includes(subtype)
-                      );
-                    }),
-                  ];
-                });
-                tempChangedCards = subTypeResult.filter(
-                  (value, index, self) =>
-                    self.findIndex((v) => v.id === value.id) === index
-                );
-              }
-              break;
-            case FilterFieldNames.rarity:
-              if (fieldValue.length) {
-                let TypedFieldValue = fieldValue as string[];
-                let subTypeResult: any[] = [];
-                TypedFieldValue.forEach((rarity) => {
-                  subTypeResult = [
-                    ...subTypeResult,
-                    ...tempChangedCards.filter((card: any) => {
-                      return card.rarity === rarity;
-                    }),
-                  ];
-                });
-                tempChangedCards = subTypeResult.filter(
-                  (value, index, self) =>
-                    self.findIndex((v) => v.id === value.id) === index
-                );
-              }
-              break;
-          }
-        }
-      });
-      setNewChangeCardObject(tempChangedCards);
-      setTotalCount(tempChangedCards.length);
-      setSetCards(tempChangedCards.slice(from, to));
-      setPageIndex(newPageIndex);
-      updateRouteWithQuery(newPageIndex, tempSearchValue);
-      setRefPageNumber(newPageIndex + 1);
+      handleSearchAndFilter(paramSearchValue, cardsObject.data, newPageIndex);
     }
   };
 
