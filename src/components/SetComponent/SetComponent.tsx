@@ -257,14 +257,55 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
   };
 
   const updateRouteWithQuery = (newPageIndex: number, searchValue?: string) => {
+    const fieldValues = formInstance.getFieldsValue();
+    const filterNames = Object.keys(fieldValues);
+    let filterQuery = "";
+    filterNames.forEach((fieldName) => {
+      if (fieldValues[fieldName]) {
+        const fieldValue = fieldValues[fieldName];
+        switch (fieldName) {
+          case FilterFieldNames.energyType:
+            if (fieldValue.length) {
+              let TypedFieldValue = fieldValue as string[];
+              TypedFieldValue.join(",");
+              filterQuery += "&" + fieldName + "=" + TypedFieldValue;
+            }
+            break;
+          case FilterFieldNames.cardType:
+            if (fieldValue.length) {
+              let TypedFieldValue = fieldValue as string[];
+              TypedFieldValue.join(",");
+              filterQuery += "&" + fieldName + "=" + TypedFieldValue;
+            }
+            break;
+          case FilterFieldNames.subType:
+            if (fieldValue.length) {
+              let TypedFieldValue = fieldValue as string[];
+              TypedFieldValue.join(",");
+              filterQuery += "&" + fieldName + "=" + TypedFieldValue;
+            }
+            break;
+          case FilterFieldNames.rarity:
+            if (fieldValue.length) {
+              let TypedFieldValue = fieldValue as string[];
+              TypedFieldValue.join(",");
+              filterQuery += "&" + fieldName + "=" + TypedFieldValue;
+            }
+            break;
+        }
+      }
+    });
+
     let updatedQuery =
       (isSearchPage ? "/search" : "/set/" + router.query.setId) +
-      (newPageIndex || searchValue
+      (newPageIndex || searchValue || filterQuery
         ? "?" +
           (newPageIndex ? "&page=" + newPageIndex : "") +
-          (searchValue ? "&search=" + searchValue : "")
+          (searchValue ? "&search=" + searchValue : "") +
+          filterQuery
         : "");
-    const fixedQuery = updatedQuery.replace("?&", "?");
+    const fixedQuery = updatedQuery.replaceAll("?&", "?");
+    console.log(fixedQuery);
     router.push(fixedQuery, undefined, { shallow: true });
   };
 
