@@ -444,7 +444,7 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
             <ListViewComponent setCards={setCards}></ListViewComponent>
           </IF>
         </div>
-        <div className="mt-4 row row-cols-2 row-cols-md-3">
+        <div className="mt-4 row row-cols-2 row-cols-md-3 buttons-wrapper">
           <div className="col d-none d-md-block"></div>
           <PagingComponent
             pageChanged={pageChanged}
