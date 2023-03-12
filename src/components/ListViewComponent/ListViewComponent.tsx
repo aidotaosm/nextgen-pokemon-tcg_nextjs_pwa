@@ -13,6 +13,7 @@ import { SetCardsProps } from "../../models/GenericModels";
 import { ImageComponent } from "../ImageComponent/ImageComponent";
 import { PokemonCardAndDetailsComponent } from "../PokemonCardAndDetailsComponent/PokemonCardAndDetailsComponent";
 import { CarouselComponent } from "../UtilityComponents/CarouselComponent";
+import { IF } from "../UtilityComponents/IF";
 import MemoizedModalComponent from "../UtilityComponents/ModalComponent";
 
 export const ListViewComponent: FunctionComponent<SetCardsProps> = ({
@@ -98,6 +99,11 @@ export const ListViewComponent: FunctionComponent<SetCardsProps> = ({
           </div>
         ))}
       </div>
+      <IF condition={!setCards.length}>
+        <div className="d-flex justify-content-center flex-grow-1">
+          <h2 className="align-self-center mb-0">No cards found.</h2>
+        </div>
+      </IF>
       <MemoizedModalComponent
         id="list-view-card-modal"
         primaryClasses="modal-xl vertical-align-modal"

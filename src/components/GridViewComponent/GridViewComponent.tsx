@@ -93,6 +93,11 @@ export const GridViewComponent: FunctionComponent<SetCardsProps> = ({
             </div>
           );
         })}
+        <IF condition={!setCards.length}>
+          <div className="d-flex justify-content-center flex-grow-1">
+            <h2 className="align-self-center mb-0">No cards found.</h2>
+          </div>
+        </IF>
       </div>
       <MemoizedModalComponent
         id="full-screen-card-modal"

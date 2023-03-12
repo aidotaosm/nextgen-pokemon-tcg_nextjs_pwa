@@ -57,6 +57,7 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
   useEffect(() => {
     if (cardsObject && router.isReady) {
       let routerPageIndex = 0;
+      console.log(router.query);
       if (
         router.query.page &&
         !isNaN(+router.query.page) &&
@@ -101,7 +102,7 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
     return () => {
       filterTooltipInstance?.dispose();
     };
-  }, [appState?.bootstrap, router.pathname]);
+  }, [appState?.bootstrap]);
 
   useEffect(() => {
     return () => {
@@ -305,7 +306,6 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
           filterQuery
         : "");
     const fixedQuery = updatedQuery.replaceAll("?&", "?");
-    console.log(fixedQuery);
     router.push(fixedQuery, undefined, { shallow: true });
   };
 
@@ -347,7 +347,7 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
       <div className="container d-flex flex-column" onClick={hideAllTollTips}>
         <div
           className="d-flex justify-content-center mb-4 align-items-center"
-          style={{ height: "5rem", overflow: "hidden" }}
+          style={{ height: "5rem", minHeight: "5rem", overflow: "hidden" }}
         >
           <IF condition={isSearchPage}>
             <h4>Search from all the cards ever printed!</h4>
@@ -425,16 +425,9 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
             ></ListOrGridViewToggle>
           </PagingComponent>
         </div>
-        <IF condition={!setCards.length && searchValue}>
-          <div className="d-flex justify-content-center flex-grow-1">
-            <h2 className="align-self-center">
-              No Cards found with {searchValue}
-            </h2>
-          </div>
-        </IF>
         <div
           className={
-            "d-flex sidebar-content-wrapper " +
+            "d-flex sidebar-content-wrapper h-100 " +
             (appState.sidebarCollapsed ? "collapsed" : "")
           }
         >
