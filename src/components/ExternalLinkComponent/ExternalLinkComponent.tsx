@@ -26,6 +26,7 @@ export const ExternalLinkComponent: FunctionComponent<ExternalLinkProps> = ({
   }, [appContextValues?.appState?.bootstrap]);
   return (
     <Link
+      aria-label={"Open external link to " + card.name}
       href={"/card/" + card.id}
       className={classes}
       target="_blank"

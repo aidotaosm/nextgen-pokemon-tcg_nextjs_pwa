@@ -38,6 +38,8 @@ export const SidebarFiltersComponent: FunctionComponent<
                   return (
                     <div key={type} className="col ">
                       <Checkbox
+                        //  title={type}
+                        aria-label={type}
                         value={type}
                         style={{ lineHeight: "1.8rem" }}
                         className=""

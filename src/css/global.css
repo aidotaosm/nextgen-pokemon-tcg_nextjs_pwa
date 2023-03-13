@@ -222,14 +222,17 @@ html {
 .sidebar-content-wrapper:not(.collapsed) .sidebar {
   margin-right: 1.5rem;
 }
-a {
+a,
+.span-link {
   text-decoration: none;
   color: slateblue;
 }
-a:hover {
+a:hover,
+.span-link:hover {
   color: grey !important;
 }
-a.white-hover:hover {
+a.white-hover:hover,
+.span-link.white-hover:hover {
   color: white !important;
 }
 .pokemon-details {

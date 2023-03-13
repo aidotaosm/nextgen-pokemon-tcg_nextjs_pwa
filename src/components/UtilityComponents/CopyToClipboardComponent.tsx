@@ -62,7 +62,7 @@ export const CopyToClipboardComponent: FunctionComponent<
     <Fragment>
       <input type="text" value={copyText} readOnly className="d-none" />
       {/* Bind our handler function to the onClick button property */}
-      <a
+      <span
         tabIndex={0}
         // title={isCopied ? "Copied!" : "Copy to clipboard."}
         id={popOverId}
@@ -74,14 +74,14 @@ export const CopyToClipboardComponent: FunctionComponent<
         // data-bs-custom-class="bg-grey"
         data-bs-trigger=" focus"
         data-bs-content={`Link to ${card.name} copied to clipboard!`}
-        className="text-warning white-hover"
+        className="text-warning span-link white-hover"
       >
         <FontAwesomeIcon
           className={"cursor-pointer user-select-none " + classes}
           icon={faCopy}
           onClick={handleCopyClick}
         />
-      </a>
+      </span>
     </Fragment>
   );
 };

@@ -78,7 +78,7 @@ export const GridViewComponent: FunctionComponent<SetCardsProps> = ({
                   </div>
 
                   <div className="card-footer">
-                    <small className="text-muted">
+                    <small className="">
                       {card.supertype + Helper.populateSubtype(card)}
                     </small>
                   </div>
