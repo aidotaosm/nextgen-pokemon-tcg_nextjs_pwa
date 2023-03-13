@@ -60,7 +60,13 @@ export const CopyToClipboardComponent: FunctionComponent<
 
   return (
     <Fragment>
-      <input type="text" value={copyText} readOnly className="d-none" />
+      <input
+        type="text"
+        value={copyText}
+        readOnly
+        className="d-none"
+        title="hidden text copy input"
+      />
       {/* Bind our handler function to the onClick button property */}
       <span
         tabIndex={0}

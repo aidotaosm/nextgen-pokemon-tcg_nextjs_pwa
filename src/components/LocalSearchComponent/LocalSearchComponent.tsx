@@ -91,6 +91,7 @@ export const LocalSearchComponent: FunctionComponent<
             setSearchValueFunction(fieldValue, "submit");
           }
         }}
+        title="Search"
         value={defaultSearchTerm}
         type="text"
         id="search"
