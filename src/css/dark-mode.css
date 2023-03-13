@@ -634,10 +634,12 @@
 .dark-mode .navbar .navbar-nav .nav-link.disabled {
   color: #777;
 }
-.dark-mode a:hover {
+.dark-mode a:hover,
+.dark-mode .span-link:hover {
   color: #dee2e6 !important;
 }
-.dark-mode a {
+.dark-mode a,
+.dark-mode .span-link {
   color: #0dcaf0;
 }
 .dark-mode .accordion-item {

@@ -109,6 +109,8 @@ export const PagingComponent: FunctionComponent<PagingComponentProps> = ({
                 style={{ borderRadius: "0.25rem" }}
               >
                 <input
+                  title="paging field"
+                  aria-labelledby="paging field"
                   className={styles["style-less-input"] + " cursor-pointer"}
                   type="number"
                   onBlur={(e) => cardsPagingOnClick(+e.target.value - 1)}

@@ -258,7 +258,7 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
                 router.pathname != "/search"
               }
             >
-              <Link href="/search">
+              <Link href="/search" aria-label={"Search page"}>
                 <span
                   onClick={(e) => e.stopPropagation()}
                   data-bs-title={"Go to Global Search page."}
@@ -368,7 +368,11 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
         </div>
       </footer>
 
-      <a className={"back-to-top-wrapper" + (scrollTop > 0 ? "" : " d-none")}>
+      <span
+        className={
+          "back-to-top-wrapper span-link" + (scrollTop > 0 ? "" : " d-none")
+        }
+      >
         <FontAwesomeIcon
           icon={faAnglesUp}
           className=" fs-2 cursor-pointer"
@@ -376,7 +380,7 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
             window.scrollTo(0, 0);
           }}
         />
-      </a>
+      </span>
 
       <ToastComponent
         autoHide={true}

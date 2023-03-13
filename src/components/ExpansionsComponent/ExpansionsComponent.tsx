@@ -546,8 +546,8 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
         toastTitle={
           <div>
             <span className="me-2">Optimization Status</span>
-            <a
-              className="cursor-pointer"
+            <span
+              className="cursor-pointer span-link"
               onClick={() => {
                 clearCacheUnregisterSWARefresh();
               }}
@@ -559,7 +559,7 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
               id={clearCacheUnregisterSWARefreshTooltipId}
             >
               <FontAwesomeIcon icon={faRecycle} className="" />
-            </a>
+            </span>
           </div>
         }
         id={prefetchToastId}
@@ -587,8 +587,8 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
               </div>
               <div className="ms-2 fw-bold">Offline Global search</div>
             </div>
-            <a
-              className="cursor-pointer"
+            <span
+              className="cursor-pointer span-link"
               onClick={() => {
                 if (downloadAllCardsLoading) {
                   return;
@@ -607,7 +607,7 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
                 icon={downloadAllCardsLoading ? faArrowsSpin : faDownload}
                 className=""
               />
-            </a>
+            </span>
           </div>
           <hr />
           <div
@@ -623,8 +623,8 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
                 totalNumberOfSetsDone < totalNumberOfSets && shouldCancel
               }
             >
-              <a
-                className="cursor-pointer"
+              <span
+                className="cursor-pointer span-link"
                 onClick={async () => {
                   if (navigator.onLine) {
                     flushSync(() => {
@@ -635,15 +635,15 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
                 }}
               >
                 Resume
-              </a>
+              </span>
             </IF>
             <IF
               condition={
                 totalNumberOfSetsDone < totalNumberOfSets && !shouldCancel
               }
             >
-              <a
-                className="cursor-pointer"
+              <span
+                className="cursor-pointer span-link"
                 onClick={() => {
                   if (navigator.onLine) {
                     setShouldCancel(true);
@@ -651,7 +651,7 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
                 }}
               >
                 Pause
-              </a>
+              </span>
             </IF>
             <span>
               {totalNumberOfSetsDone} / {totalNumberOfSets}
