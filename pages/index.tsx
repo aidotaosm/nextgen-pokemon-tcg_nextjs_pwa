@@ -21,6 +21,7 @@ import {
   ButtonNext,
 } from "pure-react-carousel";
 import "pure-react-carousel/dist/react-carousel.es.css";
+import CarouselSlider from "../src/components/CaouselSlider/CarouselSlider";
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const dynamicallyImportedJson: any = (
@@ -39,6 +40,9 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
 const Index = ({ setCards }: any) => {
   const [searchValue, setSearchValue] = useState("");
+  const [slideCount, setSlideCount] = useState(2);
+  const [currentSlide, setCurrentSlide] = useState(0);
+
   const { appState, updateGlobalSearchTerm } = useContext(AppContext);
   let router = useRouter();
   const setSearchValueFunction = (
@@ -80,31 +84,21 @@ const Index = ({ setCards }: any) => {
         </div>
         <div className="">
           <h4 className=" mb-0 text-center">Today's Featured Cards!</h4>
-          <div className="px-3 pb-3">
+          <div className="carousel-container">
             <CarouselProvider
-              naturalSlideWidth={100}
-              naturalSlideHeight={125}
-              totalSlides={5}
+             visibleSlides={slideCount}
+             totalSlides={6}
+             step={1}
+             currentSlide={currentSlide}
+             naturalSlideWidth={100}
+             naturalSlideHeight={125}
+             isIntrinsicHeight={true}
             >
-              <Slider>
-                {setCards?.map((card: any, index: number) => (
-                  <Slide index={index} key={card.id}>
-                    <Link
-                      href={"/card/" + card.id}
-                      style={{ margin: "auto", maxWidth: "25rem" }}
-                    >
-                      <ImageComponent
-                        src={card?.images?.small}
-                        highQualitySrc={card?.images?.large}
-                        alt={card.name}
-                        width={734}
-                        height={1024}
-                        blurDataURL={defaultBlurImage}
-                      />
-                    </Link>
-                  </Slide>
-                ))}
-              </Slider>
+              <CarouselSlider
+                setSlideCount={setSlideCount}
+                setCurrentSlide={setCurrentSlide}
+                setCards={setCards}
+              />
               <ButtonBack>Back</ButtonBack>
               <ButtonNext>Next</ButtonNext>
             </CarouselProvider>
