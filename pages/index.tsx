@@ -29,7 +29,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
   let parsedAllCards = dynamicallyImportedJson;
   let fiveRandomCards = [];
-  for (let i = 0; i < 5; i++) {
+  for (let i = 0; i < 10; i++) {
     let randomIndex = Helper.randDelay(0, parsedAllCards.length - 1);
     fiveRandomCards.push(parsedAllCards[randomIndex]);
   }
@@ -39,7 +39,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
 const Index = ({ setCards }: any) => {
   const [searchValue, setSearchValue] = useState("");
-  const [slideCount, setSlideCount] = useState(1);
+  const [slideCount, setSlideCount] = useState(2);
   const [currentSlide, setCurrentSlide] = useState(0);
 
   const { appState, updateGlobalSearchTerm } = useContext(AppContext);
@@ -86,7 +86,7 @@ const Index = ({ setCards }: any) => {
           <div className="carousel-container">
             <CarouselProvider
               visibleSlides={slideCount}
-              totalSlides={5}
+              totalSlides={setCards.length}
               step={1}
               currentSlide={currentSlide}
               naturalSlideWidth={100}

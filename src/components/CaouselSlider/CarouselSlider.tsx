@@ -51,14 +51,16 @@ const CarouselSlider: FunctionComponent<CarouselSliderProps> = ({
       }
     };
 
-    if (screenWidth < 832) {
+    if (screenWidth <= 575) {
       updateCarouselSlide(1);
-    } else if (screenWidth < 1088) {
+    } else if (screenWidth <= 767) {
       updateCarouselSlide(2);
-    }
-    //>= 1088
-    else {
+    } else if (screenWidth <= 991) {
       updateCarouselSlide(3);
+    } else if (screenWidth <= 1199) {
+      updateCarouselSlide(4);
+    } else {
+      updateCarouselSlide(5);
     }
   }, [screenWidth, setSlideCount, setCurrentSlide, carouselContext]);
 
@@ -67,8 +69,11 @@ const CarouselSlider: FunctionComponent<CarouselSliderProps> = ({
       <div>
         <Slider>
           {setCards?.map((card: any, index: number) => (
-            <Slide index={index} key={card.id} className={"slide"}>
-              <Link href={"/card/" + card.id}>
+            <Slide index={index} key={card.id} className={"slide px-3"}>
+              <Link
+                href={"/card/" + card.id}
+                style={{ margin: "auto", maxWidth: "25rem" }}
+              >
                 <ImageComponent
                   src={card?.images?.large}
                   //highQualitySrc={card?.images?.large}
@@ -76,6 +81,7 @@ const CarouselSlider: FunctionComponent<CarouselSliderProps> = ({
                   width={734}
                   height={1024}
                   blurDataURL={defaultBlurImage}
+                  className="h-auto w-100"
                 />
               </Link>
             </Slide>
