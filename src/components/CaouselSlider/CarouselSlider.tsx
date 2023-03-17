@@ -1,15 +1,19 @@
-import React, { Fragment, FunctionComponent, useContext, useEffect } from "react";
+import React, {
+  Fragment,
+  FunctionComponent,
+  useContext,
+  useEffect,
+} from "react";
 
 import {
   ButtonBack,
   ButtonNext,
   DotGroup,
   Slide,
-  Slider
+  Slider,
 } from "pure-react-carousel";
 import "pure-react-carousel/dist/react-carousel.es.css";
 import { CarouselContext } from "pure-react-carousel";
-
 
 import useWindowSize from "../../hooks/windowSize";
 import Link from "next/link";
@@ -21,7 +25,11 @@ interface CarouselSliderProps {
   setCards: any[];
 }
 
-const CarouselSlider: FunctionComponent<CarouselSliderProps> = ({ setSlideCount, setCurrentSlide, setCards }) => {
+const CarouselSlider: FunctionComponent<CarouselSliderProps> = ({
+  setSlideCount,
+  setCurrentSlide,
+  setCards,
+}) => {
   const screenWidth = useWindowSize();
 
   //pure-react-carousel context
@@ -29,11 +37,8 @@ const CarouselSlider: FunctionComponent<CarouselSliderProps> = ({ setSlideCount,
 
   useEffect(() => {
     const updateCarouselSlide = (slideToBeVisible: number) => {
-      const {
-        currentSlide,
-        totalSlides,
-        visibleSlides
-      } = carouselContext.state;
+      const { currentSlide, totalSlides, visibleSlides } =
+        carouselContext.state;
 
       setSlideCount(slideToBeVisible);
 
@@ -78,40 +83,37 @@ const CarouselSlider: FunctionComponent<CarouselSliderProps> = ({ setSlideCount,
               </Link>
             </Slide>
           ))}
-
         </Slider>
         <div className="controls">
-          <ButtonBack className="btn-arrow reverse-arrow">
-            left
-          </ButtonBack>
+          <ButtonBack className="btn-arrow reverse-arrow">left</ButtonBack>
           <DotGroup className="dot-group" />
-          <ButtonNext className="btn-arrow">
-            right
-          </ButtonNext>
+          <ButtonNext className="btn-arrow">right</ButtonNext>
         </div>
       </div>
       <style jsx>{`
-    .controls {
-      display: flex;
-      align-items: center;
-      justify-content: c;
-  
-      .btn-arrow {
-        border: none;
-        background: none;
-        padding: 11px 20px;
-      }
-  
-      .reverse-arrow {
-        transform: rotateY(180deg);
-      }
-  
-      .dot-group {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-  
-        .carousel__dot {
+        .controls {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        /* This class is found in DotGroup from pure-react-carousel */
+        /* We need to override it to add our styles */
+
+        .controls .btn-arrow {
+          border: none;
+          background: none;
+          padding: 11px 20px;
+        }
+
+        .controls .reverse-arrow {
+          transform: rotateY(180deg);
+        }
+        .controls .dot-group {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        .controls .dot-group.carousel__dot {
           width: 8px;
           height: 8px;
           border: none;
@@ -120,23 +122,16 @@ const CarouselSlider: FunctionComponent<CarouselSliderProps> = ({ setSlideCount,
           padding: 0;
           background-color: #c3c4ca;
         }
-  
-        /* This class is found in DotGroup from pure-react-carousel */
-        /* We need to override it to add our styles */
-        .carousel__dot--selected {
+        .controls .dot-group.carousel__dot--selected {
           width: 16px;
           height: 8px;
           border-radius: 10px;
           background-color: #6267a1;
           transition: background 0.4s ease;
         }
-      }
-    }
-  `}</style>
+      `}</style>
     </Fragment>
   );
 };
-
-
 
 export default CarouselSlider;
