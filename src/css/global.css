@@ -562,3 +562,83 @@ a.white-hover:hover,
     margin-top: -1.4rem;
   }
 }
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+/* This class is found in DotGroup from pure-react-carousel */
+/* We need to override it to add our styles */
+
+.controls .btn-arrow {
+  border: none;
+  background: none;
+  padding: 11px 20px;
+}
+
+.controls .reverse-arrow {
+  transform: rotateY(180deg);
+}
+.controls .dot-group {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.controls .dot-group .carousel__dot {
+  width: 8px;
+  height: 8px;
+  border: none;
+  border-radius: 50%;
+  margin: 0 4px;
+  padding: 0;
+  background-color: #c3c4ca;
+}
+.controls .dot-group .carousel__dot--selected {
+  width: 16px;
+  height: 8px;
+  border-radius: 10px;
+  background-color: #6267a1;
+  transition: background 0.4s ease;
+}
+.carousel-container {
+  margin: 12px auto;
+  max-width: 272px;
+  filter: drop-shadow(0px 12px 30px rgba(50, 50, 50, 0.2));
+
+  /* Total-width (including margin) + 1 additional margin */
+}
+.carousel__inner-slide {
+  /* width: 100% - margin */
+  width: calc(100% - 16px);
+  /* margin-left: margin/2 */
+  /* margin is required to adjust positioning as the width is diminished*/
+  margin-left: 8px;
+}
+
+@media (min-width: 832px) {
+  .carousel-container {
+    max-width: 704px;
+  }
+}
+
+@media (min-width: 1088px) {
+  .carousel-container {
+    max-width: 960px;
+  }
+}
+
+@media (min-width: 1272px) {
+  .carousel-container {
+    max-width: 1152px;
+  }
+  .carousel__inner-slide {
+    width: calc(100% - 32px);
+    margin-left: 16px;
+  }
+}
+
+@media (min-width: 1504px) {
+  .carousel-container {
+    max-width: 1344px;
+  }
+}

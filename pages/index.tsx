@@ -20,7 +20,6 @@ import {
   ButtonBack,
   ButtonNext,
 } from "pure-react-carousel";
-import "pure-react-carousel/dist/react-carousel.es.css";
 import CarouselSlider from "../src/components/CaouselSlider/CarouselSlider";
 
 export const getStaticProps: GetStaticProps = async (context) => {
@@ -40,7 +39,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
 const Index = ({ setCards }: any) => {
   const [searchValue, setSearchValue] = useState("");
-  const [slideCount, setSlideCount] = useState(2);
+  const [slideCount, setSlideCount] = useState(1);
   const [currentSlide, setCurrentSlide] = useState(0);
 
   const { appState, updateGlobalSearchTerm } = useContext(AppContext);
@@ -87,7 +86,7 @@ const Index = ({ setCards }: any) => {
           <div className="carousel-container">
             <CarouselProvider
               visibleSlides={slideCount}
-              totalSlides={6}
+              totalSlides={5}
               step={1}
               currentSlide={currentSlide}
               naturalSlideWidth={100}
@@ -99,64 +98,10 @@ const Index = ({ setCards }: any) => {
                 setCurrentSlide={setCurrentSlide}
                 setCards={setCards}
               />
-              <ButtonBack>Back</ButtonBack>
-              <ButtonNext>Next</ButtonNext>
             </CarouselProvider>
           </div>
         </div>
       </div>
-      <style jsx>{`
-        .carousel-container {
-          margin: 12px auto;
-          max-width: 272px;
-          filter: drop-shadow(0px 12px 30px rgba(50, 50, 50, 0.2));
-
-          /* Total-width (including margin) + 1 additional margin */
-        }
-        @media (min-width: 832px) {
-          .carousel-container {
-            max-width: 704px;
-          }
-        }
-
-        @media (min-width: 1088px) {
-          .carousel-container {
-            max-width: 960px;
-          }
-        }
-
-        @media (min-width: 1272px) {
-          .carousel-container {
-            max-width: 1152px;
-          }
-        }
-
-        @media (min-width: 1504px) {
-          .carousel-container {
-            max-width: 1344px;
-          }
-        }
-        .carousel__inner-slide {
-          /* width: 100% - margin */
-          width: calc(100% - 16px);
-          /* margin-left: margin/2 */
-          /* margin is required to adjust positioning as the width is diminished*/
-          margin-left: 8px;
-        }
-        @media (min-width: 1272px) {
-          .carousel__inner-slide {
-            width: calc(100% - 24px);
-            margin-left: 12px;
-          }
-        }
-
-        @media (min-width: 1272px) {
-          .carousel__inner-slide {
-            width: calc(100% - 32px);
-            margin-left: 16px;
-          }
-        }
-      `}</style>
     </div>
   );
 };

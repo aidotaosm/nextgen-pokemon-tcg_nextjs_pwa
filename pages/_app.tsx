@@ -11,6 +11,7 @@ import "../src/css/dark-mode.css";
 import "../src/css/default.css";
 import "../src/css/fs-breakpoint-n.css";
 import "../src/css/global.css";
+import "pure-react-carousel/dist/react-carousel.es.css";
 import { Helper } from "../src/utils/helper";
 config.autoAddCss = false;
 

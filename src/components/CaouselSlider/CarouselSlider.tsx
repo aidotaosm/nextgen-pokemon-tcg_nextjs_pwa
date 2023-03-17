@@ -12,7 +12,7 @@ import {
   Slide,
   Slider,
 } from "pure-react-carousel";
-import "pure-react-carousel/dist/react-carousel.es.css";
+
 import { CarouselContext } from "pure-react-carousel";
 
 import useWindowSize from "../../hooks/windowSize";
@@ -67,14 +67,11 @@ const CarouselSlider: FunctionComponent<CarouselSliderProps> = ({
       <div>
         <Slider>
           {setCards?.map((card: any, index: number) => (
-            <Slide index={index} key={card.id} className="slide">
-              <Link
-                href={"/card/" + card.id}
-                style={{ margin: "auto", maxWidth: "25rem" }}
-              >
+            <Slide index={index} key={card.id} className={"slide"}>
+              <Link href={"/card/" + card.id}>
                 <ImageComponent
-                  src={card?.images?.small}
-                  highQualitySrc={card?.images?.large}
+                  src={card?.images?.large}
+                  //highQualitySrc={card?.images?.large}
                   alt={card.name}
                   width={734}
                   height={1024}
@@ -90,46 +87,6 @@ const CarouselSlider: FunctionComponent<CarouselSliderProps> = ({
           <ButtonNext className="btn-arrow">right</ButtonNext>
         </div>
       </div>
-      <style jsx>{`
-        .controls {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-        /* This class is found in DotGroup from pure-react-carousel */
-        /* We need to override it to add our styles */
-
-        .controls .btn-arrow {
-          border: none;
-          background: none;
-          padding: 11px 20px;
-        }
-
-        .controls .reverse-arrow {
-          transform: rotateY(180deg);
-        }
-        .controls .dot-group {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-        .controls .dot-group.carousel__dot {
-          width: 8px;
-          height: 8px;
-          border: none;
-          border-radius: 50%;
-          margin: 0 4px;
-          padding: 0;
-          background-color: #c3c4ca;
-        }
-        .controls .dot-group.carousel__dot--selected {
-          width: 16px;
-          height: 8px;
-          border-radius: 10px;
-          background-color: #6267a1;
-          transition: background 0.4s ease;
-        }
-      `}</style>
     </Fragment>
   );
 };
