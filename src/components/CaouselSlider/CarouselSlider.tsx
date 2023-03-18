@@ -19,6 +19,14 @@ import useWindowSize from "../../hooks/windowSize";
 import Link from "next/link";
 import { ImageComponent } from "../ImageComponent/ImageComponent";
 import { defaultBlurImage } from "../../../base64Images/base64Images";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faBackspace,
+  faChevronCircleLeft,
+  faCircleChevronLeft,
+  faCircleChevronRight,
+  faForwardStep,
+} from "@fortawesome/free-solid-svg-icons";
 interface CarouselSliderProps {
   setSlideCount: (num: number) => void;
   setCurrentSlide: (num: number) => void;
@@ -39,7 +47,7 @@ const CarouselSlider: FunctionComponent<CarouselSliderProps> = ({
     const updateCarouselSlide = (slideToBeVisible: number) => {
       const { currentSlide, totalSlides, visibleSlides } =
         carouselContext.state;
-
+      console.log(slideToBeVisible);
       setSlideCount(slideToBeVisible);
 
       //this is a fix to reset currentSlide when screen resizes
@@ -59,6 +67,8 @@ const CarouselSlider: FunctionComponent<CarouselSliderProps> = ({
       updateCarouselSlide(3);
     } else if (screenWidth <= 1199) {
       updateCarouselSlide(4);
+    } else if (screenWidth <= 1399) {
+      updateCarouselSlide(4);
     } else {
       updateCarouselSlide(5);
     }
@@ -66,32 +76,34 @@ const CarouselSlider: FunctionComponent<CarouselSliderProps> = ({
 
   return (
     <Fragment>
-      <div>
-        <Slider>
-          {setCards?.map((card: any, index: number) => (
-            <Slide index={index} key={card.id} className={"slide px-3"}>
-              <Link
-                href={"/card/" + card.id}
-                style={{ margin: "auto", maxWidth: "25rem" }}
-              >
-                <ImageComponent
-                  src={card?.images?.large}
-                  //highQualitySrc={card?.images?.large}
-                  alt={card.name}
-                  width={734}
-                  height={1024}
-                  blurDataURL={defaultBlurImage}
-                  className="h-auto w-100"
-                />
-              </Link>
-            </Slide>
-          ))}
-        </Slider>
-        <div className="controls">
-          <ButtonBack className="btn-arrow reverse-arrow">left</ButtonBack>
-          <DotGroup className="dot-group" />
-          <ButtonNext className="btn-arrow">right</ButtonNext>
-        </div>
+      <Slider style={{ gap: "2rem" }}>
+        {setCards?.map((card: any, index: number) => (
+          <Slide index={index} key={card.id} className={" "}>
+            <Link
+              href={"/card/" + card.id}
+              style={{ margin: "auto", maxWidth: "25rem" }}
+            >
+              <ImageComponent
+                src={card?.images?.small}
+                highQualitySrc={card?.images?.large}
+                alt={card.name}
+                width={734}
+                height={1024}
+                blurDataURL={defaultBlurImage}
+                className="h-auto w-100"
+              />
+            </Link>
+          </Slide>
+        ))}
+      </Slider>
+      <div className="controls">
+        <ButtonBack className="btn-arrow ">
+          <FontAwesomeIcon icon={faChevronCircleLeft} size="2x" />
+        </ButtonBack>
+        <DotGroup className="dot-group" />
+        <ButtonNext className="btn-arrow">
+          <FontAwesomeIcon icon={faCircleChevronRight} size="2x" />
+        </ButtonNext>
       </div>
     </Fragment>
   );

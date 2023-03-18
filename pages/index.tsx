@@ -82,16 +82,18 @@ const Index = ({ setCards }: any) => {
           </Link>
         </div>
         <div className="">
-          <h4 className=" mb-0 text-center">Today's Featured Cards!</h4>
+          <h4 className=" text-center">Today's Featured Cards!</h4>
           <div className="carousel-container">
             <CarouselProvider
               visibleSlides={slideCount}
               totalSlides={setCards.length}
-              step={1}
+              step={2}
               currentSlide={currentSlide}
               naturalSlideWidth={100}
               naturalSlideHeight={125}
               isIntrinsicHeight={true}
+              isPlaying={true}
+              infinite={true}
             >
               <CarouselSlider
                 setSlideCount={setSlideCount}

@@ -571,13 +571,13 @@ a.white-hover:hover,
 /* We need to override it to add our styles */
 
 .controls .btn-arrow {
-  border: none;
-  background: none;
+  border: unset;
+  background: unset;
   padding: 11px 20px;
+  color: var(--bs-body-color);
 }
-
-.controls .reverse-arrow {
-  transform: rotateY(180deg);
+.dark-mode .controls .btn-arrow {
+  color: #bebebe;
 }
 .controls .dot-group {
   display: flex;
@@ -601,8 +601,10 @@ a.white-hover:hover,
   transition: background 0.4s ease;
 }
 .carousel-container {
-  margin: 12px auto;
   filter: drop-shadow(0px 12px 30px rgba(50, 50, 50, 0.2));
 
   /* Total-width (including margin) + 1 additional margin */
+}
+.carousel__slider-tray {
+  gap: 1.5rem;
 }
