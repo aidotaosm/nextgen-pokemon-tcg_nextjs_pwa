@@ -5,21 +5,13 @@ import { ImageComponent } from "../src/components/ImageComponent/ImageComponent"
 import swsh125 from "../images/swsh125-preview-cards-1-169-en.jpg";
 
 import Link from "next/link";
-import { defaultBlurImage } from "../base64Images/base64Images";
 import { GetStaticProps } from "next";
-import { CarouselComponent } from "../src/components/UtilityComponents/CarouselComponent";
-import { Fragment, useContext, useState } from "react";
+import { Fragment, useContext, useEffect, useState } from "react";
 import { Helper } from "../src/utils/helper";
 import { useRouter } from "next/router";
 import { AppContext } from "../src/contexts/AppContext";
 import { LocalSearchComponent } from "../src/components/LocalSearchComponent/LocalSearchComponent";
-import {
-  CarouselProvider,
-  Slider,
-  Slide,
-  ButtonBack,
-  ButtonNext,
-} from "pure-react-carousel";
+import { CarouselProvider } from "pure-react-carousel";
 import CarouselSlider from "../src/components/CaouselSlider/CarouselSlider";
 
 export const getStaticProps: GetStaticProps = async (context) => {
@@ -39,9 +31,9 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
 const Index = ({ setCards }: any) => {
   const [searchValue, setSearchValue] = useState("");
-  const [slideCount, setSlideCount] = useState(2);
+  const [slideCount, setSlideCount] = useState(1);
   const [currentSlide, setCurrentSlide] = useState(0);
-
+  const [carouselLoadingDone, setCarouselLoadingDone] = useState(true);
   const { appState, updateGlobalSearchTerm } = useContext(AppContext);
   let router = useRouter();
   const setSearchValueFunction = (
@@ -54,6 +46,7 @@ const Index = ({ setCards }: any) => {
     }
     setSearchValue(value);
   };
+
   return (
     <div className="container">
       <div className="mb-4 search-wrapper">
@@ -83,8 +76,14 @@ const Index = ({ setCards }: any) => {
         </div>
         <div className="">
           <h4 className=" text-center">Today's Featured Cards!</h4>
-          <div className="carousel-container">
+          <div
+            className={
+              "carousel-container " +
+              (carouselLoadingDone ? "carousel-loading" : "")
+            }
+          >
             <CarouselProvider
+              hasMasterSpinner={carouselLoadingDone}
               visibleSlides={slideCount}
               totalSlides={setCards.length}
               step={2}
@@ -96,6 +95,8 @@ const Index = ({ setCards }: any) => {
               infinite={true}
             >
               <CarouselSlider
+                setCarouselLoadingDone={setCarouselLoadingDone}
+                carouselLoadingDone={carouselLoadingDone}
                 setSlideCount={setSlideCount}
                 setCurrentSlide={setCurrentSlide}
                 setCards={setCards}

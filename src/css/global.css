@@ -601,10 +601,25 @@ a.white-hover:hover,
   transition: background 0.4s ease;
 }
 .carousel-container {
-  filter: drop-shadow(0px 12px 30px rgba(50, 50, 50, 0.2));
-
-  /* Total-width (including margin) + 1 additional margin */
+  /* filter: drop-shadow(0px 12px 30px rgba(50, 50, 50, 0.2)); */
 }
 .carousel__slider-tray {
   gap: 1.5rem;
+}
+.carousel__master-spinner-container {
+  background-color: white !important;
+  min-height: 330px;
+  max-height: 330px;
+  overflow: hidden;
+  margin-bottom: -54px;
+}
+
+.dark-mode .carousel__master-spinner-container {
+  background-color: #181818 !important;
+}
+
+.carousel-container.carousel-loading {
+  min-height: 330px;
+  max-height: 330px;
+  overflow: hidden;
 }

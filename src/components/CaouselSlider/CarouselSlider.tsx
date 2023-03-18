@@ -31,12 +31,16 @@ interface CarouselSliderProps {
   setSlideCount: (num: number) => void;
   setCurrentSlide: (num: number) => void;
   setCards: any[];
+  carouselLoadingDone: boolean;
+  setCarouselLoadingDone: (num: boolean) => void;
 }
 
 const CarouselSlider: FunctionComponent<CarouselSliderProps> = ({
   setSlideCount,
+  carouselLoadingDone,
   setCurrentSlide,
   setCards,
+  setCarouselLoadingDone,
 }) => {
   const screenWidth = useWindowSize();
 
@@ -58,7 +62,7 @@ const CarouselSlider: FunctionComponent<CarouselSliderProps> = ({
         setCurrentSlide(totalSlides - slideToBeVisible);
       }
     };
-
+    console.log(screenWidth);
     if (screenWidth <= 575) {
       updateCarouselSlide(1);
     } else if (screenWidth <= 767) {
@@ -72,7 +76,10 @@ const CarouselSlider: FunctionComponent<CarouselSliderProps> = ({
     } else {
       updateCarouselSlide(5);
     }
-  }, [screenWidth, setSlideCount, setCurrentSlide, carouselContext]);
+    if (screenWidth) {
+      setCarouselLoadingDone(false);
+    }
+  }, [screenWidth]);
 
   return (
     <Fragment>
@@ -96,7 +103,7 @@ const CarouselSlider: FunctionComponent<CarouselSliderProps> = ({
           </Slide>
         ))}
       </Slider>
-      <div className="controls">
+      <div className={"controls " + (carouselLoadingDone ? "invisible" : "")}>
         <ButtonBack className="btn-arrow ">
           <FontAwesomeIcon icon={faChevronCircleLeft} size="2x" />
         </ButtonBack>
