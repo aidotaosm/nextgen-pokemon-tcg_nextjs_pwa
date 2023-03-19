@@ -5,14 +5,15 @@ import { ImageComponent } from "../src/components/ImageComponent/ImageComponent"
 import swsh125 from "../images/swsh125-preview-cards-1-169-en.jpg";
 
 import Link from "next/link";
-import { defaultBlurImage } from "../base64Images/base64Images";
 import { GetStaticProps } from "next";
-import { CarouselComponent } from "../src/components/UtilityComponents/CarouselComponent";
-import { Fragment, useContext, useState } from "react";
+import { Fragment, useContext, useEffect, useState } from "react";
 import { Helper } from "../src/utils/helper";
 import { useRouter } from "next/router";
 import { AppContext } from "../src/contexts/AppContext";
 import { LocalSearchComponent } from "../src/components/LocalSearchComponent/LocalSearchComponent";
+import { CarouselProvider } from "pure-react-carousel";
+import CarouselSlider from "../src/components/CaouselSlider/CarouselSlider";
+
 export const getStaticProps: GetStaticProps = async (context) => {
   const dynamicallyImportedJson: any = (
     await import("../public/Jsons/AllCards.json")
@@ -20,7 +21,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
   let parsedAllCards = dynamicallyImportedJson;
   let fiveRandomCards = [];
-  for (let i = 0; i < 5; i++) {
+  for (let i = 0; i < 10; i++) {
     let randomIndex = Helper.randDelay(0, parsedAllCards.length - 1);
     fiveRandomCards.push(parsedAllCards[randomIndex]);
   }
@@ -30,6 +31,9 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
 const Index = ({ setCards }: any) => {
   const [searchValue, setSearchValue] = useState("");
+  const [slideCount, setSlideCount] = useState(1);
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [carouselLoadingDone, setCarouselLoadingDone] = useState(true);
   const { appState, updateGlobalSearchTerm } = useContext(AppContext);
   let router = useRouter();
   const setSearchValueFunction = (
@@ -42,113 +46,79 @@ const Index = ({ setCards }: any) => {
     }
     setSearchValue(value);
   };
+
   return (
-    <div className="container">
-      <div className="mb-4 search-wrapper">
-        <LocalSearchComponent
-          setSearchValueFunction={setSearchValueFunction}
-          initialPlaceHolder={"Global search e.g. "}
-          defaultSearchTerm={searchValue}
-        />
-      </div>
-      <div className="row row-cols-1 row-cols-md-2">
-        <div className="col">
-          <Link href="/series" className="un-styled-anchor ">
-            <div className="card h-100 cursor-pointer">
-              <div className="card-body d-flex flex-column">
-                <h4 className="card-title text-decoration-none mb-0 text-center">
-                  Browse Cards
-                </h4>
-                <hr className="mb-0" />
-                <div className="flex-grow-1 flex-column justify-content-center d-flex">
-                  <ImageComponent
-                    src={swsh125}
-                    alt={"Browse cards"}
-                    className="w-100 h-auto card-img-top"
-                    lqImageUnOptimize={true}
-                  />
-                </div>
-              </div>
-              {/* <div className="card-img-top">
-         
-              </div> */}
-              <div className="card-footer p-3">
-                <span className="fs-6">
-                  Browse all expansions of Pokemon TCG, search and filter
-                  through your desired cards and more!
-                </span>
-              </div>
-            </div>
-          </Link>
-        </div>
-        <div className="col">
-          <div className="card h-100">
-            <div className="card-body">
-              <h4 className="card-title mb-0 text-center">
-                Today's Featured Cards!
-              </h4>
-            </div>
-            <div className="card-img-top px-3 pb-3">
-              <CarouselComponent isLandingPage={true}>
-                {setCards?.map((card: any, index: number) => (
-                  <Fragment key={card.id}>
-                    <div
-                      className={
-                        "carousel-item " + (index == 0 ? "active" : "")
-                      }
-                    >
-                      <div
-                        className=""
-                        style={{ margin: "auto", maxWidth: "25rem" }}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                        }}
-                      >
-                        <Link
-                          href={"/card/" + card.id}
-                          className="un-styled-anchor "
-                        >
-                          <ImageComponent
-                            src={card?.images?.small}
-                            highQualitySrc={card?.images?.large}
-                            alt={card.name}
-                            width={734}
-                            height={1024}
-                            blurDataURL={defaultBlurImage}
-                            className="h-auto w-100"
-                          />
-                        </Link>
-                      </div>
-                    </div>
-                  </Fragment>
-                ))}
-              </CarouselComponent>
-            </div>
+    <div className="container d-flex flex-column justify-content-center">
+      <h3 className="text-center mb-2">Next Gen Pokemon TCG</h3>
+      <h5 className="text-center mb-5 text-muted">
+        The next generation pokemon cards database. With offline support!
+      </h5>
+      <div className="row row-cols-1 row-cols-sm-2 mb-5">
+        <div className=" d-flex align-items-center col mb-3 mb-sm-0">
+          <div className="w-100 me-0 me-lg-4">
+            <LocalSearchComponent
+              setSearchValueFunction={setSearchValueFunction}
+              initialPlaceHolder={"Global search e.g. "}
+              defaultSearchTerm={searchValue}
+            />
           </div>
         </div>
-        {/* <div className="col opacity-50">
-          <div className="card h-100">
-            <div className="card-img-top">
+        <Link href="/series" className="un-styled-anchor cursor-pointer col ">
+          <div className=" d-lg-flex align-items-center flex-column flex-lg-row justify-content-center">
+            <div className="flex-grow-1 ms-lg-3 text-decoration-none d-block d-lg-none mb-3 mb-lg-0 ">
+              <h5 className="text-center">Browse Sets</h5>
+              <p className="mb-0 text-center text-muted">
+                Browse all expansions of Pokemon TCG, search and filter through
+                your desired cards and more!
+              </p>
+            </div>
+            <div className="flex-shrink-0 media-image">
               <ImageComponent
-                src={buildPokemonTcgDecks}
+                src={swsh125}
                 alt={"Browse cards"}
-                blurDataURL={defaultBlurImage}
-                className="w-100 h-auto"
+                className="w-100 h-auto rounded"
                 lqImageUnOptimize={true}
               />
             </div>
-            <div className="card-body">
-              <h5 className="card-title">Play Pokemon TCG</h5>
-              <p className="card-text">
-                Play Pokemon TCG with your friend with decks built from the deck
-                builder!
+            <div className="flex-grow-1 ms-lg-3 text-decoration-none d-none d-lg-block">
+              <h5>Browse Sets</h5>
+              <p className="mb-0 text-muted">
+                Browse all expansions of Pokemon TCG, search and filter through
+                your desired cards and more!
               </p>
             </div>
-            <div className="card-footer">
-              <small className="text-muted">Coming later.</small>
-            </div>
           </div>
-        </div> */}
+        </Link>
+      </div>
+      <div className="">
+        <h5 className="mb-3 text-center">Today's Featured Cards!</h5>
+        <div
+          className={
+            "carousel-container " +
+            (carouselLoadingDone ? "carousel-loading" : "")
+          }
+        >
+          <CarouselProvider
+            hasMasterSpinner={carouselLoadingDone}
+            visibleSlides={slideCount}
+            totalSlides={setCards.length}
+            step={2}
+            currentSlide={currentSlide}
+            naturalSlideWidth={100}
+            naturalSlideHeight={125}
+            isIntrinsicHeight={true}
+            isPlaying={true}
+            infinite={true}
+          >
+            <CarouselSlider
+              setCarouselLoadingDone={setCarouselLoadingDone}
+              carouselLoadingDone={carouselLoadingDone}
+              setSlideCount={setSlideCount}
+              setCurrentSlide={setCurrentSlide}
+              setCards={setCards}
+            />
+          </CarouselProvider>
+        </div>
       </div>
     </div>
   );
