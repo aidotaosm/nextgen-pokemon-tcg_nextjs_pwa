@@ -49,13 +49,13 @@ const Index = ({ setCards }: any) => {
 
   return (
     <div className="container d-flex flex-column justify-content-center">
-      <h3 className="text-center mb-3">Next Gen Pokemon TCG</h3>
-      <h5 className="text-center mb-4 text-muted">
+      <h3 className="text-center mb-2">Next Gen Pokemon TCG</h3>
+      <h5 className="text-center mb-5 text-muted">
         The next generation pokemon cards database. With offline support!
       </h5>
-      <div className="row row-cols-1 row-cols-sm-2 mb-4">
+      <div className="row row-cols-1 row-cols-sm-2 mb-5">
         <div className=" d-flex align-items-center col mb-3 mb-sm-0">
-          <div className="p-4 w-100  rounded border-light-gray">
+          <div className="w-100 me-0 me-lg-4">
             <LocalSearchComponent
               setSearchValueFunction={setSearchValueFunction}
               initialPlaceHolder={"Global search e.g. "}
@@ -66,8 +66,8 @@ const Index = ({ setCards }: any) => {
         <Link href="/series" className="un-styled-anchor cursor-pointer col ">
           <div className=" d-lg-flex align-items-center flex-column flex-lg-row justify-content-center">
             <div className="flex-grow-1 ms-lg-3 text-decoration-none d-block d-lg-none mb-3 mb-lg-0 ">
-              <h4 className="text-center">Browse Sets</h4>
-              <p className="mb-0 text-center">
+              <h5 className="text-center">Browse Sets</h5>
+              <p className="mb-0 text-center text-muted">
                 Browse all expansions of Pokemon TCG, search and filter through
                 your desired cards and more!
               </p>
@@ -81,8 +81,8 @@ const Index = ({ setCards }: any) => {
               />
             </div>
             <div className="flex-grow-1 ms-lg-3 text-decoration-none d-none d-lg-block">
-              <h4>Browse Sets</h4>
-              <p className="mb-0">
+              <h5>Browse Sets</h5>
+              <p className="mb-0 text-muted">
                 Browse all expansions of Pokemon TCG, search and filter through
                 your desired cards and more!
               </p>
@@ -91,7 +91,7 @@ const Index = ({ setCards }: any) => {
         </Link>
       </div>
       <div className="">
-        <h4 className="mb-3 text-center">Today's Featured Cards!</h4>
+        <h5 className="mb-3 text-center">Today's Featured Cards!</h5>
         <div
           className={
             "carousel-container " +
