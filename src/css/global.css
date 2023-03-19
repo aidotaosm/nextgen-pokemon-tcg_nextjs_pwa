@@ -450,6 +450,15 @@ a.white-hover:hover,
 .energy-cost {
   max-width: calc(4 * (25px + 0.25rem));
 }
+.media-image {
+  width: 12rem;
+}
+.border-light-gray {
+  border: var(--bs-border-width) var(--bs-border-style) var(--bs-border-color);
+}
+.dark-mode .border-light-gray {
+  border: var(--bs-border-width) var(--bs-border-style) var(--border-color);
+}
 
 @media (max-width: 1399px) {
   .full-screen-view .pokemon-card-image {
@@ -489,6 +498,9 @@ a.white-hover:hover,
 
   .carousel-item .pokemon-card-image {
     min-width: 35vw;
+  }
+  .media-image {
+    width: 100%;
   }
 }
 
