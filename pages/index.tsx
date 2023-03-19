@@ -49,8 +49,11 @@ const Index = ({ setCards }: any) => {
 
   return (
     <div className="container d-flex flex-column justify-content-center">
-      <h2 className="text-center mb-3">Next generation Pokemon TCG</h2>
-      <div className="row row-cols-1 row-cols-sm-2 mb-3">
+      <h3 className="text-center mb-3">Next Gen Pokemon TCG</h3>
+      <h5 className="text-center mb-4 text-muted">
+        The next generation pokemon cards database. With offline support!
+      </h5>
+      <div className="row row-cols-1 row-cols-sm-2 mb-4">
         <div className=" d-flex align-items-center col mb-3 mb-sm-0">
           <div className="p-4 w-100  rounded border-light-gray">
             <LocalSearchComponent
@@ -63,7 +66,7 @@ const Index = ({ setCards }: any) => {
         <Link href="/series" className="un-styled-anchor cursor-pointer col ">
           <div className=" d-lg-flex align-items-center flex-column flex-lg-row justify-content-center">
             <div className="flex-grow-1 ms-lg-3 text-decoration-none d-block d-lg-none mb-3 mb-lg-0 ">
-              <h4 className="text-center">Browse Cards</h4>
+              <h4 className="text-center">Browse Sets</h4>
               <p className="mb-0 text-center">
                 Browse all expansions of Pokemon TCG, search and filter through
                 your desired cards and more!
@@ -78,7 +81,7 @@ const Index = ({ setCards }: any) => {
               />
             </div>
             <div className="flex-grow-1 ms-lg-3 text-decoration-none d-none d-lg-block">
-              <h4>Browse Cards</h4>
+              <h4>Browse Sets</h4>
               <p className="mb-0">
                 Browse all expansions of Pokemon TCG, search and filter through
                 your desired cards and more!

@@ -103,7 +103,9 @@ const CarouselSlider: FunctionComponent<CarouselSliderProps> = ({
           </Slide>
         ))}
       </Slider>
-      <div className={"controls " + (carouselLoadingDone ? "invisible" : "")}>
+      <div
+        className={"controls mt-2 " + (carouselLoadingDone ? "invisible" : "")}
+      >
         <ButtonBack className="btn-arrow ">
           <FontAwesomeIcon icon={faChevronCircleLeft} size="2x" />
         </ButtonBack>

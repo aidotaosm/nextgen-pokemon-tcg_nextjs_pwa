@@ -59,7 +59,7 @@ export const LocalSearchComponent: FunctionComponent<
           }
           // use random speed to simulate
           // 'human' typing
-        }, randDelay(30, 130));
+        }, randDelay(30, 90));
       };
 
       // function to init animation
