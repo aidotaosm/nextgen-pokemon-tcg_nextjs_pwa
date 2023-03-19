@@ -49,60 +49,58 @@ const Index = ({ setCards }: any) => {
 
   return (
     <div className="container">
-      <div className="mb-4 search-wrapper">
-        <LocalSearchComponent
-          setSearchValueFunction={setSearchValueFunction}
-          initialPlaceHolder={"Global search e.g. "}
-          defaultSearchTerm={searchValue}
-        />
-      </div>
-      <div className="">
-        <div className="">
-          <Link href="/series" className="un-styled-anchor ">
-            <div className=" cursor-pointer">
-              <h4 className=" text-decoration-none mb-0 text-center">
-                Browse Cards
-              </h4>
-              <div className="flex-grow-1 flex-column justify-content-center d-flex">
-                <ImageComponent
-                  src={swsh125}
-                  alt={"Browse cards"}
-                  className=""
-                  lqImageUnOptimize={true}
-                />
-              </div>
+      <div className="d-flex align-items-center justify-content-center">
+        <div className="mb-4 search-wrapper">
+          <LocalSearchComponent
+            setSearchValueFunction={setSearchValueFunction}
+            initialPlaceHolder={"Global search e.g. "}
+            defaultSearchTerm={searchValue}
+          />
+        </div>
+        <div style={{ width: "15rem" }}>
+          <h4 className=" text-decoration-none mb-3 text-center">
+            Browse Cards
+          </h4>
+          <Link href="/series" className="un-styled-anchor cursor-pointer ">
+            <div className="flex-grow-1 flex-column justify-content-center d-flex">
+              <ImageComponent
+                src={swsh125}
+                alt={"Browse cards"}
+                className="w-100 h-auto"
+                lqImageUnOptimize={true}
+              />
             </div>
           </Link>
         </div>
-        <div className="">
-          <h4 className=" text-center">Today's Featured Cards!</h4>
-          <div
-            className={
-              "carousel-container " +
-              (carouselLoadingDone ? "carousel-loading" : "")
-            }
+      </div>
+      <div className="">
+        <h4 className="mb-3 text-center">Today's Featured Cards!</h4>
+        <div
+          className={
+            "carousel-container " +
+            (carouselLoadingDone ? "carousel-loading" : "")
+          }
+        >
+          <CarouselProvider
+            hasMasterSpinner={carouselLoadingDone}
+            visibleSlides={slideCount}
+            totalSlides={setCards.length}
+            step={2}
+            currentSlide={currentSlide}
+            naturalSlideWidth={100}
+            naturalSlideHeight={125}
+            isIntrinsicHeight={true}
+            isPlaying={true}
+            infinite={true}
           >
-            <CarouselProvider
-              hasMasterSpinner={carouselLoadingDone}
-              visibleSlides={slideCount}
-              totalSlides={setCards.length}
-              step={2}
-              currentSlide={currentSlide}
-              naturalSlideWidth={100}
-              naturalSlideHeight={125}
-              isIntrinsicHeight={true}
-              isPlaying={true}
-              infinite={true}
-            >
-              <CarouselSlider
-                setCarouselLoadingDone={setCarouselLoadingDone}
-                carouselLoadingDone={carouselLoadingDone}
-                setSlideCount={setSlideCount}
-                setCurrentSlide={setCurrentSlide}
-                setCards={setCards}
-              />
-            </CarouselProvider>
-          </div>
+            <CarouselSlider
+              setCarouselLoadingDone={setCarouselLoadingDone}
+              carouselLoadingDone={carouselLoadingDone}
+              setSlideCount={setSlideCount}
+              setCurrentSlide={setCurrentSlide}
+              setCards={setCards}
+            />
+          </CarouselProvider>
         </div>
       </div>
     </div>

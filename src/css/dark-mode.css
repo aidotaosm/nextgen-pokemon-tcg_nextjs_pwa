@@ -172,7 +172,7 @@
   }
   .dark-mode .form-control {
     color: #bebebe;
-    background-color: #171717;
+    background-color: black;
     border-color: #404040;
   }
   .dark-mode .form-control-plaintext {
@@ -490,7 +490,7 @@
 }
 .dark-mode .form-control {
   color: #bebebe;
-  background-color: #171717;
+  background-color: black;
   border-color: #404040;
 }
 .dark-mode .form-control-plaintext {

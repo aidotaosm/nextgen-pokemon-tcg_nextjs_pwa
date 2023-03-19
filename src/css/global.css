@@ -316,7 +316,7 @@ a.white-hover:hover,
 }
 
 .accordion-item .accordion-button {
-  border: var(--bs-accordion-border-width) solid #83898f;
+  border: var(--bs-accordion-border-width) solid #83898f7d;
 }
 
 .toast {
@@ -622,4 +622,10 @@ a.white-hover:hover,
   min-height: 330px;
   max-height: 330px;
   overflow: hidden;
+}
+.accordion-button {
+  background-color: #e9ecef;
+}
+.form-control {
+  background-color: #e7f1ff;
 }
