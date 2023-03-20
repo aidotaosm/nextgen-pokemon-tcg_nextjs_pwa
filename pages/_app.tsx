@@ -21,21 +21,21 @@ export default function MyApp({ Component, pageProps }: AppProps) {
       <AppWrapper>
         <Fragment>
           <Head>
-            <title>Next generation Pokemon cards database by OSM</title>
+            <title>NextGen Pokemon TCG</title>
             <meta
               name="description"
-              content="Browse Pokemon cards. Build your deck (coming soon)."
+              content="The next generation pokemon TCG database. With offline support!"
               key="description"
             />
             <meta property="og:type" content="games.plays" />
             <meta
               property="og:title"
-              content="Next generation Pokemon cards database by OSM"
+              content="NextGen Pokemon TCG"
               key="og:title"
             />
             <meta
               property="og:description"
-              content="Browse Pokemon cards. Build your deck (coming soon)."
+              content="The next generation pokemon TCG database. With offline support!"
               key="og:description"
             />
             <meta
@@ -59,19 +59,16 @@ export default function MyApp({ Component, pageProps }: AppProps) {
               content={Helper.getBaseDomainServerSide()}
               key="og:url"
             />
-            <meta
-              property="og:site_name"
-              content="Next generation Pokemon cards database by OSM"
-            />
+            <meta property="og:site_name" content="NextGen Pokemon TCG" />
 
             <meta
               name="twitter:title"
-              content="Next generation Pokemon cards database by OSM"
+              content="NextGen Pokemon TCG"
               key="twitter:title"
             />
             <meta
               name="twitter:description"
-              content="Browse Pokemon cards. Build your deck (coming soon)."
+              content="The next generation pokemon TCG database. With offline support!"
               key="twitter:description"
             />
             <meta
