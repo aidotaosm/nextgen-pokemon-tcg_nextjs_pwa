@@ -91,8 +91,8 @@ const CarouselSlider: FunctionComponent<CarouselSliderProps> = ({
               style={{ margin: "auto", maxWidth: "25rem" }}
             >
               <ImageComponent
-                src={card?.images?.small}
-                highQualitySrc={card?.images?.large}
+                src={card?.images?.large}
+               // highQualitySrc={card?.images?.large}
                 alt={card.name}
                 width={734}
                 height={1024}

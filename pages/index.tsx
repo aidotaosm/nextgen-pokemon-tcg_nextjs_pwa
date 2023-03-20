@@ -102,7 +102,7 @@ const Index = ({ setCards }: any) => {
             hasMasterSpinner={carouselLoadingDone}
             visibleSlides={slideCount}
             totalSlides={setCards.length}
-            step={2}
+            step={1}
             currentSlide={currentSlide}
             naturalSlideWidth={100}
             naturalSlideHeight={125}

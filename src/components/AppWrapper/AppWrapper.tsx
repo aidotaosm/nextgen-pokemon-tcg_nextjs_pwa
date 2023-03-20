@@ -234,9 +234,9 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
                 id={backButtonTooltipId}
               >
                 <FontAwesomeIcon
-                  className="cursor-pointer user-select-none me-3"
+                  className="cursor-pointer user-select-none me-3 fs-3"
                   icon={faArrowLeftLong}
-                  size="2x"
+                  
                   onClick={(e) => {
                     e.stopPropagation();
                     e.preventDefault();
@@ -267,9 +267,9 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
                   id={globalSearchButtonTooltipId}
                 >
                   <FontAwesomeIcon
-                    className="cursor-pointer user-select-none fs-2"
+                    className="cursor-pointer user-select-none fs-4"
                     icon={faSearch}
-                    // size="2x"
+               
                   />
                 </span>
               </Link>
@@ -308,8 +308,8 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
               >
                 <FontAwesomeIcon
                   icon={faSignalPerfect}
-                  size="2x"
-                  style={{ width: "2.1rem" }}
+                className="fs-3"
+                  style={{ width: "2rem" }}
                 />
               </IF>
               <IF
@@ -321,8 +321,8 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
               >
                 <FontAwesomeIcon
                   icon={faWaveSquare}
-                  size="2x"
-                  style={{ width: "2.1rem" }}
+                className="fs-3"
+                  style={{ width: "2rem" }}
                 />
               </IF>
             </div>
@@ -338,10 +338,10 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
               id={darkModeButtonTooltipId}
             >
               <IF condition={appState.darkMode}>
-                <FontAwesomeIcon icon={faToggleOn} size="2x" />
+                <FontAwesomeIcon icon={faToggleOn} className="fs-3" />
               </IF>
               <IF condition={!appState.darkMode}>
-                <FontAwesomeIcon icon={faToggleOff} size="2x" />
+                <FontAwesomeIcon icon={faToggleOff} className="fs-3" />
               </IF>
             </div>
           </div>
@@ -394,19 +394,19 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
                   icon={faSpinner}
                   spin={true}
                   className="text-primary"
-                  // size="2x"
+                  
                 />
               ) : serviceWorkerStatus === "done" ? (
                 <FontAwesomeIcon
                   icon={faCheck}
                   className="text-success"
-                  // size="2x"
+                  
                 />
               ) : (
                 <FontAwesomeIcon
                   icon={faXmark}
                   className="text-danger"
-                  // size="2x"
+                  
                 />
               )}
             </div>
