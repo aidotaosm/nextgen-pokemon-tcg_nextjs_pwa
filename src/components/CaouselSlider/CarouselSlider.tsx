@@ -51,7 +51,6 @@ const CarouselSlider: FunctionComponent<CarouselSliderProps> = ({
     const updateCarouselSlide = (slideToBeVisible: number) => {
       const { currentSlide, totalSlides, visibleSlides } =
         carouselContext.state;
-      console.log(slideToBeVisible);
       setSlideCount(slideToBeVisible);
 
       //this is a fix to reset currentSlide when screen resizes
@@ -62,7 +61,6 @@ const CarouselSlider: FunctionComponent<CarouselSliderProps> = ({
         setCurrentSlide(totalSlides - slideToBeVisible);
       }
     };
-    console.log(screenWidth);
     if (screenWidth <= 575) {
       updateCarouselSlide(1);
     } else if (screenWidth <= 767) {
@@ -91,8 +89,8 @@ const CarouselSlider: FunctionComponent<CarouselSliderProps> = ({
               style={{ margin: "auto", maxWidth: "25rem" }}
             >
               <ImageComponent
-                src={card?.images?.small}
-                highQualitySrc={card?.images?.large}
+                src={card?.images?.large}
+                // highQualitySrc={card?.images?.large}
                 alt={card.name}
                 width={734}
                 height={1024}

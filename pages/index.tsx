@@ -48,7 +48,7 @@ const Index = ({ setCards }: any) => {
   };
 
   return (
-    <div className="container d-flex flex-column justify-content-center">
+    <div className="container">
       <h3 className="text-center mb-2">Next Gen Pokemon TCG</h3>
       <h5 className="text-center mb-5 text-muted">
         The next generation pokemon cards database. With offline support!
@@ -102,7 +102,7 @@ const Index = ({ setCards }: any) => {
             hasMasterSpinner={carouselLoadingDone}
             visibleSlides={slideCount}
             totalSlides={setCards.length}
-            step={2}
+            step={1}
             currentSlide={currentSlide}
             naturalSlideWidth={100}
             naturalSlideHeight={125}
