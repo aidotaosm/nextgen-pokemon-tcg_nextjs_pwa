@@ -48,13 +48,13 @@ const Index = ({ setCards }: any) => {
   };
 
   return (
-    <div className="container">
+    <div className="container mt-4">
       <h3 className="text-center mb-2">Next Gen Pokemon TCG</h3>
       <h5 className="text-center mb-5 text-muted">
         The next generation pokemon cards database. With offline support!
       </h5>
       <div className="row row-cols-1 row-cols-sm-2 mb-5">
-        <div className=" d-flex align-items-center col mb-3 mb-sm-0">
+        <div className=" d-flex align-items-center col mb-5 mb-sm-0">
           <div className="w-100 me-0 me-lg-4">
             <LocalSearchComponent
               setSearchValueFunction={setSearchValueFunction}
