@@ -6,9 +6,9 @@ export const SuperTypes = {
   Pokemon: "Pokémon",
 };
 export const Netlify_DEFAULT_URL = "https://pokemon-tcg-osm.netlify.app/";
-export const Vercel_DEFAULT_URL = "https://pokemon-tcg-osm.vercel.app/";
-export const APP_PRIMARY_URL = "pokemon-tcg-osm";
-export const VERCEL_PRIMARY_HOST = "vercel.app";
+export const Vercel_DEFAULT_URL = "https://www.nextgen-pokemon-tcg.pro/";
+export const APP_PRIMARY_URL = "www.nextgen-pokemon-tcg";
+export const VERCEL_PRIMARY_HOST = "pro";
 
 export const random_pokemon_names = [
   "Charizard",

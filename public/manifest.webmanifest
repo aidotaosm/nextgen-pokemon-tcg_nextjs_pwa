@@ -1,7 +1,7 @@
 {
-  "short_name": "Pokemon TCG",
-  "name": "Next generation Pokemon cards database by OSM",
-  "description": "Browse Pokemon cards. Build your deck (coming soon).",
+  "short_name": "NextGen Pokemon TCG",
+  "name": "Next generation Pokemon TCG database",
+  "description": "The next generation pokemon TCG database. With offline support!",
   "icons": [
     {
       "src": "/images/pokeball-3d.png",

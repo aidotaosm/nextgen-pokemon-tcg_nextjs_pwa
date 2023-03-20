@@ -236,7 +236,6 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
                 <FontAwesomeIcon
                   className="cursor-pointer user-select-none me-3 fs-3"
                   icon={faArrowLeftLong}
-                  
                   onClick={(e) => {
                     e.stopPropagation();
                     e.preventDefault();
@@ -269,7 +268,6 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
                   <FontAwesomeIcon
                     className="cursor-pointer user-select-none fs-4"
                     icon={faSearch}
-               
                   />
                 </span>
               </Link>
@@ -308,7 +306,7 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
               >
                 <FontAwesomeIcon
                   icon={faSignalPerfect}
-                className="fs-3"
+                  className="fs-3"
                   style={{ width: "2rem" }}
                 />
               </IF>
@@ -321,7 +319,7 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
               >
                 <FontAwesomeIcon
                   icon={faWaveSquare}
-                className="fs-3"
+                  className="fs-3"
                   style={{ width: "2rem" }}
                 />
               </IF>
@@ -354,7 +352,7 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
         <div className="text-center  fs-6">
           <small className="d-flex flex-column">
             <span>
-              Next generation Pokemon cards database by{" "}
+              The Next generation Pokemon TCG database by{" "}
               <Link href="https://github.com/aidotaosm" target="_blank">
                 Osama
               </Link>{" "}
@@ -394,20 +392,11 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
                   icon={faSpinner}
                   spin={true}
                   className="text-primary"
-                  
                 />
               ) : serviceWorkerStatus === "done" ? (
-                <FontAwesomeIcon
-                  icon={faCheck}
-                  className="text-success"
-                  
-                />
+                <FontAwesomeIcon icon={faCheck} className="text-success" />
               ) : (
-                <FontAwesomeIcon
-                  icon={faXmark}
-                  className="text-danger"
-                  
-                />
+                <FontAwesomeIcon icon={faXmark} className="text-danger" />
               )}
             </div>
           </div>
