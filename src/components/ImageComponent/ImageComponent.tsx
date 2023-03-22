@@ -22,6 +22,7 @@ export const ImageComponent: FunctionComponent<any> = ({
   lqImageUnOptimize = process.env.IS_VERCEL === "true" ||
     Helper.primaryHost === VERCEL_PRIMARY_HOST,
   //lqImageUnOptimize = true,
+  lqEagerLoading = "lazy",
 }) => {
   const [imageSource, setImageSource] = useState(src);
   const [highQualityImageSource, setHighQualityImageSource] =
@@ -46,7 +47,7 @@ export const ImageComponent: FunctionComponent<any> = ({
           alt={alt || ""}
           width={imageDimensions.width}
           height={imageDimensions.height}
-          //loading="eager"
+          loading={lqEagerLoading}
           //sizes
           fill={shouldFill}
           blurDataURL={blurDataURL}
