@@ -50,9 +50,9 @@ const Index = ({ setCards }: any) => {
   return (
     <div className="container mt-4">
       <h3 className="text-center mb-2">NextGen Pokemon TCG</h3>
-      <h5 className="text-center mb-5 text-muted">
+      <p className="text-center mb-5 text-muted h5">
         The next generation Pokemon TCG database. With offline support!
-      </h5>
+      </p>
       <div className="row row-cols-1 row-cols-sm-2 mb-5">
         <div className=" d-flex align-items-center col mb-5 mb-sm-0">
           <div className="w-100 me-0 me-lg-4">
