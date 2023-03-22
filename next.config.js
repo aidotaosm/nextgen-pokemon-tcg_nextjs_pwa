@@ -12,7 +12,8 @@ const withPWA = require('next-pwa')({
         image: '/images/Cardback.webp'
     },
     maximumFileSizeToCacheInBytes: 50000000,
-    reloadOnOnline: false
+    reloadOnOnline: false,
+    publicExcludes: ['!noprecache/**/*', '!sitemap.xml']
 })
 module.exports = withPWA({
     reactStrictMode: true,
