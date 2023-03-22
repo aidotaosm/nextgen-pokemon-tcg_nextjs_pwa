@@ -453,8 +453,8 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
           <IF condition={appState.offLineMode && !isSearchPage}>
             <h4 className="mb-0 ms-3">
               {cardsObject.data[0].set.name +
-                " expansion of " +
-                cardsObject.data[0].set.series}
+                " set of " +
+                cardsObject.data[0].set.series} series
             </h4>
           </IF>
         </div>
@@ -465,6 +465,7 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
               data-bs-title={"Show / Hide filters."}
               data-bs-toggle="tooltip"
               data-bs-trigger="hover"
+              data-bs-placement="top" 
               id={filterButtonTooltipId}
             >
               <IF condition={!appState.sidebarCollapsed}>

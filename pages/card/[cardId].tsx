@@ -25,7 +25,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 const Set: FunctionComponent<CardObjectProps> = ({ cardObject }) => {
   const title = cardObject.name + " - " + cardObject.set.name;
   const description =
-    title + ", from the " + cardObject.set.series + " expansion.";
+    title + ", from the " + cardObject.set.series + " series.";
 
   return (
     <Fragment>

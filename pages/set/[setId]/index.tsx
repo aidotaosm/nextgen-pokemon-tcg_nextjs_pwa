@@ -67,7 +67,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
 const Set: FunctionComponent<CardsObjectProps> = ({ cardsObject }) => {
   const title = cardsObject?.data[0].set.name;
   const description =
-    title + " set from the" + cardsObject?.data[0].set.series + " expansion";
+    title + " set from the " + cardsObject?.data[0].set.series + " series";
   return (
     <Fragment>
       <Head>
