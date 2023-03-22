@@ -1,14 +1,34 @@
-import { faArrowsSpin, faCheck, faDownload, faGear, faRecycle, faSpinner, faXmark } from "@fortawesome/free-solid-svg-icons";
+import {
+  faArrowsSpin,
+  faCheck,
+  faDownload,
+  faGear,
+  faRecycle,
+  faSpinner,
+  faXmark,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Tooltip } from "bootstrap";
 import { useRouter } from "next/router";
-import { Fragment, FunctionComponent, useContext, useEffect, useState } from "react";
+import {
+  Fragment,
+  FunctionComponent,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { flushSync } from "react-dom";
 import { DEFAULT_PAGE_SIZE } from "../../constants/constants";
 import { AppContext } from "../../contexts/AppContext";
 import { SpecialSetNames } from "../../models/Enums";
 import { Helper } from "../../utils/helper";
-import { getAllCards, getAllRarities, getAllSubtypes, getAllSuperTypes, getAllTypes } from "../../utils/networkCalls";
+import {
+  getAllCards,
+  getAllRarities,
+  getAllSubtypes,
+  getAllSuperTypes,
+  getAllTypes,
+} from "../../utils/networkCalls";
 import { IF } from "../UtilityComponents/IF";
 import { ToastComponent } from "../UtilityComponents/ToastComponent";
 interface PreloadComponentProps {
@@ -153,7 +173,7 @@ export const PreloadComponent: FunctionComponent<PreloadComponentProps> = ({
             callUrl:
               "/set/" +
               (setsBySeries[seriesIndex].sets[setIndex].id ==
-                SpecialSetNames.pop2
+              SpecialSetNames.pop2
                 ? SpecialSetNames.poptwo
                 : setsBySeries[seriesIndex].sets[setIndex].id),
           });
@@ -178,7 +198,7 @@ export const PreloadComponent: FunctionComponent<PreloadComponentProps> = ({
             callUrl:
               "/set/" +
               (setsBySeries[seriesIndex].sets[setIndex].id ==
-                SpecialSetNames.pop2
+              SpecialSetNames.pop2
                 ? SpecialSetNames.poptwo
                 : setsBySeries[seriesIndex].sets[setIndex].id),
           });
@@ -287,7 +307,6 @@ export const PreloadComponent: FunctionComponent<PreloadComponentProps> = ({
       >
         <FontAwesomeIcon
           icon={faGear}
-
           onClick={handleToastClick}
           // data-bs-toggle="modal"
           // data-bs-target={"#" + prefetchInitModalId}
@@ -455,7 +474,7 @@ export const PreloadComponent: FunctionComponent<PreloadComponentProps> = ({
           <div className="row row-cols-2">
             {setsBySeries.map((series, seriesIndex) => {
               return (
-                <div className="col mb-1" key={series.id} id={series.id}>
+                <div className="col mb-1" key={series.id}>
                   <div className="d-flex align-items-center">
                     <div className="me-2">
                       {series.prefetchStatus == "loading" ? (
@@ -485,6 +504,5 @@ export const PreloadComponent: FunctionComponent<PreloadComponentProps> = ({
         </div>
       </ToastComponent>
     </Fragment>
-
   );
-}
+};

@@ -2,7 +2,8 @@ import {
   Fragment,
   FunctionComponent,
   useContext,
-  useEffect, useState
+  useEffect,
+  useState,
 } from "react";
 import { SeriesArrayProps } from "../../models/GenericModels";
 import styles from "./ExpansionsComponent.module.css";
@@ -27,15 +28,18 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
   useEffect(() => {
     if (router.isReady) {
       let selectedSeriesId = router.query["opened-series"]?.toString();
-      let element = document.getElementById(selectedSeriesId || "");
-      if (element && selectedSeriesId !== setsBySeries[0].id) {
-        (
-          document.getElementById(setsBySeries[0].id)?.children[0]
-            .children[0] as HTMLElement
-        )?.click();
-        (element.children[0].children[0] as HTMLElement)?.click();
+      let parentOfAccordionToOpen = document.getElementById(
+        selectedSeriesId || ""
+      );
+      if (parentOfAccordionToOpen && selectedSeriesId !== setsBySeries[0].id) {
+        const latestSetAccordion = document.getElementById(setsBySeries[0].id)
+          ?.children[0].children[0] as HTMLElement;
+        latestSetAccordion?.click();
+        const accordionToOpen = parentOfAccordionToOpen.children[0]
+          .children[0] as HTMLElement;
+        accordionToOpen?.click();
         setTimeout(() => {
-          element?.scrollIntoView({
+          parentOfAccordionToOpen?.scrollIntoView({
             behavior: "smooth",
             inline: "start",
             block: "start",
@@ -57,7 +61,6 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
     }
   }, [router.isReady]);
 
-
   const toggleAccordion = (seriesId: any) => {
     let allowScroll = false;
     setsBySeries.forEach((s: any) => {
@@ -74,8 +77,16 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
         allowScroll = s.isOpen;
       }
     });
-    setSetsBySeries([...setsBySeries]);
     if (allowScroll) {
+      let newAccordionToOpen = document.getElementById(seriesId);
+      setTimeout(() => {
+        console.log(newAccordionToOpen);
+        newAccordionToOpen?.scrollIntoView({
+          behavior: "smooth",
+          inline: "start",
+          block: "start",
+        });
+      }, 500);
       router.push("/series?opened-series=" + seriesId, undefined, {
         shallow: true,
       });
@@ -84,15 +95,7 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
         shallow: true,
       });
     }
-    if (allowScroll) {
-      setTimeout(() => {
-        document.getElementById(seriesId)?.scrollIntoView({
-          behavior: "smooth",
-          inline: "start",
-          block: "start",
-        });
-      }, 500);
-    }
+    setSetsBySeries([...setsBySeries]);
   };
   const setSearchValueFunction = (
     value: string,
@@ -117,7 +120,10 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
           </div>
           <div className="d-flex justify-content-center justify-content-md-end">
             <h4 className="me-4 mb-0">Pokemon TCG Expansions</h4>
-            <PreloadComponent arrayOfSeries={arrayOfSeries} totalNumberOfSets={totalNumberOfSets}></PreloadComponent>
+            <PreloadComponent
+              arrayOfSeries={arrayOfSeries}
+              totalNumberOfSets={totalNumberOfSets}
+            ></PreloadComponent>
           </div>
         </div>
         <div className="accordion">
@@ -168,7 +174,7 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
                             key={set.id}
                             id={set.id}
                             //only the first 2 sets of each expansion are prefetched upon viewport entry
-                            prefetch={setIndex < 2}
+                            prefetch={setIndex < 2 ? undefined : false}
                             href={
                               // this is done because pop2 is blocked by ad blocker
                               "/set/" +

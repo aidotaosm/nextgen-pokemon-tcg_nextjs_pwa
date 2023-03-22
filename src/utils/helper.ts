@@ -68,17 +68,24 @@ export class Helper {
     return primaryHost;
   }
 
-  static saveTemplateAsFile = (filename: string, dataObjToWrite: any) => {
-    const blob = new Blob([JSON.stringify(dataObjToWrite)], {
-      type: "text/json",
-    });
+  static saveTemplateAsFile = (
+    filename: string,
+    dataObjToWrite: any,
+    shouldStringify: boolean = true,
+    type: "text/json" | "text/plain" = "text/json"
+  ) => {
+    const blob = shouldStringify
+      ? new Blob([JSON.stringify(dataObjToWrite)], {
+          type,
+        })
+      : new Blob([dataObjToWrite], {
+          type,
+        });
     const link = document.createElement("a");
 
     link.download = filename;
     link.href = window.URL.createObjectURL(blob);
-    link.dataset.downloadurl = ["text/json", link.download, link.href].join(
-      ":"
-    );
+    link.dataset.downloadurl = [type, link.download, link.href].join(":");
 
     const evt = new MouseEvent("click", {
       view: window,
