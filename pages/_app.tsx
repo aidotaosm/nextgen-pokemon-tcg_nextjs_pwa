@@ -27,6 +27,28 @@ export default function MyApp({ Component, pageProps }: AppProps) {
               content="The next generation Pokemon TCG database. With offline support!"
               key="description"
             />
+            <link
+              rel="apple-touch-icon"
+              sizes="180x180"
+              href="/images/apple-touch-icon.png"
+            />
+            <link
+              rel="icon"
+              type="image/png"
+              sizes="32x32"
+              href="/images/favicon-32x32.png"
+            />
+            <link
+              rel="icon"
+              type="image/png"
+              sizes="16x16"
+              href="/images/favicon-16x16.png"
+            />
+            <link
+              rel="mask-icon"
+              href="/images/safari-pinned-tab.svg"
+              color="#5bbad5"
+            />
             <meta property="og:type" content="games.plays" />
             <meta
               property="og:title"
@@ -43,7 +65,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
               content="/images/pokemon_tcg_base_image.webp"
               key="og:image"
             />
-                <meta
+            <meta
               property="og:image"
               content="/images/pokemon_tcg_base_image.webp"
               key="og:image"
@@ -64,7 +86,10 @@ export default function MyApp({ Component, pageProps }: AppProps) {
               content={Helper.getBaseDomainServerSide()}
               key="og:url"
             />
-            <meta property="og:site_name" content="The next generation Pokemon TCG database" />
+            <meta
+              property="og:site_name"
+              content="The next generation Pokemon TCG database"
+            />
 
             <meta
               name="twitter:title"

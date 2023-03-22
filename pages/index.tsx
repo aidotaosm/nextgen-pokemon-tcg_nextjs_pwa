@@ -26,7 +26,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
     fiveRandomCards.push(parsedAllCards[randomIndex]);
   }
 
-  return { props: { setCards: fiveRandomCards }, revalidate: 60 * 60 }; // 60 minutes
+  return { props: { setCards: fiveRandomCards }, revalidate: 60 * 60 * 24 }; // 60 minutes
 };
 
 const Index = ({ setCards }: any) => {
