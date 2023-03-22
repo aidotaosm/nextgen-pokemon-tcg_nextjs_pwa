@@ -100,4 +100,24 @@ export class Helper {
     let delayValue = Math.floor(Math.random() * (max - min + 1) + min);
     return delayValue;
   };
+  static generateSiteMap = (list: any[], locPrefix: string) => {
+    return `<?xml version="1.0" encoding="UTF-8"?>
+     <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+       <url>
+       <loc>${Vercel_DEFAULT_URL.slice(0, -1)}</loc>
+       <lastmod>${new Date().toISOString()}</lastmod>
+     </url>
+     ${list
+       .map(({ id }) => {
+         return `
+         <url>
+             <loc>${locPrefix + id}</loc>
+             <lastmod>${new Date().toISOString()}</lastmod>
+         </url>
+       `;
+       })
+       .join("")}
+     </urlset>
+   `;
+  };
 }

@@ -15,6 +15,8 @@ import { AppContext } from "../../contexts/AppContext";
 import { SpecialSetNames } from "../../models/Enums";
 import { LocalSearchComponent } from "../LocalSearchComponent/LocalSearchComponent";
 import { PreloadComponent } from "../Preload/PreloadComponent";
+import { Helper } from "../../utils/helper";
+import { Vercel_DEFAULT_URL } from "../../constants/constants";
 
 export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
   totalNumberOfSets,
@@ -27,6 +29,16 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
 
   useEffect(() => {
     if (router.isReady) {
+      // let arrayOfSets:any[] = [];
+      // arrayOfSeries.forEach((x: any) => { arrayOfSets.push(...x.sets) });
+      // const xmlText = Helper.generateSiteMap(arrayOfSets, Vercel_DEFAULT_URL + 'set/');
+      // console.log(arrayOfSets);
+      // Helper.saveTemplateAsFile(
+      //   "sitemap.xml",
+      //   xmlText,
+      //   false,
+      //   "text/plain"
+      // );
       let selectedSeriesId = router.query["opened-series"]?.toString();
       let parentOfAccordionToOpen = document.getElementById(
         selectedSeriesId || ""

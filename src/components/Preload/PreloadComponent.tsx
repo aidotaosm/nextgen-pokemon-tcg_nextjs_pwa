@@ -308,8 +308,6 @@ export const PreloadComponent: FunctionComponent<PreloadComponentProps> = ({
         <FontAwesomeIcon
           icon={faGear}
           onClick={handleToastClick}
-          // data-bs-toggle="modal"
-          // data-bs-target={"#" + prefetchInitModalId}
           className="cursor-pointer fs-3"
           spin={
             totalNumberOfSetsDone === totalNumberOfSets ||

@@ -272,26 +272,7 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
     updateRouteWithQuery(newPageIndex, tempSearchValue, instantFilterValues);
     setRefPageNumber(newPageIndex + 1);
   };
-  const generateSiteMap = (cards: any[]) => {
-    return `<?xml version="1.0" encoding="UTF-8"?>
-     <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-       <url>
-       <loc>${Vercel_DEFAULT_URL.slice(0, -1)}</loc>
-       <lastmod>${new Date().toISOString()}</lastmod>
-     </url>
-     ${cards
-       .map(({ id }) => {
-         return `
-         <url>
-             <loc>${Vercel_DEFAULT_URL}card/${id}</loc>
-             <lastmod>${new Date().toISOString()}</lastmod>
-         </url>
-       `;
-       })
-       .join("")}
-     </urlset>
-   `;
-  };
+
   const pageChanged = async (
     newPageIndex: number,
     paramSearchValue?: string,
@@ -323,7 +304,7 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
                 try {
                   let allCardsFromCache = allCardsModule.default as any[];
                   //YYYY-MM-DD
-                  // const xmlText = generateSiteMap(allCardsFromCache);
+                  // const xmlText = Helper.generateSiteMap(allCardsFromCache, Vercel_DEFAULT_URL + 'card/');
                   // Helper.saveTemplateAsFile(
                   //   "sitemap.xml",
                   //   xmlText,
@@ -406,9 +387,9 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
       (isSearchPage ? "/search" : "/set/" + router.query.setId) +
       (newPageIndex || searchValue || filterQuery
         ? "?" +
-          (newPageIndex ? "&page=" + newPageIndex : "") +
-          (searchValue ? "&search=" + searchValue : "") +
-          filterQuery
+        (newPageIndex ? "&page=" + newPageIndex : "") +
+        (searchValue ? "&search=" + searchValue : "") +
+        filterQuery
         : "");
     const fixedQuery = updatedQuery.replaceAll("?&", "?");
     router.push(fixedQuery, undefined, { shallow: true });
