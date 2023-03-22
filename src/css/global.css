@@ -459,8 +459,11 @@ a.white-hover:hover,
 .dark-mode .border-light-gray {
   border: var(--bs-border-width) var(--bs-border-style) var(--border-color);
 }
-.text-muted{
+/* .text-muted{
   color: #788897!important;
+} */
+.dark-mode .text-muted {
+  color: #788897 !important;
 }
 @media (max-width: 1399px) {
   .full-screen-view .pokemon-card-image {
