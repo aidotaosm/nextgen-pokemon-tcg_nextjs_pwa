@@ -24,7 +24,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
             <title>NextGen Pokemon TCG</title>
             <meta
               name="description"
-              content="The next generation pokemon TCG database. With offline support!"
+              content="The next generation Pokemon TCG database. With offline support!"
               key="description"
             />
             <meta property="og:type" content="games.plays" />
@@ -35,10 +35,15 @@ export default function MyApp({ Component, pageProps }: AppProps) {
             />
             <meta
               property="og:description"
-              content="The next generation pokemon TCG database. With offline support!"
+              content="The next generation Pokemon TCG database. With offline support!"
               key="og:description"
             />
             <meta
+              property="og:image"
+              content="/images/pokemon_tcg_base_image.webp"
+              key="og:image"
+            />
+                <meta
               property="og:image"
               content="/images/pokemon_tcg_base_image.webp"
               key="og:image"
@@ -59,7 +64,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
               content={Helper.getBaseDomainServerSide()}
               key="og:url"
             />
-            <meta property="og:site_name" content="NextGen Pokemon TCG" />
+            <meta property="og:site_name" content="The next generation Pokemon TCG database" />
 
             <meta
               name="twitter:title"
@@ -68,7 +73,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
             />
             <meta
               name="twitter:description"
-              content="The next generation pokemon TCG database. With offline support!"
+              content="The next generation Pokemon TCG database. With offline support!"
               key="twitter:description"
             />
             <meta

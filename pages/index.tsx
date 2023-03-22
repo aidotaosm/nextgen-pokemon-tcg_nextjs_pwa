@@ -51,7 +51,7 @@ const Index = ({ setCards }: any) => {
     <div className="container mt-4">
       <h3 className="text-center mb-2">NextGen Pokemon TCG</h3>
       <h5 className="text-center mb-5 text-muted">
-        The next generation pokemon TCG database. With offline support!
+        The next generation Pokemon TCG database. With offline support!
       </h5>
       <div className="row row-cols-1 row-cols-sm-2 mb-5">
         <div className=" d-flex align-items-center col mb-5 mb-sm-0">
@@ -64,8 +64,8 @@ const Index = ({ setCards }: any) => {
           </div>
         </div>
         <Link href="/series" className="un-styled-anchor cursor-pointer col ">
-          <div className=" d-lg-flex align-items-center flex-column flex-lg-row justify-content-center">
-            <div className="flex-grow-1 ms-lg-3 text-decoration-none d-block d-lg-none mb-3 mb-lg-0 ">
+          <div className=" d-lg-flex align-items-center flex-column flex-lg-row justify-content-center border-light-gray rounded">
+            <div className="flex-grow-1 ms-lg-3 text-decoration-none d-block d-lg-none mb-lg-0 p-2">
               <h5 className="text-center">Browse Sets</h5>
               <p className="mb-0 text-center text-muted">
                 Browse all expansions of Pokemon TCG, search and filter through
@@ -80,7 +80,7 @@ const Index = ({ setCards }: any) => {
                 lqImageUnOptimize={true}
               />
             </div>
-            <div className="flex-grow-1 ms-lg-3 text-decoration-none d-none d-lg-block">
+            <div className="flex-grow-1 ms-lg-3 text-decoration-none d-none d-lg-block py-2 pe-2">
               <h5>Browse Sets</h5>
               <p className="mb-0 text-muted">
                 Browse all expansions of Pokemon TCG, search and filter through
