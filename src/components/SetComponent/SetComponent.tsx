@@ -1,6 +1,9 @@
 import { FunctionComponent, useContext, useEffect, useState } from "react";
 import { PagingComponent } from "../PagingComponent/PagingComponent";
-import { DEFAULT_PAGE_SIZE } from "../../constants/constants";
+import {
+  DEFAULT_PAGE_SIZE,
+  Vercel_DEFAULT_URL,
+} from "../../constants/constants";
 import { useRouter } from "next/router";
 import { CardsObjectProps } from "../../models/GenericModels";
 
@@ -23,6 +26,7 @@ import energyTypes from "../../InternalJsons/AllTypes.json";
 import superTypes from "../../InternalJsons/AllSuperTypes.json";
 import subTypes from "../../InternalJsons/AllSubtypes.json";
 import rarities from "../../InternalJsons/AllRarities.json";
+import { Helper } from "../../utils/helper";
 
 export const SetComponent: FunctionComponent<CardsObjectProps> = ({
   cardsObject,
@@ -268,7 +272,26 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
     updateRouteWithQuery(newPageIndex, tempSearchValue, instantFilterValues);
     setRefPageNumber(newPageIndex + 1);
   };
-
+  const generateSiteMap = (cards: any[]) => {
+    return `<?xml version="1.0" encoding="UTF-8"?>
+     <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+       <url>
+       <loc>${Vercel_DEFAULT_URL.slice(0, -1)}</loc>
+       <lastmod>${new Date().toISOString()}</lastmod>
+     </url>
+     ${cards
+       .map(({ id }) => {
+         return `
+         <url>
+             <loc>${Vercel_DEFAULT_URL}card/${id}</loc>
+             <lastmod>${new Date().toISOString()}</lastmod>
+         </url>
+       `;
+       })
+       .join("")}
+     </urlset>
+   `;
+  };
   const pageChanged = async (
     newPageIndex: number,
     paramSearchValue?: string,
@@ -299,6 +322,14 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
               if (allCardsModule.default) {
                 try {
                   let allCardsFromCache = allCardsModule.default as any[];
+                  //YYYY-MM-DD
+                  // const xmlText = generateSiteMap(allCardsFromCache);
+                  // Helper.saveTemplateAsFile(
+                  //   "sitemap.xml",
+                  //   xmlText,
+                  //   false,
+                  //   "text/plain"
+                  // );
                   handleSearchAndFilter(
                     paramSearchValue,
                     allCardsFromCache,

@@ -174,7 +174,7 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
                             key={set.id}
                             id={set.id}
                             //only the first 2 sets of each expansion are prefetched upon viewport entry
-                            prefetch={setIndex < 2}
+                            prefetch={setIndex < 2 ? undefined : false}
                             href={
                               // this is done because pop2 is blocked by ad blocker
                               "/set/" +
