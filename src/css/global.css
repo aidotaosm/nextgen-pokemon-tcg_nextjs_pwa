@@ -102,6 +102,13 @@ html {
   border-radius: 25px;
 }
 
+.smaller-radius.special-card-border::before,
+.smaller-radius.special-card-border::after,
+.smaller-radius.special-accordion-border::before,
+.smaller-radius.special-accordion-border::after {
+  border-radius: var(--bs-border-radius) !important;
+}
+
 .dark-mode .special-card-border::before,
 .dark-mode .special-card-border::after,
 .dark-mode .special-accordion-border::before,
@@ -117,7 +124,10 @@ html {
   transform: scaleX(1.1) scaleY(1.1);
   transition: 0.5s;
 }
-
+.smaller-radius.special-card-border:hover {
+  transform: scaleX(1.05) scaleY(1.05);
+  transition: 0.5s;
+}
 .disable-save {
   user-select: none;
   -webkit-user-select: none;
@@ -302,8 +312,7 @@ a.white-hover:hover,
 }
 
 .accordion-item {
-  border-top: var(--bs-accordion-border-width) solid
-    var(--bs-accordion-border-color) !important;
+  border-top: var(--bs-accordion-border-width) solid var(--bs-accordion-border-color) !important;
 }
 
 .accordion-item:hover {
@@ -443,28 +452,33 @@ a.white-hover:hover,
 .dark-mode header {
   background-color: #181818;
 } */
-.energy-checkbox-group .ant-checkbox + span {
+.energy-checkbox-group .ant-checkbox+span {
   align-self: center;
 }
 
 .energy-cost {
   max-width: calc(4 * (25px + 0.25rem));
 }
+
 .media-image {
   width: 12rem;
 }
+
 .border-light-gray {
   border: var(--bs-border-width) var(--bs-border-style) var(--bs-border-color);
 }
+
 .dark-mode .border-light-gray {
   border: var(--bs-border-width) var(--bs-border-style) var(--border-color);
 }
+
 /* .text-muted{
   color: #788897!important;
 } */
 .dark-mode .text-muted {
   color: #788897 !important;
 }
+
 @media (max-width: 1399px) {
   .full-screen-view .pokemon-card-image {
     min-width: 25vw;
@@ -504,6 +518,7 @@ a.white-hover:hover,
   .carousel-item .pokemon-card-image {
     min-width: 35vw;
   }
+
   .media-image {
     width: 100%;
   }
@@ -553,6 +568,11 @@ a.white-hover:hover,
     vertical-align: middle;
   }*/
 
+  .container {
+    padding-right: calc(3rem * 0.5);
+    padding-left: calc(3rem * 0.5);
+  }
+
   .sidebar-content-wrapper .sidebar {
     position: absolute;
     left: 12px;
@@ -579,11 +599,13 @@ a.white-hover:hover,
     margin-top: -1.4rem;
   }
 }
+
 .controls {
   display: flex;
   align-items: center;
   justify-content: center;
 }
+
 /* This class is found in DotGroup from pure-react-carousel */
 /* We need to override it to add our styles */
 
@@ -593,14 +615,17 @@ a.white-hover:hover,
   padding: 11px 20px;
   color: var(--bs-body-color);
 }
+
 .dark-mode .controls .btn-arrow {
   color: #bebebe;
 }
+
 .controls .dot-group {
   display: flex;
   align-items: center;
   justify-content: center;
 }
+
 .controls .dot-group .carousel__dot {
   width: 8px;
   height: 8px;
@@ -610,6 +635,7 @@ a.white-hover:hover,
   padding: 0;
   background-color: #c3c4ca;
 }
+
 .controls .dot-group .carousel__dot--selected {
   width: 16px;
   height: 8px;
@@ -617,12 +643,15 @@ a.white-hover:hover,
   background-color: #6267a1;
   transition: background 0.4s ease;
 }
+
 .carousel-container {
   /* filter: drop-shadow(0px 12px 30px rgba(50, 50, 50, 0.2)); */
 }
+
 .carousel__slider-tray {
   gap: 1.5rem;
 }
+
 .carousel__master-spinner-container {
   background-color: white !important;
   min-height: 330px;
@@ -640,9 +669,19 @@ a.white-hover:hover,
   max-height: 330px;
   overflow: hidden;
 }
+
 .accordion-button {
   background-color: #e9ecef;
 }
+
 .form-control {
   background-color: #e7f1ff;
+}
+
+.dark-mode .bg-default {
+  background-color: #181818;
+}
+
+.bg-default {
+  background-color: white;
 }
