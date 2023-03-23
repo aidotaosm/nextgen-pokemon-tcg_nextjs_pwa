@@ -63,15 +63,17 @@ const Index = ({ setCards }: any) => {
             />
           </div>
         </div>
-       
-          <Link href="/series" className="un-styled-anchor cursor-pointer col d-block">
-            <div className="special-card-border smaller-radius">
+        <Link
+          href="/series"
+          className="un-styled-anchor cursor-pointer col d-block"
+        >
+          <div className="special-card-border smaller-radius">
             <div className=" d-lg-flex align-items-center flex-column flex-lg-row justify-content-center border-light-gray rounded special-card position-relative bg-default">
               <div className="flex-grow-1 ms-lg-3 text-decoration-none d-block d-lg-none mb-lg-0 p-2">
                 <p className="text-center h5">Browse Sets</p>
                 <p className="mb-0 text-center text-muted">
-                  Browse all expansions of Pokemon TCG, search and filter through
-                  your desired cards and more!
+                  Browse all expansions of Pokemon TCG, search and filter
+                  through your desired cards and more!
                 </p>
               </div>
               <div className="flex-shrink-0 media-image">
@@ -85,14 +87,13 @@ const Index = ({ setCards }: any) => {
               <div className="flex-grow-1 ms-lg-3 text-decoration-none d-none d-lg-block py-2 pe-2">
                 <h5>Browse Sets</h5>
                 <p className="mb-0 text-muted">
-                  Browse all expansions of Pokemon TCG, search and filter through
-                  your desired cards and more!
+                  Browse all expansions of Pokemon TCG, search and filter
+                  through your desired cards and more!
                 </p>
               </div>
             </div>
-            </div>
-          </Link>
-     
+          </div>
+        </Link>
       </div>
       <div className="">
         <h5 className="mb-3 text-center">Today's Featured Cards!</h5>

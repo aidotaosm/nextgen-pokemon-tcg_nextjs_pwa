@@ -83,10 +83,15 @@ const CarouselSlider: FunctionComponent<CarouselSliderProps> = ({
     <Fragment>
       <Slider style={{ gap: "2rem" }}>
         {setCards?.map((card: any, index: number) => (
-          <Slide index={index} key={card.id} className={" "}>
+          <Slide
+            index={index}
+            key={card.id}
+            className={"img-hover-zoom--quick-zoom"}
+          >
             <Link
               href={"/card/" + card.id}
               style={{ margin: "auto", maxWidth: "25rem" }}
+              className=""
             >
               <ImageComponent
                 src={card?.images?.large}

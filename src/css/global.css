@@ -312,7 +312,8 @@ a.white-hover:hover,
 }
 
 .accordion-item {
-  border-top: var(--bs-accordion-border-width) solid var(--bs-accordion-border-color) !important;
+  border-top: var(--bs-accordion-border-width) solid
+    var(--bs-accordion-border-color) !important;
 }
 
 .accordion-item:hover {
@@ -452,7 +453,7 @@ a.white-hover:hover,
 .dark-mode header {
   background-color: #181818;
 } */
-.energy-checkbox-group .ant-checkbox+span {
+.energy-checkbox-group .ant-checkbox + span {
   align-self: center;
 }
 
@@ -684,4 +685,19 @@ a.white-hover:hover,
 
 .bg-default {
   background-color: white;
+}
+
+.img-hover-zoom--quick-zoom {
+  overflow: hidden;
+  border-radius: 5px;
+}
+.img-hover-zoom--quick-zoom img {
+  transform-origin: 50% 10%;
+  transition: transform 0.25s, visibility 0.25s ease-in;
+  border-radius: 5px;
+}
+
+/* The Transformation */
+.img-hover-zoom--quick-zoom:hover img {
+  transform: scale(2);
 }
