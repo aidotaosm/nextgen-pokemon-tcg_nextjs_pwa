@@ -18,7 +18,7 @@ export const PokemonDetailComponent: FunctionComponent<PokemonDetailProps> = ({
     <div className={"pokemon-details-wrapper " + classes}>
       <div className="pokemon-details rounded d-flex flex-column">
         <div className="name bg-secondary p-2 rounded-top d-flex align-items-center justify-content-between">
-          <span className="text-lightgray fs-3 fs-md-2"> {card.name}</span>
+          <h1 className="text-lightgray fs-3 fs-md-2"> {card.name}</h1>
           <div className="">
             <CopyToClipboardComponent
               popOverId={card.id + "pop-over"}
