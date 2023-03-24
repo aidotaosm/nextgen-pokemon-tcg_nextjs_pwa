@@ -81,7 +81,7 @@ const Index = ({ setCards }: any) => {
                   src={swsh125}
                   alt={"Browse cards"}
                   className="w-100 h-auto rounded"
-                  lqImageUnOptimize={true}
+                  lqImageUnOptimize={false}
                 />
               </div>
               <div className="flex-grow-1 ms-lg-3 text-decoration-none d-none d-lg-block py-2 pe-2">

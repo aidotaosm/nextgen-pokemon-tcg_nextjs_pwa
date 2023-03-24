@@ -279,7 +279,7 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
                 src={pokemonLogo}
                 alt={"Pokemon logo"}
                 className="w-100 h-auto"
-                lqImageUnOptimize={true}
+                lqImageUnOptimize={false}
               />
             </Link>
           </div>
