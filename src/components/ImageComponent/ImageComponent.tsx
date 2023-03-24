@@ -86,7 +86,7 @@ export const ImageComponent: FunctionComponent<any> = ({
           }}
         />
       </div>
-      <IF condition={highQualityImageSource}>
+      <IF condition={highQualityImageSource && lowQualityImageLoaded}>
         <div className={highQualityImageLoaded ? "" : "out-of-view"}>
           <Image
             unoptimized={true}
