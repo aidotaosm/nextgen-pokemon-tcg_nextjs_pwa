@@ -85,7 +85,7 @@ const Index = ({ setCards }: any) => {
                 />
               </div>
               <div className="flex-grow-1 ms-lg-3 text-decoration-none d-none d-lg-block py-2 pe-2">
-                <h5>Browse Sets</h5>
+                <p className="h5">Browse Sets</p>
                 <p className="mb-0 text-muted">
                   Browse all expansions of Pokemon TCG, search and filter
                   through your desired cards and more!

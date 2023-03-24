@@ -23,6 +23,7 @@ export const ImageComponent: FunctionComponent<any> = ({
     Helper.primaryHost === VERCEL_PRIMARY_HOST,
   //lqImageUnOptimize = true,
   lqEagerLoading = "lazy",
+  hqEagerLoading = "eager",
 }) => {
   const [imageSource, setImageSource] = useState(src);
   const [highQualityImageSource, setHighQualityImageSource] =
@@ -30,6 +31,7 @@ export const ImageComponent: FunctionComponent<any> = ({
   const [highQualityImageLoaded, setHighQualityImageLoaded] = useState(false);
   const [lowQualityImageLoaded, setLowQualityImageLoaded] = useState(false);
   const [imageDimensions, setImageDimensions] = useState({ height, width });
+  const [specialEventClass, setSpecialEventClass] = useState("");
   useEffect(() => {
     // this is required because of list view modal carousel hires image download
     setHighQualityImageSource(highQualitySrc);
@@ -42,7 +44,7 @@ export const ImageComponent: FunctionComponent<any> = ({
         <Image
           style={{ objectFit: "contain" }}
           unoptimized={lqImageUnOptimize}
-          className={className || ""}
+          className={(className || "") + specialEventClass}
           src={imageSource}
           alt={alt || ""}
           width={imageDimensions.width}
@@ -69,6 +71,9 @@ export const ImageComponent: FunctionComponent<any> = ({
               if (e.naturalHeight / e.naturalWidth == DEFAULT_CARD_BACK_RATIO) {
                 // console.log("default logo gotten in low quality view");
                 setImageSource(fallbackImage);
+                if (fallBackType === "logo") {
+                  setSpecialEventClass(" rounded");
+                }
               }
             }
             if (!shouldFill) {
@@ -90,7 +95,7 @@ export const ImageComponent: FunctionComponent<any> = ({
             alt={alt || ""}
             width={imageDimensions.width}
             height={imageDimensions.height}
-            loading="eager"
+            loading={hqEagerLoading}
             blurDataURL={blurDataURL}
             placeholder="blur"
             onError={() => {

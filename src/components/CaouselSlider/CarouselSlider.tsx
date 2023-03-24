@@ -95,7 +95,7 @@ const CarouselSlider: FunctionComponent<CarouselSliderProps> = ({
             >
               <ImageComponent
                 src={card?.images?.small}
-                // highQualitySrc={card?.images?.large}
+                //highQualitySrc={card?.images?.large}
                 alt={card.name}
                 width={734}
                 height={1024}
@@ -103,6 +103,7 @@ const CarouselSlider: FunctionComponent<CarouselSliderProps> = ({
                 className="h-auto w-100"
                 lqImageUnOptimize={false}
                 lqEagerLoading={"eager"}
+                //   hqEagerLoading={"lazy"}
               />
             </Link>
           </Slide>
