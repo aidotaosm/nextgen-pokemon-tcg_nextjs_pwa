@@ -100,7 +100,7 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
 
   useEffect(() => {
     if (router.isReady) {
-      if (router.asPath.includes("/series")) {
+      if (router.asPath.includes("/series") || router.pathname === "/") {
         setListOfPaths((l) => [...l, router.asPath]);
       }
       let splitPath = router.pathname.split("/")[1];
@@ -251,9 +251,8 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
             </IF>
             <IF
               condition={
-                router.pathname != "/" &&
-                router.pathname != "/series" &&
-                router.pathname != "/search"
+                // router.pathname != "/" &&
+                router.pathname != "/series" && router.pathname != "/search"
               }
             >
               <Link href="/search" aria-label={"Search page"}>
@@ -352,7 +351,7 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
         <div className="text-center  fs-6">
           <small className="d-flex flex-column">
             <span>
-              The Next generation Pokemon TCG database by{" "}
+              The Next Generation Pokemon TCG database. By{" "}
               <Link href="https://github.com/aidotaosm" target="_blank">
                 Osama
               </Link>{" "}

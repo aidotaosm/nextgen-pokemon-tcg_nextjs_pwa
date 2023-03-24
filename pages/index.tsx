@@ -51,7 +51,7 @@ const Index = ({ setCards }: any) => {
     <div className="container mt-4">
       <h1 className="text-center mb-2 h3">NextGen Pokemon TCG</h1>
       <h2 className="text-center mb-5 text-muted h5">
-        The next generation Pokemon TCG database. With offline support!
+        The Next Generation Pokemon cards database. With offline support!
       </h2>
       <div className="row row-cols-1 row-cols-sm-2 mb-5">
         <div className=" d-flex align-items-center col mb-5 mb-sm-0">
@@ -72,7 +72,7 @@ const Index = ({ setCards }: any) => {
               <div className="flex-grow-1 ms-lg-3 text-decoration-none d-block d-lg-none mb-lg-0 p-2">
                 <h3 className="text-center h5">Browse Sets</h3>
                 <p className="mb-0 text-center text-muted">
-                  Browse all expansions of Pokemon TCG, search and filter
+                  Browse all expansions of the Pokemon TCG, search and filter
                   through your desired cards and more!
                 </p>
               </div>
@@ -87,7 +87,7 @@ const Index = ({ setCards }: any) => {
               <div className="flex-grow-1 ms-lg-3 text-decoration-none d-none d-lg-block py-2 pe-2">
                 <h3 className="h5">Browse Sets</h3>
                 <p className="mb-0 text-muted">
-                  Browse all expansions of Pokemon TCG, search and filter
+                  Browse all expansions of the Pokemon TCG, search and filter
                   through your desired cards and more!
                 </p>
               </div>

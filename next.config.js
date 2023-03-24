@@ -28,7 +28,7 @@ module.exports = withPWA({
     },
     staticPageGenerationTimeout: 1000,
     compiler: {
-        removeConsole: process.env.APP_ENV !== "local"
+        removeConsole: process.env.APP_ENV !== "local" && process.env.NODE_ENV !== 'development'
     },
     // target: 'serverless'
 })

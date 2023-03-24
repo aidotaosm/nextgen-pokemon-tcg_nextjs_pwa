@@ -24,7 +24,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
             <title>NextGen Pokemon TCG</title>
             <meta
               name="description"
-              content="The next generation Pokemon TCG database. With offline support!"
+              content="The Next Generation Pokemon cards database. With offline support!"
               key="description"
             />
             <meta property="og:type" content="games.plays" />
@@ -35,7 +35,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
             />
             <meta
               property="og:description"
-              content="The next generation Pokemon TCG database. With offline support!"
+              content="The Next Generation Pokemon cards database. With offline support!"
               key="og:description"
             />
             <meta
@@ -66,7 +66,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
             />
             <meta
               property="og:site_name"
-              content="The next generation Pokemon TCG database"
+              content="The Next Generation Pokemon TCG database"
             />
 
             <meta
@@ -76,7 +76,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
             />
             <meta
               name="twitter:description"
-              content="The next generation Pokemon TCG database. With offline support!"
+              content="The Next Generation Pokemon cards database. With offline support!"
               key="twitter:description"
             />
             <meta
