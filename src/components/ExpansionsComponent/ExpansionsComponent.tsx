@@ -92,7 +92,6 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
     if (allowScroll) {
       let newAccordionToOpen = document.getElementById(seriesId);
       setTimeout(() => {
-        console.log(newAccordionToOpen);
         newAccordionToOpen?.scrollIntoView({
           behavior: "smooth",
           inline: "start",

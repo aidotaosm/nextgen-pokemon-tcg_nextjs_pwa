@@ -28,6 +28,11 @@ const Series: FunctionComponent<SeriesArrayProps> = ({
     <Fragment>
       <Head>
         <title>Pokemon TCG Expansions</title>
+        <link
+          rel="canonical"
+          href={Helper.getBaseDomainServerSide() + "series"}
+          key="canonical"
+        />
         <meta
           name="description"
           content="Browse through all the Pokemon TCG expansions!"

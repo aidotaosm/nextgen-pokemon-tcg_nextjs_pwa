@@ -45,7 +45,6 @@ export const ListViewComponent: FunctionComponent<SetCardsProps> = ({
                 "carousel-item " + (selectedCard?.id == card.id ? "active" : "")
               }
               onClick={() => {
-                console.log(modalCloseButton);
                 if (modalCloseButton.current) {
                   modalCloseButton.current.click();
                 }
