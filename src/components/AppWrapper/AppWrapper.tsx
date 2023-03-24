@@ -238,7 +238,6 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
                   icon={faArrowLeftLong}
                   onClick={(e) => {
                     e.stopPropagation();
-                    e.preventDefault();
                     router.push(
                       navigator.onLine
                         ? pathToRedirect || "/"
@@ -259,7 +258,8 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
             >
               <Link href="/search" aria-label={"Search page"}>
                 <span
-                  onClick={(e) => e.stopPropagation()}
+                  // onClick={(e) => e.stopPropagation()}
+                  //it is causing sw to not send offline files
                   data-bs-title={"Go to Global Search page."}
                   data-bs-toggle="tooltip"
                   data-bs-trigger="hover"
