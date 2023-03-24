@@ -436,7 +436,9 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
           style={{ height: "5rem", minHeight: "5rem", overflow: "hidden" }}
         >
           <IF condition={isSearchPage}>
-            <h4>Search from all the cards ever printed!</h4>
+            <h1 className="h4">
+              Search and filter through all the Pokemon cards ever printed!
+            </h1>
           </IF>
           <IF condition={!appState.offLineMode && !isSearchPage}>
             <div className="position-relative w-100" style={{ height: "5rem" }}>
@@ -451,12 +453,12 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
             </div>
           </IF>
           <IF condition={appState.offLineMode && !isSearchPage}>
-            <h4 className="mb-0 ms-3">
+            <h1 className="mb-0 ms-3 h4">
               {cardsObject.data[0].set.name +
                 " set of " +
                 cardsObject.data[0].set.series}{" "}
               series
-            </h4>
+            </h1>
           </IF>
         </div>
         <div className="mb-4 row row-cols-2 row-cols-md-3 buttons-wrapper">
@@ -492,7 +494,9 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
               <LocalSearchComponent
                 setSearchValueFunction={setSearchValueFunction}
                 defaultSearchTerm={searchValue}
-                initialPlaceHolder="Search in Set e.g. "
+                initialPlaceHolder={
+                  isSearchPage ? "Global search e.g. " : "Search in set e.g. "
+                }
               />
             </div>
           </div>
