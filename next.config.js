@@ -14,7 +14,7 @@ const withPWA = require('next-pwa')({
     maximumFileSizeToCacheInBytes: 50000000,
     reloadOnOnline: false,
     buildExcludes: [/media\/.*$/],
-    publicExcludes: ['!noprecache/**/*', '!sitemap.xml', '!robots.txt', '!manifest.webmanifest', '!customRuntimeCaching.js', '!images/pokemon_tcg_base_image.webp', '!images/favicon-16x16.png', '!images/favicon-32x32.png', '!images/safari-pinned-tab.svg', '!images/android-chrome-192x192.png', '!images/android-chrome-512x512.png', '!images/apple-touch-icon.png', '!favicon.ico']
+    publicExcludes: ['!noprecache/**/*', '!sitemap.xml', '!robots.txt', '!images/pokemon_tcg_base_image.webp', '!images/expansions_image.jpg']
 })
 module.exports = withPWA({
     reactStrictMode: true,
@@ -26,6 +26,9 @@ module.exports = withPWA({
         responseLimit: false,
     },
     staticPageGenerationTimeout: 1000,
+    compiler: {
+        removeConsole: process.env.APP_ENV !== "local"
+    },
     // target: 'serverless'
 })
 
