@@ -15,13 +15,13 @@ export const LocalSearchComponent: FunctionComponent<
   LocalSearchComponentProps
 > = ({
   setSearchValueFunction,
-  initialPlaceHolder = "Set search e.g. ",
+  initialPlaceHolder = "Search cards e.g. ",
   defaultSearchTerm = "",
 }) => {
   useEffect(() => {
     let timeout: any = null;
-    const animate = (phParam: string, randomIndex: number) => {
-      let ph = (phParam += random_pokemon_names[randomIndex]);
+    const animate = (randomIndex: number) => {
+      let ph = random_pokemon_names[randomIndex];
       let searchBar = document.getElementById("search") as HTMLInputElement;
       // placeholder loop counter
       let phCount = 0;
@@ -59,12 +59,12 @@ export const LocalSearchComponent: FunctionComponent<
           }
           // use random speed to simulate
           // 'human' typing
-        }, randDelay(30, 90));
+        }, randDelay(30, 199));
       };
 
       // function to init animation
       const placeholder = () => {
-        searchBar.placeholder = "";
+        searchBar.placeholder = initialPlaceHolder;
         printLetter(ph, searchBar);
       };
       placeholder();
@@ -72,8 +72,8 @@ export const LocalSearchComponent: FunctionComponent<
     let interval = setInterval(() => {
       clearTimeout(timeout);
       let randomIndex = Math.floor(Math.random() * random_pokemon_names.length);
-      animate(initialPlaceHolder, randomIndex);
-    }, 4000);
+      animate(randomIndex);
+    }, 2000);
 
     return () => {
       clearTimeout(timeout);
@@ -96,7 +96,7 @@ export const LocalSearchComponent: FunctionComponent<
         type="text"
         id="search"
         className="form-control search"
-        placeholder="Search for a card..."
+        placeholder={initialPlaceHolder}
         onChange={(e) => {
           setSearchValueFunction(e.target.value, "onChange");
         }}

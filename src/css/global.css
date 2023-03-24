@@ -595,12 +595,6 @@ a.white-hover:hover,
   }
 }
 
-@media (min-width: 768px) {
-  .negative-margin-min-768 {
-    margin-top: -1.4rem;
-  }
-}
-
 .controls {
   display: flex;
   align-items: center;

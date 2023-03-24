@@ -16,7 +16,7 @@ export const CardComponent: FunctionComponent<CardObjectProps> = ({
     );
   } else {
     return (
-      <div className="container align-self-center negative-margin-min-768">
+      <div className="container align-self-center">
         <div className="full-screen-view align-items-center d-md-flex justify-content-center">
           <PokemonCardAndDetailsComponent
             card={cardObject}

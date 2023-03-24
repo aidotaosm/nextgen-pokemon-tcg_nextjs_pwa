@@ -387,9 +387,9 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
       (isSearchPage ? "/search" : "/set/" + router.query.setId) +
       (newPageIndex || searchValue || filterQuery
         ? "?" +
-        (newPageIndex ? "&page=" + newPageIndex : "") +
-        (searchValue ? "&search=" + searchValue : "") +
-        filterQuery
+          (newPageIndex ? "&page=" + newPageIndex : "") +
+          (searchValue ? "&search=" + searchValue : "") +
+          filterQuery
         : "");
     const fixedQuery = updatedQuery.replaceAll("?&", "?");
     router.push(fixedQuery, undefined, { shallow: true });
@@ -454,7 +454,8 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
             <h4 className="mb-0 ms-3">
               {cardsObject.data[0].set.name +
                 " set of " +
-                cardsObject.data[0].set.series} series
+                cardsObject.data[0].set.series}{" "}
+              series
             </h4>
           </IF>
         </div>
@@ -465,7 +466,7 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
               data-bs-title={"Show / Hide filters."}
               data-bs-toggle="tooltip"
               data-bs-trigger="hover"
-              data-bs-placement="top" 
+              data-bs-placement="top"
               id={filterButtonTooltipId}
             >
               <IF condition={!appState.sidebarCollapsed}>
@@ -491,6 +492,7 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
               <LocalSearchComponent
                 setSearchValueFunction={setSearchValueFunction}
                 defaultSearchTerm={searchValue}
+                initialPlaceHolder="Search in Set e.g. "
               />
             </div>
           </div>
