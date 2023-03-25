@@ -78,6 +78,11 @@ const SearchPage: FunctionComponent<CardsObjectProps> = ({ cardsObject }) => {
     <Fragment>
       <Head>
         <title>Fastest Pokemon card search!</title>
+        <link
+          rel="canonical"
+          href={Helper.getBaseDomainServerSide() + "search"}
+          key="canonical"
+        />
         <meta
           name="description"
           content="Search through all Pokemon cards ever printed, fast!"

@@ -92,7 +92,6 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
     if (allowScroll) {
       let newAccordionToOpen = document.getElementById(seriesId);
       setTimeout(() => {
-        console.log(newAccordionToOpen);
         newAccordionToOpen?.scrollIntoView({
           behavior: "smooth",
           inline: "start",
@@ -130,8 +129,8 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
               defaultSearchTerm={searchValue}
             />
           </div>
-          <div className="d-flex justify-content-center justify-content-md-end">
-            <h4 className="me-4 mb-0">Pokemon TCG Expansions</h4>
+          <div className="ms-0 ms-md-4 d-flex justify-content-center justify-content-md-end">
+            <h1 className="me-4 mb-0 h4">All Pokemon TCG Expansions</h1>
             <PreloadComponent
               arrayOfSeries={arrayOfSeries}
               totalNumberOfSets={totalNumberOfSets}
@@ -152,7 +151,7 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
                 >
                   <button
                     className={
-                      "accordion-button special-accordion py-2-2-5 px-3 fs-5 fw-bold " +
+                      "accordion-button special-accordion py-2-2-5 px-3  " +
                       (seriesIndex === 0 ? "" : "collapsed")
                     }
                     type="button"
@@ -166,7 +165,7 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
                       }
                     }}
                   >
-                    {series.series}
+                    <h2 className="fs-5 fw-bold mb-0">{series.series}</h2>
                   </button>
                 </h2>
                 <div

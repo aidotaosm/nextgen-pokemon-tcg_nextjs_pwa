@@ -9,8 +9,9 @@ export default function Document() {
           name="keywords"
           content="Pokemon, TCG, Cards, Set, Expansion, Series, Trading, Card, Game, Search, Browse, Database, Filter"
         />
-        <meta name="theme-color" content="#fff" />
+        {/* <meta name="theme-color" content="#fff" /> */}
         <meta name="author" content="Osama Almas Rahman" />
+        <meta name="robots" content="index,follow" />
         <meta name="copyright" content="https://github.com/aidotaosm" />
         <link rel="manifest" href="/manifest.webmanifest" />
         <link rel="shortcut icon" href="/images/android-chrome-192x192.png" />

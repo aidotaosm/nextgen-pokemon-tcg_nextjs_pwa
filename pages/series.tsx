@@ -28,9 +28,14 @@ const Series: FunctionComponent<SeriesArrayProps> = ({
     <Fragment>
       <Head>
         <title>Pokemon TCG Expansions</title>
+        <link
+          rel="canonical"
+          href={Helper.getBaseDomainServerSide() + "series"}
+          key="canonical"
+        />
         <meta
           name="description"
-          content="Browse cards from all of the Pokemon expansions!"
+          content="Browse through all the Pokemon TCG expansions!"
           key="description"
         />
         <meta
@@ -40,7 +45,7 @@ const Series: FunctionComponent<SeriesArrayProps> = ({
         />
         <meta
           property="og:description"
-          content="Browse cards from all of the Pokemon expansions!"
+          content="Browse through all the Pokemon TCG expansions!"
           key="og:description"
         />
         <meta
@@ -61,7 +66,7 @@ const Series: FunctionComponent<SeriesArrayProps> = ({
         />
         <meta
           name="twitter:description"
-          content="Browse cards from all of the Pokemon expansions!"
+          content="Browse through all the Pokemon TCG expansions!"
           key="twitter:description"
         />
         <meta

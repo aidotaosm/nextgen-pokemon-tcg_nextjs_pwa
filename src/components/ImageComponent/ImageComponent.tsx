@@ -71,7 +71,7 @@ export const ImageComponent: FunctionComponent<any> = ({
               if (e.naturalHeight / e.naturalWidth == DEFAULT_CARD_BACK_RATIO) {
                 // console.log("default logo gotten in low quality view");
                 setImageSource(fallbackImage);
-                if (fallBackType === "logo") {
+                if (fallBackType === "symbol") {
                   setSpecialEventClass(" rounded");
                 }
               }

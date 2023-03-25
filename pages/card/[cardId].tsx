@@ -14,7 +14,6 @@ interface IParams extends ParsedUrlQuery {
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { cardId } = context.params as IParams;
   const cardObject = await getCardById(cardId);
-  console.log(cardObject);
   if (!cardObject?.id) {
     return { notFound: true };
   } else {

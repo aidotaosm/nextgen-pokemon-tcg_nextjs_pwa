@@ -23,12 +23,13 @@ module.exports = withPWA({
     images: {
         domains: ['images.pokemontcg.io'],
         minimumCacheTTL: 60 * 60 * 24 * 30 * 12,
-    }, api: {
-        responseLimit: false,
     },
+    //  api: {
+    //     responseLimit: false,
+    // },
     staticPageGenerationTimeout: 1000,
     compiler: {
-        removeConsole: process.env.APP_ENV !== "local"
+        removeConsole: process.env.APP_ENV !== "local" && process.env.NODE_ENV !== 'development'
     },
     // target: 'serverless'
 })
