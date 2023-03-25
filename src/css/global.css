@@ -649,10 +649,10 @@ a.white-hover:hover,
 
 .carousel__master-spinner-container {
   background-color: white !important;
-  min-height: 330px;
-  max-height: 330px;
+  min-height: 390px;
+  max-height: 390px;
   overflow: hidden;
-  margin-bottom: -54px;
+  /* margin-bottom: -54px; */
 }
 
 .dark-mode .carousel__master-spinner-container {

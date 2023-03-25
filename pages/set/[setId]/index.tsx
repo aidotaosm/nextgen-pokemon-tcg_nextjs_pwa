@@ -58,7 +58,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
     setId == SpecialSetNames.poptwo ? SpecialSetNames.pop2 : setId;
   const cardsObject = await getAllSetCards(correctedSetId);
   if (!cardsObject?.data?.length) {
-    return { notFound: true, revalidate: 60 };
+    return { notFound: true, revalidate: 5 };
   } else {
     return { props: { cardsObject }, revalidate: 60 * 60 * 24 };
   }
