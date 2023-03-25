@@ -266,6 +266,13 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
     });
     let from = newPageIndex * DEFAULT_PAGE_SIZE;
     let to = (newPageIndex + 1) * DEFAULT_PAGE_SIZE;
+    // Helper.saveTemplateAsFile(
+    //   "CardsOfTheDay.json",
+    //   tempChangedCards.slice(
+    //     tempChangedCards.length - 11,
+    //     tempChangedCards.length - 1
+    //   )
+    // );
     setSetCards(tempChangedCards.slice(from, to));
     setTotalCount(tempChangedCards.length);
     setPageIndex(newPageIndex);
