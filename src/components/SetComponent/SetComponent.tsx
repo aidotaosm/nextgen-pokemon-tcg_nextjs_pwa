@@ -291,8 +291,6 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
     if (isSearchPage) {
       setIsLoading(true);
       try {
-        let fileBaseCallResponse = await getAllCardsJSONFromFileBase();
-        console.log(fileBaseCallResponse);
         // if (!appState.darkMode && navigator.onLine) {
         if (false) {
           let tempSearchValue: string | undefined =
@@ -337,6 +335,15 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
           //     }
           //   }
           // );
+          let allCardsFromCache = await getAllCardsJSONFromFileBase();
+          console.log(allCardsFromCache);
+          handleSearchAndFilter(
+            paramSearchValue,
+            allCardsFromCache,
+            newPageIndex,
+            instantFilterValues
+          );
+          setIsLoading(false);
         }
       } catch (e) {
         setIsLoading(false);
