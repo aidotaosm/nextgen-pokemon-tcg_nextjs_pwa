@@ -19,9 +19,9 @@ export const ImageComponent: FunctionComponent<any> = ({
   fallbackImage,
   shouldFill = false,
   //change here to turn on or off image optimization - true is off
-  lqImageUnOptimize = process.env.IS_VERCEL === "true" ||
-    Helper.primaryHost === VERCEL_PRIMARY_HOST,
-  //lqImageUnOptimize = true,
+  // lqImageUnOptimize = process.env.IS_VERCEL === "true" ||
+  //   Helper.primaryHost === VERCEL_PRIMARY_HOST,
+  lqImageUnOptimize = true,
   lqEagerLoading = "lazy",
   hqEagerLoading = "eager",
 }) => {

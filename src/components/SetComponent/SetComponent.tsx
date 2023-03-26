@@ -47,6 +47,8 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
   const [totalCount, setTotalCount] = useState<number>(
     cardsObject?.totalCount || 0
   );
+  const [allCardsLoading, setAllCardsLoading] = useState<boolean>(true);
+  const [allCardsFromNetwork, setAllCardsFromNetwork] = useState<any[]>([]);
   const [setCards, setSetCards] = useState<any[]>(
     getCardsForServerSide() || []
   );
@@ -68,92 +70,111 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
 
   useEffect(() => {
     if (cardsObject && router.isReady) {
-      let routerPageIndex = 0;
-      const fieldValues = router.query as any;
-      const filterNames = Object.keys(fieldValues);
-      let correctedFieldValues: any = {};
-      filterNames.forEach((fieldName) => {
-        if (fieldValues[fieldName]) {
-          const fieldValue = fieldValues[fieldName];
-          switch (fieldName) {
-            case FilterFieldNames.energyType:
-              if (fieldValue) {
-                let TypedFieldValue = fieldValue.split(",") as string[];
-                correctedFieldValues[fieldName] = [];
-                TypedFieldValue.forEach((energy) => {
-                  if (energyTypes.includes(energy)) {
-                    correctedFieldValues[fieldName].push(energy);
+      getAllCardsJSONFromFileBaseIPFS()
+        .then((allCardsResponse) => {
+          setAllCardsFromNetwork(allCardsResponse);
+          setAllCardsLoading(false);
+          let routerPageIndex = 0;
+          const fieldValues = router.query as any;
+          const filterNames = Object.keys(fieldValues);
+          let correctedFieldValues: any = {};
+          filterNames.forEach((fieldName) => {
+            if (fieldValues[fieldName]) {
+              const fieldValue = fieldValues[fieldName];
+              switch (fieldName) {
+                case FilterFieldNames.energyType:
+                  if (fieldValue) {
+                    let TypedFieldValue = fieldValue.split(",") as string[];
+                    correctedFieldValues[fieldName] = [];
+                    TypedFieldValue.forEach((energy) => {
+                      if (energyTypes.includes(energy)) {
+                        correctedFieldValues[fieldName].push(energy);
+                      }
+                    });
                   }
-                });
-              }
-              break;
-            case FilterFieldNames.cardType:
-              if (fieldValue.length) {
-                let TypedFieldValue = fieldValue.split(",") as string[];
-                correctedFieldValues[fieldName] = [];
-                TypedFieldValue.forEach((cardType) => {
-                  if (superTypes.includes(cardType)) {
-                    correctedFieldValues[fieldName].push(cardType);
+                  break;
+                case FilterFieldNames.cardType:
+                  if (fieldValue.length) {
+                    let TypedFieldValue = fieldValue.split(",") as string[];
+                    correctedFieldValues[fieldName] = [];
+                    TypedFieldValue.forEach((cardType) => {
+                      if (superTypes.includes(cardType)) {
+                        correctedFieldValues[fieldName].push(cardType);
+                      }
+                    });
                   }
-                });
-              }
-              break;
-            case FilterFieldNames.subType:
-              if (fieldValue.length) {
-                let TypedFieldValue = fieldValue.split(",") as string[];
-                correctedFieldValues[fieldName] = [];
-                TypedFieldValue.forEach((subType) => {
-                  if (subTypes.includes(subType)) {
-                    correctedFieldValues[fieldName].push(subType);
+                  break;
+                case FilterFieldNames.subType:
+                  if (fieldValue.length) {
+                    let TypedFieldValue = fieldValue.split(",") as string[];
+                    correctedFieldValues[fieldName] = [];
+                    TypedFieldValue.forEach((subType) => {
+                      if (subTypes.includes(subType)) {
+                        correctedFieldValues[fieldName].push(subType);
+                      }
+                    });
                   }
-                });
-              }
-              break;
-            case FilterFieldNames.rarity:
-              if (fieldValue.length) {
-                let TypedFieldValue = fieldValue.split(",") as string[];
-                correctedFieldValues[fieldName] = [];
-                TypedFieldValue.forEach((rarity) => {
-                  if (rarities.includes(rarity)) {
-                    correctedFieldValues[fieldName].push(rarity);
+                  break;
+                case FilterFieldNames.rarity:
+                  if (fieldValue.length) {
+                    let TypedFieldValue = fieldValue.split(",") as string[];
+                    correctedFieldValues[fieldName] = [];
+                    TypedFieldValue.forEach((rarity) => {
+                      if (rarities.includes(rarity)) {
+                        correctedFieldValues[fieldName].push(rarity);
+                      }
+                    });
                   }
-                });
+                  break;
               }
-              break;
+            }
+          });
+          const filterInQueryExists = Object.keys(correctedFieldValues).length;
+          if (filterInQueryExists) {
+            formInstance.setFieldsValue(correctedFieldValues);
           }
-        }
-      });
-      const filterInQueryExists = Object.keys(correctedFieldValues).length;
-      if (filterInQueryExists) {
-        formInstance.setFieldsValue(correctedFieldValues);
-      }
 
-      if (
-        router.query.page &&
-        !isNaN(+router.query.page) &&
-        !isNaN(parseFloat(router.query.page.toString()))
-      ) {
-        if (
-          (+router.query.page + 1) * DEFAULT_PAGE_SIZE >
-          cardsObject.totalCount
-        ) {
-          let lastPage = Math.floor(cardsObject.totalCount / DEFAULT_PAGE_SIZE);
-          routerPageIndex = lastPage;
-        } else {
-          routerPageIndex = +router.query.page;
-        }
-      }
-      let searchTerm = "";
-      if (router.query.search && typeof router.query.search === "string") {
-        searchTerm = router.query.search;
-      }
-      if (appState.globalSearchTerm) {
-        searchTerm = appState.globalSearchTerm;
-      }
-      if (routerPageIndex !== pageIndex || searchTerm || filterInQueryExists) {
-        pageChanged(routerPageIndex, searchTerm, correctedFieldValues);
-        setSearchValue(searchTerm);
-      }
+          if (
+            router.query.page &&
+            !isNaN(+router.query.page) &&
+            !isNaN(parseFloat(router.query.page.toString()))
+          ) {
+            if (
+              (+router.query.page + 1) * DEFAULT_PAGE_SIZE >
+              cardsObject.totalCount
+            ) {
+              let lastPage = Math.floor(
+                cardsObject.totalCount / DEFAULT_PAGE_SIZE
+              );
+              routerPageIndex = lastPage;
+            } else {
+              routerPageIndex = +router.query.page;
+            }
+          }
+          let searchTerm = "";
+          if (router.query.search && typeof router.query.search === "string") {
+            searchTerm = router.query.search;
+          }
+          if (appState.globalSearchTerm) {
+            searchTerm = appState.globalSearchTerm;
+          }
+          if (
+            routerPageIndex !== pageIndex ||
+            searchTerm ||
+            filterInQueryExists
+          ) {
+            pageChanged(
+              routerPageIndex,
+              searchTerm,
+              correctedFieldValues,
+              allCardsResponse
+            );
+            setSearchValue(searchTerm);
+          }
+        })
+        .catch((e) => {
+          console.log(e, "allCardsResponse error");
+        });
     }
   }, [router.isReady]);
 
@@ -287,7 +308,8 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
   const pageChanged = async (
     newPageIndex: number,
     paramSearchValue?: string,
-    instantFilterValues?: any
+    instantFilterValues?: any,
+    allCardsResponse?: any[]
   ) => {
     if (isSearchPage) {
       setIsLoading(true);
@@ -336,7 +358,7 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
           //     }
           //   }
           // );
-          let allCardsFromCache = await getAllCardsJSONFromFileBaseIPFS();
+          let allCardsFromCache = allCardsResponse || allCardsFromNetwork;
           handleSearchAndFilter(
             paramSearchValue,
             allCardsFromCache,
