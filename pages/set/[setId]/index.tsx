@@ -20,10 +20,22 @@ interface IParams extends ParsedUrlQuery {
 }
 
 export const getStaticPaths: GetStaticPaths = async (qry) => {
-  // Instead of fetching your `/api` route you can call the same
-  // function directly in `getStaticProps`
+  // const dynamicallyImportedAllCards = (
+  //   await import("../../../src/InternalJsons/AllCards.json")
+  // ).default as any[];
   const { arrayOfSeries, sets } = await getExpansions();
   let returnPaths: any[] = [];
+  // let allSetIds: string[] = dynamicallyImportedAllCards.map(
+  //   (x: any) => x.set.id
+  // );
+  // let uniqueItems: string[] = Array.from(new Set(allSetIds));
+  // returnPaths = uniqueItems.map((x) => {
+  //   return {
+  //     params: {
+  //       setId: x,
+  //     },
+  //   };
+  // });
   arrayOfSeries.forEach((series) => {
     series.sets.forEach((set: any) => {
       if (set.id === SpecialSetNames.pop2) {
@@ -36,27 +48,35 @@ export const getStaticPaths: GetStaticPaths = async (qry) => {
   });
   if (process.env.APP_ENV == "local") {
     returnPaths.splice(1, returnPaths.length - 1);
-    //returnPaths = [];
   }
   //process.env.NODE_ENV
-  // console.log(process.env);
+  //console.log(process.env);
   // console.log(returnPaths);
-  // Props returned will be passed to the page component
   return {
-    // Only `/posts/1` and `/posts/2` are generated at build time
     paths: returnPaths,
-    // Enable statically generating additional pages
-    // For example: `/posts/3`
-    fallback: "blocking",
+    fallback: true,
   };
 };
 
 export const getStaticProps: GetStaticProps = async (context) => {
+  // const dynamicallyImportedAllCards = (
+  //   await import("../../../src/InternalJsons/AllCards.json")
+  // ).default as any[];
   const { setId } = context.params as IParams;
   // this is done because pop2 is blocked by ad blocker
   let correctedSetId =
     setId == SpecialSetNames.poptwo ? SpecialSetNames.pop2 : setId;
   const cardsObject = await getAllSetCards(correctedSetId);
+  // const setCards = dynamicallyImportedAllCards.filter((x: any) => {
+  //   if (x.set.id === correctedSetId) {
+  //     return x;
+  //   }
+  // });
+  // const cardsObject = {
+  //   data: setCards,
+  //   totalCount: setCards.length,
+  // };
+  // console.log(cardsObject);
   if (!cardsObject?.data?.length) {
     return { notFound: true, revalidate: 60 };
   } else {
@@ -64,7 +84,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
   }
 };
 
-const Set: FunctionComponent<CardsObjectProps> = ({ cardsObject }) => {
+const SetPage: FunctionComponent<CardsObjectProps> = ({ cardsObject }) => {
   const title = cardsObject?.data[0].set.name;
   const description =
     title + " set from the " + cardsObject?.data[0].set.series + " series";
@@ -111,4 +131,4 @@ const Set: FunctionComponent<CardsObjectProps> = ({ cardsObject }) => {
     </Fragment>
   );
 };
-export default Set;
+export default SetPage;
