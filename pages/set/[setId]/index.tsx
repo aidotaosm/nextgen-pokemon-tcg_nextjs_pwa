@@ -10,19 +10,13 @@ import {
 } from "../../../src/models/GenericModels";
 import { Helper } from "../../../src/utils/helper";
 import { getAllSetCards, getExpansions } from "../../../src/utils/networkCalls";
-// export const getServerSideProps: GetServerSideProps = async (context) => {
-//   const qry = context.query;
-//   return { props: { qry } };
-// };
+import dynamicallyImportedAllCards from "../../../src/InternalJsons/AllCards.json";
 
 interface IParams extends ParsedUrlQuery {
   setId: string;
 }
 
 export const getStaticPaths: GetStaticPaths = async (qry) => {
-  const dynamicallyImportedAllCards = (
-    await import("../../../src/InternalJsons/AllCards.json")
-  ).default as any[];
   // const { arrayOfSeries, sets } = await getExpansions();
   let returnPaths: any[] = [];
   let allSetIds: string[] = dynamicallyImportedAllCards.map(
