@@ -13,11 +13,9 @@ import { AppContext } from "../src/contexts/AppContext";
 import { LocalSearchComponent } from "../src/components/LocalSearchComponent/LocalSearchComponent";
 import { CarouselProvider } from "pure-react-carousel";
 import CarouselSlider from "../src/components/CaouselSlider/CarouselSlider";
+import dynamicallyImportedJson from "../src/InternalJsons/AllCards.json";
 
 export const getStaticProps: GetStaticProps = async (context) => {
-  const dynamicallyImportedJson = (
-    await import("../src/InternalJsons/AllCards.json")
-  ).default as any[];
   // const dynamicallyImportedJson: any = (
   //   await import("../src/InternalJsons/CardsOfTheDay.json")
   // ).default;
