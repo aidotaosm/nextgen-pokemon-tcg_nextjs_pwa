@@ -125,9 +125,10 @@ export const PreloadComponent: FunctionComponent<PreloadComponentProps> = ({
     const batchAndExecutePrefetchThenClearUrls = async (setIndex: number) => {
       setPrefetchingSets(setsWithCallUrls);
       let calls = setsWithCallUrls.map(async (set) => {
-        await router.prefetch(set.callUrl, undefined, {
-          unstable_skipClientCache: true,
-        });
+        await router.prefetch(set.callUrl);
+        // , undefined, {
+        //   unstable_skipClientCache: true,
+        // }
         flushSync(() => {
           setShouldCancel((x) => {
             localShouldCancel = x;
