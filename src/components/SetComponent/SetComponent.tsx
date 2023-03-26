@@ -15,7 +15,11 @@ import { AppContext } from "../../contexts/AppContext";
 import { ImageComponent } from "../ImageComponent/ImageComponent";
 import { logoBlurImage } from "../../../base64Images/base64Images";
 import { LocalSearchComponent } from "../LocalSearchComponent/LocalSearchComponent";
-import { getCardsFromNextServer } from "../../utils/networkCalls";
+import {
+  getAllCardsJSONFromFileBase,
+  getAllCardsJSONFromFileBaseIPFS,
+  getCardsFromNextServer,
+} from "../../utils/networkCalls";
 import { SidebarFiltersComponent } from "../SidebarFiltersComponent/SidebarFiltersComponent";
 import { Form } from "antd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -305,33 +309,41 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
           setRefPageNumber(newPageIndex + 1);
           setIsLoading(false);
         } else {
-          import("../../../public/Jsons/AllCards.json").then(
-            (allCardsModule) => {
-              if (allCardsModule.default) {
-                try {
-                  let allCardsFromCache = allCardsModule.default as any[];
-                  //YYYY-MM-DD
-                  // const xmlText = Helper.generateSiteMap(allCardsFromCache, Vercel_DEFAULT_URL + 'card/');
-                  // Helper.saveTemplateAsFile(
-                  //   "sitemap.xml",
-                  //   xmlText,
-                  //   false,
-                  //   "text/plain"
-                  // );
-                  handleSearchAndFilter(
-                    paramSearchValue,
-                    allCardsFromCache,
-                    newPageIndex,
-                    instantFilterValues
-                  );
-                  setIsLoading(false);
-                } catch (e) {
-                  console.log(e);
-                  setIsLoading(false);
-                }
-              }
-            }
+          // import("../../../public/Jsons/AllCards.json").then(
+          //   (allCardsModule) => {
+          //     if (allCardsModule.default) {
+          //       try {
+          //         let allCardsFromCache = allCardsModule.default as any[];
+          //         //YYYY-MM-DD
+          //         // const xmlText = Helper.generateSiteMap(allCardsFromCache, Vercel_DEFAULT_URL + 'card/');
+          //         // Helper.saveTemplateAsFile(
+          //         //   "sitemap.xml",
+          //         //   xmlText,
+          //         //   false,
+          //         //   "text/plain"
+          //         // );
+          //         handleSearchAndFilter(
+          //           paramSearchValue,
+          //           allCardsFromCache,
+          //           newPageIndex,
+          //           instantFilterValues
+          //         );
+          //         setIsLoading(false);
+          //       } catch (e) {
+          //         console.log(e);
+          //         setIsLoading(false);
+          //       }
+          //     }
+          //   }
+          // );
+          let allCardsFromCache = await getAllCardsJSONFromFileBaseIPFS();
+          handleSearchAndFilter(
+            paramSearchValue,
+            allCardsFromCache,
+            newPageIndex,
+            instantFilterValues
           );
+          setIsLoading(false);
         }
       } catch (e) {
         setIsLoading(false);
