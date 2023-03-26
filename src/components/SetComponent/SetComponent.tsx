@@ -17,6 +17,7 @@ import { logoBlurImage } from "../../../base64Images/base64Images";
 import { LocalSearchComponent } from "../LocalSearchComponent/LocalSearchComponent";
 import {
   getAllCardsJSONFromFileBase,
+  getAllCardsJSONFromFileBaseIPFS,
   getCardsFromNextServer,
 } from "../../utils/networkCalls";
 import { SidebarFiltersComponent } from "../SidebarFiltersComponent/SidebarFiltersComponent";
@@ -335,8 +336,7 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
           //     }
           //   }
           // );
-          let allCardsFromCache = await getAllCardsJSONFromFileBase();
-          console.log(allCardsFromCache);
+          let allCardsFromCache = await getAllCardsJSONFromFileBaseIPFS();
           handleSearchAndFilter(
             paramSearchValue,
             allCardsFromCache,

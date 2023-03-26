@@ -2,6 +2,7 @@ import axios, { AxiosInstance } from "axios";
 import {
   FILEBASE_ACCESS_TOKEN,
   FILEBASE_ALLCARDS_JSON_URL,
+  IPFS_ALLCARDS_JSON_URL,
 } from "../constants/constants";
 import { Helper } from "./helper";
 const axiosHttpClient: AxiosInstance = axios.create({});
@@ -150,5 +151,9 @@ export const getAllCardsJSONFromFileBase = async () => {
       Authorization: "Bearer " + FILEBASE_ACCESS_TOKEN,
     },
   });
+  return response.data;
+};
+export const getAllCardsJSONFromFileBaseIPFS = async () => {
+  const response = await axiosHttpClient.get(IPFS_ALLCARDS_JSON_URL);
   return response.data;
 };
