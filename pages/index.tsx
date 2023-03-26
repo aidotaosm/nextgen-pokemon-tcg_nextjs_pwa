@@ -15,12 +15,12 @@ import { CarouselProvider } from "pure-react-carousel";
 import CarouselSlider from "../src/components/CaouselSlider/CarouselSlider";
 
 export const getStaticProps: GetStaticProps = async (context) => {
-  // const dynamicallyImportedJson = (
-  //   await import("../src/InternalJsons/AllCards.json")
-  // ).default as any[];
-  const dynamicallyImportedJson: any = (
-    await import("../src/InternalJsons/CardsOfTheDay.json")
-  ).default;
+  const dynamicallyImportedJson = (
+    await import("../src/InternalJsons/AllCards.json")
+  ).default as any[];
+  // const dynamicallyImportedJson: any = (
+  //   await import("../src/InternalJsons/CardsOfTheDay.json")
+  // ).default;
   let tenRandomCards = [];
   for (let i = 0; i < 10; i++) {
     let randomIndex = Helper.randDelay(0, dynamicallyImportedJson.length - 1);
