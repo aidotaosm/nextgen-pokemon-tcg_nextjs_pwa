@@ -251,8 +251,8 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
             </IF>
             <IF
               condition={
-                // router.pathname != "/" &&
-                router.pathname != "/series" && router.pathname != "/search"
+                // router.pathname != "/" &&router.pathname != "/series" &&
+                router.pathname != "/search"
               }
             >
               <Link href="/search" aria-label={"Search page"}>

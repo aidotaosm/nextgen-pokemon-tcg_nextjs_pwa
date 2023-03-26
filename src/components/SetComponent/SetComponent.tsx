@@ -16,7 +16,6 @@ import { ImageComponent } from "../ImageComponent/ImageComponent";
 import { logoBlurImage } from "../../../base64Images/base64Images";
 import { LocalSearchComponent } from "../LocalSearchComponent/LocalSearchComponent";
 import {
-  getAllCardsJSONFromFileBase,
   getAllCardsJSONFromFileBaseIPFS,
   getCardsFromNextServer,
 } from "../../utils/networkCalls";
@@ -195,7 +194,7 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
       filterTooltipInstance?.dispose();
     };
   }, [appState?.bootstrap]);
-  console.log(process.env);
+
   useEffect(() => {
     return () => {
       updateGlobalSearchTerm?.("");
