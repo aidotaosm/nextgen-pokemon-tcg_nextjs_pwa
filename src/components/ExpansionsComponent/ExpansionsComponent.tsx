@@ -202,7 +202,7 @@ export const ExpansionsComponent: FunctionComponent<SeriesArrayProps> = ({
                                   height={72}
                                   width={192}
                                   blurDataURL={logoBlurImage}
-                                  className="w-100 h-auto"
+                                  className="w-100 h-100"
                                   fallBackType="logo"
                                   fallbackImage={
                                     "/images/International_Pokémon_logo.png"

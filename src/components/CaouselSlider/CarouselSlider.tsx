@@ -90,7 +90,7 @@ const CarouselSlider: FunctionComponent<CarouselSliderProps> = ({
           >
             <Link
               href={"/card/" + card.id}
-              style={{ margin: "auto", maxWidth: "25rem" }}
+              style={{ maxWidth: "25rem" }}
               className=""
             >
               <ImageComponent
@@ -100,7 +100,7 @@ const CarouselSlider: FunctionComponent<CarouselSliderProps> = ({
                 width={734}
                 height={1024}
                 blurDataURL={defaultBlurImage}
-                className="h-auto w-100"
+                className="h-100 w-100"
                 lqImageUnOptimize={false}
                 lqEagerLoading={"eager"}
                 //   hqEagerLoading={"lazy"}

@@ -72,7 +72,7 @@ export const GridViewComponent: FunctionComponent<SetCardsProps> = ({
                         width={245}
                         height={342}
                         blurDataURL={defaultBlurImage}
-                        className="position-relative card-img-top special-card disable-save h-auto w-100"
+                        className="position-relative card-img-top special-card disable-save h-100 w-100"
                       />
                     </div>
                   </div>

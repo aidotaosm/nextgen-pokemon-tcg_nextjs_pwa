@@ -45,7 +45,7 @@ const Index = ({ setCards }: any) => {
 
   return (
     <div className="container mt-4">
-      <h1 className="text-center mb-2 h3">NextGen Pokemon TCG</h1>
+      <h1 className="text-center h3">NextGen Pokemon TCG</h1>
       <h2 className="text-center mb-5 text-muted h5">
         The Next Generation Pokemon cards database. With offline support!
       </h2>
@@ -76,7 +76,7 @@ const Index = ({ setCards }: any) => {
                 <ImageComponent
                   src={swsh125}
                   alt={"Browse cards"}
-                  className="w-100 h-auto rounded"
+                  className=" w-100 h-100 rounded"
                   lqImageUnOptimize={false}
                 />
               </div>

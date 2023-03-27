@@ -64,7 +64,7 @@ export const ListViewComponent: FunctionComponent<SetCardsProps> = ({
                   width={734}
                   height={1024}
                   blurDataURL={defaultBlurImage}
-                  className="position-relative h-auto w-100"
+                  className="position-relative h-100 w-100"
                 />
               </div>
             </div>

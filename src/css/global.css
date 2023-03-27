@@ -555,20 +555,10 @@ a.white-hover:hover,
 }
 
 @media (max-width: 575px) {
-  /* .sidebar-trigger {
-    z-index: 500;
-    position: fixed;
-    top: 3.5rem;
-    background-color: grey;
-    border-radius: 5px;
-    padding: 5px;
-    max-width: 42px;
-    width: 36px;
+  h5,
+  .h5 {
+    font-size: 1rem;
   }
-  .sidebar-trigger svg {
-    vertical-align: middle;
-  }*/
-
   .container {
     padding-right: calc(3rem * 0.5);
     padding-left: calc(3rem * 0.5);
