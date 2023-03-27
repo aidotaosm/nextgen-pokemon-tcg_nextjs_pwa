@@ -51,7 +51,7 @@ export const PokemonCardAndDetailsComponent: FunctionComponent<
                 height={342}
                 blurDataURL={defaultBlurImage}
                 className={
-                  "special-card position-relative h-auto w-100 " +
+                  "special-card position-relative h-100 w-100 " +
                   (showHQImage ? "" : "disable-save")
                 }
               />
