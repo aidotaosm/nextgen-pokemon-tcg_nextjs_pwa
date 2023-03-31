@@ -67,7 +67,7 @@ const Index = ({ setCards }: any) => {
             <div className=" d-lg-flex align-items-center flex-column flex-lg-row justify-content-center border-light-gray rounded special-card position-relative bg-default">
               <div className="flex-grow-1 ms-lg-3 text-decoration-none d-block d-lg-none mb-lg-0 p-2">
                 <h3 className="text-center h5">Browse Sets</h3>
-                <p className="mb-0 text-center text-muted skeleton-animation ">
+                <p className="mb-0 text-center text-muted">
                   Browse all expansions of the Pokemon TCG, search and filter
                   through your desired cards and more!
                 </p>
