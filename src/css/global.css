@@ -743,4 +743,5 @@ a.white-hover:hover,
   z-index: 50;
   position: fixed;
   background-color: #0dcaf0;
+  border-radius: 5px;
 }

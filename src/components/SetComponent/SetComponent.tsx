@@ -497,34 +497,36 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
               Search and filter through all the Pokemon cards ever printed!
             </h1>
           </IF>
+          {!isSearchPage && <>
+            <div
+              className={
+                "position-relative w-100 " +
+                (!appState.offLineMode ? "d-block" : "d-none")
+              }
+              style={{ height: "5rem" }}
+            >
+              <ImageComponent
+                src={cardsObject.data[0].set?.images?.logo}
+                alt={cardsObject.data[0].set.name}
+                shouldFill={true}
+                blurDataURL={logoBlurImage}
+                fallBackType="logo"
+                fallbackImage={"/images/International_Pokémon_logo.png"}
+              />
+            </div>
+            <h1
+              className={
+                "mb-0 ms-3 h4 " +
+                (appState.offLineMode ? "d-block" : "d-none")
+              }
+            >
+              {cardsObject.data[0].set.name +
+                " set of " +
+                cardsObject.data[0].set.series}{" "}
+              series
+            </h1>
+          </>}
 
-          <div
-            className={
-              "position-relative w-100 " +
-              (!appState.offLineMode && !isSearchPage ? "d-block" : "d-none")
-            }
-            style={{ height: "5rem" }}
-          >
-            <ImageComponent
-              src={cardsObject.data[0].set?.images?.logo}
-              alt={cardsObject.data[0].set.name}
-              shouldFill={true}
-              blurDataURL={logoBlurImage}
-              fallBackType="logo"
-              fallbackImage={"/images/International_Pokémon_logo.png"}
-            />
-          </div>
-          <h1
-            className={
-              "mb-0 ms-3 h4 " +
-              (appState.offLineMode && !isSearchPage ? "d-block" : "d-none")
-            }
-          >
-            {cardsObject.data[0].set.name +
-              " set of " +
-              cardsObject.data[0].set.series}{" "}
-            series
-          </h1>
         </div>
         <div className="mb-4 row row-cols-2 row-cols-md-3 buttons-wrapper">
           <div className="d-flex align-items-center col col-12 col-md-4 mb-4 mb-md-0">

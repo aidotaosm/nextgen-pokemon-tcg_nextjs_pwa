@@ -53,44 +53,56 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
   const darkModeButtonTooltipId = "darkModeButtonTooltipId";
   const offlineButtonTooltipId = "offlineButtonTooltipId";
   const globalSearchButtonTooltipId = "globalSearchButtonTooltipId";
+  const githubTooltipId = "githubTooltipId";
 
   useEffect(() => {
     //if (router.isReady) {
     let bootStrapMasterClass = appState?.bootstrap;
-    const backButtonTrigger = document.getElementById(
-      backButtonTooltipId
-    ) as any;
     let backTooltipInstance: Tooltip,
       offLineTooltipInstance: Tooltip,
       darkModeTooltipInstance: Tooltip,
       globalSearchTooltipInstance: Tooltip;
-    if (bootStrapMasterClass && backButtonTrigger) {
-      backTooltipInstance = new bootStrapMasterClass.Tooltip(backButtonTrigger);
+
+
+    if (bootStrapMasterClass) {
+      const backButtonTrigger = document.getElementById(
+        backButtonTooltipId
+      ) as any;
+      if (backButtonTrigger) {
+        backTooltipInstance = new bootStrapMasterClass.Tooltip(backButtonTrigger);
+      }
+      const offlineButtonTrigger = document.getElementById(
+        offlineButtonTooltipId
+      ) as any;
+      if (offlineButtonTrigger) {
+        offLineTooltipInstance = new bootStrapMasterClass.Tooltip(
+          offlineButtonTrigger
+        );
+      }
+      const darkModeButtonTrigger = document.getElementById(
+        darkModeButtonTooltipId
+      ) as any;
+      if (darkModeButtonTrigger) {
+        darkModeTooltipInstance = new bootStrapMasterClass.Tooltip(
+          darkModeButtonTrigger
+        );
+      }
+      const globalSearchButtonTrigger = document.getElementById(
+        globalSearchButtonTooltipId
+      ) as any;
+      if (globalSearchButtonTrigger) {
+        globalSearchTooltipInstance = new bootStrapMasterClass.Tooltip(
+          globalSearchButtonTrigger
+        );
+      }
+      const githubTrigger = document.getElementById(
+        githubTooltipId
+      ) as any;
+      if (githubTrigger) {
+        backTooltipInstance = new bootStrapMasterClass.Tooltip(githubTrigger);
+      }
     }
-    const offlineButtonTrigger = document.getElementById(
-      offlineButtonTooltipId
-    ) as any;
-    if (bootStrapMasterClass && offlineButtonTrigger) {
-      offLineTooltipInstance = new bootStrapMasterClass.Tooltip(
-        offlineButtonTrigger
-      );
-    }
-    const darkModeButtonTrigger = document.getElementById(
-      darkModeButtonTooltipId
-    ) as any;
-    if (bootStrapMasterClass && darkModeButtonTrigger) {
-      darkModeTooltipInstance = new bootStrapMasterClass.Tooltip(
-        darkModeButtonTrigger
-      );
-    }
-    const globalSearchButtonTrigger = document.getElementById(
-      globalSearchButtonTooltipId
-    ) as any;
-    if (bootStrapMasterClass && globalSearchButtonTrigger) {
-      globalSearchTooltipInstance = new bootStrapMasterClass.Tooltip(
-        globalSearchButtonTrigger
-      );
-    }
+
     return () => {
       backTooltipInstance?.dispose();
       offLineTooltipInstance?.dispose();
@@ -230,6 +242,9 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
           "#" + globalSearchButtonTooltipId
         );
       globalSearchButtonTooltipInstance?.hide();
+      const githubTooltipInstance: Tooltip =
+        bootStrapMasterClass.Tooltip.getInstance("#" + githubTooltipId);
+      githubTooltipInstance?.hide();
     }
   };
 
@@ -373,10 +388,12 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
           <small className="d-flex flex-column">
             <span>
               The Next Generation Pokemon TCG database. By{" "}
-              <Link href="https://github.com/aidotaosm" target="_blank">
+              <Link href="https://github.com/aidotaosm" target="_blank" data-bs-title={"Click to visit this project is in my Github! Maybe give it a start?"}
+                data-bs-toggle="tooltip"
+                data-bs-trigger="hover"
+                id={backButtonTooltipId}>
                 Osama
-              </Link>{" "}
-              ©2023
+              </Link>
             </span>
             <span className="mt-1">
               This website is not produced, endorsed, supported, or affiliated
