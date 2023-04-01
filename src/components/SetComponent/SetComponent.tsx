@@ -615,6 +615,7 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
             pageNumber={refPageNumber}
             isLoading={isLoading}
             disabled={isSearchPage && setCards === null}
+            bottomScroll={true}
           >
             <ListOrGridViewToggle
               isGridView={appState.gridView}
