@@ -637,13 +637,13 @@ a.white-hover:hover,
   gap: 1.5rem;
 }
 
-.carousel__master-spinner-container {
+/* .carousel__master-spinner-container {
   background-color: white !important;
   min-height: 390px;
   max-height: 390px;
   overflow: hidden;
-  /* margin-bottom: -54px; */
-}
+  margin-bottom: -54px;
+} */
 
 .dark-mode .carousel__master-spinner-container {
   background-color: #181818 !important;
@@ -684,4 +684,64 @@ a.white-hover:hover,
 /* The Transformation */
 .img-hover-zoom--quick-zoom:hover img {
   transform: scale(2);
+}
+@keyframes skeleton-loading {
+  0% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0 50%;
+  }
+}
+
+.skeleton-animation,
+.carousel-loading {
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0.06) 25%,
+    rgba(0, 0, 0, 0.15) 37%,
+    rgba(0, 0, 0, 0.06) 63%
+  );
+  background-size: 400% 100%;
+  animation-name: skeleton-loading;
+  animation-duration: 1.4s;
+  animation-timing-function: ease;
+  animation-iteration-count: infinite;
+  border-radius: var(--bs-border-radius);
+}
+.dark-mode .skeleton-animation,
+.dark-mode .carousel-loading {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.12) 25%,
+    rgba(255, 255, 255, 0.18) 37%,
+    rgba(255, 255, 255, 0.12) 63%
+  );
+  background-size: 400% 100%;
+}
+.carousel-loading .carousel {
+  visibility: hidden;
+}
+.ant-checkbox-inner,
+.ant-select-selector {
+  border-color: #0000002d !important;
+}
+.dark-mode .ant-checkbox-inner,
+.dark-mode .ant-select-selector {
+  border-color: #464646 !important;
+}
+/* body {
+  background-image: url(/images/pokeball-icon-sign-seamless-pattern.webp);
+  loader-color h-1 w-full left-0 top-0 fixed z-50
+} */
+
+.navigation-loader {
+  height: 0.25rem;
+  width: 100vw;
+  left: 0;
+  top: 0;
+  z-index: 50;
+  position: fixed;
+  background-color: #0dcaf0;
+  border-radius: 5px;
 }

@@ -103,7 +103,7 @@ const CarouselSlider: FunctionComponent<CarouselSliderProps> = ({
                 className="h-100 w-100"
                 lqImageUnOptimize={false}
                 lqEagerLoading={"eager"}
-                //   hqEagerLoading={"lazy"}
+              //   hqEagerLoading={"lazy"}
               />
             </Link>
           </Slide>

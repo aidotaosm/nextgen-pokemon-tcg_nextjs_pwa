@@ -40,16 +40,19 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
   const getCardsForServerSide = () => {
     let from = 0 * DEFAULT_PAGE_SIZE;
     let to = (0 + 1) * DEFAULT_PAGE_SIZE;
-    let changedSetOfCards: any[] = cardsObject?.data.slice(from, to);
+    let changedSetOfCards: any[] | null = null;
+    if (!isSearchPage) {
+      changedSetOfCards = cardsObject?.data.slice(from, to);
+    };
     return changedSetOfCards;
-  };
+  }
   const [totalCount, setTotalCount] = useState<number>(
     cardsObject?.totalCount || 0
   );
   const [allCardsLoading, setAllCardsLoading] = useState<boolean>(true);
   const [allCardsFromNetwork, setAllCardsFromNetwork] = useState<any[]>([]);
-  const [setCards, setSetCards] = useState<any[]>(
-    getCardsForServerSide() || []
+  const [setCards, setSetCards] = useState<any>(
+    getCardsForServerSide()
   );
   const [pageIndex, setPageIndex] = useState<number>(0);
   const [refPageNumber, setRefPageNumber] = useState<number>(0);
@@ -151,7 +154,7 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
       if (appState.globalSearchTerm) {
         searchTerm = appState.globalSearchTerm;
       }
-      if (routerPageIndex !== pageIndex || searchTerm || filterInQueryExists) {
+      if (routerPageIndex !== pageIndex || searchTerm || filterInQueryExists || isSearchPage) {
         pageChanged(
           routerPageIndex,
           searchTerm,
@@ -331,7 +334,7 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
           setRefPageNumber(newPageIndex + 1);
           setIsLoading(false);
         } else {
-          // import("../../../public/Jsons/AllCards.json").then(
+          // import("../../InternalJsons/AllCards.json").then(
           //   (allCardsModule) => {
           //     if (allCardsModule.default) {
           //       try {
@@ -344,6 +347,19 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
           //         //   false,
           //         //   "text/plain"
           //         // );
+          //         allCardsFromCache.sort(
+          //           (firstColumn, secondColumn) => (firstColumn.nationalPokedexNumbers?.[0] || (allCardsFromCache.length - 1)) - (secondColumn.nationalPokedexNumbers?.[0] || (allCardsFromCache.length - 1))
+          //         );
+          //         let firstPageOfCards = allCardsFromCache.slice(0, DEFAULT_PAGE_SIZE);
+          //         let firstPageOfCardsWithTotalCount = {
+          //           firstPageOfCards,
+          //           totalCount: allCardsFromCache.length,
+          //         };
+          //         Helper.saveTemplateAsFile(
+          //           "firstPageOfCardsWithTotalCount.json",
+          //           firstPageOfCardsWithTotalCount
+          //         );
+          //         Helper.saveTemplateAsFile("AllCards.json", allCardsFromCache);
           //         handleSearchAndFilter(
           //           paramSearchValue,
           //           allCardsFromCache,
@@ -428,9 +444,9 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
       (isSearchPage ? "/search" : "/set/" + router.query.setId) +
       (newPageIndex || searchValue || filterQuery
         ? "?" +
-          (newPageIndex ? "&page=" + newPageIndex : "") +
-          (searchValue ? "&search=" + searchValue : "") +
-          filterQuery
+        (newPageIndex ? "&page=" + newPageIndex : "") +
+        (searchValue ? "&search=" + searchValue : "") +
+        filterQuery
         : "");
     const fixedQuery = updatedQuery.replaceAll("?&", "?");
     router.push(fixedQuery, undefined, { shallow: true });
@@ -481,8 +497,14 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
               Search and filter through all the Pokemon cards ever printed!
             </h1>
           </IF>
-          <IF condition={!appState.offLineMode && !isSearchPage}>
-            <div className="position-relative w-100" style={{ height: "5rem" }}>
+          {!isSearchPage && <>
+            <div
+              className={
+                "position-relative w-100 " +
+                (!appState.offLineMode ? "d-block" : "d-none")
+              }
+              style={{ height: "5rem" }}
+            >
               <ImageComponent
                 src={cardsObject.data[0].set?.images?.logo}
                 alt={cardsObject.data[0].set.name}
@@ -492,15 +514,19 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
                 fallbackImage={"/images/International_Pokémon_logo.png"}
               />
             </div>
-          </IF>
-          <IF condition={appState.offLineMode && !isSearchPage}>
-            <h1 className="mb-0 ms-3 h4">
+            <h1
+              className={
+                "mb-0 ms-3 h4 " +
+                (appState.offLineMode ? "d-block" : "d-none")
+              }
+            >
               {cardsObject.data[0].set.name +
                 " set of " +
                 cardsObject.data[0].set.series}{" "}
               series
             </h1>
-          </IF>
+          </>}
+
         </div>
         <div className="mb-4 row row-cols-2 row-cols-md-3 buttons-wrapper">
           <div className="d-flex align-items-center col col-12 col-md-4 mb-4 mb-md-0">
@@ -538,6 +564,7 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
                 initialPlaceHolder={
                   isSearchPage ? "Global search e.g. " : "Search in set e.g. "
                 }
+                disabled={isSearchPage && setCards === null}
               />
             </div>
           </div>
@@ -549,6 +576,7 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
             syncPagingReferences={syncPagingReferences}
             pageNumber={refPageNumber}
             isLoading={isLoading}
+            disabled={isSearchPage && setCards === null}
           >
             <ListOrGridViewToggle
               isGridView={appState.gridView}
@@ -588,6 +616,8 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
             syncPagingReferences={syncPagingReferences}
             pageNumber={refPageNumber}
             isLoading={isLoading}
+            disabled={isSearchPage && setCards === null}
+            bottomScroll={true}
           >
             <ListOrGridViewToggle
               isGridView={appState.gridView}

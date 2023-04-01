@@ -18,6 +18,8 @@ interface PagingComponentProps {
   pageNumber: number;
   children?: any;
   isLoading: boolean;
+  disabled?: boolean;
+  bottomScroll?: boolean;
 }
 
 export const PagingComponent: FunctionComponent<PagingComponentProps> = ({
@@ -29,6 +31,8 @@ export const PagingComponent: FunctionComponent<PagingComponentProps> = ({
   pageNumber,
   children,
   isLoading = false,
+  disabled = false,
+  bottomScroll = false,
 }) => {
   const [pageIndex, setPageIndex] = useState<number>(paramPageIndex);
   const [pageSize, setPageSize] = useState<number>(paramPageSize);
@@ -38,7 +42,7 @@ export const PagingComponent: FunctionComponent<PagingComponentProps> = ({
   const inputElementRef = useRef<any>();
 
   const cardsPagingOnClick = (newPageIndex: number) => {
-    if (newPageIndex != pageIndex && !isLoading) {
+    if (newPageIndex != pageIndex && !isLoading && !disabled) {
       if (newPageIndex >= 0) {
         let lastPage = Math.floor((numberOfElements - 1) / pageSize);
         if (newPageIndex > lastPage) {
@@ -47,9 +51,15 @@ export const PagingComponent: FunctionComponent<PagingComponentProps> = ({
           refUpdated();
           if (pageIndex !== lastPage) {
             pageChanged(lastPage);
+            if (bottomScroll) {
+              window.scrollTo(0, 0);
+            }
           }
         } else {
           pageChanged(newPageIndex);
+          if (bottomScroll) {
+            window.scrollTo(0, 0);
+          }
           inputElementRef.current.value = newPageIndex + 1;
           refUpdated();
         }
@@ -58,6 +68,9 @@ export const PagingComponent: FunctionComponent<PagingComponentProps> = ({
         refUpdated();
         if (pageIndex !== 0) {
           pageChanged(0);
+          if (bottomScroll) {
+            window.scrollTo(0, 0);
+          }
         }
       }
     }

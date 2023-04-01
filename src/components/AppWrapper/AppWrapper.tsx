@@ -24,6 +24,7 @@ import Link from "next/link";
 import { logoBlurImage } from "../../../base64Images/base64Images";
 import { ToastComponent } from "../UtilityComponents/ToastComponent";
 import { Tooltip } from "bootstrap";
+import ProgressComponent from "../LoaderComponent/ProgressComponent";
 //declare let self: ServiceWorkerGlobalScope;
 
 interface LocalAppInterface {
@@ -46,49 +47,62 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
   const [scrollTop, setScrollTop] = useState(0);
   const [serviceWorkerStatus, setServiceWorkerStatus] =
     useState<string>("loading");
+  const [isNavigationAnimating, setIsNavigationAnimating] = useState(false);
   const swLoaderToastId = "swLoaderToast";
   const backButtonTooltipId = "backButtonTooltipId";
   const darkModeButtonTooltipId = "darkModeButtonTooltipId";
   const offlineButtonTooltipId = "offlineButtonTooltipId";
   const globalSearchButtonTooltipId = "globalSearchButtonTooltipId";
+  const githubTooltipId = "githubTooltipId";
 
   useEffect(() => {
     //if (router.isReady) {
     let bootStrapMasterClass = appState?.bootstrap;
-    const backButtonTrigger = document.getElementById(
-      backButtonTooltipId
-    ) as any;
     let backTooltipInstance: Tooltip,
       offLineTooltipInstance: Tooltip,
       darkModeTooltipInstance: Tooltip,
       globalSearchTooltipInstance: Tooltip;
-    if (bootStrapMasterClass && backButtonTrigger) {
-      backTooltipInstance = new bootStrapMasterClass.Tooltip(backButtonTrigger);
+
+
+    if (bootStrapMasterClass) {
+      const backButtonTrigger = document.getElementById(
+        backButtonTooltipId
+      ) as any;
+      if (backButtonTrigger) {
+        backTooltipInstance = new bootStrapMasterClass.Tooltip(backButtonTrigger);
+      }
+      const offlineButtonTrigger = document.getElementById(
+        offlineButtonTooltipId
+      ) as any;
+      if (offlineButtonTrigger) {
+        offLineTooltipInstance = new bootStrapMasterClass.Tooltip(
+          offlineButtonTrigger
+        );
+      }
+      const darkModeButtonTrigger = document.getElementById(
+        darkModeButtonTooltipId
+      ) as any;
+      if (darkModeButtonTrigger) {
+        darkModeTooltipInstance = new bootStrapMasterClass.Tooltip(
+          darkModeButtonTrigger
+        );
+      }
+      const globalSearchButtonTrigger = document.getElementById(
+        globalSearchButtonTooltipId
+      ) as any;
+      if (globalSearchButtonTrigger) {
+        globalSearchTooltipInstance = new bootStrapMasterClass.Tooltip(
+          globalSearchButtonTrigger
+        );
+      }
+      const githubTrigger = document.getElementById(
+        githubTooltipId
+      ) as any;
+      if (githubTrigger) {
+        backTooltipInstance = new bootStrapMasterClass.Tooltip(githubTrigger);
+      }
     }
-    const offlineButtonTrigger = document.getElementById(
-      offlineButtonTooltipId
-    ) as any;
-    if (bootStrapMasterClass && offlineButtonTrigger) {
-      offLineTooltipInstance = new bootStrapMasterClass.Tooltip(
-        offlineButtonTrigger
-      );
-    }
-    const darkModeButtonTrigger = document.getElementById(
-      darkModeButtonTooltipId
-    ) as any;
-    if (bootStrapMasterClass && darkModeButtonTrigger) {
-      darkModeTooltipInstance = new bootStrapMasterClass.Tooltip(
-        darkModeButtonTrigger
-      );
-    }
-    const globalSearchButtonTrigger = document.getElementById(
-      globalSearchButtonTooltipId
-    ) as any;
-    if (bootStrapMasterClass && globalSearchButtonTrigger) {
-      globalSearchTooltipInstance = new bootStrapMasterClass.Tooltip(
-        globalSearchButtonTrigger
-      );
-    }
+
     return () => {
       backTooltipInstance?.dispose();
       offLineTooltipInstance?.dispose();
@@ -124,6 +138,24 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
       }
     }
   }, [router.asPath]);
+  useEffect(() => {
+    const handleStart = () => {
+      setIsNavigationAnimating(true);
+    };
+    const handleStop = () => {
+      setIsNavigationAnimating(false);
+    };
+
+    router.events.on("routeChangeStart", handleStart);
+    router.events.on("routeChangeComplete", handleStop);
+    router.events.on("routeChangeError", handleStop);
+
+    return () => {
+      router.events.off("routeChangeStart", handleStart);
+      router.events.off("routeChangeComplete", handleStop);
+      router.events.off("routeChangeError", handleStop);
+    };
+  }, [router.events]);
   const showToast = (bootstrap: any) => {
     const toastLiveExample = document.getElementById(swLoaderToastId);
     if (toastLiveExample && bootstrap) {
@@ -135,22 +167,22 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
       Helper.getLocalStorageItem("appState");
     let darkModeValue =
       localAppState?.hasOwnProperty("darkMode") &&
-      typeof localAppState.darkMode === "boolean"
+        typeof localAppState.darkMode === "boolean"
         ? localAppState.darkMode
         : true;
     let gridViewValue =
       localAppState?.hasOwnProperty("gridView") &&
-      typeof localAppState.gridView === "boolean"
+        typeof localAppState.gridView === "boolean"
         ? localAppState.gridView
         : false;
     let sidebarCollapsedValue =
       localAppState?.hasOwnProperty("sidebarCollapsed") &&
-      typeof localAppState.sidebarCollapsed === "boolean"
+        typeof localAppState.sidebarCollapsed === "boolean"
         ? localAppState.sidebarCollapsed
         : false;
     let offLineModeValue =
       localAppState?.hasOwnProperty("offLineMode") &&
-      typeof localAppState.offLineMode === "boolean"
+        typeof localAppState.offLineMode === "boolean"
         ? localAppState.offLineMode
         : false;
     multiUpdate?.({
@@ -210,6 +242,9 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
           "#" + globalSearchButtonTooltipId
         );
       globalSearchButtonTooltipInstance?.hide();
+      const githubTooltipInstance: Tooltip =
+        bootStrapMasterClass.Tooltip.getInstance("#" + githubTooltipId);
+      githubTooltipInstance?.hide();
     }
   };
 
@@ -223,6 +258,7 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
       }
       style={{ minHeight: "100vh" }}
     >
+      <ProgressComponent isAnimating={isNavigationAnimating}></ProgressComponent>
       <header className="container pt-3 pb-4">
         <div className={"d-flex align-items-center row"}>
           <div className="col d-flex align-items-center">
@@ -242,8 +278,8 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
                       navigator.onLine
                         ? pathToRedirect || "/"
                         : pathToRedirect
-                        ? pathToRedirect.split("?")[0]
-                        : "/"
+                          ? pathToRedirect.split("?")[0]
+                          : "/"
                     );
                   }}
                 />
@@ -352,10 +388,12 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
           <small className="d-flex flex-column">
             <span>
               The Next Generation Pokemon TCG database. By{" "}
-              <Link href="https://github.com/aidotaosm" target="_blank">
+              <Link href="https://github.com/aidotaosm" target="_blank" data-bs-title={"Click to visit this project is in my Github! Maybe give it a start?"}
+                data-bs-toggle="tooltip"
+                data-bs-trigger="hover"
+                id={backButtonTooltipId}>
                 Osama
-              </Link>{" "}
-              ©2023
+              </Link>
             </span>
             <span className="mt-1">
               This website is not produced, endorsed, supported, or affiliated
@@ -406,8 +444,8 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
           {serviceWorkerStatus === "loading"
             ? "This feature allows you to use offline features and enhances the user experience. Give us a moment while it installs."
             : serviceWorkerStatus === "done"
-            ? "Service worker is successfully running. You can now enjoy an enhanced experience and benefit from supported offline features."
-            : "Service worker couldn't be installed. You can continue to use the site normally. But offline features have been turned off. You may try refreshing the page or using a different (newer) browser."}
+              ? "Service worker is successfully running. You can now enjoy an enhanced experience and benefit from supported offline features."
+              : "Service worker couldn't be installed. You can continue to use the site normally. But offline features have been turned off. You may try refreshing the page or using a different (newer) browser."}
         </div>
       </ToastComponent>
     </div>

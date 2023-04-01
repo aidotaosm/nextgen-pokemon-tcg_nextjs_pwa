@@ -10,6 +10,7 @@ interface LocalSearchComponentProps {
   ) => void;
   initialPlaceHolder?: string;
   defaultSearchTerm?: string;
+  disabled?: boolean;
 }
 export const LocalSearchComponent: FunctionComponent<
   LocalSearchComponentProps
@@ -17,101 +18,105 @@ export const LocalSearchComponent: FunctionComponent<
   setSearchValueFunction,
   initialPlaceHolder = "Search cards e.g. ",
   defaultSearchTerm = "",
+  disabled = false
 }) => {
-  useEffect(() => {
-    let timeout: any = null;
-    const animate = (randomIndex: number) => {
-      let ph = random_pokemon_names[randomIndex];
-      let searchBar = document.getElementById("search") as HTMLInputElement;
-      // placeholder loop counter
-      let phCount = 0;
+    useEffect(() => {
+      let timeout: any = null;
+      const animate = (randomIndex: number) => {
+        let ph = random_pokemon_names[randomIndex];
+        let searchBar = document.getElementById("search") as HTMLInputElement;
+        // placeholder loop counter
+        let phCount = 0;
 
-      // function to return random number between
-      // with min/max range
-      const randDelay = (min: number, max: number) => {
-        let delayValue = Math.floor(Math.random() * (max - min + 1) + min);
-        return delayValue;
+        // function to return random number between
+        // with min/max range
+        const randDelay = (min: number, max: number) => {
+          let delayValue = Math.floor(Math.random() * (max - min + 1) + min);
+          return delayValue;
+        };
+
+        // function to print placeholder text in a
+        // 'typing' effect
+        const printLetter = (string: string, el: HTMLInputElement) => {
+          // split string into character seperated array
+          let arr = string.split(""),
+            input = el,
+            // store full placeholder
+            origString = string,
+            // get current placeholder value
+            curPlace = input.placeholder,
+            // append next letter to current placeholder
+            placeholder = curPlace + arr[phCount];
+
+          timeout = setTimeout(() => {
+            // print placeholder text
+            input.placeholder = placeholder;
+            // increase loop count
+            phCount++;
+            // run loop until placeholder is fully printed
+            if (phCount < arr.length) {
+              //clearTimeout(timeout);
+              //timeout = printLetter(origString, input);
+              printLetter(origString, input);
+            }
+            // use random speed to simulate
+            // 'human' typing
+          }, randDelay(30, 199));
+        };
+
+        // function to init animation
+        const placeholder = () => {
+          searchBar.placeholder = initialPlaceHolder;
+          printLetter(ph, searchBar);
+        };
+        placeholder();
       };
+      let interval = setInterval(() => {
+        clearTimeout(timeout);
+        let randomIndex = Math.floor(Math.random() * random_pokemon_names.length);
+        animate(randomIndex);
+      }, 2000);
 
-      // function to print placeholder text in a
-      // 'typing' effect
-      const printLetter = (string: string, el: HTMLInputElement) => {
-        // split string into character seperated array
-        let arr = string.split(""),
-          input = el,
-          // store full placeholder
-          origString = string,
-          // get current placeholder value
-          curPlace = input.placeholder,
-          // append next letter to current placeholder
-          placeholder = curPlace + arr[phCount];
-
-        timeout = setTimeout(() => {
-          // print placeholder text
-          input.placeholder = placeholder;
-          // increase loop count
-          phCount++;
-          // run loop until placeholder is fully printed
-          if (phCount < arr.length) {
-            //clearTimeout(timeout);
-            //timeout = printLetter(origString, input);
-            printLetter(origString, input);
-          }
-          // use random speed to simulate
-          // 'human' typing
-        }, randDelay(30, 199));
+      return () => {
+        clearTimeout(timeout);
+        clearInterval(interval);
       };
-
-      // function to init animation
-      const placeholder = () => {
-        searchBar.placeholder = initialPlaceHolder;
-        printLetter(ph, searchBar);
-      };
-      placeholder();
-    };
-    let interval = setInterval(() => {
-      clearTimeout(timeout);
-      let randomIndex = Math.floor(Math.random() * random_pokemon_names.length);
-      animate(randomIndex);
-    }, 2000);
-
-    return () => {
-      clearTimeout(timeout);
-      clearInterval(interval);
-    };
-  }, []);
-  return (
-    <div className="input-group flex-nowrap">
-      <input
-        onKeyUp={(e) => {
-          if (e.key === "Enter") {
-            let fieldValue = (
-              document.getElementById("search") as HTMLInputElement
-            ).value;
-            setSearchValueFunction(fieldValue, "submit");
-          }
-        }}
-        title="Search"
-        value={defaultSearchTerm}
-        type="text"
-        id="search"
-        className="form-control search"
-        placeholder={initialPlaceHolder}
-        onChange={(e) => {
-          setSearchValueFunction(e.target.value, "onChange");
-        }}
-      />
-      <span
-        className="input-group-text cursor-pointer"
-        onClick={() => {
-          let fieldValue = (
-            document.getElementById("search") as HTMLInputElement
-          ).value;
-          setSearchValueFunction(fieldValue, "submit");
-        }}
-      >
-        <FontAwesomeIcon className="fs-5" icon={faSearch} />
-      </span>
-    </div>
-  );
-};
+    }, []);
+    const triggerSearch = () => {
+      if (!disabled) {
+        let fieldValue = (
+          document.getElementById("search") as HTMLInputElement
+        ).value;
+        setSearchValueFunction(fieldValue, "submit");
+      }
+    }
+    return (
+      <div className="input-group flex-nowrap">
+        <input
+          onKeyUp={(e) => {
+            if (e.key === "Enter") {
+              triggerSearch();
+            }
+          }}
+          disabled={disabled}
+          title="Search"
+          value={defaultSearchTerm}
+          type="text"
+          id="search"
+          className="form-control search"
+          placeholder={initialPlaceHolder}
+          onChange={(e) => {
+            setSearchValueFunction(e.target.value, "onChange");
+          }}
+        />
+        <span
+          className="input-group-text cursor-pointer"
+          onClick={() => {
+            triggerSearch();
+          }}
+        >
+          <FontAwesomeIcon className="fs-5" icon={faSearch} />
+        </span>
+      </div>
+    );
+  };

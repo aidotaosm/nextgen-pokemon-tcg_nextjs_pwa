@@ -9,8 +9,8 @@ import { Fragment, FunctionComponent } from "react";
 import { SetComponent } from "../src/components/SetComponent/SetComponent";
 import { CardsObjectProps } from "../src/models/GenericModels";
 import { Helper } from "../src/utils/helper";
-import importedFirstPageOfCardsWithTotalCount from "../src/InternalJsons/firstPageOfCardsWithTotalCount.json";
-interface IParams extends ParsedUrlQuery {}
+import importedAllCardsTotalCount from "../src/InternalJsons/firstPageOfCardsWithTotalCount.json";
+interface IParams extends ParsedUrlQuery { }
 
 export const getStaticProps: GetStaticProps = async (context) => {
   // const dynamicallyImportedJson: any = (
@@ -21,12 +21,12 @@ export const getStaticProps: GetStaticProps = async (context) => {
   // let firstPageOfCards = parsedAllCards.slice(0, DEFAULT_PAGE_SIZE);
   //console.log(firstPageOfCards);
   const cardsObject = {
-    data: importedFirstPageOfCardsWithTotalCount.firstPageOfCards,
-    totalCount: importedFirstPageOfCardsWithTotalCount.totalCount,
+    data: [],
+    totalCount: importedAllCardsTotalCount.totalCount,
   };
   //const cardsObject = { data: await getAllCards() };
 
-  if (!cardsObject?.data?.length) {
+  if (!cardsObject.totalCount) {
     return { notFound: true, revalidate: 60 };
   } else {
     return { props: { cardsObject }, revalidate: 60 * 60 * 24 * 2 }; // 2 days
