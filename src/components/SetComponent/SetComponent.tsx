@@ -40,16 +40,19 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
   const getCardsForServerSide = () => {
     let from = 0 * DEFAULT_PAGE_SIZE;
     let to = (0 + 1) * DEFAULT_PAGE_SIZE;
-    let changedSetOfCards: any[] = cardsObject?.data.slice(from, to);
+    let changedSetOfCards: any[] | null = null;
+    if (!isSearchPage) {
+      changedSetOfCards = cardsObject?.data.slice(from, to);
+    };
     return changedSetOfCards;
-  };
+  }
   const [totalCount, setTotalCount] = useState<number>(
     cardsObject?.totalCount || 0
   );
   const [allCardsLoading, setAllCardsLoading] = useState<boolean>(true);
   const [allCardsFromNetwork, setAllCardsFromNetwork] = useState<any[]>([]);
-  const [setCards, setSetCards] = useState<any[]>(
-    getCardsForServerSide() || []
+  const [setCards, setSetCards] = useState<any>(
+    getCardsForServerSide()
   );
   const [pageIndex, setPageIndex] = useState<number>(0);
   const [refPageNumber, setRefPageNumber] = useState<number>(0);
@@ -151,7 +154,7 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
       if (appState.globalSearchTerm) {
         searchTerm = appState.globalSearchTerm;
       }
-      if (routerPageIndex !== pageIndex || searchTerm || filterInQueryExists) {
+      if (routerPageIndex !== pageIndex || searchTerm || filterInQueryExists || isSearchPage) {
         pageChanged(
           routerPageIndex,
           searchTerm,
@@ -559,6 +562,7 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
                 initialPlaceHolder={
                   isSearchPage ? "Global search e.g. " : "Search in set e.g. "
                 }
+                disabled={isSearchPage && setCards === null}
               />
             </div>
           </div>
@@ -570,6 +574,7 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
             syncPagingReferences={syncPagingReferences}
             pageNumber={refPageNumber}
             isLoading={isLoading}
+            disabled={isSearchPage && setCards === null}
           >
             <ListOrGridViewToggle
               isGridView={appState.gridView}
@@ -609,6 +614,7 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
             syncPagingReferences={syncPagingReferences}
             pageNumber={refPageNumber}
             isLoading={isLoading}
+            disabled={isSearchPage && setCards === null}
           >
             <ListOrGridViewToggle
               isGridView={appState.gridView}

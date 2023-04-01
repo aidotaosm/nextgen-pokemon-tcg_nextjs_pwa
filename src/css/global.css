@@ -722,3 +722,14 @@ a.white-hover:hover,
 .carousel-loading .carousel {
   visibility: hidden;
 }
+.ant-checkbox-inner,
+.ant-select-selector {
+  border-color: #0000002d !important;
+}
+.dark-mode .ant-checkbox-inner,
+.dark-mode .ant-select-selector {
+  border-color: #464646 !important;
+}
+/* body {
+  background-image: url(/images/pokeball-icon-sign-seamless-pattern.webp);
+} */

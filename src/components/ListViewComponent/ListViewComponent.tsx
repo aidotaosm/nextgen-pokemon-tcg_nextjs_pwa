@@ -12,6 +12,7 @@ import { AppContext } from "../../contexts/AppContext";
 import { SetCardsProps } from "../../models/GenericModels";
 import { ImageComponent } from "../ImageComponent/ImageComponent";
 import { PokemonCardAndDetailsComponent } from "../PokemonCardAndDetailsComponent/PokemonCardAndDetailsComponent";
+import { PokemonCardAndDetailsSkeletonComponent } from "../PokemonCardAndDetailsSkeletonComponent/PokemonCardAndDetailsSkeletonComponent";
 import { CarouselComponent } from "../UtilityComponents/CarouselComponent";
 import { IF } from "../UtilityComponents/IF";
 import MemoizedModalComponent from "../UtilityComponents/ModalComponent";
@@ -64,7 +65,7 @@ export const ListViewComponent: FunctionComponent<SetCardsProps> = ({
                   width={734}
                   height={1024}
                   blurDataURL={defaultBlurImage}
-                  className="position-relative h-100 w-100"
+                  className="rounded position-relative h-100 w-100"
                 />
               </div>
             </div>
@@ -98,9 +99,32 @@ export const ListViewComponent: FunctionComponent<SetCardsProps> = ({
           </div>
         ))}
       </div>
-      <IF condition={!setCards.length}>
+      <IF condition={setCards?.length === 0}>
         <div className="d-flex justify-content-center flex-grow-1">
           <h2 className="align-self-center mb-0">No cards found.</h2>
+        </div>
+      </IF>
+      <IF condition={setCards === null}>
+        <div className="list-view-wrapper w-100">
+          {[...Array(20)].map((card: any, index: number) => (
+            <div
+              key={index}
+              className={
+                "align-items-center mb-5 " +
+                (appState.sidebarCollapsed
+                  ? "justify-content-center full-screen-view d-md-flex"
+                  : "d-lg-flex list-view justify-content-end")
+              }
+            >
+              <PokemonCardAndDetailsSkeletonComponent
+                detailsClasses={
+                  appState.sidebarCollapsed
+                    ? "mt-5 mt-md-0 ms-md-5 flex-grow-1"
+                    : "mt-5 mt-lg-0 ms-lg-5 flex-grow-1"
+                }
+              />
+            </div>
+          ))}
         </div>
       </IF>
       <MemoizedModalComponent

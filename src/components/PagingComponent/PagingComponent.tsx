@@ -18,6 +18,7 @@ interface PagingComponentProps {
   pageNumber: number;
   children?: any;
   isLoading: boolean;
+  disabled?: boolean;
 }
 
 export const PagingComponent: FunctionComponent<PagingComponentProps> = ({
@@ -29,6 +30,7 @@ export const PagingComponent: FunctionComponent<PagingComponentProps> = ({
   pageNumber,
   children,
   isLoading = false,
+  disabled = false
 }) => {
   const [pageIndex, setPageIndex] = useState<number>(paramPageIndex);
   const [pageSize, setPageSize] = useState<number>(paramPageSize);
@@ -38,7 +40,7 @@ export const PagingComponent: FunctionComponent<PagingComponentProps> = ({
   const inputElementRef = useRef<any>();
 
   const cardsPagingOnClick = (newPageIndex: number) => {
-    if (newPageIndex != pageIndex && !isLoading) {
+    if (newPageIndex != pageIndex && !isLoading && !disabled) {
       if (newPageIndex >= 0) {
         let lastPage = Math.floor((numberOfElements - 1) / pageSize);
         if (newPageIndex > lastPage) {
