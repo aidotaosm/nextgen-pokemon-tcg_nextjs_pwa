@@ -331,7 +331,7 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
           setRefPageNumber(newPageIndex + 1);
           setIsLoading(false);
         } else {
-          // import("../../../public/Jsons/AllCards.json").then(
+          // import("../../InternalJsons/AllCards.json").then(
           //   (allCardsModule) => {
           //     if (allCardsModule.default) {
           //       try {
@@ -344,6 +344,19 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
           //         //   false,
           //         //   "text/plain"
           //         // );
+          //         allCardsFromCache.sort(
+          //           (firstColumn, secondColumn) => (firstColumn.nationalPokedexNumbers?.[0] || (allCardsFromCache.length - 1)) - (secondColumn.nationalPokedexNumbers?.[0] || (allCardsFromCache.length - 1))
+          //         );
+          //         let firstPageOfCards = allCardsFromCache.slice(0, DEFAULT_PAGE_SIZE);
+          //         let firstPageOfCardsWithTotalCount = {
+          //           firstPageOfCards,
+          //           totalCount: allCardsFromCache.length,
+          //         };
+          //         Helper.saveTemplateAsFile(
+          //           "firstPageOfCardsWithTotalCount.json",
+          //           firstPageOfCardsWithTotalCount
+          //         );
+          //         Helper.saveTemplateAsFile("AllCards.json", allCardsFromCache);
           //         handleSearchAndFilter(
           //           paramSearchValue,
           //           allCardsFromCache,
@@ -428,9 +441,9 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
       (isSearchPage ? "/search" : "/set/" + router.query.setId) +
       (newPageIndex || searchValue || filterQuery
         ? "?" +
-          (newPageIndex ? "&page=" + newPageIndex : "") +
-          (searchValue ? "&search=" + searchValue : "") +
-          filterQuery
+        (newPageIndex ? "&page=" + newPageIndex : "") +
+        (searchValue ? "&search=" + searchValue : "") +
+        filterQuery
         : "");
     const fixedQuery = updatedQuery.replaceAll("?&", "?");
     router.push(fixedQuery, undefined, { shallow: true });
