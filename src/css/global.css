@@ -732,4 +732,15 @@ a.white-hover:hover,
 }
 /* body {
   background-image: url(/images/pokeball-icon-sign-seamless-pattern.webp);
+  loader-color h-1 w-full left-0 top-0 fixed z-50
 } */
+
+.navigation-loader {
+  height: 0.25rem;
+  width: 100vw;
+  left: 0;
+  top: 0;
+  z-index: 50;
+  position: fixed;
+  background-color: #0dcaf0;
+}

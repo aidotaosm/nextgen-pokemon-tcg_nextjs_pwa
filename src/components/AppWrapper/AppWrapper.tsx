@@ -24,6 +24,7 @@ import Link from "next/link";
 import { logoBlurImage } from "../../../base64Images/base64Images";
 import { ToastComponent } from "../UtilityComponents/ToastComponent";
 import { Tooltip } from "bootstrap";
+import ProgressComponent from "../LoaderComponent/ProgressComponent";
 //declare let self: ServiceWorkerGlobalScope;
 
 interface LocalAppInterface {
@@ -46,6 +47,7 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
   const [scrollTop, setScrollTop] = useState(0);
   const [serviceWorkerStatus, setServiceWorkerStatus] =
     useState<string>("loading");
+  const [isNavigationAnimating, setIsNavigationAnimating] = useState(false);
   const swLoaderToastId = "swLoaderToast";
   const backButtonTooltipId = "backButtonTooltipId";
   const darkModeButtonTooltipId = "darkModeButtonTooltipId";
@@ -124,6 +126,24 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
       }
     }
   }, [router.asPath]);
+  useEffect(() => {
+    const handleStart = () => {
+      setIsNavigationAnimating(true);
+    };
+    const handleStop = () => {
+      setIsNavigationAnimating(false);
+    };
+
+    router.events.on("routeChangeStart", handleStart);
+    router.events.on("routeChangeComplete", handleStop);
+    router.events.on("routeChangeError", handleStop);
+
+    return () => {
+      router.events.off("routeChangeStart", handleStart);
+      router.events.off("routeChangeComplete", handleStop);
+      router.events.off("routeChangeError", handleStop);
+    };
+  }, [router.events]);
   const showToast = (bootstrap: any) => {
     const toastLiveExample = document.getElementById(swLoaderToastId);
     if (toastLiveExample && bootstrap) {
@@ -135,22 +155,22 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
       Helper.getLocalStorageItem("appState");
     let darkModeValue =
       localAppState?.hasOwnProperty("darkMode") &&
-      typeof localAppState.darkMode === "boolean"
+        typeof localAppState.darkMode === "boolean"
         ? localAppState.darkMode
         : true;
     let gridViewValue =
       localAppState?.hasOwnProperty("gridView") &&
-      typeof localAppState.gridView === "boolean"
+        typeof localAppState.gridView === "boolean"
         ? localAppState.gridView
         : false;
     let sidebarCollapsedValue =
       localAppState?.hasOwnProperty("sidebarCollapsed") &&
-      typeof localAppState.sidebarCollapsed === "boolean"
+        typeof localAppState.sidebarCollapsed === "boolean"
         ? localAppState.sidebarCollapsed
         : false;
     let offLineModeValue =
       localAppState?.hasOwnProperty("offLineMode") &&
-      typeof localAppState.offLineMode === "boolean"
+        typeof localAppState.offLineMode === "boolean"
         ? localAppState.offLineMode
         : false;
     multiUpdate?.({
@@ -223,6 +243,7 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
       }
       style={{ minHeight: "100vh" }}
     >
+      <ProgressComponent isAnimating={isNavigationAnimating}></ProgressComponent>
       <header className="container pt-3 pb-4">
         <div className={"d-flex align-items-center row"}>
           <div className="col d-flex align-items-center">
@@ -242,8 +263,8 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
                       navigator.onLine
                         ? pathToRedirect || "/"
                         : pathToRedirect
-                        ? pathToRedirect.split("?")[0]
-                        : "/"
+                          ? pathToRedirect.split("?")[0]
+                          : "/"
                     );
                   }}
                 />
@@ -406,8 +427,8 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
           {serviceWorkerStatus === "loading"
             ? "This feature allows you to use offline features and enhances the user experience. Give us a moment while it installs."
             : serviceWorkerStatus === "done"
-            ? "Service worker is successfully running. You can now enjoy an enhanced experience and benefit from supported offline features."
-            : "Service worker couldn't be installed. You can continue to use the site normally. But offline features have been turned off. You may try refreshing the page or using a different (newer) browser."}
+              ? "Service worker is successfully running. You can now enjoy an enhanced experience and benefit from supported offline features."
+              : "Service worker couldn't be installed. You can continue to use the site normally. But offline features have been turned off. You may try refreshing the page or using a different (newer) browser."}
         </div>
       </ToastComponent>
     </div>
