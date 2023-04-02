@@ -7,4 +7,6 @@ export enum FilterFieldNames {
   cardType = "card-type",
   subType = "sub-type",
   rarity = "rarity",
+  hpRange = "hp-range",
+  regulationMarks = "regulation-marks"
 }

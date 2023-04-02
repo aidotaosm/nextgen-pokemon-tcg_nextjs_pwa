@@ -29,7 +29,7 @@ import energyTypes from "../../InternalJsons/AllTypes.json";
 import superTypes from "../../InternalJsons/AllSuperTypes.json";
 import subTypes from "../../InternalJsons/AllSubtypes.json";
 import rarities from "../../InternalJsons/AllRarities.json";
-import { Helper } from "../../utils/helper";
+import regulationMarks from "../../InternalJsons/AllRegulationMarks.json";
 
 export const SetComponent: FunctionComponent<CardsObjectProps> = ({
   cardsObject,
@@ -90,13 +90,13 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
                 });
               }
               break;
-            case FilterFieldNames.cardType:
+            case FilterFieldNames.regulationMarks:
               if (fieldValue.length) {
                 let TypedFieldValue = fieldValue.split(",") as string[];
                 correctedFieldValues[fieldName] = [];
-                TypedFieldValue.forEach((cardType) => {
-                  if (superTypes.includes(cardType)) {
-                    correctedFieldValues[fieldName].push(cardType);
+                TypedFieldValue.forEach((regulationMark) => {
+                  if (regulationMarks.includes(regulationMark)) {
+                    correctedFieldValues[fieldName].push(regulationMark);
                   }
                 });
               }
@@ -119,6 +119,17 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
                 TypedFieldValue.forEach((rarity) => {
                   if (rarities.includes(rarity)) {
                     correctedFieldValues[fieldName].push(rarity);
+                  }
+                });
+              }
+              break;
+            case FilterFieldNames.cardType:
+              if (fieldValue.length) {
+                let TypedFieldValue = fieldValue.split(",") as string[];
+                correctedFieldValues[fieldName] = [];
+                TypedFieldValue.forEach((cardType) => {
+                  if (superTypes.includes(cardType)) {
+                    correctedFieldValues[fieldName].push(cardType);
                   }
                 });
               }
@@ -233,19 +244,25 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
               });
             }
             break;
-          case FilterFieldNames.cardType:
+          case FilterFieldNames.regulationMarks:
             if (fieldValue.length) {
               let TypedFieldValue = fieldValue as string[];
-              let cardTypeResult: any[] = [];
-              TypedFieldValue.forEach((cardType) => {
-                cardTypeResult = [
-                  ...cardTypeResult,
+              let regulationMarks: any[] = [];
+              TypedFieldValue.forEach((regulationMark) => {
+                regulationMarks = [
+                  ...regulationMarks,
                   ...tempChangedCards.filter((card: any) => {
-                    return card.supertype === cardType;
+                    return (
+                      card.regulationMark &&
+                      (card.regulationMark === regulationMark)
+                    );
                   }),
                 ];
               });
-              tempChangedCards = cardTypeResult;
+              tempChangedCards = regulationMarks.filter(
+                (value, index, self) =>
+                  self.findIndex((v) => v.id === value.id) === index
+              );
             }
             break;
           case FilterFieldNames.subType:
@@ -285,6 +302,21 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
                 (value, index, self) =>
                   self.findIndex((v) => v.id === value.id) === index
               );
+            }
+            break;
+          case FilterFieldNames.cardType:
+            if (fieldValue.length) {
+              let TypedFieldValue = fieldValue as string[];
+              let cardTypeResult: any[] = [];
+              TypedFieldValue.forEach((cardType) => {
+                cardTypeResult = [
+                  ...cardTypeResult,
+                  ...tempChangedCards.filter((card: any) => {
+                    return card.supertype === cardType;
+                  }),
+                ];
+              });
+              tempChangedCards = cardTypeResult;
             }
             break;
         }
@@ -413,7 +445,7 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
               filterQuery += "&" + fieldName + "=" + TypedFieldValue;
             }
             break;
-          case FilterFieldNames.cardType:
+          case FilterFieldNames.regulationMarks:
             if (fieldValue.length) {
               let TypedFieldValue = fieldValue as string[];
               TypedFieldValue.join(",");
@@ -428,6 +460,13 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
             }
             break;
           case FilterFieldNames.rarity:
+            if (fieldValue.length) {
+              let TypedFieldValue = fieldValue as string[];
+              TypedFieldValue.join(",");
+              filterQuery += "&" + fieldName + "=" + TypedFieldValue;
+            }
+            break;
+          case FilterFieldNames.cardType:
             if (fieldValue.length) {
               let TypedFieldValue = fieldValue as string[];
               TypedFieldValue.join(",");
