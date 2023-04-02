@@ -31,7 +31,7 @@ export const PokemonCardAndDetailsSkeletonComponent: FunctionComponent<
                   blurDataURL={defaultBlurImage}
                   height={342}
                   className={
-                    "special-card position-relative h-100 w-100 rounded  "
+                    "special-card position-relative h-100 w-100 rounded blurred"
                   }
                 />
               </div>

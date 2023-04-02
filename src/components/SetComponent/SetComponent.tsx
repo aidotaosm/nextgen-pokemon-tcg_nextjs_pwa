@@ -49,7 +49,6 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
   const [totalCount, setTotalCount] = useState<number>(
     cardsObject?.totalCount || 0
   );
-  const [allCardsLoading, setAllCardsLoading] = useState<boolean>(true);
   const [allCardsFromNetwork, setAllCardsFromNetwork] = useState<any[]>([]);
   const [setCards, setSetCards] = useState<any>(
     getCardsForServerSide()
@@ -131,7 +130,7 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
       if (filterInQueryExists) {
         formInstance.setFieldsValue(correctedFieldValues);
       }
-
+      let tempTotalCount = isSearchPage ? paramAllCardsREsponse?.length : cardsObject.totalCount;
       if (
         router.query.page &&
         !isNaN(+router.query.page) &&
@@ -139,9 +138,9 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
       ) {
         if (
           (+router.query.page + 1) * DEFAULT_PAGE_SIZE >
-          cardsObject.totalCount
+          tempTotalCount
         ) {
-          let lastPage = Math.floor(cardsObject.totalCount / DEFAULT_PAGE_SIZE);
+          let lastPage = Math.floor(tempTotalCount / DEFAULT_PAGE_SIZE);
           routerPageIndex = lastPage;
         } else {
           routerPageIndex = +router.query.page;
@@ -164,12 +163,11 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
         setSearchValue(searchTerm);
       }
     };
-    if (cardsObject && router.isReady) {
+    if ((cardsObject || isSearchPage) && router.isReady) {
       if (isSearchPage) {
         getAllCardsJSONFromFileBaseIPFS()
           .then((allCardsResponse) => {
             setAllCardsFromNetwork(allCardsResponse);
-            setAllCardsLoading(false);
             filterCardsOnLoad(allCardsResponse);
           })
           .catch((e) => {

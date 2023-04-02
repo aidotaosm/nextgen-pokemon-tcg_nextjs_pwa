@@ -391,9 +391,9 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
               <Link href="https://github.com/aidotaosm" target="_blank" data-bs-title={"Click to visit this project is in my Github! Maybe give it a start?"}
                 data-bs-toggle="tooltip"
                 data-bs-trigger="hover"
-                id={backButtonTooltipId}>
+                id={githubTooltipId}>
                 Osama
-              </Link>
+              </Link>.
             </span>
             <span className="mt-1">
               This website is not produced, endorsed, supported, or affiliated
