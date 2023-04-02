@@ -745,3 +745,6 @@ a.white-hover:hover,
   background-color: #0dcaf0;
   border-radius: 5px;
 }
+.blurred {
+  filter: blur(15px);
+}
