@@ -261,6 +261,7 @@ html {
   min-width: 0 !important;
   overflow: hidden;
   margin-right: 0;
+  height: 0;
 }
 
 .sidebar-content-wrapper:not(.collapsed) .sidebar {

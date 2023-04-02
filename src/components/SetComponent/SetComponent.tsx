@@ -24,7 +24,7 @@ import { Form } from "antd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faBarsStaggered } from "@fortawesome/free-solid-svg-icons";
 import Tooltip from "bootstrap/js/dist/tooltip";
-import { FilterFieldNames } from "../../models/Enums";
+import { FilterFieldNames, ValidHPRange } from "../../models/Enums";
 import energyTypes from "../../InternalJsons/AllTypes.json";
 import superTypes from "../../InternalJsons/AllSuperTypes.json";
 import subTypes from "../../InternalJsons/AllSubtypes.json";
@@ -119,6 +119,17 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
                 TypedFieldValue.forEach((rarity) => {
                   if (rarities.includes(rarity)) {
                     correctedFieldValues[fieldName].push(rarity);
+                  }
+                });
+              }
+              break;
+            case FilterFieldNames.hpRange:
+              if (fieldValue) {
+                let TypedFieldValue = fieldValue.split(",") as string[];
+                correctedFieldValues[fieldName] = [];
+                TypedFieldValue.forEach((hp) => {
+                  if (ValidHPRange.max >= +hp && ValidHPRange.min <= +hp) {
+                    correctedFieldValues[fieldName].push(+hp);
                   }
                 });
               }
@@ -304,6 +315,16 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
               );
             }
             break;
+          case FilterFieldNames.hpRange:
+            if (fieldValue.length) {
+              let TypedFieldValue = fieldValue as number[];
+              tempChangedCards = tempChangedCards.filter((card: any) => {
+                return (
+                  (card.hp && (+card.hp as number) >= TypedFieldValue[0] && (+card.hp as number) <= TypedFieldValue[1]) || (card.supertype !== superTypes[1])
+                );
+              });
+            }
+            break;
           case FilterFieldNames.cardType:
             if (fieldValue.length) {
               let TypedFieldValue = fieldValue as string[];
@@ -462,6 +483,13 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
           case FilterFieldNames.rarity:
             if (fieldValue.length) {
               let TypedFieldValue = fieldValue as string[];
+              TypedFieldValue.join(",");
+              filterQuery += "&" + fieldName + "=" + TypedFieldValue;
+            }
+            break;
+          case FilterFieldNames.hpRange:
+            if (fieldValue.length) {
+              let TypedFieldValue = fieldValue as number[];
               TypedFieldValue.join(",");
               filterQuery += "&" + fieldName + "=" + TypedFieldValue;
             }

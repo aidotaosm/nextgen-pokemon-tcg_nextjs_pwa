@@ -8,7 +8,7 @@ import rarities from "../../InternalJsons/AllRarities.json";
 import { Checkbox, ConfigProvider, Form, Select, Slider, theme } from "antd";
 import { EnergyComponent } from "../UtilityComponents/EnergyComponent";
 import { AppContext } from "../../contexts/AppContext";
-import { FilterFieldNames } from "../../models/Enums";
+import { FilterFieldNames, ValidHPRange } from "../../models/Enums";
 import type { SliderMarks } from "antd/es/slider";
 const { defaultAlgorithm, darkAlgorithm } = theme;
 
@@ -17,17 +17,17 @@ export const SidebarFiltersComponent: FunctionComponent<
 > = ({ formInstance, triggerFilter }) => {
   const { appState } = useContext(AppContext);
   const marks: SliderMarks = {
-    30: {
+    [ValidHPRange.min.toString()]: {
       style: {
         color: 'var(--bs-success)',
       },
-      label: '30',
+      label: ValidHPRange.min.toString(),
     },
-    340: {
+    [ValidHPRange.max.toString()]: {
       style: {
         color: 'var(--bs-danger)',
       },
-      label: '340',
+      label: ValidHPRange.max.toString(),
     },
   };
   return (
@@ -42,6 +42,7 @@ export const SidebarFiltersComponent: FunctionComponent<
           layout="vertical"
           className="card-body "
           form={formInstance}
+          initialValues={{ [FilterFieldNames.hpRange]: [10, 360] }}
         >
           <Form.Item
             name={FilterFieldNames.energyType}
@@ -124,7 +125,7 @@ export const SidebarFiltersComponent: FunctionComponent<
             </Select>
           </Form.Item>
           <Form.Item name={FilterFieldNames.hpRange} label="HP Range">
-            <Slider range marks={marks} defaultValue={[30, 340]} min={30} max={340} className="mb-0" />
+            <Slider range marks={marks} min={ValidHPRange.min} max={ValidHPRange.max} className="mb-0" step={10} onAfterChange={triggerFilter} />
           </Form.Item>
           <Form.Item name={FilterFieldNames.cardType} label="Card Type">
             <Select

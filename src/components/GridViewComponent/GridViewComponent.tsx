@@ -14,6 +14,7 @@ import { ExternalLinkComponent } from "../ExternalLinkComponent/ExternalLinkComp
 import { Helper } from "../../utils/helper";
 import { AppContext } from "../../contexts/AppContext";
 import { defaultBlurImage } from "../../../base64Images/base64Images";
+import emptyPokeBall from "../../../public/images/empty-pokeball.png";
 
 export const GridViewComponent: FunctionComponent<SetCardsProps> = ({
   setCards,
@@ -94,7 +95,15 @@ export const GridViewComponent: FunctionComponent<SetCardsProps> = ({
         })}
         <IF condition={setCards?.length === 0}>
           <div className="d-flex justify-content-center flex-grow-1">
-            <h2 className="align-self-center mb-0">No cards found.</h2>
+            <div className="d-flex flex-column">
+              <h2 className="align-self-center mb-4">No cards found.</h2>
+              <ImageComponent
+                src={emptyPokeBall}
+                alt={"Empty Pokeball"}
+                className="w-100"
+                lqImageUnOptimize={false}
+              />
+            </div>
           </div>
         </IF>
         <IF condition={setCards === null}>
