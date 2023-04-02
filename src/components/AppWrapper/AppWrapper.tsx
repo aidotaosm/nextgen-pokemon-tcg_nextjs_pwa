@@ -56,14 +56,12 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
   const githubTooltipId = "githubTooltipId";
 
   useEffect(() => {
-    //if (router.isReady) {
     let bootStrapMasterClass = appState?.bootstrap;
     let backTooltipInstance: Tooltip,
       offLineTooltipInstance: Tooltip,
       darkModeTooltipInstance: Tooltip,
-      globalSearchTooltipInstance: Tooltip;
-
-
+      globalSearchTooltipInstance: Tooltip,
+      githubTooltipInstance: Tooltip;
     if (bootStrapMasterClass) {
       const backButtonTrigger = document.getElementById(
         backButtonTooltipId
@@ -99,17 +97,16 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
         githubTooltipId
       ) as any;
       if (githubTrigger) {
-        backTooltipInstance = new bootStrapMasterClass.Tooltip(githubTrigger);
+        githubTooltipInstance = new bootStrapMasterClass.Tooltip(githubTrigger);
       }
     }
-
     return () => {
       backTooltipInstance?.dispose();
       offLineTooltipInstance?.dispose();
       darkModeTooltipInstance?.dispose();
       globalSearchTooltipInstance?.dispose();
-    };
-    // }
+      githubTooltipInstance?.dispose();
+    }
   }, [appState?.bootstrap, router.pathname]);
 
   useEffect(() => {
