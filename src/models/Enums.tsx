@@ -7,4 +7,7 @@ export enum FilterFieldNames {
   cardType = "card-type",
   subType = "sub-type",
   rarity = "rarity",
+  hpRange = "hp-range",
+  regulationMarks = "regulation-marks"
 }
+export enum ValidHPRange { "min" = 10, "max" = 340 }

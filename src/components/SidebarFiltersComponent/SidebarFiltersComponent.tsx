@@ -1,19 +1,35 @@
 import { FunctionComponent, useContext } from "react";
 import { SidebarFiltersComponentProps } from "../../models/GenericModels";
 import energyTypes from "../../InternalJsons/AllTypes.json";
+import regulationMarks from "../../InternalJsons/AllRegulationMarks.json";
 import superTypes from "../../InternalJsons/AllSuperTypes.json";
 import subTypes from "../../InternalJsons/AllSubtypes.json";
 import rarities from "../../InternalJsons/AllRarities.json";
-import { Checkbox, ConfigProvider, Form, Select, theme } from "antd";
+import { Checkbox, ConfigProvider, Form, Select, Slider, theme } from "antd";
 import { EnergyComponent } from "../UtilityComponents/EnergyComponent";
 import { AppContext } from "../../contexts/AppContext";
-import { FilterFieldNames } from "../../models/Enums";
+import { FilterFieldNames, ValidHPRange } from "../../models/Enums";
+import type { SliderMarks } from "antd/es/slider";
 const { defaultAlgorithm, darkAlgorithm } = theme;
 
 export const SidebarFiltersComponent: FunctionComponent<
   SidebarFiltersComponentProps
 > = ({ formInstance, triggerFilter }) => {
   const { appState } = useContext(AppContext);
+  const marks: SliderMarks = {
+    [ValidHPRange.min.toString()]: {
+      style: {
+        color: 'var(--bs-success)',
+      },
+      label: ValidHPRange.min.toString(),
+    },
+    [ValidHPRange.max.toString()]: {
+      style: {
+        color: 'var(--bs-danger)',
+      },
+      label: ValidHPRange.max.toString(),
+    },
+  };
   return (
     <div className="d-flex flex-column rounded card">
       <ConfigProvider
@@ -26,6 +42,7 @@ export const SidebarFiltersComponent: FunctionComponent<
           layout="vertical"
           className="card-body "
           form={formInstance}
+          initialValues={{ [FilterFieldNames.hpRange]: [10, 360] }}
         >
           <Form.Item
             name={FilterFieldNames.energyType}
@@ -52,20 +69,30 @@ export const SidebarFiltersComponent: FunctionComponent<
               </div>
             </Checkbox.Group>
           </Form.Item>
-          <Form.Item name={FilterFieldNames.cardType} label="Card Type">
-            <Select
-              mode="multiple"
-              placeholder="Select card type"
-              onChange={triggerFilter}
-            >
-              {superTypes.map((cardType: string, index: number) => {
-                return (
-                  <Select.Option key={cardType} value={cardType}>
-                    {cardType}
-                  </Select.Option>
-                );
-              })}
-            </Select>
+          <Form.Item
+            name={FilterFieldNames.regulationMarks}
+            label="Regulation Marks"
+            className="energy-checkbox-group"
+          >
+            <Checkbox.Group onChange={triggerFilter}>
+              <div className="row row-cols-4">
+                {regulationMarks.map((regulationMark: string, index: number) => {
+                  return (
+                    <div key={regulationMark} className="col ">
+                      <Checkbox
+                        //  title={type}
+                        aria-label={regulationMark}
+                        value={regulationMark}
+                        style={{ lineHeight: "1.8rem" }}
+                        className=""
+                      >
+                        {regulationMark}
+                      </Checkbox>
+                    </div>
+                  );
+                })}
+              </div>
+            </Checkbox.Group>
           </Form.Item>
           <Form.Item name={FilterFieldNames.subType} label="Sub Type">
             <Select
@@ -92,6 +119,24 @@ export const SidebarFiltersComponent: FunctionComponent<
                 return (
                   <Select.Option key={rarity} value={rarity}>
                     {rarity}
+                  </Select.Option>
+                );
+              })}
+            </Select>
+          </Form.Item>
+          <Form.Item name={FilterFieldNames.hpRange} label="HP Range">
+            <Slider range marks={marks} min={ValidHPRange.min} max={ValidHPRange.max} className="mb-0" step={10} onAfterChange={triggerFilter} />
+          </Form.Item>
+          <Form.Item name={FilterFieldNames.cardType} label="Card Type">
+            <Select
+              mode="multiple"
+              placeholder="Select card type"
+              onChange={triggerFilter}
+            >
+              {superTypes.map((cardType: string, index: number) => {
+                return (
+                  <Select.Option key={cardType} value={cardType}>
+                    {cardType}
                   </Select.Option>
                 );
               })}

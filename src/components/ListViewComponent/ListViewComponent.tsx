@@ -16,6 +16,7 @@ import { PokemonCardAndDetailsSkeletonComponent } from "../PokemonCardAndDetails
 import { CarouselComponent } from "../UtilityComponents/CarouselComponent";
 import { IF } from "../UtilityComponents/IF";
 import MemoizedModalComponent from "../UtilityComponents/ModalComponent";
+import emptyPokeBall from "../../../public/images/empty-pokeball.png";
 
 export const ListViewComponent: FunctionComponent<SetCardsProps> = ({
   setCards,
@@ -101,7 +102,15 @@ export const ListViewComponent: FunctionComponent<SetCardsProps> = ({
       </div>
       <IF condition={setCards?.length === 0}>
         <div className="d-flex justify-content-center flex-grow-1">
-          <h2 className="align-self-center mb-0">No cards found.</h2>
+          <div className="d-flex flex-column">
+            <h2 className="align-self-center mb-4">No cards found.</h2>
+            <ImageComponent
+              src={emptyPokeBall}
+              alt={"Empty Pokeball"}
+              className="w-100"
+              lqImageUnOptimize={false}
+            />
+          </div>
         </div>
       </IF>
       <IF condition={setCards === null}>
