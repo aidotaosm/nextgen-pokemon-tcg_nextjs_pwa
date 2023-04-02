@@ -9,29 +9,29 @@ import { Fragment, FunctionComponent } from "react";
 import { SetComponent } from "../src/components/SetComponent/SetComponent";
 import { CardsObjectProps } from "../src/models/GenericModels";
 import { Helper } from "../src/utils/helper";
-import importedAllCardsTotalCount from "../src/InternalJsons/firstPageOfCardsWithTotalCount.json";
+
 interface IParams extends ParsedUrlQuery { }
 
-export const getStaticProps: GetStaticProps = async (context) => {
-  // const dynamicallyImportedJson: any = (
-  //   await import("../public/Jsons/AllCards.json")
-  // ).default;
+// export const getStaticProps: GetStaticProps = async (context) => {
+//   // const dynamicallyImportedJson: any = (
+//   //   await import("../public/Jsons/AllCards.json")
+//   // ).default;
 
-  // let parsedAllCards = dynamicallyImportedJson;
-  // let firstPageOfCards = parsedAllCards.slice(0, DEFAULT_PAGE_SIZE);
-  //console.log(firstPageOfCards);
-  const cardsObject = {
-    data: [],
-    totalCount: importedAllCardsTotalCount.totalCount,
-  };
-  //const cardsObject = { data: await getAllCards() };
+//   // let parsedAllCards = dynamicallyImportedJson;
+//   // let firstPageOfCards = parsedAllCards.slice(0, DEFAULT_PAGE_SIZE);
+//   //console.log(firstPageOfCards);
+//   const cardsObject = {
+//     data: [],
+//     totalCount: importedAllCardsTotalCount.totalCount,
+//   };
+//   //const cardsObject = { data: await getAllCards() };
 
-  if (!cardsObject.totalCount) {
-    return { notFound: true, revalidate: 60 };
-  } else {
-    return { props: { cardsObject }, revalidate: 60 * 60 * 24 * 2 }; // 2 days
-  }
-};
+//   if (!cardsObject.totalCount) {
+//     return { notFound: true, revalidate: 60 };
+//   } else {
+//     return { props: { cardsObject }, revalidate: 60 * 60 * 24 * 2 }; // 2 days
+//   }
+// };
 // export const getServerSideProps = async (
 //   context: GetServerSidePropsContext
 // ) => {
@@ -72,8 +72,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
 //   }
 // };
 
-const SearchPage: FunctionComponent<CardsObjectProps> = ({ cardsObject }) => {
-  // console.log(cardsObject);
+const SearchPage: FunctionComponent<CardsObjectProps> = () => {
   return (
     <Fragment>
       <Head>
@@ -124,7 +123,7 @@ const SearchPage: FunctionComponent<CardsObjectProps> = ({ cardsObject }) => {
           key="twitter:image"
         />
       </Head>
-      <SetComponent cardsObject={cardsObject} isSearchPage={true} />
+      <SetComponent isSearchPage={true} />
     </Fragment>
   );
 };

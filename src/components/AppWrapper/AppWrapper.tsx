@@ -393,7 +393,7 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
                 data-bs-trigger="hover"
                 id={backButtonTooltipId}>
                 Osama
-              </Link>
+              </Link>.
             </span>
             <span className="mt-1">
               This website is not produced, endorsed, supported, or affiliated
