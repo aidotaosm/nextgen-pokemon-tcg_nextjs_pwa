@@ -1,7 +1,9 @@
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { AutoComplete } from "antd";
 import { FunctionComponent, useEffect } from "react";
 import { random_pokemon_names } from "../../constants/constants";
+import allCardsWithUniqueNames from "../../InternalJsons/AllCardsWithUniqueNames.json";
 
 interface LocalSearchComponentProps {
   setSearchValueFunction: (
@@ -91,7 +93,18 @@ export const LocalSearchComponent: FunctionComponent<
       }
     }
     return (
-      <div className="input-group flex-nowrap">
+      <AutoComplete
+        style={{ width: 200 }}
+        options={allCardsWithUniqueNames.map(x => { return { value: x } })}
+        placeholder="try to type `b`"
+        filterOption={(inputValue, option) =>
+          option!.value.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1
+        }
+      />
+
+    );
+  };
+{/* <div className="input-group flex-nowrap">
         <input
           onKeyUp={(e) => {
             if (e.key === "Enter") {
@@ -117,6 +130,4 @@ export const LocalSearchComponent: FunctionComponent<
         >
           <FontAwesomeIcon className="fs-5" icon={faSearch} />
         </span>
-      </div>
-    );
-  };
+      </div> */}
