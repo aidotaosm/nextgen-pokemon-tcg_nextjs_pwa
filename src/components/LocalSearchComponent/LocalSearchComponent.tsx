@@ -1,8 +1,9 @@
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { AutoComplete } from "antd";
-import { FunctionComponent, useEffect } from "react";
+import { AutoComplete, ConfigProvider, Input, theme } from "antd";
+import { FunctionComponent, useContext, useEffect, useMemo } from "react";
 import { random_pokemon_names } from "../../constants/constants";
+import { AppContext } from "../../contexts/AppContext";
 import allCardsWithUniqueNames from "../../InternalJsons/AllCardsWithUniqueNames.json";
 
 interface LocalSearchComponentProps {
@@ -22,6 +23,8 @@ export const LocalSearchComponent: FunctionComponent<
   defaultSearchTerm = "",
   disabled = false
 }) => {
+    const { defaultAlgorithm, darkAlgorithm } = theme;
+    const { appState } = useContext(AppContext);
     useEffect(() => {
       let timeout: any = null;
       const animate = (randomIndex: number) => {
@@ -84,24 +87,41 @@ export const LocalSearchComponent: FunctionComponent<
         clearInterval(interval);
       };
     }, []);
-    const triggerSearch = () => {
+    const triggerSearch = (value: string) => {
+      console.log(value);
       if (!disabled) {
-        let fieldValue = (
-          document.getElementById("search") as HTMLInputElement
-        ).value;
-        setSearchValueFunction(fieldValue, "submit");
+        setSearchValueFunction(value, "submit");
       }
     }
+    const searchOptions = useMemo(() => { return allCardsWithUniqueNames.map(x => { return { value: x } }) }, [])
     return (
-      <AutoComplete
-        style={{ width: 200 }}
-        options={allCardsWithUniqueNames.map(x => { return { value: x } })}
-        placeholder="try to type `b`"
-        filterOption={(inputValue, option) =>
-          option!.value.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1
-        }
-      />
+      <ConfigProvider
+        theme={{
+          algorithm: appState.darkMode ? darkAlgorithm : defaultAlgorithm,
+        }}
+      >
+        <AutoComplete
 
+          style={{ width: 200 }}
+          options={searchOptions}
+          className="search"
+          id="search"
+          filterOption={(inputValue, option) =>
+            option!.value.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1
+          }
+          onSelect={triggerSearch}
+          defaultValue={defaultSearchTerm}
+          onChange={(e) => { setSearchValueFunction(e, "onChange"); }}
+          onKeyUp={(e) => {
+            if (e.key === "Enter") {
+              console.log(e);
+              triggerSearch((e.target as HTMLInputElement).value);
+            }
+          }}
+        >
+          <Input.Search size="large" placeholder={initialPlaceHolder} enterButton />
+        </AutoComplete>
+      </ConfigProvider>
     );
   };
 {/* <div className="input-group flex-nowrap">

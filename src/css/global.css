@@ -749,3 +749,7 @@ a.white-hover:hover,
 .blurred {
   filter: blur(15px);
 }
+.ant-input-search-button {
+  display: flex;
+  align-items: center;
+}
