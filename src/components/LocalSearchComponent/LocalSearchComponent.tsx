@@ -1,7 +1,5 @@
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AutoComplete, ConfigProvider, Input, theme } from "antd";
-import { FunctionComponent, useContext, useEffect, useMemo, useState } from "react";
+import { FunctionComponent, useContext, useEffect, useState } from "react";
 import { random_pokemon_names } from "../../constants/constants";
 import { AppContext } from "../../contexts/AppContext";
 
