@@ -30,7 +30,6 @@ import superTypes from "../../InternalJsons/AllSuperTypes.json";
 import subTypes from "../../InternalJsons/AllSubtypes.json";
 import rarities from "../../InternalJsons/AllRarities.json";
 import regulationMarks from "../../InternalJsons/AllRegulationMarks.json";
-import { Helper } from "../../utils/helper";
 
 export const SetComponent: FunctionComponent<CardsObjectProps> = ({
   cardsObject,
@@ -625,6 +624,7 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
                   isSearchPage ? "Global search e.g. " : "Search in set e.g. "
                 }
                 disabled={isSearchPage && setCards === null}
+                setCards={isSearchPage ? null : cardsObject.data}
               />
             </div>
           </div>

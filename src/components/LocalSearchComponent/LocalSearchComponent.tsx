@@ -1,10 +1,9 @@
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AutoComplete, ConfigProvider, Input, theme } from "antd";
-import { FunctionComponent, useContext, useEffect, useMemo } from "react";
+import { FunctionComponent, useContext, useEffect, useMemo, useState } from "react";
 import { random_pokemon_names } from "../../constants/constants";
 import { AppContext } from "../../contexts/AppContext";
-import allCardsWithUniqueNames from "../../InternalJsons/AllCardsWithUniqueNames.json";
 
 interface LocalSearchComponentProps {
   setSearchValueFunction: (
@@ -14,15 +13,19 @@ interface LocalSearchComponentProps {
   initialPlaceHolder?: string;
   defaultSearchTerm?: string;
   disabled?: boolean;
+  setCards?: any[];
 }
+
 export const LocalSearchComponent: FunctionComponent<
   LocalSearchComponentProps
 > = ({
   setSearchValueFunction,
   initialPlaceHolder = "Search cards e.g. ",
   defaultSearchTerm = "",
-  disabled = false
+  disabled = false,
+  setCards = null
 }) => {
+    const [searchOptions, setSearchOptions] = useState<{ value: string }[]>([]);
     const { defaultAlgorithm, darkAlgorithm } = theme;
     const { appState } = useContext(AppContext);
     useEffect(() => {
@@ -81,6 +84,18 @@ export const LocalSearchComponent: FunctionComponent<
         let randomIndex = Math.floor(Math.random() * random_pokemon_names.length);
         animate(randomIndex);
       }, 2000);
+      if (setCards) {
+        let listOfCardsWithUniqueNames = Array.from(new Set(setCards.map(card => card.name)));
+        setSearchOptions(listOfCardsWithUniqueNames.map(x => { return { value: x } }));
+      } else {
+        import("../../InternalJsons/AllCardsWithUniqueNames.json").then(
+          (allCardsWithUniqueNamesModule) => {
+            if (allCardsWithUniqueNamesModule.default) {
+              setSearchOptions(allCardsWithUniqueNamesModule.default.map(x => { return { value: x } }));
+            }
+          })
+      }
+
 
       return () => {
         clearTimeout(timeout);
@@ -93,7 +108,7 @@ export const LocalSearchComponent: FunctionComponent<
         setSearchValueFunction(value, "submit");
       }
     }
-    const searchOptions = useMemo(() => { return allCardsWithUniqueNames.map(x => { return { value: x } }) }, [])
+
     return (
       <ConfigProvider
         theme={{
