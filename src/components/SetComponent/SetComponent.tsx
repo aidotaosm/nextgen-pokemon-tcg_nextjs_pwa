@@ -398,10 +398,6 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
           //         //   false,
           //         //   "text/plain"
           //         // );
-          //         allCardsFromCache.sort(
-          //           (firstColumn, secondColumn) => (firstColumn.nationalPokedexNumbers?.[0] || (allCardsFromCache.length - 1)) - (secondColumn.nationalPokedexNumbers?.[0] || (allCardsFromCache.length - 1))
-          //         );
-          //         Helper.saveTemplateAsFile("AllCards.json", allCardsFromCache);
           //         handleSearchAndFilter(
           //           paramSearchValue,
           //           allCardsFromCache,
@@ -417,9 +413,6 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
           //   }
           // );
           let allCardsFromCache = allCardsResponse || allCardsFromNetwork;
-          // make list of cards with unique names
-          // let listOfCardsWithUniqueNames = Array.from(new Set(allCardsFromCache.map(card => card.name)));
-          // Helper.saveTemplateAsFile("AllCardsWithUniqueNames.json", listOfCardsWithUniqueNames);
           handleSearchAndFilter(
             paramSearchValue,
             allCardsFromCache,

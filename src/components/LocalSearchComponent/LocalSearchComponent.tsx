@@ -86,7 +86,7 @@ export const LocalSearchComponent: FunctionComponent<
         let listOfCardsWithUniqueNames = Array.from(new Set(setCards.map(card => card.name)));
         setSearchOptions(listOfCardsWithUniqueNames.map(x => { return { value: x } }));
       } else {
-        import("../../InternalJsons/AllCardsWithUniqueNames.json").then(
+        import("../../../public/AllCardsWithUniqueNames.json").then(
           (allCardsWithUniqueNamesModule) => {
             if (allCardsWithUniqueNamesModule.default) {
               setSearchOptions(allCardsWithUniqueNamesModule.default.map(x => { return { value: x } }));
