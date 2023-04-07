@@ -761,3 +761,6 @@ a.white-hover:hover,
 .dark-mode .ant-select-selector .ant-input {
   border-color: var(--border-color) !important;
 }
+.h-40px {
+  height: 40px;
+}

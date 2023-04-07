@@ -26,7 +26,9 @@ export const LocalSearchComponent: FunctionComponent<
     const [searchOptions, setSearchOptions] = useState<{ value: string }[]>([]);
     const { defaultAlgorithm, darkAlgorithm } = theme;
     const { appState } = useContext(AppContext);
+    const [antComponentLoaded, setAntComponentLoaded] = useState(false);
     useEffect(() => {
+      setAntComponentLoaded(true);
       let timeout: any = null;
       const animate = (randomIndex: number) => {
         let ph = random_pokemon_names[randomIndex];
@@ -113,54 +115,29 @@ export const LocalSearchComponent: FunctionComponent<
           algorithm: appState.darkMode ? darkAlgorithm : defaultAlgorithm,
         }}
       >
-        <AutoComplete
 
-          style={{ width: 200 }}
-          options={searchOptions}
-          className="search"
-          id="search"
-          filterOption={(inputValue, option) =>
-            option!.value.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1
-          }
-          onSelect={triggerSearch}
-          value={defaultSearchTerm}
-          onChange={(e) => { setSearchValueFunction(e, "onChange"); }}
-          onKeyUp={(e) => {
-            if (e.key === "Enter") {
-              console.log(e);
-              triggerSearch((e.target as HTMLInputElement).value);
+        <div className={"search " + (antComponentLoaded ? '' : 'skeleton-animation h-40px')}>
+          <AutoComplete
+            options={searchOptions}
+            className={"search " + (antComponentLoaded ? '' : 'invisible')}
+            id="search"
+            filterOption={(inputValue, option) =>
+              option!.value.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1
             }
-          }}
-        >
-          <Input.Search size="large" placeholder={initialPlaceHolder} enterButton autoComplete="new-password" />
-        </AutoComplete>
+            onSelect={triggerSearch}
+            value={defaultSearchTerm}
+            onChange={(e) => { setSearchValueFunction(e, "onChange"); }}
+            onKeyUp={(e) => {
+              if (e.key === "Enter") {
+                console.log(e);
+                triggerSearch((e.target as HTMLInputElement).value);
+              }
+            }}
+          >
+            <Input.Search size="large" placeholder={initialPlaceHolder} enterButton autoComplete="new-password" />
+          </AutoComplete>
+        </div>
+
       </ConfigProvider>
     );
   };
-{/* <div className="input-group flex-nowrap">
-        <input
-          onKeyUp={(e) => {
-            if (e.key === "Enter") {
-              triggerSearch();
-            }
-          }}
-          disabled={disabled}
-          title="Search"
-          value={defaultSearchTerm}
-          type="text"
-          id="search"
-          className="form-control search"
-          placeholder={initialPlaceHolder}
-          onChange={(e) => {
-            setSearchValueFunction(e.target.value, "onChange");
-          }}
-        />
-        <span
-          className="input-group-text cursor-pointer"
-          onClick={() => {
-            triggerSearch();
-          }}
-        >
-          <FontAwesomeIcon className="fs-5" icon={faSearch} />
-        </span>
-      </div> */}
