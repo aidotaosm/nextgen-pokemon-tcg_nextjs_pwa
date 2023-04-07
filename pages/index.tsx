@@ -47,7 +47,7 @@ const Index = ({ setCards }: any) => {
     <div className="container mt-4">
       <h1 className="text-center h3">NextGen Pokemon TCG</h1>
       <h2 className="text-center mb-5 text-muted h5">
-        The Next Generation Pokemon cards database. With offline support!
+        The Next Generation Pokemon cards database. Fastest Pokemon card search experience out there! And with offline support!
       </h2>
       <div className="row row-cols-1 row-cols-sm-2 mb-5">
         <div className=" d-flex align-items-center col mb-5 mb-sm-0">

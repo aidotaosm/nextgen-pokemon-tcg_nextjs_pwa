@@ -546,7 +546,7 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
         >
           <IF condition={isSearchPage}>
             <h1 className="h4">
-              Search and filter through all the Pokemon cards ever printed!
+              Fastest Pokemon card search experience out there!
             </h1>
           </IF>
           {!isSearchPage && <>

@@ -385,7 +385,7 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
           <small className="d-flex flex-column">
             <span>
               The Next Generation Pokemon TCG database. By{" "}
-              <Link href="https://github.com/aidotaosm" target="_blank" data-bs-title={"Click to visit this project is in my Github! Maybe give it a start?"}
+              <Link href="https://github.com/aidotaosm" target="_blank" data-bs-title={"Click to visit this project in Github! And maybe give it a Start?"}
                 data-bs-toggle="tooltip"
                 data-bs-trigger="hover"
                 id={githubTooltipId}>
