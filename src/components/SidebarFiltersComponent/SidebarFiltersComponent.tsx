@@ -47,7 +47,7 @@ export const SidebarFiltersComponent: FunctionComponent<
             layout="vertical"
             className={"card-body " + (antComponentLoaded ? '' : 'invisible')}
             form={formInstance}
-            initialValues={{ [FilterFieldNames.hpRange]: [10, 360] }}
+            initialValues={{ [FilterFieldNames.hpRange]: [10, 340] }}
             style={{ padding: 'var(--bs-card-spacer-y) var(--bs-card-spacer-x)' }}
           >
             <Form.Item
