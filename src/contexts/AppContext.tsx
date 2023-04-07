@@ -35,7 +35,7 @@ export const AppContext = createContext<AppContextInterface>({
     bootstrap: null,
     offLineMode: false,
     globalSearchTerm: "",
-    sidebarCollapsed: true,
+    sidebarCollapsed: false,
   },
 });
 
@@ -69,7 +69,7 @@ export const AppProvider: FunctionComponent<BasicProps> = (props) => {
     bootstrap: null,
     offLineMode: false,
     globalSearchTerm: "",
-    sidebarCollapsed: true,
+    sidebarCollapsed: false,
   });
 
   const updateDarkMode = (value: boolean) => {

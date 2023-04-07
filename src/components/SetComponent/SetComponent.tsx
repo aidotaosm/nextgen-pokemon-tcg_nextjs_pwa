@@ -401,15 +401,6 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
           //         allCardsFromCache.sort(
           //           (firstColumn, secondColumn) => (firstColumn.nationalPokedexNumbers?.[0] || (allCardsFromCache.length - 1)) - (secondColumn.nationalPokedexNumbers?.[0] || (allCardsFromCache.length - 1))
           //         );
-          //         let firstPageOfCards = allCardsFromCache.slice(0, DEFAULT_PAGE_SIZE);
-          //         let firstPageOfCardsWithTotalCount = {
-          //           firstPageOfCards,
-          //           totalCount: allCardsFromCache.length,
-          //         };
-          //         Helper.saveTemplateAsFile(
-          //           "firstPageOfCardsWithTotalCount.json",
-          //           firstPageOfCardsWithTotalCount
-          //         );
           //         Helper.saveTemplateAsFile("AllCards.json", allCardsFromCache);
           //         handleSearchAndFilter(
           //           paramSearchValue,
@@ -426,6 +417,9 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
           //   }
           // );
           let allCardsFromCache = allCardsResponse || allCardsFromNetwork;
+          // make list of cards with unique names
+          // let listOfCardsWithUniqueNames = Array.from(new Set(allCardsFromCache.map(card => card.name)));
+          // Helper.saveTemplateAsFile("AllCardsWithUniqueNames.json", listOfCardsWithUniqueNames);
           handleSearchAndFilter(
             paramSearchValue,
             allCardsFromCache,
@@ -630,6 +624,7 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
                   isSearchPage ? "Global search e.g. " : "Search in set e.g. "
                 }
                 disabled={isSearchPage && setCards === null}
+                setCards={isSearchPage ? null : cardsObject.data}
               />
             </div>
           </div>

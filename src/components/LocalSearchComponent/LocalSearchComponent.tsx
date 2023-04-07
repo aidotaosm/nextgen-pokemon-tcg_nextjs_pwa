@@ -1,7 +1,7 @@
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { FunctionComponent, useEffect } from "react";
+import { AutoComplete, ConfigProvider, Input, theme } from "antd";
+import { FunctionComponent, useContext, useEffect, useState } from "react";
 import { random_pokemon_names } from "../../constants/constants";
+import { AppContext } from "../../contexts/AppContext";
 
 interface LocalSearchComponentProps {
   setSearchValueFunction: (
@@ -11,15 +11,21 @@ interface LocalSearchComponentProps {
   initialPlaceHolder?: string;
   defaultSearchTerm?: string;
   disabled?: boolean;
+  setCards?: any[];
 }
+
 export const LocalSearchComponent: FunctionComponent<
   LocalSearchComponentProps
 > = ({
   setSearchValueFunction,
   initialPlaceHolder = "Search cards e.g. ",
   defaultSearchTerm = "",
-  disabled = false
+  disabled = false,
+  setCards = null
 }) => {
+    const [searchOptions, setSearchOptions] = useState<{ value: string }[]>([]);
+    const { defaultAlgorithm, darkAlgorithm } = theme;
+    const { appState } = useContext(AppContext);
     useEffect(() => {
       let timeout: any = null;
       const animate = (randomIndex: number) => {
@@ -76,22 +82,62 @@ export const LocalSearchComponent: FunctionComponent<
         let randomIndex = Math.floor(Math.random() * random_pokemon_names.length);
         animate(randomIndex);
       }, 2000);
+      if (setCards) {
+        let listOfCardsWithUniqueNames = Array.from(new Set(setCards.map(card => card.name)));
+        setSearchOptions(listOfCardsWithUniqueNames.map(x => { return { value: x } }));
+      } else {
+        import("../../InternalJsons/AllCardsWithUniqueNames.json").then(
+          (allCardsWithUniqueNamesModule) => {
+            if (allCardsWithUniqueNamesModule.default) {
+              setSearchOptions(allCardsWithUniqueNamesModule.default.map(x => { return { value: x } }));
+            }
+          })
+      }
+
 
       return () => {
         clearTimeout(timeout);
         clearInterval(interval);
       };
     }, []);
-    const triggerSearch = () => {
+    const triggerSearch = (value: string) => {
+      console.log(value);
       if (!disabled) {
-        let fieldValue = (
-          document.getElementById("search") as HTMLInputElement
-        ).value;
-        setSearchValueFunction(fieldValue, "submit");
+        setSearchValueFunction(value, "submit");
       }
     }
+
     return (
-      <div className="input-group flex-nowrap">
+      <ConfigProvider
+        theme={{
+          algorithm: appState.darkMode ? darkAlgorithm : defaultAlgorithm,
+        }}
+      >
+        <AutoComplete
+
+          style={{ width: 200 }}
+          options={searchOptions}
+          className="search"
+          id="search"
+          filterOption={(inputValue, option) =>
+            option!.value.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1
+          }
+          onSelect={triggerSearch}
+          value={defaultSearchTerm}
+          onChange={(e) => { setSearchValueFunction(e, "onChange"); }}
+          onKeyUp={(e) => {
+            if (e.key === "Enter") {
+              console.log(e);
+              triggerSearch((e.target as HTMLInputElement).value);
+            }
+          }}
+        >
+          <Input.Search size="large" placeholder={initialPlaceHolder} enterButton autoComplete="new-password" />
+        </AutoComplete>
+      </ConfigProvider>
+    );
+  };
+{/* <div className="input-group flex-nowrap">
         <input
           onKeyUp={(e) => {
             if (e.key === "Enter") {
@@ -117,6 +163,4 @@ export const LocalSearchComponent: FunctionComponent<
         >
           <FontAwesomeIcon className="fs-5" icon={faSearch} />
         </span>
-      </div>
-    );
-  };
+      </div> */}
