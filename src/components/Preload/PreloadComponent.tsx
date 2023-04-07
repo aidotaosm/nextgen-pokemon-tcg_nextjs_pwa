@@ -174,7 +174,7 @@ export const PreloadComponent: FunctionComponent<PreloadComponentProps> = ({
             callUrl:
               "/set/" +
               (setsBySeries[seriesIndex].sets[setIndex].id ==
-              SpecialSetNames.pop2
+                SpecialSetNames.pop2
                 ? SpecialSetNames.poptwo
                 : setsBySeries[seriesIndex].sets[setIndex].id),
           });
@@ -199,7 +199,7 @@ export const PreloadComponent: FunctionComponent<PreloadComponentProps> = ({
             callUrl:
               "/set/" +
               (setsBySeries[seriesIndex].sets[setIndex].id ==
-              SpecialSetNames.pop2
+                SpecialSetNames.pop2
                 ? SpecialSetNames.poptwo
                 : setsBySeries[seriesIndex].sets[setIndex].id),
           });
@@ -230,17 +230,15 @@ export const PreloadComponent: FunctionComponent<PreloadComponentProps> = ({
   const downloadAllCardsJson = () => {
     setDownloadAllCardsLoading(true);
     getAllCards()
-      .then((cardsParentObject) => {
-        let firstPageOfCards = cardsParentObject.slice(0, DEFAULT_PAGE_SIZE);
-        let firstPageOfCardsWithTotalCount = {
-          firstPageOfCards,
-          totalCount: cardsParentObject.length,
-        };
-        Helper.saveTemplateAsFile(
-          "firstPageOfCardsWithTotalCount.json",
-          firstPageOfCardsWithTotalCount
+      .then((cardsParentObject: any[]) => {
+        //sort all cards
+        cardsParentObject.sort(
+          (firstColumn, secondColumn) => (firstColumn.nationalPokedexNumbers?.[0] || (cardsParentObject.length - 1)) - (secondColumn.nationalPokedexNumbers?.[0] || (cardsParentObject.length - 1))
         );
         Helper.saveTemplateAsFile("AllCards.json", cardsParentObject);
+        //   make list of cards with unique names
+        let listOfCardsWithUniqueNames = Array.from(new Set(cardsParentObject.map((card: any) => card.name)));
+        Helper.saveTemplateAsFile("AllCardsWithUniqueNames.json", listOfCardsWithUniqueNames);
       })
       .finally(() => {
         setDownloadAllCardsLoading(false);
