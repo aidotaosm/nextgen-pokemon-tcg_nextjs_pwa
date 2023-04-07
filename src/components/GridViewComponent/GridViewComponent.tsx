@@ -114,7 +114,7 @@ export const GridViewComponent: FunctionComponent<SetCardsProps> = ({
                 <div className="card position-static flex-grow-1">
                   <div className="card-body">
                     <div className="card-title mb-0 d-flex align-items-center justify-content-between">
-                      <span className="fs-5 fs-bold skeleton-animation d-block w-75" style={{ height: '1.25rem' }}></span>
+                      <span className="fs-5 fs-bold skeleton-animation d-block w-75 my-1" style={{ height: '1.4rem' }}></span>
                     </div>
                   </div>
                   <div className="special-card-wrapper">
@@ -132,7 +132,7 @@ export const GridViewComponent: FunctionComponent<SetCardsProps> = ({
                     </div>
                   </div>
                   <div className="card-footer">
-                    <small className="skeleton-animation d-block w-50" style={{ height: '1rem' }}>
+                    <small className="skeleton-animation d-block w-50 my-1" style={{ height: '1rem' }}>
                     </small>
                   </div>
                 </div>
