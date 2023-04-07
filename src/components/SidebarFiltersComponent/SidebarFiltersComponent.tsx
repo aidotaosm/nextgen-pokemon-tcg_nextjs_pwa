@@ -43,6 +43,7 @@ export const SidebarFiltersComponent: FunctionComponent<
           className="card-body "
           form={formInstance}
           initialValues={{ [FilterFieldNames.hpRange]: [10, 360] }}
+          style={{ padding: 'var(--bs-card-spacer-y) var(--bs-card-spacer-x)' }}
         >
           <Form.Item
             name={FilterFieldNames.energyType}
@@ -58,7 +59,6 @@ export const SidebarFiltersComponent: FunctionComponent<
                         //  title={type}
                         aria-label={type}
                         value={type}
-                        style={{ lineHeight: "1.8rem" }}
                         className=""
                       >
                         <EnergyComponent type={type} toolTipId={type + index} />
@@ -83,7 +83,6 @@ export const SidebarFiltersComponent: FunctionComponent<
                         //  title={type}
                         aria-label={regulationMark}
                         value={regulationMark}
-                        style={{ lineHeight: "1.8rem" }}
                         className=""
                       >
                         {regulationMark}

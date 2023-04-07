@@ -455,7 +455,7 @@ a.white-hover:hover,
   background-color: #181818;
 } */
 .energy-checkbox-group .ant-checkbox + span {
-  align-self: center;
+  margin-top: -2px;
 }
 
 .energy-cost {
@@ -750,6 +750,6 @@ a.white-hover:hover,
   filter: blur(15px);
 }
 .ant-input-search-button {
-  display: flex;
+  display: flex !important;
   align-items: center;
 }
