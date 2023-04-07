@@ -123,7 +123,7 @@ export const LocalSearchComponent: FunctionComponent<
             option!.value.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1
           }
           onSelect={triggerSearch}
-          defaultValue={defaultSearchTerm}
+          value={defaultSearchTerm}
           onChange={(e) => { setSearchValueFunction(e, "onChange"); }}
           onKeyUp={(e) => {
             if (e.key === "Enter") {
@@ -132,7 +132,7 @@ export const LocalSearchComponent: FunctionComponent<
             }
           }}
         >
-          <Input.Search size="large" placeholder={initialPlaceHolder} enterButton />
+          <Input.Search size="large" placeholder={initialPlaceHolder} enterButton autoComplete="new-password" />
         </AutoComplete>
       </ConfigProvider>
     );
