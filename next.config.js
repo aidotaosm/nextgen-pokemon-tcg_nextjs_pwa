@@ -31,7 +31,7 @@ module.exports = withPWA({
     compiler: {
         removeConsole: process.env.APP_ENV !== "local" && process.env.NODE_ENV !== 'development'
     },
-    transpilePackages: ['antd']
+    //  transpilePackages: ['antd']
     // target: 'serverless'
 })
 

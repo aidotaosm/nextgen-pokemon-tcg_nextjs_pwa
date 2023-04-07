@@ -14,8 +14,8 @@ import "../src/css/global.css";
 import "pure-react-carousel/dist/react-carousel.es.css";
 import { Helper } from "../src/utils/helper";
 config.autoAddCss = false;
-import { StyleProvider } from '@ant-design/cssinjs';
-import '../public/antd.min.css';
+// import { StyleProvider } from '@ant-design/cssinjs';
+// import '../public/antd.min.css';
 
 export default function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -87,9 +87,9 @@ export default function MyApp({ Component, pageProps }: AppProps) {
               key="twitter:image"
             />
           </Head>
-          <StyleProvider hashPriority="high" ssrInline={true}>
-            <Component {...pageProps} />
-          </StyleProvider>
+          {/* <StyleProvider hashPriority="high" ssrInline={true}> */}
+          <Component {...pageProps} />
+          {/* </StyleProvider> */}
           {/* <Analytics /> */}
         </Fragment>
       </AppWrapper>

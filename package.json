@@ -27,10 +27,7 @@
     "dev": "next dev -p 3001",
     "build": "next build",
     "build:local": "SET APP_ENV=local& next build",
-    "start": "next start -p 3001",
-    "predev": "ts-node --project ./tsconfig.node.json ./scripts/genAntdCss.tsx",
-    "prebuild": "ts-node --project ./tsconfig.node.json ./scripts/genAntdCss.tsx",
-    "prebuild:local": "ts-node --project ./tsconfig.node.json ./scripts/genAntdCss.tsx"
+    "start": "next start -p 3001"
   },
   "eslintConfig": {
     "extends": [
