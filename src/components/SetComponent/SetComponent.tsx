@@ -146,6 +146,7 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
                   }
                 });
               }
+              break;
             case FilterFieldNames.sortLevelOne:
               if (fieldValue) {
                 let TypedFieldValue = fieldValue as string;
