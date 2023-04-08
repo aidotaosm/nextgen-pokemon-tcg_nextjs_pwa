@@ -469,7 +469,7 @@ a.white-hover:hover,
 }
 
 .border-light-gray {
-  border: var(--bs-border-width) var(--bs-border-style) var(--bs-border-color);
+  border: var(--bs-border-width) var(--bs-border-style) #0000002d;
 }
 
 .dark-mode .border-light-gray {
@@ -756,7 +756,7 @@ a.white-hover:hover,
   align-items: center;
 }
 .ant-select-selector .ant-input {
-  border-color: var(--bs-border-color);
+  border-color: #0000002d;
 }
 .dark-mode .ant-select-selector .ant-input {
   border-color: var(--border-color) !important;
