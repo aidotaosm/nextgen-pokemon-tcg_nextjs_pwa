@@ -10,6 +10,7 @@ import { EnergyComponent } from "../UtilityComponents/EnergyComponent";
 import { AppContext } from "../../contexts/AppContext";
 import { FilterFieldNames, ValidHPRange } from "../../models/Enums";
 import type { SliderMarks } from "antd/es/slider";
+import { SortOptions, SortOrderOptions } from "../../data";
 const { defaultAlgorithm, darkAlgorithm } = theme;
 
 export const SidebarFiltersComponent: FunctionComponent<
@@ -47,7 +48,7 @@ export const SidebarFiltersComponent: FunctionComponent<
             layout="vertical"
             className={"card-body " + (antComponentLoaded ? '' : 'invisible')}
             form={formInstance}
-            initialValues={{ [FilterFieldNames.hpRange]: [10, 340] }}
+            initialValues={{ [FilterFieldNames.hpRange]: [10, 340], [FilterFieldNames.sortLevelOne]: SortOptions.sortByDexNumber, [FilterFieldNames.sortLevelOneOrder]: SortOrderOptions.asc }}
             style={{ padding: 'var(--bs-card-spacer-y) var(--bs-card-spacer-x)' }}
           >
             <Form.Item
@@ -141,6 +142,34 @@ export const SidebarFiltersComponent: FunctionComponent<
                   return (
                     <Select.Option key={cardType} value={cardType}>
                       {cardType}
+                    </Select.Option>
+                  );
+                })}
+              </Select>
+            </Form.Item>
+            <Form.Item name={FilterFieldNames.sortLevelOne} label="Sort (Level 1)">
+              <Select
+                placeholder="Select sort option"
+                onChange={triggerFilter}
+              >
+                {((Object.keys(SortOptions) as (keyof typeof SortOptions)[])).map((sortOption: keyof typeof SortOptions, index: number) => {
+                  return (
+                    <Select.Option key={sortOption} value={sortOption}>
+                      {SortOptions[sortOption]}
+                    </Select.Option>
+                  );
+                })}
+              </Select>
+            </Form.Item>
+            <Form.Item name={FilterFieldNames.sortLevelOneOrder} label="Sort Order (Level 1)">
+              <Select
+                placeholder="Select sort order"
+                onChange={triggerFilter}
+              >
+                {((Object.keys(SortOrderOptions) as (keyof typeof SortOrderOptions)[])).map((sortOrderOption: keyof typeof SortOrderOptions, index: number) => {
+                  return (
+                    <Select.Option key={sortOrderOption} value={sortOrderOption}>
+                      {SortOrderOptions[sortOrderOption]}
                     </Select.Option>
                   );
                 })}
