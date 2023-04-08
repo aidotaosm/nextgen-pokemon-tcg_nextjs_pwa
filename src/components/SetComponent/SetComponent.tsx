@@ -30,6 +30,7 @@ import superTypes from "../../InternalJsons/AllSuperTypes.json";
 import subTypes from "../../InternalJsons/AllSubtypes.json";
 import rarities from "../../InternalJsons/AllRarities.json";
 import regulationMarks from "../../InternalJsons/AllRegulationMarks.json";
+import { SortOptions, SortOrderOptions } from "../../data";
 
 export const SetComponent: FunctionComponent<CardsObjectProps> = ({
   cardsObject,
@@ -338,6 +339,34 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
                 ];
               });
               tempChangedCards = cardTypeResult;
+            }
+            break;
+          case FilterFieldNames.sortLevelOne:
+            if (fieldValue) {
+              let TypedFieldValue = fieldValue as keyof typeof SortOptions;
+              if (TypedFieldValue === 'sortByDexNumber') {
+                tempChangedCards.sort(
+                  (firstColumn, secondColumn) => (firstColumn.nationalPokedexNumbers?.[0] || (tempChangedCards.length - 1)) - (secondColumn.nationalPokedexNumbers?.[0] || (tempChangedCards.length - 1))
+                );
+              } else if (TypedFieldValue === 'sortByHP') {
+                tempChangedCards.sort(
+                  (firstColumn, secondColumn) => (+firstColumn.hp || 1000) - (+secondColumn.hp || 1000)
+                );
+              } else if (TypedFieldValue === 'sortByName') {
+                tempChangedCards.sort(
+                  (firstColumn, secondColumn) => firstColumn.name.localeCompare(secondColumn.name)
+                );
+              }
+            }
+            break;
+          case FilterFieldNames.sortLevelOneOrder:
+            if (fieldValue) {
+              let TypedFieldValue = fieldValue as keyof typeof SortOrderOptions;
+              if (TypedFieldValue === 'asc') {
+                // tempChangedCards.reverse();
+              } else if (TypedFieldValue === 'desc') {
+                tempChangedCards.reverse();
+              }
             }
             break;
         }

@@ -151,6 +151,7 @@ export const SidebarFiltersComponent: FunctionComponent<
               <Select
                 placeholder="Select sort option"
                 onChange={triggerFilter}
+                allowClear={false}
               >
                 {((Object.keys(SortOptions) as (keyof typeof SortOptions)[])).map((sortOption: keyof typeof SortOptions, index: number) => {
                   return (
@@ -165,6 +166,7 @@ export const SidebarFiltersComponent: FunctionComponent<
               <Select
                 placeholder="Select sort order"
                 onChange={triggerFilter}
+                allowClear={false}
               >
                 {((Object.keys(SortOrderOptions) as (keyof typeof SortOrderOptions)[])).map((sortOrderOption: keyof typeof SortOrderOptions, index: number) => {
                   return (
