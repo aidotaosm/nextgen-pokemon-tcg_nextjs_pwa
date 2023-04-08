@@ -145,6 +145,23 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
                   }
                 });
               }
+            case FilterFieldNames.sortLevelOne:
+              if (fieldValue) {
+                let TypedFieldValue = fieldValue as string;
+                correctedFieldValues[fieldName] = '';
+                if (Object.keys(SortOptions).includes(TypedFieldValue)) {
+                  correctedFieldValues[fieldName] = TypedFieldValue;
+                }
+              }
+              break;
+            case FilterFieldNames.sortLevelOneOrder:
+              if (fieldValue) {
+                let TypedFieldValue = fieldValue as string;
+                correctedFieldValues[fieldName] = '';
+                if (Object.keys(SortOrderOptions).includes(TypedFieldValue)) {
+                  correctedFieldValues[fieldName] = TypedFieldValue;
+                }
+              }
               break;
           }
         }
@@ -514,6 +531,18 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
             if (fieldValue.length) {
               let TypedFieldValue = fieldValue as string[];
               TypedFieldValue.join(",");
+              filterQuery += "&" + fieldName + "=" + TypedFieldValue;
+            }
+            break;
+          case FilterFieldNames.sortLevelOne:
+            if (fieldValue.length) {
+              let TypedFieldValue = fieldValue as string;
+              filterQuery += "&" + fieldName + "=" + TypedFieldValue;
+            }
+            break;
+          case FilterFieldNames.sortLevelOneOrder:
+            if (fieldValue.length) {
+              let TypedFieldValue = fieldValue as string;
               filterQuery += "&" + fieldName + "=" + TypedFieldValue;
             }
             break;
