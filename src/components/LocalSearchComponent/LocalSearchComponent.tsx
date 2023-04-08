@@ -86,6 +86,9 @@ export const LocalSearchComponent: FunctionComponent<
       }, 2000);
       if (setCards) {
         let listOfCardsWithUniqueNames = Array.from(new Set(setCards.map(card => card.name)));
+        listOfCardsWithUniqueNames.sort(
+          (firstColumn, secondColumn) => firstColumn.localeCompare(secondColumn)
+        );
         setSearchOptions(listOfCardsWithUniqueNames.map(x => { return { value: x } }));
       } else {
         import("../../InternalJsons/AllCardsWithUniqueNames.json").then(

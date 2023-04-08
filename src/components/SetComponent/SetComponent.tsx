@@ -31,6 +31,7 @@ import subTypes from "../../InternalJsons/AllSubtypes.json";
 import rarities from "../../InternalJsons/AllRarities.json";
 import regulationMarks from "../../InternalJsons/AllRegulationMarks.json";
 import { SortOptions, SortOrderOptions } from "../../data";
+import { Helper } from "../../utils/helper";
 
 export const SetComponent: FunctionComponent<CardsObjectProps> = ({
   cardsObject,
@@ -391,6 +392,7 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
     });
     let from = newPageIndex * DEFAULT_PAGE_SIZE;
     let to = (newPageIndex + 1) * DEFAULT_PAGE_SIZE;
+    //cards of the day
     // Helper.saveTemplateAsFile(
     //   "CardsOfTheDay.json",
     //   tempChangedCards.slice(
@@ -398,6 +400,10 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
     //     tempChangedCards.length - 1
     //   )
     // );
+    // unique cards
+    // let listOfCardsWithUniqueNames = Array.from(new Set(tempChangedCards.map((card: any) => card.name)));
+    // console.log(listOfCardsWithUniqueNames);
+    // Helper.saveTemplateAsFile("AllCardsWithUniqueNames.json", listOfCardsWithUniqueNames);
     setSetCards(tempChangedCards.slice(from, to));
     setTotalCount(tempChangedCards.length);
     setPageIndex(newPageIndex);
