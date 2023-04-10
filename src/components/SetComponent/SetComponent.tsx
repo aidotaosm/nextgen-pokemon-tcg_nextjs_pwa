@@ -2,6 +2,8 @@ import { FunctionComponent, useContext, useEffect, useState } from "react";
 import { PagingComponent } from "../PagingComponent/PagingComponent";
 import {
   DEFAULT_PAGE_SIZE,
+  maxHP,
+  maxPokeDexNumber,
   Vercel_DEFAULT_URL,
 } from "../../constants/constants";
 import { useRouter } from "next/router";
@@ -255,7 +257,7 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
         ? paramSearchValue
         : searchValue;
     let tempChangedCards: any[] = initialCards.filter((item: any) => {
-      return item.name.toLowerCase().includes(tempSearchValue.toLowerCase());
+      return item.name.toLowerCase().includes(tempSearchValue.toLowerCase().trim());
     });
     const fieldValues = instantFilterValues || formInstance.getFieldsValue();
     const filterNames = Object.keys(fieldValues);
@@ -365,15 +367,36 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
               let TypedFieldValue = fieldValue as keyof typeof SortOptions;
               if (TypedFieldValue === 'sortByDexNumber') {
                 tempChangedCards.sort(
-                  (firstColumn, secondColumn) => (firstColumn.nationalPokedexNumbers?.[0] || (tempChangedCards.length - 1)) - (secondColumn.nationalPokedexNumbers?.[0] || (tempChangedCards.length - 1))
+                  (firstColumn, secondColumn) => (firstColumn.nationalPokedexNumbers?.[0] || maxPokeDexNumber) - (secondColumn.nationalPokedexNumbers?.[0] || maxPokeDexNumber)
                 );
               } else if (TypedFieldValue === 'sortByHP') {
                 tempChangedCards.sort(
-                  (firstColumn, secondColumn) => (+firstColumn.hp || 1000) - (+secondColumn.hp || 1000)
+                  (firstColumn, secondColumn) => (+firstColumn.hp || maxHP) - (+secondColumn.hp || maxHP)
                 );
               } else if (TypedFieldValue === 'sortByName') {
                 tempChangedCards.sort(
                   (firstColumn, secondColumn) => firstColumn.name.localeCompare(secondColumn.name)
+                );
+              } else if (TypedFieldValue === 'energyType') {
+                tempChangedCards.sort(
+                  (firstColumn, secondColumn) => {
+                    let comparisonResult = 0;
+                    if (firstColumn.types?.[0] && secondColumn.types?.[0]) {
+                      comparisonResult = firstColumn.types[0].localeCompare(secondColumn.types[0])
+                    } else if (firstColumn.types?.[0]) {
+                      comparisonResult = firstColumn.types[0];
+                    } else if (secondColumn.types?.[0]) {
+                      comparisonResult = secondColumn.types[0];
+                    } else {
+                      comparisonResult = maxPokeDexNumber;
+                    }
+
+                    return comparisonResult;
+                  }
+                );
+              } else if (TypedFieldValue === 'releaseDate') {
+                tempChangedCards.sort(
+                  (firstColumn, secondColumn) => (new Date(firstColumn.set.releaseDate) > new Date(secondColumn.set.releaseDate)) ? 1 : ((new Date(firstColumn.set.releaseDate) === new Date(secondColumn.set.releaseDate)) ? 0 : -1)
                 );
               }
             }
@@ -403,7 +426,6 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
     // );
     // unique cards
     // let listOfCardsWithUniqueNames = Array.from(new Set(tempChangedCards.map((card: any) => card.name)));
-    // console.log(listOfCardsWithUniqueNames);
     // Helper.saveTemplateAsFile("AllCardsWithUniqueNames.json", listOfCardsWithUniqueNames);
     setSetCards(tempChangedCards.slice(from, to));
     setTotalCount(tempChangedCards.length);

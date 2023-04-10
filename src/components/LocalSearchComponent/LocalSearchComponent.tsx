@@ -98,15 +98,12 @@ export const LocalSearchComponent: FunctionComponent<
             }
           })
       }
-
-
       return () => {
         clearTimeout(timeout);
         clearInterval(interval);
       };
     }, []);
     const triggerSearch = (value: string) => {
-      console.log(value);
       if (!disabled) {
         setSearchValueFunction(value, "submit");
       }
@@ -121,6 +118,7 @@ export const LocalSearchComponent: FunctionComponent<
 
         <div className={"search " + (antComponentLoaded ? '' : 'skeleton-animation h-40px')}>
           <AutoComplete
+
             options={searchOptions}
             className={"search " + (antComponentLoaded ? '' : 'invisible')}
             id="search"
@@ -132,10 +130,11 @@ export const LocalSearchComponent: FunctionComponent<
             onChange={(e) => { setSearchValueFunction(e, "onChange"); }}
             onKeyUp={(e) => {
               if (e.key === "Enter") {
-                console.log(e);
                 triggerSearch((e.target as HTMLInputElement).value);
               }
             }}
+            allowClear={true}
+            onClear={() => triggerSearch('')}
           >
             <Input.Search size="large" placeholder={initialPlaceHolder} enterButton autoComplete="new-password" />
           </AutoComplete>
