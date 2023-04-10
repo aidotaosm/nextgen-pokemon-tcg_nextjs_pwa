@@ -29,4 +29,6 @@ export const random_pokemon_names = [
   "Raikou",
   "Zapdos",
 ];
+export const maxPokeDexNumber = 2000;
+export const maxHP = 1000;
 //process.env.NETLIFY !== "true"

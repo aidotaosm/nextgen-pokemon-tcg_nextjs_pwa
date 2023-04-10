@@ -439,7 +439,7 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
       >
         <div>
           {serviceWorkerStatus === "loading"
-            ? "This feature allows you to use offline features and enhances the user experience. Give us a moment while it installs."
+            ? "This feature allows you to use offline features and enhances the user experience. Give us a moment while it does it's thing!"
             : serviceWorkerStatus === "done"
               ? "Service worker is successfully running. You can now enjoy an enhanced experience and benefit from supported offline features."
               : "Service worker couldn't be installed. You can continue to use the site normally. But offline features have been turned off. You may try refreshing the page or using a different (newer) browser."}

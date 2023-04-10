@@ -106,7 +106,7 @@ export const PokemonDetailComponent: FunctionComponent<PokemonDetailProps> = ({
                         className={
                           "ms-1" +
                           (nationalPokedexNumberIndex !==
-                          card.nationalPokedexNumbers.length - 1
+                            card.nationalPokedexNumbers.length - 1
                             ? "mr-1"
                             : "")
                         }
@@ -321,6 +321,9 @@ export const PokemonDetailComponent: FunctionComponent<PokemonDetailProps> = ({
                 <i>{card.flavorText}</i>
               </small>
             </IF>
+            <small className="mt-2 d-block text-end">
+              <b>Released:</b> {card.set.releaseDate}
+            </small>
           </div>
         </div>
       </div>

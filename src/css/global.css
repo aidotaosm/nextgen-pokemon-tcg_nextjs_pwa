@@ -764,3 +764,6 @@ a.white-hover:hover,
 .h-40px {
   height: 40px;
 }
+.ant-select-clear {
+  inset-inline-end: 60px;
+}

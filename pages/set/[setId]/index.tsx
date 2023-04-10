@@ -11,6 +11,7 @@ import {
 import { Helper } from "../../../src/utils/helper";
 import { getAllSetCards, getExpansions } from "../../../src/utils/networkCalls";
 import dynamicallyImportedAllCards from "../../../src/InternalJsons/AllCards.json";
+import { maxPokeDexNumber } from "../../../src/constants/constants";
 
 interface IParams extends ParsedUrlQuery {
   setId: string;
@@ -70,6 +71,9 @@ export const getStaticProps: GetStaticProps = async (context) => {
   if (!cardsObject?.data?.length) {
     return { notFound: true, revalidate: 60 };
   } else {
+    (cardsObject.data as any[]).sort(
+      (firstColumn, secondColumn) => (firstColumn.nationalPokedexNumbers?.[0] || maxPokeDexNumber) - (secondColumn.nationalPokedexNumbers?.[0] || maxPokeDexNumber)
+    );
     return { props: { cardsObject }, revalidate: 60 * 60 * 24 };
   }
 };
