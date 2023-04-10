@@ -5,6 +5,7 @@ import regulationMarks from "../../InternalJsons/AllRegulationMarks.json";
 import superTypes from "../../InternalJsons/AllSuperTypes.json";
 import subTypes from "../../InternalJsons/AllSubtypes.json";
 import rarities from "../../InternalJsons/AllRarities.json";
+import allSetNames from "../../InternalJsons/AllSetNames.json";
 import { Checkbox, ConfigProvider, Form, Select, Slider, theme } from "antd";
 import { EnergyComponent } from "../UtilityComponents/EnergyComponent";
 import { AppContext } from "../../contexts/AppContext";
@@ -99,10 +100,25 @@ export const SidebarFiltersComponent: FunctionComponent<
                 </div>
               </Checkbox.Group>
             </Form.Item>
+            <Form.Item name={FilterFieldNames.set} label="Set">
+              <Select
+                mode="multiple"
+                placeholder="Select set e.g. Base"
+                onChange={triggerFilter}
+              >
+                {allSetNames.map((setArray, index: number) => {
+                  return (
+                    <Select.Option key={setArray[0]} value={setArray[0]}>
+                      {setArray[1]}
+                    </Select.Option>
+                  );
+                })}
+              </Select>
+            </Form.Item>
             <Form.Item name={FilterFieldNames.subType} label="Sub Type">
               <Select
                 mode="multiple"
-                placeholder="Select sub type e.g. ex."
+                placeholder="Select sub type e.g. EX"
                 onChange={triggerFilter}
               >
                 {subTypes.map((subType: string, index: number) => {
