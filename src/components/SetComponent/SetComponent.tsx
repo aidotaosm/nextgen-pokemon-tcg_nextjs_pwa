@@ -427,6 +427,8 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
     // unique cards
     // let listOfCardsWithUniqueNames = Array.from(new Set(tempChangedCards.map((card: any) => card.name)));
     // Helper.saveTemplateAsFile("AllCardsWithUniqueNames.json", listOfCardsWithUniqueNames);
+    // let listOfUniqueSets = Array.from(new Set(tempChangedCards.map((card: any) => card.set.name)));
+    // Helper.saveTemplateAsFile("AllSetNames.json", listOfUniqueSets);
     setSetCards(tempChangedCards.slice(from, to));
     setTotalCount(tempChangedCards.length);
     setPageIndex(newPageIndex);

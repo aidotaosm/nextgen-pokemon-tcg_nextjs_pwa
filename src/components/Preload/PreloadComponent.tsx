@@ -231,7 +231,7 @@ export const PreloadComponent: FunctionComponent<PreloadComponentProps> = ({
     setDownloadAllCardsLoading(true);
     getAllCards()
       .then((cardsParentObject: any[]) => {
-        //sort all cards
+        //sort all cards to national dex numbers
         cardsParentObject.sort(
           (firstColumn, secondColumn) => (firstColumn.nationalPokedexNumbers?.[0] || (cardsParentObject.length - 1)) - (secondColumn.nationalPokedexNumbers?.[0] || (cardsParentObject.length - 1))
         );
@@ -239,6 +239,14 @@ export const PreloadComponent: FunctionComponent<PreloadComponentProps> = ({
         //   make list of cards with unique names
         let listOfCardsWithUniqueNames = Array.from(new Set(cardsParentObject.map((card: any) => card.name)));
         Helper.saveTemplateAsFile("AllCardsWithUniqueNames.json", listOfCardsWithUniqueNames);
+        //reverse sort all cards with release date
+        cardsParentObject.sort(
+          (firstColumn, secondColumn) => (new Date(firstColumn.set.releaseDate) > new Date(secondColumn.set.releaseDate)) ? 1 : ((new Date(firstColumn.set.releaseDate) === new Date(secondColumn.set.releaseDate)) ? 0 : -1)
+        );
+        cardsParentObject.reverse();
+        // make list of unique sets
+        let listOfUniqueSets = Array.from(new Set(cardsParentObject.map((card: any) => card.set.name)));
+        Helper.saveTemplateAsFile("AllSetNames.json", listOfUniqueSets);
       })
       .finally(() => {
         setDownloadAllCardsLoading(false);
