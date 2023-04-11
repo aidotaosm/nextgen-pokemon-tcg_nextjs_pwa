@@ -5,6 +5,7 @@ import regulationMarks from "../../InternalJsons/AllRegulationMarks.json";
 import superTypes from "../../InternalJsons/AllSuperTypes.json";
 import subTypes from "../../InternalJsons/AllSubtypes.json";
 import rarities from "../../InternalJsons/AllRarities.json";
+import allSetNames from "../../InternalJsons/AllSetNames.json";
 import { Checkbox, ConfigProvider, Form, Select, Slider, theme } from "antd";
 import { EnergyComponent } from "../UtilityComponents/EnergyComponent";
 import { AppContext } from "../../contexts/AppContext";
@@ -15,7 +16,7 @@ const { defaultAlgorithm, darkAlgorithm } = theme;
 
 export const SidebarFiltersComponent: FunctionComponent<
   SidebarFiltersComponentProps
-> = ({ formInstance, triggerFilter }) => {
+> = ({ formInstance, triggerFilter, isSearchPage, setId }) => {
   const { appState } = useContext(AppContext);
   const [antComponentLoaded, setAntComponentLoaded] = useState(false);
   const marks: SliderMarks = {
@@ -48,7 +49,7 @@ export const SidebarFiltersComponent: FunctionComponent<
             layout="vertical"
             className={"card-body " + (antComponentLoaded ? '' : 'invisible')}
             form={formInstance}
-            initialValues={{ [FilterFieldNames.hpRange]: [10, 340], [FilterFieldNames.sortLevelOne]: SortOptions.sortByDexNumber, [FilterFieldNames.sortLevelOneOrder]: SortOrderOptions.asc }}
+            initialValues={{ [FilterFieldNames.hpRange]: [10, 340], [FilterFieldNames.sortLevelOne]: SortOptions.sortByDexNumber, [FilterFieldNames.sortLevelOneOrder]: SortOrderOptions.asc, [FilterFieldNames.set]: isSearchPage ? undefined : setId }}
             style={{ padding: 'var(--bs-card-spacer-y) var(--bs-card-spacer-x)' }}
           >
             <Form.Item
@@ -99,10 +100,26 @@ export const SidebarFiltersComponent: FunctionComponent<
                 </div>
               </Checkbox.Group>
             </Form.Item>
+            <Form.Item name={FilterFieldNames.set} label="Set">
+              <Select
+                disabled={!isSearchPage}
+                mode="multiple"
+                placeholder="Select set e.g. Base"
+                onChange={triggerFilter}
+              >
+                {allSetNames.map((setArray, index: number) => {
+                  return (
+                    <Select.Option key={setArray[0]} value={setArray[0]}>
+                      {setArray[1]}
+                    </Select.Option>
+                  );
+                })}
+              </Select>
+            </Form.Item>
             <Form.Item name={FilterFieldNames.subType} label="Sub Type">
               <Select
                 mode="multiple"
-                placeholder="Select sub type e.g. ex."
+                placeholder="Select sub type e.g. EX"
                 onChange={triggerFilter}
               >
                 {subTypes.map((subType: string, index: number) => {

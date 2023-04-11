@@ -7,6 +7,7 @@ export enum FilterFieldNames {
   energyType = "energy-type",
   cardType = "card-type",
   subType = "sub-type",
+  set = "set",
   rarity = "rarity",
   hpRange = "hp-range",
   regulationMarks = "regulation-marks",

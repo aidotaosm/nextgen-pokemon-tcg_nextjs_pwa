@@ -765,5 +765,5 @@ a.white-hover:hover,
   height: 40px;
 }
 .ant-select-clear {
-  inset-inline-end: 60px;
+  inset-inline-end: 60px !important;
 }
