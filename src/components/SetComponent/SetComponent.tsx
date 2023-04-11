@@ -32,6 +32,7 @@ import superTypes from "../../InternalJsons/AllSuperTypes.json";
 import subTypes from "../../InternalJsons/AllSubtypes.json";
 import rarities from "../../InternalJsons/AllRarities.json";
 import regulationMarks from "../../InternalJsons/AllRegulationMarks.json";
+import allSetNames from "../../InternalJsons/AllSetNames.json";
 import { SortOptions, SortOrderOptions } from "../../data";
 import { Helper } from "../../utils/helper";
 
@@ -101,6 +102,17 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
                 TypedFieldValue.forEach((regulationMark) => {
                   if (regulationMarks.includes(regulationMark)) {
                     correctedFieldValues[fieldName].push(regulationMark);
+                  }
+                });
+              }
+              break;
+            case FilterFieldNames.set:
+              if (fieldValue.length && isSearchPage) {
+                let TypedFieldValue = fieldValue.split(",") as string[];
+                correctedFieldValues[fieldName] = [];
+                TypedFieldValue.forEach((setId) => {
+                  if (allSetNames.find(x => x[0] === setId)) {
+                    correctedFieldValues[fieldName].push(setId);
                   }
                 });
               }
@@ -293,6 +305,27 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
                 ];
               });
               tempChangedCards = regulationMarks.filter(
+                (value, index, self) =>
+                  self.findIndex((v) => v.id === value.id) === index
+              );
+            }
+            break;
+          case FilterFieldNames.set:
+            if (fieldValue.length && isSearchPage) {
+              let TypedFieldValue = fieldValue as string[];
+              let setResult: any[] = [];
+              console.log(TypedFieldValue);
+              TypedFieldValue.forEach((setId) => {
+                setResult = [
+                  ...setResult,
+                  ...tempChangedCards.filter((card: any) => {
+                    return (
+                      card.set.id === setId
+                    );
+                  }),
+                ];
+              });
+              tempChangedCards = setResult.filter(
                 (value, index, self) =>
                   self.findIndex((v) => v.id === value.id) === index
               );
@@ -538,6 +571,13 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
               filterQuery += "&" + fieldName + "=" + TypedFieldValue;
             }
             break;
+          case FilterFieldNames.set:
+            if (fieldValue.length && isSearchPage) {
+              let TypedFieldValue = fieldValue as string[];
+              TypedFieldValue.join(",");
+              filterQuery += "&" + fieldName + "=" + TypedFieldValue;
+            }
+            break;
           case FilterFieldNames.subType:
             if (fieldValue.length) {
               let TypedFieldValue = fieldValue as string[];
@@ -738,6 +778,8 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
         >
           <div className={"sidebar"}>
             <SidebarFiltersComponent
+              setId={setCards?.[0]?.set?.id}
+              isSearchPage={isSearchPage}
               formInstance={formInstance}
               triggerFilter={triggerFilter}
             />

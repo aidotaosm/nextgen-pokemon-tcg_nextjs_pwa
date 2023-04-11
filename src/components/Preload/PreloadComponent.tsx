@@ -245,7 +245,7 @@ export const PreloadComponent: FunctionComponent<PreloadComponentProps> = ({
         );
         cardsParentObject.reverse();
         // make list of unique sets
-        let listOfUniqueSets = Array.from(new Set(cardsParentObject.map((card: any) => card.set.name)));
+        let listOfUniqueSets = Array.from(new Map(cardsParentObject.map(item => [item.set.id, item.set.name])));
         Helper.saveTemplateAsFile("AllSetNames.json", listOfUniqueSets);
       })
       .finally(() => {

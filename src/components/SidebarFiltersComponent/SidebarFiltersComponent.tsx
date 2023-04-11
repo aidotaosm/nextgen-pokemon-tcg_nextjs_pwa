@@ -16,7 +16,7 @@ const { defaultAlgorithm, darkAlgorithm } = theme;
 
 export const SidebarFiltersComponent: FunctionComponent<
   SidebarFiltersComponentProps
-> = ({ formInstance, triggerFilter }) => {
+> = ({ formInstance, triggerFilter, isSearchPage, setId }) => {
   const { appState } = useContext(AppContext);
   const [antComponentLoaded, setAntComponentLoaded] = useState(false);
   const marks: SliderMarks = {
@@ -49,7 +49,7 @@ export const SidebarFiltersComponent: FunctionComponent<
             layout="vertical"
             className={"card-body " + (antComponentLoaded ? '' : 'invisible')}
             form={formInstance}
-            initialValues={{ [FilterFieldNames.hpRange]: [10, 340], [FilterFieldNames.sortLevelOne]: SortOptions.sortByDexNumber, [FilterFieldNames.sortLevelOneOrder]: SortOrderOptions.asc }}
+            initialValues={{ [FilterFieldNames.hpRange]: [10, 340], [FilterFieldNames.sortLevelOne]: SortOptions.sortByDexNumber, [FilterFieldNames.sortLevelOneOrder]: SortOrderOptions.asc, [FilterFieldNames.set]: isSearchPage ? undefined : setId }}
             style={{ padding: 'var(--bs-card-spacer-y) var(--bs-card-spacer-x)' }}
           >
             <Form.Item
@@ -102,6 +102,7 @@ export const SidebarFiltersComponent: FunctionComponent<
             </Form.Item>
             <Form.Item name={FilterFieldNames.set} label="Set">
               <Select
+                disabled={!isSearchPage}
                 mode="multiple"
                 placeholder="Select set e.g. Base"
                 onChange={triggerFilter}
