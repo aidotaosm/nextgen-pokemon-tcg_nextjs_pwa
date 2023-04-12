@@ -767,3 +767,6 @@ a.white-hover:hover,
 .ant-select-clear {
   inset-inline-end: 60px !important;
 }
+.ant-input-search-button {
+  justify-content: center;
+}
