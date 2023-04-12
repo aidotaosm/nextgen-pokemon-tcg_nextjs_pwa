@@ -26,7 +26,7 @@ import { Form } from "antd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faBarsStaggered } from "@fortawesome/free-solid-svg-icons";
 import Tooltip from "bootstrap/js/dist/tooltip";
-import { FilterFieldNames, ValidHPRange } from "../../models/Enums";
+import { FilterFieldNames, ValidHPRange, ValidRetreatCostRange } from "../../models/Enums";
 import energyTypes from "../../InternalJsons/AllTypes.json";
 import superTypes from "../../InternalJsons/AllSuperTypes.json";
 import subTypes from "../../InternalJsons/AllSubtypes.json";
@@ -95,6 +95,28 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
                 });
               }
               break;
+            case FilterFieldNames.weakness:
+              if (fieldValue) {
+                let TypedFieldValue = fieldValue.split(",") as string[];
+                correctedFieldValues[fieldName] = [];
+                TypedFieldValue.forEach((weakness) => {
+                  if (energyTypes.includes(weakness)) {
+                    correctedFieldValues[fieldName].push(weakness);
+                  }
+                });
+              }
+              break;
+            case FilterFieldNames.resistance:
+              if (fieldValue) {
+                let TypedFieldValue = fieldValue.split(",") as string[];
+                correctedFieldValues[fieldName] = [];
+                TypedFieldValue.forEach((resistance) => {
+                  if (energyTypes.includes(resistance)) {
+                    correctedFieldValues[fieldName].push(resistance);
+                  }
+                });
+              }
+              break;
             case FilterFieldNames.regulationMarks:
               if (fieldValue.length) {
                 let TypedFieldValue = fieldValue.split(",") as string[];
@@ -146,6 +168,17 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
                 TypedFieldValue.forEach((hp) => {
                   if (ValidHPRange.max >= +hp && ValidHPRange.min <= +hp) {
                     correctedFieldValues[fieldName].push(+hp);
+                  }
+                });
+              }
+              break;
+            case FilterFieldNames.retreatCost:
+              if (fieldValue) {
+                let TypedFieldValue = fieldValue.split(",") as string[];
+                correctedFieldValues[fieldName] = [];
+                TypedFieldValue.forEach((retreatCost) => {
+                  if (ValidRetreatCostRange.max >= +retreatCost && ValidRetreatCostRange.min <= +retreatCost) {
+                    correctedFieldValues[fieldName].push(+retreatCost);
                   }
                 });
               }
@@ -257,7 +290,7 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
       updateGlobalSearchTerm?.("");
     };
   }, []);
-
+  //console.log(setCards);
   const handleSearchAndFilter = (
     paramSearchValue: string | undefined,
     initialCards: any[],
@@ -284,6 +317,30 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
                 tempChangedCards = tempChangedCards.filter((card: any) => {
                   return (
                     card.types && (card.types as string[]).includes(energy)
+                  );
+                });
+              });
+            }
+            break;
+          case FilterFieldNames.weakness:
+            if (fieldValue.length) {
+              let TypedFieldValue = fieldValue as string[];
+              TypedFieldValue.forEach((weakness) => {
+                tempChangedCards = tempChangedCards.filter((card: any) => {
+                  return (
+                    card.weaknesses && (card.weaknesses as { type: string, value: string }[]).find(weaknessObject => weaknessObject.type === weakness)
+                  );
+                });
+              });
+            }
+            break;
+          case FilterFieldNames.resistance:
+            if (fieldValue.length) {
+              let TypedFieldValue = fieldValue as string[];
+              TypedFieldValue.forEach((resistance) => {
+                tempChangedCards = tempChangedCards.filter((card: any) => {
+                  return (
+                    card.resistances && (card.resistances as { type: string, value: string }[]).find(resistanceObject => resistanceObject.type === resistance)
                   );
                 });
               });
@@ -376,6 +433,18 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
               tempChangedCards = tempChangedCards.filter((card: any) => {
                 return (
                   (card.hp && (+card.hp as number) >= TypedFieldValue[0] && (+card.hp as number) <= TypedFieldValue[1]) || (card.supertype !== superTypes[1])
+                );
+              });
+            }
+            break;
+          case FilterFieldNames.retreatCost:
+            if (fieldValue.length) {
+              let TypedFieldValue = fieldValue as number[];
+              tempChangedCards = tempChangedCards.filter((card: any) => {
+                return (
+                  (card.convertedRetreatCost && (+card.convertedRetreatCost as number) >= TypedFieldValue[0] && (+card.convertedRetreatCost as number) <= TypedFieldValue[1]) ||
+                  (card.supertype === superTypes[1] && card.convertedRetreatCost === undefined && TypedFieldValue[0] === 0) ||
+                  (card.supertype !== superTypes[1])
                 );
               });
             }
@@ -564,6 +633,20 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
               filterQuery += "&" + fieldName + "=" + TypedFieldValue;
             }
             break;
+          case FilterFieldNames.weakness:
+            if (fieldValue.length) {
+              let TypedFieldValue = fieldValue as string[];
+              TypedFieldValue.join(",");
+              filterQuery += "&" + fieldName + "=" + TypedFieldValue;
+            }
+            break;
+          case FilterFieldNames.resistance:
+            if (fieldValue.length) {
+              let TypedFieldValue = fieldValue as string[];
+              TypedFieldValue.join(",");
+              filterQuery += "&" + fieldName + "=" + TypedFieldValue;
+            }
+            break;
           case FilterFieldNames.regulationMarks:
             if (fieldValue.length) {
               let TypedFieldValue = fieldValue as string[];
@@ -593,6 +676,13 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
             }
             break;
           case FilterFieldNames.hpRange:
+            if (fieldValue.length) {
+              let TypedFieldValue = fieldValue as number[];
+              TypedFieldValue.join(",");
+              filterQuery += "&" + fieldName + "=" + TypedFieldValue;
+            }
+            break;
+          case FilterFieldNames.retreatCost:
             if (fieldValue.length) {
               let TypedFieldValue = fieldValue as number[];
               TypedFieldValue.join(",");

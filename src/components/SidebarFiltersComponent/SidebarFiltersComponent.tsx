@@ -64,10 +64,10 @@ export const SidebarFiltersComponent: FunctionComponent<
             className={"card-body " + (antComponentLoaded ? '' : 'invisible')}
             form={formInstance}
             initialValues={{
-              [FilterFieldNames.hpRange]: [10, 340],
-              [FilterFieldNames.sortLevelOne]: SortOptions.sortByDexNumber,
+              [FilterFieldNames.hpRange]: [30, 340],
+              [FilterFieldNames.sortLevelOne]: Object.keys(SortOptions)[0],
               [FilterFieldNames.retreatCost]: [0, 5],
-              [FilterFieldNames.sortLevelOneOrder]: SortOrderOptions.asc,
+              [FilterFieldNames.sortLevelOneOrder]: Object.keys(SortOrderOptions)[0],
               [FilterFieldNames.set]: isSearchPage ? undefined : setId
             }}
             style={{ padding: 'var(--bs-card-spacer-y) var(--bs-card-spacer-x)' }}
@@ -76,7 +76,7 @@ export const SidebarFiltersComponent: FunctionComponent<
               <Input.Search placeholder="E,g. Solarbeam" allowClear onSearch={triggerFilter} /></Form.Item>
             <Form.Item
               name={FilterFieldNames.energyType}
-              label="Energy Type"
+              label="Pokemon Type"
               className="energy-checkbox-group"
             >
               <Checkbox.Group onChange={triggerFilter}>

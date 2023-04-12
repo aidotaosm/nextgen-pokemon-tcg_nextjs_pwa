@@ -19,5 +19,5 @@ export enum FilterFieldNames {
   textSearch = 'text-search'
 }
 
-export enum ValidHPRange { "min" = 10, "max" = 340 }
+export enum ValidHPRange { "min" = 30, "max" = 340 }
 export enum ValidRetreatCostRange { "min" = 0, "max" = 5 }
