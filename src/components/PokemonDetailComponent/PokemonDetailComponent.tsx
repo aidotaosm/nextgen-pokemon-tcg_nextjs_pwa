@@ -15,8 +15,8 @@ export const PokemonDetailComponent: FunctionComponent<PokemonDetailProps> = ({
   showCardOpenToNewTab = true,
 }) => {
   return (
-    <div className={"pokemon-details-wrapper " + classes}>
-      <div className="pokemon-details rounded d-flex flex-column">
+    <div className={"pokemon-details-wrapper flex-grow-1 " + classes}>
+      <div className="pokemon-details rounded d-flex flex-column w-100">
         <div className="name bg-secondary p-2 rounded-top d-flex align-items-center justify-content-between">
           <h1 className="text-lightgray fs-3 fs-md-2"> {card.name}</h1>
           <div className="">
@@ -321,7 +321,7 @@ export const PokemonDetailComponent: FunctionComponent<PokemonDetailProps> = ({
                 <i>{card.flavorText}</i>
               </small>
             </IF>
-            <small className="mt-2 d-block text-end">
+            <small className="mt-1 d-block text-end">
               <b>Released:</b> {card.set.releaseDate}
             </small>
           </div>
