@@ -12,7 +12,12 @@ export enum FilterFieldNames {
   hpRange = "hp-range",
   regulationMarks = "regulation-marks",
   sortLevelOne = 'sort-level-one',
-  sortLevelOneOrder = 'sort-level-one-order'
+  sortLevelOneOrder = 'sort-level-one-order',
+  retreatCost = 'retreat-cost',
+  weakness = 'weakness',
+  resistance = 'resistance',
+  textSearch = 'text-search'
 }
 
-export enum ValidHPRange { "min" = 10, "max" = 340 }
+export enum ValidHPRange { "min" = 30, "max" = 340 }
+export enum ValidRetreatCostRange { "min" = 0, "max" = 5 }

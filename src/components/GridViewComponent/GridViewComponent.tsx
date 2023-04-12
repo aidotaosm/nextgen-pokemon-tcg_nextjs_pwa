@@ -45,44 +45,45 @@ export const GridViewComponent: FunctionComponent<SetCardsProps> = ({
           return (
             <div className="col d-flex" key={card.id}>
               <IF condition={!appState.offLineMode}>
-                <div className="card position-static flex-grow-1">
-                  <div className="card-body">
-                    <div className="card-title mb-0 d-flex align-items-center justify-content-between">
-                      <span className="fs-5 fs-bold">{card.name}</span>
-                      <ExternalLinkComponent
-                        card={card}
-                        classes="fs-6 "
-                        toolTipId={card.id + "tool-tip-grid"}
-                      />
+                <div>
+                  <div className="card position-static flex-grow-1">
+                    <div className="card-body">
+                      <div className="card-title mb-0 d-flex align-items-center justify-content-between">
+                        <span className="fs-5 fs-bold">{card.name}</span>
+                        <ExternalLinkComponent
+                          card={card}
+                          classes="fs-6 "
+                          toolTipId={card.id + "tool-tip-grid"}
+                        />
+                      </div>
                     </div>
-                  </div>
-                  <div className="special-card-wrapper">
-                    <div
-                      className="special-card-border cursor-pointer"
-                      data-bs-toggle="modal"
-                      data-bs-target="#full-screen-card-modal"
-                      onClick={() => {
-                        setSelectedCard(card);
-                      }}
-                      onContextMenu={(e) => e.preventDefault()}
-                    >
-                      <ImageComponent
-                        src={card?.images?.small}
-                        alt={card.name}
-                        width={245}
-                        height={342}
-                        blurDataURL={defaultBlurImage}
-                        className="rounded position-relative card-img-top special-card disable-save h-100 w-100"
-                      />
+                    <div className="special-card-wrapper">
+                      <div
+                        className="special-card-border cursor-pointer"
+                        data-bs-toggle="modal"
+                        data-bs-target="#full-screen-card-modal"
+                        onClick={() => {
+                          setSelectedCard(card);
+                        }}
+                        onContextMenu={(e) => e.preventDefault()}
+                      >
+                        <ImageComponent
+                          src={card?.images?.small}
+                          alt={card.name}
+                          width={245}
+                          height={342}
+                          blurDataURL={defaultBlurImage}
+                          className="rounded position-relative card-img-top special-card disable-save h-100 w-100"
+                        />
+                      </div>
                     </div>
-                  </div>
 
-                  <div className="card-footer">
-                    <small className="">
-                      {card.supertype + Helper.populateSubtype(card)}
-                    </small>
-                  </div>
-                </div>
+                    <div className="card-footer">
+                      <small className="">
+                        {card.supertype + Helper.populateSubtype(card)}
+                      </small>
+                    </div>
+                  </div></div>
               </IF>
               <IF condition={appState.offLineMode}>
                 <PokemonCardAndDetailsComponent
