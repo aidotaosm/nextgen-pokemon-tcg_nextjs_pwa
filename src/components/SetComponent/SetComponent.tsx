@@ -388,6 +388,21 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
               );
             }
             break;
+          case FilterFieldNames.textSearch:
+            if (fieldValue) {
+              console.log(fieldValue);
+              let TypedFieldValue = fieldValue.toLowerCase() as string;
+              tempChangedCards = tempChangedCards.filter((card: any) => {
+                return (
+                  (
+                    card.attacks?.find((attack: { name: string, text: string }) => (attack.name.toLowerCase().includes(TypedFieldValue) || attack.text?.toLowerCase().includes(TypedFieldValue))) ||
+                    card.abilities?.find((ability: { name: string, text: string }) => (ability.name.toLowerCase().includes(TypedFieldValue) || ability.text?.toLowerCase().includes(TypedFieldValue))) ||
+                    card.rules?.find((rule: string) => rule.toLowerCase().includes(fieldValue))
+                  )
+                )
+              });
+            }
+            break;
           case FilterFieldNames.subType:
             if (fieldValue.length) {
               let TypedFieldValue = fieldValue as string[];
