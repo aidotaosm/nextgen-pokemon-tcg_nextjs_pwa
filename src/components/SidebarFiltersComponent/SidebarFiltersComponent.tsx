@@ -12,11 +12,13 @@ import { AppContext } from "../../contexts/AppContext";
 import { FilterFieldNames, ValidHPRange, ValidRetreatCostRange } from "../../models/Enums";
 import type { SliderMarks } from "antd/es/slider";
 import { SortOptions, SortOrderOptions } from "../../data";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowsSpin } from "@fortawesome/free-solid-svg-icons";
 const { defaultAlgorithm, darkAlgorithm } = theme;
 
 export const SidebarFiltersComponent: FunctionComponent<
   SidebarFiltersComponentProps
-> = ({ formInstance, triggerFilter, isSearchPage, setId }) => {
+> = ({ formInstance, triggerFilter, isSearchPage, setId, resetFilters }) => {
   const { appState } = useContext(AppContext);
   const [antComponentLoaded, setAntComponentLoaded] = useState(false);
   const hpMarks: SliderMarks = {
@@ -47,9 +49,12 @@ export const SidebarFiltersComponent: FunctionComponent<
       label: ValidRetreatCostRange.max.toString(),
     },
   };
+
+
   useEffect(() => {
     setAntComponentLoaded(true);
-  });
+  }, []);
+
   return (
     <div className="d-flex flex-column rounded card">
       <ConfigProvider
@@ -72,14 +77,32 @@ export const SidebarFiltersComponent: FunctionComponent<
             }}
             style={{ padding: 'var(--bs-card-spacer-y) var(--bs-card-spacer-x)' }}
           >
-            <Form.Item name={FilterFieldNames.textSearch} label="Attack / Ability text search">
-              <Input.Search placeholder="E,g. Solarbeam" allowClear onSearch={triggerFilter} /></Form.Item>
+            <span className="label-100">
+              <Form.Item name={FilterFieldNames.textSearch} label={
+                <span className="w-100 d-flex justify-content-between">
+                  <span>Card Text Search</span>
+                  <span
+                    className="cursor-pointer span-link"
+                    onClick={() => {
+                      resetFilters();
+                    }}
+                    title="Reset filters to default"
+                  >
+                    <FontAwesomeIcon
+                      icon={faArrowsSpin}
+                      className=""
+                    />
+                  </span>
+                </span>}>
+                <Input.Search placeholder="E,g. Solarbeam" allowClear onSearch={(e) => { console.log(typeof e); triggerFilter(e) }} />
+              </Form.Item>
+            </span>
             <Form.Item
               name={FilterFieldNames.energyType}
               label="Pokemon Type"
               className="energy-checkbox-group"
             >
-              <Checkbox.Group onChange={triggerFilter}>
+              <Checkbox.Group onChange={(e) => triggerFilter()}>
                 <div className="row row-cols-3">
                   {energyTypes.map((type: string, index: number) => {
                     return (
@@ -103,7 +126,7 @@ export const SidebarFiltersComponent: FunctionComponent<
               label="Regulation Marks"
               className="energy-checkbox-group"
             >
-              <Checkbox.Group onChange={triggerFilter}>
+              <Checkbox.Group onChange={(e) => triggerFilter()}>
                 <div className="row row-cols-4">
                   {regulationMarks.map((regulationMark: string, index: number) => {
                     return (
@@ -127,7 +150,7 @@ export const SidebarFiltersComponent: FunctionComponent<
                 disabled={!isSearchPage}
                 mode="multiple"
                 placeholder="Select set e.g. Base"
-                onChange={triggerFilter}
+                onChange={(e) => triggerFilter()}
               >
                 {allSetNames.map((setArray, index: number) => {
                   return (
@@ -142,7 +165,7 @@ export const SidebarFiltersComponent: FunctionComponent<
               <Select
                 mode="multiple"
                 placeholder="Select sub type e.g. EX"
-                onChange={triggerFilter}
+                onChange={(e) => triggerFilter()}
               >
                 {subTypes.map((subType: string, index: number) => {
                   return (
@@ -157,7 +180,7 @@ export const SidebarFiltersComponent: FunctionComponent<
               <Select
                 mode="multiple"
                 placeholder="Select rarity e.g. Rare"
-                onChange={triggerFilter}
+                onChange={(e) => triggerFilter()}
               >
                 {rarities.map((rarity: string, index: number) => {
                   return (
@@ -169,16 +192,16 @@ export const SidebarFiltersComponent: FunctionComponent<
               </Select>
             </Form.Item>
             <Form.Item name={FilterFieldNames.hpRange} label="HP Range">
-              <Slider range marks={hpMarks} min={ValidHPRange.min} max={ValidHPRange.max} className="mb-0" step={10} onAfterChange={triggerFilter} />
+              <Slider range marks={hpMarks} min={ValidHPRange.min} max={ValidHPRange.max} className="mb-0" step={10} onAfterChange={(e) => triggerFilter()} />
             </Form.Item>
             <Form.Item name={FilterFieldNames.retreatCost} label="Retreat Cost Range">
-              <Slider range marks={retreatCostMarks} min={ValidRetreatCostRange.min} max={ValidRetreatCostRange.max} className="mb-0" step={1} onAfterChange={triggerFilter} />
+              <Slider range marks={retreatCostMarks} min={ValidRetreatCostRange.min} max={ValidRetreatCostRange.max} className="mb-0" step={1} onAfterChange={(e) => triggerFilter()} />
             </Form.Item>
             <Form.Item name={FilterFieldNames.cardType} label="Card Type">
               <Select
                 mode="multiple"
                 placeholder="Select card type"
-                onChange={triggerFilter}
+                onChange={(e) => triggerFilter()}
               >
                 {superTypes.map((cardType: string, index: number) => {
                   return (
@@ -194,7 +217,7 @@ export const SidebarFiltersComponent: FunctionComponent<
               label="Weakness"
               className="energy-checkbox-group"
             >
-              <Checkbox.Group onChange={triggerFilter}>
+              <Checkbox.Group onChange={(e) => triggerFilter()}>
                 <div className="row row-cols-3">
                   {energyTypes.map((type: string, index: number) => {
                     return (
@@ -218,7 +241,7 @@ export const SidebarFiltersComponent: FunctionComponent<
               label="Resistance"
               className="energy-checkbox-group"
             >
-              <Checkbox.Group onChange={triggerFilter}>
+              <Checkbox.Group onChange={(e) => triggerFilter()}>
                 <div className="row row-cols-3">
                   {energyTypes.map((type: string, index: number) => {
                     return (
@@ -241,7 +264,7 @@ export const SidebarFiltersComponent: FunctionComponent<
             <Form.Item name={FilterFieldNames.sortLevelOne} label="Sort (Level 1)">
               <Select
                 placeholder="Select sort option"
-                onChange={triggerFilter}
+                onChange={(e) => triggerFilter()}
                 allowClear={false}
               >
                 {((Object.keys(SortOptions) as (keyof typeof SortOptions)[])).map((sortOption: keyof typeof SortOptions, index: number) => {
@@ -256,7 +279,7 @@ export const SidebarFiltersComponent: FunctionComponent<
             <Form.Item name={FilterFieldNames.sortLevelOneOrder} label="Sort Order (Level 1)">
               <Select
                 placeholder="Select sort order"
-                onChange={triggerFilter}
+                onChange={(e) => triggerFilter()}
                 allowClear={false}
               >
                 {((Object.keys(SortOrderOptions) as (keyof typeof SortOrderOptions)[])).map((sortOrderOption: keyof typeof SortOrderOptions, index: number) => {

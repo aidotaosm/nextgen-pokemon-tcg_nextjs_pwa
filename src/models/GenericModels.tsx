@@ -41,9 +41,10 @@ export interface CarouselProps {
 }
 export interface SidebarFiltersComponentProps {
   formInstance: FormInstance;
-  triggerFilter: () => void;
+  triggerFilter: (textSearchValue?: string) => void;
   isSearchPage: boolean;
   setId: string;
+  resetFilters: (textSearchValue?: string) => void;
 }
 export interface EnergyComponentProps {
   type: string;

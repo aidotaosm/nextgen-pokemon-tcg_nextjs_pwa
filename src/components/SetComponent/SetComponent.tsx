@@ -194,6 +194,12 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
                 });
               }
               break;
+            case FilterFieldNames.textSearch:
+              if (fieldValue) {
+                let TypedFieldValue = fieldValue as string;
+                correctedFieldValues[fieldName] = TypedFieldValue;
+              }
+              break;
             case FilterFieldNames.sortLevelOne:
               if (fieldValue) {
                 let TypedFieldValue = fieldValue as string;
@@ -246,6 +252,7 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
         pageChanged(
           routerPageIndex,
           searchTerm,
+          undefined,
           correctedFieldValues,
           paramAllCardsREsponse
         );
@@ -293,6 +300,7 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
   //console.log(setCards);
   const handleSearchAndFilter = (
     paramSearchValue: string | undefined,
+    textSearchValue: string | undefined,
     initialCards: any[],
     newPageIndex: number,
     instantFilterValues?: any
@@ -301,6 +309,10 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
       paramSearchValue === "" || paramSearchValue
         ? paramSearchValue
         : searchValue;
+    let tempTextSearchValue: string =
+      textSearchValue === "" || textSearchValue
+        ? textSearchValue
+        : formInstance.getFieldsValue()?.[FilterFieldNames.textSearch];
     let tempChangedCards: any[] = initialCards.filter((item: any) => {
       return item.name.toLowerCase().includes(tempSearchValue.toLowerCase().trim());
     });
@@ -390,14 +402,13 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
             break;
           case FilterFieldNames.textSearch:
             if (fieldValue) {
-              console.log(fieldValue);
-              let TypedFieldValue = fieldValue.toLowerCase() as string;
+              let TypedFieldValue = tempTextSearchValue.toLowerCase() as string;
               tempChangedCards = tempChangedCards.filter((card: any) => {
                 return (
                   (
                     card.attacks?.find((attack: { name: string, text: string }) => (attack.name.toLowerCase().includes(TypedFieldValue) || attack.text?.toLowerCase().includes(TypedFieldValue))) ||
                     card.abilities?.find((ability: { name: string, text: string }) => (ability.name.toLowerCase().includes(TypedFieldValue) || ability.text?.toLowerCase().includes(TypedFieldValue))) ||
-                    card.rules?.find((rule: string) => rule.toLowerCase().includes(fieldValue))
+                    card.rules?.find((rule: string) => rule.toLowerCase().includes(TypedFieldValue))
                   )
                 )
               });
@@ -557,6 +568,7 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
   const pageChanged = async (
     newPageIndex: number,
     paramSearchValue?: string,
+    textSearchValue?: string,
     instantFilterValues?: any,
     allCardsResponse?: any[]
   ) => {
@@ -610,6 +622,7 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
           let allCardsFromCache = allCardsResponse || allCardsFromNetwork;
           handleSearchAndFilter(
             paramSearchValue,
+            textSearchValue,
             allCardsFromCache,
             newPageIndex,
             instantFilterValues
@@ -622,6 +635,7 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
     } else {
       handleSearchAndFilter(
         paramSearchValue,
+        textSearchValue,
         cardsObject.data,
         newPageIndex,
         instantFilterValues
@@ -711,6 +725,12 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
               filterQuery += "&" + fieldName + "=" + TypedFieldValue;
             }
             break;
+          case FilterFieldNames.textSearch:
+            if (fieldValue.length) {
+              let TypedFieldValue = fieldValue as string;
+              filterQuery += "&" + fieldName + "=" + TypedFieldValue;
+            }
+            break;
           case FilterFieldNames.sortLevelOne:
             if (fieldValue.length) {
               let TypedFieldValue = fieldValue as string;
@@ -755,8 +775,8 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
     setRefPageNumber(pageNumber);
   };
 
-  const triggerFilter = () => {
-    pageChanged(0);
+  const triggerFilter = (textSearchValue?: string) => {
+    pageChanged(0, undefined, textSearchValue);
   };
   const hideAllTollTips = () => {
     let bootStrapMasterClass = appState?.bootstrap;
@@ -766,6 +786,14 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
       filterButtonTooltipInstance?.hide();
     }
   };
+
+  const resetFilters = () => {
+    setSearchValue('');
+    formInstance.resetFields();
+    pageChanged(0, '', '');
+  }
+
+
   if (router.isFallback) {
     return (
       <div className="container d-flex flex-grow-1 justify-content-center">
@@ -883,6 +911,7 @@ export const SetComponent: FunctionComponent<CardsObjectProps> = ({
         >
           <div className={"sidebar"}>
             <SidebarFiltersComponent
+              resetFilters={resetFilters}
               setId={setCards?.[0]?.set?.id}
               isSearchPage={isSearchPage}
               formInstance={formInstance}

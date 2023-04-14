@@ -770,3 +770,6 @@ a.white-hover:hover,
 .ant-input-search-button {
   justify-content: center;
 }
+.label-100 label {
+  width: 100%;
+}
