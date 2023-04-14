@@ -13,14 +13,19 @@ import { AppContext } from "../src/contexts/AppContext";
 import { LocalSearchComponent } from "../src/components/LocalSearchComponent/LocalSearchComponent";
 import { CarouselProvider } from "pure-react-carousel";
 import CarouselSlider from "../src/components/CaouselSlider/CarouselSlider";
-import dynamicallyImportedJson from "../src/InternalJsons/AllCards.json";
-//import dynamicallyImportedJson from "../src/InternalJsons/CardsOfTheDay.json";
+import { getAllCardsJSONFromFileBaseIPFS } from "../src/utils/networkCalls";
+import dynamicallyImportedJson from "../src/InternalJsons/CardsOfTheDay.json";
 export const getStaticProps: GetStaticProps = async (context) => {
-  // let tenRandomCards = dynamicallyImportedJson;
   let tenRandomCards = [];
-  for (let i = 0; i < 10; i++) {
-    let randomIndex = Helper.randDelay(0, dynamicallyImportedJson.length - 1);
-    tenRandomCards.push(dynamicallyImportedJson[randomIndex]);
+  try {
+    let allCardsResponse: any[] = await getAllCardsJSONFromFileBaseIPFS();
+
+    for (let i = 0; i < 10; i++) {
+      let randomIndex = Helper.randDelay(0, allCardsResponse.length - 1);
+      tenRandomCards.push(allCardsResponse[randomIndex]);
+    }
+  } catch (e) {
+    tenRandomCards = dynamicallyImportedJson;
   }
   return { props: { setCards: tenRandomCards }, revalidate: 60 * 60 * 24 }; // 60 minutes
 };
