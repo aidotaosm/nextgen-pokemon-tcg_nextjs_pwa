@@ -94,7 +94,7 @@ export const SidebarFiltersComponent: FunctionComponent<
                     />
                   </span>
                 </span>}>
-                <Input.Search placeholder="E,g. Solarbeam" allowClear onSearch={(e) => { console.log(typeof e); triggerFilter(e) }} />
+                <Input.Search placeholder="E,g. Solarbeam" allowClear onSearch={(e) => { triggerFilter(e) }} />
               </Form.Item>
             </span>
             <Form.Item
