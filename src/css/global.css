@@ -250,8 +250,8 @@ html {
 }
 
 .sidebar {
-  min-width: 230px;
-  width: 230px;
+  min-width: 250px;
+  width: 250px;
 }
 
 .sidebar-content-wrapper.collapsed {
@@ -769,4 +769,7 @@ a.white-hover:hover,
 }
 .ant-input-search-button {
   justify-content: center;
+}
+.label-100 label {
+  width: 100%;
 }
