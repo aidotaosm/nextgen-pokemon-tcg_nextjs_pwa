@@ -10,8 +10,8 @@ import {
 } from "../../../src/models/GenericModels";
 import { Helper } from "../../../src/utils/helper";
 import { getAllSetCards, getExpansions } from "../../../src/utils/networkCalls";
-import dynamicallyImportedAllCards from "../../../src/InternalJsons/AllCards.json";
 import { maxPokeDexNumber } from "../../../src/constants/constants";
+//import dynamicallyImportedAllCards from "../../../src/InternalJsons/AllCards.json";
 
 interface IParams extends ParsedUrlQuery {
   setId: string;

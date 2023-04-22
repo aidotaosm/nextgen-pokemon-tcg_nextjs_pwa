@@ -17,6 +17,7 @@ import { getAllCardsJSONFromFileBaseIPFS } from "../src/utils/networkCalls";
 import dynamicallyImportedJson from "../src/InternalJsons/CardsOfTheDay.json";
 export const getStaticProps: GetStaticProps = async (context) => {
   let tenRandomCards = [];
+  console.log('getAllCardsJSONFromFileBaseIPFS attempted');
   try {
     let allCardsResponse: any[] = await getAllCardsJSONFromFileBaseIPFS();
 
@@ -24,10 +25,12 @@ export const getStaticProps: GetStaticProps = async (context) => {
       let randomIndex = Helper.randDelay(0, allCardsResponse.length - 1);
       tenRandomCards.push(allCardsResponse[randomIndex]);
     }
+    console.log('getAllCardsJSONFromFileBaseIPFS success');
   } catch (e) {
+    console.log(e, 'getAllCardsJSONFromFileBaseIPFS error');
     tenRandomCards = dynamicallyImportedJson;
   }
-  return { props: { setCards: tenRandomCards }, revalidate: 60 * 60 * 24 }; // 60 minutes
+  return { props: { setCards: tenRandomCards }, revalidate: 60 * 60 }; // 60 minutes
 };
 
 const Index = ({ setCards }: any) => {
