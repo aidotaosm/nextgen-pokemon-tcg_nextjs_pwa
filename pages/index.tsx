@@ -14,7 +14,6 @@ import { LocalSearchComponent } from "../src/components/LocalSearchComponent/Loc
 import { CarouselProvider } from "pure-react-carousel";
 import CarouselSlider from "../src/components/CaouselSlider/CarouselSlider";
 import { getAllCardsJSONFromFileBaseIPFS } from "../src/utils/networkCalls";
-import dynamicallyImportedJson from "../src/InternalJsons/CardsOfTheDay.json";
 export const getStaticProps: GetStaticProps = async (context) => {
   let tenRandomCards = [];
   console.log('getAllCardsJSONFromFileBaseIPFS attempted');
@@ -28,7 +27,6 @@ export const getStaticProps: GetStaticProps = async (context) => {
     console.log('getAllCardsJSONFromFileBaseIPFS success');
   } catch (e) {
     console.log(e, 'getAllCardsJSONFromFileBaseIPFS error');
-    tenRandomCards = dynamicallyImportedJson;
   }
   return { props: { setCards: tenRandomCards }, revalidate: 60 * 60 }; // 60 minutes
 };
