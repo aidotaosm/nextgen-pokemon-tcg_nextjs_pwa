@@ -28,7 +28,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
   } catch (e) {
     console.log(e, 'getAllCardsJSONFromFileBaseIPFS error');
   }
-  return { props: { setCards: tenRandomCards }, revalidate: 60 * 60 }; // 60 minutes
+  return { props: { setCards: tenRandomCards }, revalidate: 60 * 60 * 24 }; // 1 day
 };
 
 const Index = ({ setCards }: any) => {
