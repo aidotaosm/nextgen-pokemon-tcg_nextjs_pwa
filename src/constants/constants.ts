@@ -15,7 +15,7 @@ export const VERCEL_PRIMARY_HOST = "pro";
 export const FILEBASE_ALLCARDS_JSON_URL =
   "https://nextgen-pokemon-tcg.s3.filebase.com/AllCards.json";
 export const IPFS_ALLCARDS_JSON_URL =
-  "https://ipfs.filebase.io/ipfs/QmUM94uAa5oiPrGEu1JBrbjJ8WH1o9GxN7jmcnvdyv3nc9";
+  "https://ipfs.filebase.io/ipfs/QmTVN5GfoSdSqR9THfgHgU6GqPuqyFLpcdZse4eAgCsaH3";
 export const random_pokemon_names = [
   "Charizard",
   "Mewtwo",
