@@ -44,7 +44,7 @@ export const PreloadComponent: FunctionComponent<PreloadComponentProps> = ({
   const [prefetchingSets, setPrefetchingSets] = useState<any[]>([]);
   const [setsBySeries, setSetsBySeries] = useState<any[]>(arrayOfSeries);
   const [totalNumberOfSetsDone, setTotalNumberOfSetsDone] = useState<number>(0);
-  const [shouldCancel, setShouldCancel] = useState<boolean>(false);
+  const [shouldCancel, setShouldCancel] = useState<boolean>(true);
   const [lastSeriesAndSetIndexes, setLastSeriesAndSetIndexes] = useState({
     lastSeriesIndex: 0,
     lastSetOfSeriesIndex: 0,
@@ -93,7 +93,7 @@ export const PreloadComponent: FunctionComponent<PreloadComponentProps> = ({
   useEffect(() => {
     const onToastShowHandler = async () => {
       triggerSearchPagePrefetch();
-      await triggerPrefetch();
+      //await triggerPrefetch();
     };
     const myToastEl = document.getElementById(prefetchToastId) as HTMLElement;
     if (myToastEl) {
@@ -174,7 +174,7 @@ export const PreloadComponent: FunctionComponent<PreloadComponentProps> = ({
             callUrl:
               "/set/" +
               (setsBySeries[seriesIndex].sets[setIndex].id ==
-                SpecialSetNames.pop2
+              SpecialSetNames.pop2
                 ? SpecialSetNames.poptwo
                 : setsBySeries[seriesIndex].sets[setIndex].id),
           });
@@ -199,7 +199,7 @@ export const PreloadComponent: FunctionComponent<PreloadComponentProps> = ({
             callUrl:
               "/set/" +
               (setsBySeries[seriesIndex].sets[setIndex].id ==
-                SpecialSetNames.pop2
+              SpecialSetNames.pop2
                 ? SpecialSetNames.poptwo
                 : setsBySeries[seriesIndex].sets[setIndex].id),
           });
@@ -231,28 +231,43 @@ export const PreloadComponent: FunctionComponent<PreloadComponentProps> = ({
     setDownloadAllCardsLoading(true);
     getAllCards()
       .then((cardsParentObject: any[]) => {
-
         //sort all cards to national dex numbers
         cardsParentObject.sort(
-          (firstColumn, secondColumn) => (firstColumn.nationalPokedexNumbers?.[0] || (cardsParentObject.length - 1)) - (secondColumn.nationalPokedexNumbers?.[0] || (cardsParentObject.length - 1))
+          (firstColumn, secondColumn) =>
+            (firstColumn.nationalPokedexNumbers?.[0] ||
+              cardsParentObject.length - 1) -
+            (secondColumn.nationalPokedexNumbers?.[0] ||
+              cardsParentObject.length - 1)
         );
         Helper.saveTemplateAsFile("AllCards.json", cardsParentObject);
 
         // sort by name
-        cardsParentObject.sort(
-          (firstColumn, secondColumn) => firstColumn.name.localeCompare(secondColumn.name)
+        cardsParentObject.sort((firstColumn, secondColumn) =>
+          firstColumn.name.localeCompare(secondColumn.name)
         );
-        let listOfCardsWithUniqueNames = Array.from(new Set(cardsParentObject.map((card: any) => card.name)));
-        Helper.saveTemplateAsFile("AllCardsWithUniqueNames.json", listOfCardsWithUniqueNames);
+        let listOfCardsWithUniqueNames = Array.from(
+          new Set(cardsParentObject.map((card: any) => card.name))
+        );
+        Helper.saveTemplateAsFile(
+          "AllCardsWithUniqueNames.json",
+          listOfCardsWithUniqueNames
+        );
 
         //reverse sort all cards with release date
-        cardsParentObject.sort(
-          (firstColumn, secondColumn) => (new Date(firstColumn.set.releaseDate) > new Date(secondColumn.set.releaseDate)) ? 1 : ((new Date(firstColumn.set.releaseDate) === new Date(secondColumn.set.releaseDate)) ? 0 : -1)
+        cardsParentObject.sort((firstColumn, secondColumn) =>
+          new Date(firstColumn.set.releaseDate) >
+          new Date(secondColumn.set.releaseDate)
+            ? 1
+            : new Date(firstColumn.set.releaseDate) ===
+              new Date(secondColumn.set.releaseDate)
+            ? 0
+            : -1
         );
         cardsParentObject.reverse();
-        let listOfUniqueSets = Array.from(new Map(cardsParentObject.map(item => [item.set.id, item.set.name])));
+        let listOfUniqueSets = Array.from(
+          new Map(cardsParentObject.map((item) => [item.set.id, item.set.name]))
+        );
         Helper.saveTemplateAsFile("AllSetNames.json", listOfUniqueSets);
-
       })
       .finally(() => {
         setDownloadAllCardsLoading(false);
@@ -298,13 +313,13 @@ export const PreloadComponent: FunctionComponent<PreloadComponentProps> = ({
 
         new bootStrapMasterClass.Toast(toastLiveExample).show();
         //resetting all related states for new fetch session
-        setPrefetchingSets([]);
-        setTotalNumberOfSetsDone(0);
-        setShouldCancel(false);
-        setLastSeriesAndSetIndexes({
-          lastSeriesIndex: 0,
-          lastSetOfSeriesIndex: 0,
-        });
+        // setPrefetchingSets([]);
+        // setTotalNumberOfSetsDone(0);
+        // setShouldCancel(false);
+        // setLastSeriesAndSetIndexes({
+        //   lastSeriesIndex: 0,
+        //   lastSetOfSeriesIndex: 0,
+        // });
       }
     }
   };
@@ -429,7 +444,7 @@ export const PreloadComponent: FunctionComponent<PreloadComponentProps> = ({
                   }
                 }}
               >
-                Resume
+                {totalNumberOfSetsDone === 0 ? "Start" : "Resume"}
               </span>
             </IF>
             <IF

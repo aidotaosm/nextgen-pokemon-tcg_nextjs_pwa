@@ -20,10 +20,9 @@ export const getStaticPaths: GetStaticPaths = async (qry) => {
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const { cardId } = context.params as IParams;
-  console.log(cardId, "omg");
   const cardObject = await getCardById(cardId);
   if (!cardObject?.id) {
-    return { notFound: true, revalidate: 60 * 60 * 24 };
+    return { notFound: true, revalidate: 60 * 60 };
   } else {
     return { props: { cardObject }, revalidate: 60 * 60 * 24 };
   }
