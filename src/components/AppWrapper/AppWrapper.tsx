@@ -176,7 +176,9 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
       localAppState?.hasOwnProperty("sidebarCollapsed") &&
         typeof localAppState.sidebarCollapsed === "boolean"
         ? localAppState.sidebarCollapsed
-        : false;
+        : window.innerWidth > 576
+        ? false
+        : true;
     let offLineModeValue =
       localAppState?.hasOwnProperty("offLineMode") &&
         typeof localAppState.offLineMode === "boolean"
