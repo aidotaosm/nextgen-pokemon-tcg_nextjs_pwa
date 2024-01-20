@@ -2,7 +2,7 @@
   "git": {
     "deploymentEnabled": {
       "staging": false,
-      "feature/sidebar-filters": false,
+      "develop": false,
       "master": true
     }
   }

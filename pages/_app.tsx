@@ -90,7 +90,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
           {/* <StyleProvider hashPriority="high" ssrInline={true}> */}
           <Component {...pageProps} />
           {/* </StyleProvider> */}
-          <Analytics mode='production'/>
+          <Analytics />
         </Fragment>
       </AppWrapper>
     </AppProvider>
