@@ -2,7 +2,7 @@ import { ImageComponent } from "../src/components/ImageComponent/ImageComponent"
 //import PokemonTCGCardsLaidOut from "../images/Pokemon-TCG-Cards-Laid-Out.webp";
 //import codeRedemption from "../images/code-redemption-169.jpg";
 //import buildPokemonTcgDecks from "../images/build-pokemon-tcg-decks-169-en.jpg";
-import swsh125 from "../images/swsh125-preview-cards-1-169-en.jpg";
+import swsh125 from "../images/Paradox-Rift-PTCG.webp";
 
 import Link from "next/link";
 import { GetStaticProps } from "next";
