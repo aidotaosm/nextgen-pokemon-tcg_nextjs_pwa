@@ -439,7 +439,7 @@ a.white-hover:hover,
 }
 
 .search-wrapper {
-  width: 21rem;
+  width: 24rem;
 }
 
 .carousel-control-prev,
@@ -482,7 +482,13 @@ a.white-hover:hover,
 .dark-mode .text-muted {
   color: #788897 !important;
 }
-
+.ant-select-single {
+  height: auto;
+}
+.disabled {
+  color: #878787 !important;
+  pointer-events: none;
+}
 @media (max-width: 1399px) {
   .full-screen-view .pokemon-card-image {
     min-width: 25vw;

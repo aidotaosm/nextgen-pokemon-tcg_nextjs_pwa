@@ -4,24 +4,11 @@ import { Fragment, FunctionComponent } from "react";
 import { ExpansionsComponent } from "../src/components/ExpansionsComponent/ExpansionsComponent";
 import { SeriesArrayProps } from "../src/models/GenericModels";
 import { Helper } from "../src/utils/helper";
-import { getExpansions } from "../src/utils/networkCalls";
+import seriesNetworkCall from "../src/utils/series-netwrokcall";
 export const getStaticProps: GetStaticProps = async () => {
-  let { arrayOfSeries, sets } = await getExpansions();
-  let totalNumberOfSets = 0;
-  if (arrayOfSeries && arrayOfSeries[0]) {
-    arrayOfSeries.sort(function (a, b) {
-      let convertedA = new Date(a.releaseDate);
-      let convertedB = new Date(b.releaseDate);
-      return convertedB.getTime() - convertedA.getTime()
-    });
-    arrayOfSeries[0].isOpen = true;
-    totalNumberOfSets = arrayOfSeries
-      .map((series) => (totalNumberOfSets = series.sets.length))
-      .reduce((partialSum, a) => partialSum + a, 0);
-  }
-
+  const response = await seriesNetworkCall();
   return {
-    props: { arrayOfSeries, totalNumberOfSets },
+    props: response,
     revalidate: 60 * 60,
   };
 };

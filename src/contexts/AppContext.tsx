@@ -1,7 +1,5 @@
 import React, { useState, createContext, FunctionComponent } from "react";
-import { flushSync } from "react-dom";
 import { BasicProps } from "../models/GenericModels";
-import { Helper } from "../utils/helper";
 
 interface AppContextInterface {
   appState: {

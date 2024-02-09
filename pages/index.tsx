@@ -1,12 +1,8 @@
 import { ImageComponent } from "../src/components/ImageComponent/ImageComponent";
-//import PokemonTCGCardsLaidOut from "../images/Pokemon-TCG-Cards-Laid-Out.webp";
-//import codeRedemption from "../images/code-redemption-169.jpg";
-//import buildPokemonTcgDecks from "../images/build-pokemon-tcg-decks-169-en.jpg";
 import swsh125 from "../images/Paradox-Rift-PTCG.webp";
-
 import Link from "next/link";
 import { GetStaticProps } from "next";
-import { Fragment, useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { Helper } from "../src/utils/helper";
 import { useRouter } from "next/router";
 import { AppContext } from "../src/contexts/AppContext";
@@ -14,9 +10,11 @@ import { LocalSearchComponent } from "../src/components/LocalSearchComponent/Loc
 import { CarouselProvider } from "pure-react-carousel";
 import CarouselSlider from "../src/components/CaouselSlider/CarouselSlider";
 import { getAllCardsJSONFromFileBaseIPFS } from "../src/utils/networkCalls";
+import { PreloadComponent } from "../src/components/Preload/PreloadComponent";
+import seriesNetworkCall from "../src/utils/series-netwrokcall";
 export const getStaticProps: GetStaticProps = async (context) => {
   let tenRandomCards = [];
-  console.log('getAllCardsJSONFromFileBaseIPFS attempted');
+  console.log("getAllCardsJSONFromFileBaseIPFS attempted");
   try {
     let allCardsResponse: any[] = await getAllCardsJSONFromFileBaseIPFS();
 
@@ -24,14 +22,26 @@ export const getStaticProps: GetStaticProps = async (context) => {
       let randomIndex = Helper.randDelay(0, allCardsResponse.length - 1);
       tenRandomCards.push(allCardsResponse[randomIndex]);
     }
-    console.log('getAllCardsJSONFromFileBaseIPFS success');
+    console.log("getAllCardsJSONFromFileBaseIPFS success");
   } catch (e) {
-    console.log(e, 'getAllCardsJSONFromFileBaseIPFS error');
+    console.log(e, "getAllCardsJSONFromFileBaseIPFS error");
   }
-  return { props: { setCards: tenRandomCards }, revalidate: 60 * 60 * 24 }; // 1 day
+  const response = await seriesNetworkCall();
+  return {
+    props: { setCards: tenRandomCards, ...response },
+    revalidate: 60 * 60 * 24,
+  }; // 1 day
 };
 
-const Index = ({ setCards }: any) => {
+const Index = ({
+  setCards,
+  arrayOfSeries,
+  totalNumberOfSets,
+}: {
+  setCards: any[];
+  arrayOfSeries: any[];
+  totalNumberOfSets: number;
+}) => {
   const [searchValue, setSearchValue] = useState("");
   const [slideCount, setSlideCount] = useState(1);
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -50,24 +60,32 @@ const Index = ({ setCards }: any) => {
   };
 
   return (
-    <div className="container mt-4">
-      <h1 className="text-center h3">NextGen Pokemon TCG</h1>
-      <h2 className="text-center mb-5 text-muted h5">
-        The Next Generation Pokemon cards database. Fastest Pokemon card search experience out there! And with offline support!
+    <div className="container d-flex flex-column justify-content-center">
+      <h1 className="text-center h3 w-100 mb-3">NextGen Pokemon TCG</h1>
+      <h2 className="text-center mb-4 mb-lg-5 text-muted h5 w-100">
+        The Next Generation Pokemon cards database. Fastest Pokemon card search
+        experience out there! And with offline support!
       </h2>
-      <div className="row row-cols-1 row-cols-sm-2 mb-5">
-        <div className=" d-flex align-items-center col mb-5 mb-sm-0">
-          <div className="w-100 me-0 me-lg-4">
-            <LocalSearchComponent
-              setSearchValueFunction={setSearchValueFunction}
-              initialPlaceHolder={"Global search e.g. "}
-              defaultSearchTerm={searchValue}
-            />
+      <div className="d-block d-sm-flex align-items-center mb-4 mb-lg-5 w-100">
+        <div className=" d-flex align-items-center mb-4 mb-sm-0 w-100 me-0 me-sm-3">
+          <div className="w-100 h-100 d-flex align-items-center flex-sm-column justify-content-center flex-md-row">
+            <div className="w-100 me-3 me-sm-0 me-md-3 flex-md-grow-1 mb-0 mb-sm-4 mb-md-0">
+              <LocalSearchComponent
+                setSearchValueFunction={setSearchValueFunction}
+                initialPlaceHolder={"Global search e.g. "}
+                defaultSearchTerm={searchValue}
+              />
+            </div>
+            <PreloadComponent
+              arrayOfSeries={arrayOfSeries}
+              totalNumberOfSets={totalNumberOfSets}
+            ></PreloadComponent>
           </div>
         </div>
         <Link
           href="/series"
-          className="un-styled-anchor cursor-pointer col d-block"
+          className="un-styled-anchor cursor-pointer d-block w-100"
+          //prefetch={typeof window === "undefined" ? false : navigator.onLine}
         >
           <div className="special-card-border smaller-radius">
             <div className=" d-lg-flex align-items-center flex-column flex-lg-row justify-content-center border-light-gray rounded special-card position-relative bg-default">
@@ -97,8 +115,8 @@ const Index = ({ setCards }: any) => {
           </div>
         </Link>
       </div>
-      <div className="">
-        <h3 className="mb-3 text-center h5">Today's Featured Cards!</h3>
+      <div className="w-100">
+        <h3 className="mb-4 text-center h4">Today's Featured Cards!</h3>
         <div
           className={
             "carousel-container " +

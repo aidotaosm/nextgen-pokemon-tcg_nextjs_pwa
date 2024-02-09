@@ -21,7 +21,6 @@ import { ImageComponent } from "../ImageComponent/ImageComponent";
 import pokemonLogo from "../../../public/images/International_Pokémon_logo.png";
 import { Helper } from "../../utils/helper";
 import Link from "next/link";
-import { logoBlurImage } from "../../../base64Images/base64Images";
 import { ToastComponent } from "../UtilityComponents/ToastComponent";
 import { Tooltip } from "bootstrap";
 import ProgressComponent from "../LoaderComponent/ProgressComponent";
@@ -67,7 +66,9 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
         backButtonTooltipId
       ) as any;
       if (backButtonTrigger) {
-        backTooltipInstance = new bootStrapMasterClass.Tooltip(backButtonTrigger);
+        backTooltipInstance = new bootStrapMasterClass.Tooltip(
+          backButtonTrigger
+        );
       }
       const offlineButtonTrigger = document.getElementById(
         offlineButtonTooltipId
@@ -93,9 +94,7 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
           globalSearchButtonTrigger
         );
       }
-      const githubTrigger = document.getElementById(
-        githubTooltipId
-      ) as any;
+      const githubTrigger = document.getElementById(githubTooltipId) as any;
       if (githubTrigger) {
         githubTooltipInstance = new bootStrapMasterClass.Tooltip(githubTrigger);
       }
@@ -106,7 +105,7 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
       darkModeTooltipInstance?.dispose();
       globalSearchTooltipInstance?.dispose();
       githubTooltipInstance?.dispose();
-    }
+    };
   }, [appState?.bootstrap, router.pathname]);
 
   useEffect(() => {
@@ -164,24 +163,24 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
       Helper.getLocalStorageItem("appState");
     let darkModeValue =
       localAppState?.hasOwnProperty("darkMode") &&
-        typeof localAppState.darkMode === "boolean"
+      typeof localAppState.darkMode === "boolean"
         ? localAppState.darkMode
         : true;
     let gridViewValue =
       localAppState?.hasOwnProperty("gridView") &&
-        typeof localAppState.gridView === "boolean"
+      typeof localAppState.gridView === "boolean"
         ? localAppState.gridView
         : false;
     let sidebarCollapsedValue =
       localAppState?.hasOwnProperty("sidebarCollapsed") &&
-        typeof localAppState.sidebarCollapsed === "boolean"
+      typeof localAppState.sidebarCollapsed === "boolean"
         ? localAppState.sidebarCollapsed
         : window.innerWidth > 576
         ? false
         : true;
     let offLineModeValue =
       localAppState?.hasOwnProperty("offLineMode") &&
-        typeof localAppState.offLineMode === "boolean"
+      typeof localAppState.offLineMode === "boolean"
         ? localAppState.offLineMode
         : false;
     multiUpdate?.({
@@ -257,32 +256,38 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
       }
       style={{ minHeight: "100vh" }}
     >
-      <ProgressComponent isAnimating={isNavigationAnimating}></ProgressComponent>
-      <header className="container pt-3 pb-4">
+      <ProgressComponent
+        isAnimating={isNavigationAnimating}
+      ></ProgressComponent>
+      <header className="container py-4">
         <div className={"d-flex align-items-center row"}>
           <div className="col d-flex align-items-center">
             <IF condition={pathToRedirect || router.pathname != "/"}>
-              <span
+              <Link
+                aria-label={"Back to last visited page"}
+                href={
+                  typeof window === "undefined"
+                    ? "/"
+                    : navigator.onLine
+                    ? pathToRedirect || "/"
+                    : pathToRedirect
+                    ? pathToRedirect.split("?")[0]
+                    : "/"
+                }
                 data-bs-title={"Go back to last page."}
                 data-bs-toggle="tooltip"
                 data-bs-trigger="hover"
                 id={backButtonTooltipId}
+                style={{ color: "unset" }}
+                // prefetch={
+                //   typeof window === "undefined" ? false : navigator.onLine
+                // }
               >
                 <FontAwesomeIcon
                   className="cursor-pointer user-select-none me-3 fs-3"
                   icon={faArrowLeftLong}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    router.push(
-                      navigator.onLine
-                        ? pathToRedirect || "/"
-                        : pathToRedirect
-                          ? pathToRedirect.split("?")[0]
-                          : "/"
-                    );
-                  }}
                 />
-              </span>
+              </Link>
             </IF>
             <IF
               condition={
@@ -382,24 +387,35 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
 
       <main className="flex-grow-1 d-flex">{children}</main>
 
-      <footer className="container pt-4 pb-3">
-        <div className="text-center  fs-6">
-          <small className="d-flex flex-column">
-            <span>
-              The Next Generation Pokemon TCG database. By{" "}
-              <Link href="https://github.com/aidotaosm" target="_blank" data-bs-title={"Click to visit this project in Github! And maybe give it a Start?"}
-                data-bs-toggle="tooltip"
-                data-bs-trigger="hover"
-                id={githubTooltipId}>
-                Osama
-              </Link>.
-            </span>
-            <span className="mt-1">
-              This website is not produced, endorsed, supported, or affiliated
-              with Nintendo or The Pokémon Company.
-            </span>
-          </small>
-        </div>
+      <footer className="container py-4">
+        <p
+          className="d-flex flex-column mb-0 align-items-center justify-content-around"
+          style={{ minHeight: "59px" }}
+        >
+          <span className="text-center">
+            The Next Generation Pokemon TCG database. By{" "}
+            <Link
+              href="https://github.com/aidotaosm"
+              target="_blank"
+              data-bs-title={
+                "Click to visit this project in Github! And maybe give it a Start?"
+              }
+              data-bs-toggle="tooltip"
+              data-bs-trigger="hover"
+              id={githubTooltipId}
+              // prefetch={
+              //   typeof window === "undefined" ? false : navigator.onLine
+              // }
+            >
+              Osama
+            </Link>
+            .
+          </span>
+          <span className="text-center mt-1 mt-lg-0">
+            This website is not produced, endorsed, supported, or affiliated
+            with Nintendo or The Pokémon Company.
+          </span>
+        </p>
       </footer>
 
       <span
@@ -421,7 +437,7 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
         delay={30000}
         toastTitle={
           <div className="d-flex">
-            <span className="me-2">Optimize User Experience</span>
+            <span className="me-2">Optimized User Experience</span>
             <div className="text-center">
               {serviceWorkerStatus === "loading" ? (
                 <FontAwesomeIcon
@@ -443,8 +459,8 @@ export const AppWrapper: FunctionComponent<BasicProps> = ({ children }) => {
           {serviceWorkerStatus === "loading"
             ? "This feature allows you to use offline features and enhances the user experience. Give us a moment while it does it's thing!"
             : serviceWorkerStatus === "done"
-              ? "Service worker is successfully running. You can now enjoy an enhanced experience and benefit from supported offline features."
-              : "Service worker couldn't be installed. You can continue to use the site normally. But offline features have been turned off. You may try refreshing the page or using a different (newer) browser."}
+            ? "Service worker is successfully running. You can now enjoy an enhanced experience and benefit from supported offline features."
+            : "Service worker couldn't be installed. You can continue to use the site normally. But offline features have been turned off. You may try refreshing the page or using a different (newer) browser."}
         </div>
       </ToastComponent>
     </div>
