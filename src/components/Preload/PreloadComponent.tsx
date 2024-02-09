@@ -3,6 +3,7 @@ import {
   faCheck,
   faDownload,
   faGear,
+  faPlay,
   faRecycle,
   faSpinner,
   faXmark,
@@ -18,7 +19,6 @@ import {
   useState,
 } from "react";
 import { flushSync } from "react-dom";
-import { DEFAULT_PAGE_SIZE } from "../../constants/constants";
 import { AppContext } from "../../contexts/AppContext";
 import { SpecialSetNames } from "../../models/Enums";
 import { Helper } from "../../utils/helper";
@@ -31,6 +31,10 @@ import {
 } from "../../utils/networkCalls";
 import { IF } from "../UtilityComponents/IF";
 import { ToastComponent } from "../UtilityComponents/ToastComponent";
+import {
+  chechSetAndSearchPreCacheStatus,
+  triggerAllCardsPreCache,
+} from "../../utils/prefetch-allcards";
 interface PreloadComponentProps {
   arrayOfSeries?: any[];
   totalNumberOfSets: number;
@@ -45,6 +49,8 @@ export const PreloadComponent: FunctionComponent<PreloadComponentProps> = ({
   const [setsBySeries, setSetsBySeries] = useState<any[]>(arrayOfSeries);
   const [totalNumberOfSetsDone, setTotalNumberOfSetsDone] = useState<number>(0);
   const [shouldCancel, setShouldCancel] = useState<boolean>(true);
+  const [serviceWorkerIsReady, setServiceWorkerIsReady] =
+    useState<boolean>(false);
   const [lastSeriesAndSetIndexes, setLastSeriesAndSetIndexes] = useState({
     lastSeriesIndex: 0,
     lastSetOfSeriesIndex: 0,
@@ -90,31 +96,44 @@ export const PreloadComponent: FunctionComponent<PreloadComponentProps> = ({
       settingsTooltipInstance?.dispose();
     };
   }, [appState?.bootstrap, router.pathname]);
+
   useEffect(() => {
-    const onToastShowHandler = async () => {
-      triggerSearchPagePrefetch();
-      //await triggerPrefetch();
-    };
-    const myToastEl = document.getElementById(prefetchToastId) as HTMLElement;
-    if (myToastEl) {
-      myToastEl.addEventListener("shown.bs.toast", onToastShowHandler);
+    if (navigator.serviceWorker) {
+      navigator.serviceWorker.ready.then(async (x) => {
+        setServiceWorkerIsReady(true);
+        chechSetAndSearchPreCacheStatus(
+          setsBySeries,
+          setSearchPageDownloaded,
+          setTotalNumberOfSetsDone,
+          setSetsBySeries
+        );
+      });
     }
-    triggerSearchPagePrefetch();
-    return () => {
-      myToastEl.removeEventListener("shown.bs.toast", onToastShowHandler);
-    };
   }, []);
+
   const triggerSearchPagePrefetch = async () => {
     setSearchPageDownloaded("loading");
-    router
-      .prefetch("/search")
-      .then((prefetchedData) => {
-        setSearchPageDownloaded("yes");
-      })
-      .catch((e) => {
-        setSearchPageDownloaded("no");
-      });
+    if (navigator.serviceWorker) {
+      navigator.serviceWorker.ready
+        .then(async (x) => {
+          router.prefetch("/search");
+          await triggerAllCardsPreCache(
+            () => {
+              setSearchPageDownloaded("yes");
+            },
+            () => {
+              setSearchPageDownloaded("no");
+            }
+          );
+        })
+        .catch((e) => {
+          setSearchPageDownloaded("no");
+        });
+    } else {
+      setSearchPageDownloaded("no");
+    }
   };
+
   const triggerPrefetch = async () => {
     let localShouldCancel = false;
     let setsWithCallUrls: any[] = [];
@@ -126,18 +145,15 @@ export const PreloadComponent: FunctionComponent<PreloadComponentProps> = ({
       setPrefetchingSets(setsWithCallUrls);
       let calls = setsWithCallUrls.map(async (set) => {
         await router.prefetch(set.callUrl);
-        // , undefined, {
-        //   unstable_skipClientCache: true,
-        // }
         flushSync(() => {
           setShouldCancel((x) => {
             localShouldCancel = x;
             return x;
           });
         });
-
         set.done = true;
-        setPrefetchingSets([...setsWithCallUrls]);
+        const updatedSetsWithCallUrls = [...setsWithCallUrls];
+        setPrefetchingSets(updatedSetsWithCallUrls);
         setTotalNumberOfSetsDone((e) => ++e);
         if (localShouldCancel) {
           throw new Error("manual abort");
@@ -158,64 +174,78 @@ export const PreloadComponent: FunctionComponent<PreloadComponentProps> = ({
       seriesIndex < setsBySeries.length;
       seriesIndex++
     ) {
-      setsBySeries[seriesIndex].prefetchStatus = "loading";
-      if (seriesIndex > 0) {
-        setsBySeries[seriesIndex - 1].prefetchStatus = "done";
-      }
-      setSetsBySeries([...setsBySeries]);
-      setLoop: for (
-        let setIndex = startingIndexOfTheLastPausedSetDownload;
-        setIndex < setsBySeries[seriesIndex].sets.length;
-        setIndex++
-      ) {
-        if ((setIndex + 1) % 5) {
-          setsWithCallUrls.push({
-            ...setsBySeries[seriesIndex].sets[setIndex],
-            callUrl:
-              "/set/" +
-              (setsBySeries[seriesIndex].sets[setIndex].id ==
-              SpecialSetNames.pop2
-                ? SpecialSetNames.poptwo
-                : setsBySeries[seriesIndex].sets[setIndex].id),
-          });
-          if (setsBySeries[seriesIndex].sets.length - 1 === setIndex) {
-            let res = await batchAndExecutePrefetchThenClearUrls(setIndex);
-            if (res?.message === "manual abort") {
-              setPrefetchingSets([]);
-              lastIndex = seriesIndex;
-              setLastSeriesAndSetIndexes({
-                lastSeriesIndex:
-                  setsBySeries.length - 1 === seriesIndex
-                    ? seriesIndex
-                    : ++seriesIndex,
-                lastSetOfSeriesIndex: 0,
+      if (setsBySeries[seriesIndex].prefetchStatus !== "done") {
+        if (seriesIndex > 0) {
+          setsBySeries[seriesIndex - 1].prefetchStatus = "done";
+          setSetsBySeries([...setsBySeries]);
+        }
+        const isLastSeries = setsBySeries.length - 1 === seriesIndex;
+        setLoop: for (
+          let setIndex = startingIndexOfTheLastPausedSetDownload;
+          setIndex < setsBySeries[seriesIndex].sets.length;
+          setIndex++
+        ) {
+          const isLastSetOfSeries =
+            setsBySeries[seriesIndex].sets.length - 1 === setIndex;
+          if (setsBySeries[seriesIndex].sets[setIndex].done !== true) {
+            if ((setIndex + 1) % 5) {
+              // pushing urls to be executed when we have 5 urls
+              setsWithCallUrls.push({
+                ...setsBySeries[seriesIndex].sets[setIndex],
+                callUrl:
+                  "/set/" +
+                  (setsBySeries[seriesIndex].sets[setIndex].id ==
+                  SpecialSetNames.pop2
+                    ? SpecialSetNames.poptwo
+                    : setsBySeries[seriesIndex].sets[setIndex].id),
               });
-              break seriesLoop;
+              // executing prefetch since isLastSetOfSeries
+              if (isLastSetOfSeries) {
+                let res = await batchAndExecutePrefetchThenClearUrls(setIndex);
+                if (res?.message === "manual abort") {
+                  setPrefetchingSets([]);
+                  lastIndex = seriesIndex;
+                  setLastSeriesAndSetIndexes({
+                    lastSeriesIndex: isLastSeries ? seriesIndex : ++seriesIndex,
+                    lastSetOfSeriesIndex: 0,
+                  });
+                  break seriesLoop;
+                }
+              }
+            } else {
+              // executing prefetch since we have got 5 urls
+              setsWithCallUrls.push({
+                ...setsBySeries[seriesIndex].sets[setIndex],
+                callUrl:
+                  "/set/" +
+                  (setsBySeries[seriesIndex].sets[setIndex].id ==
+                  SpecialSetNames.pop2
+                    ? SpecialSetNames.poptwo
+                    : setsBySeries[seriesIndex].sets[setIndex].id),
+              });
+              let res = await batchAndExecutePrefetchThenClearUrls(setIndex);
+              if (res?.message === "manual abort") {
+                setPrefetchingSets([]);
+                lastIndex = seriesIndex;
+                setLastSeriesAndSetIndexes({
+                  lastSeriesIndex:
+                    isLastSetOfSeries && !isLastSeries
+                      ? ++seriesIndex
+                      : seriesIndex,
+                  lastSetOfSeriesIndex: isLastSetOfSeries ? 0 : ++setIndex,
+                });
+                break seriesLoop;
+              }
             }
           }
-        } else {
-          setsWithCallUrls.push({
-            ...setsBySeries[seriesIndex].sets[setIndex],
-            callUrl:
-              "/set/" +
-              (setsBySeries[seriesIndex].sets[setIndex].id ==
-              SpecialSetNames.pop2
-                ? SpecialSetNames.poptwo
-                : setsBySeries[seriesIndex].sets[setIndex].id),
-          });
-          let res = await batchAndExecutePrefetchThenClearUrls(setIndex);
-          if (res?.message === "manual abort") {
-            setPrefetchingSets([]);
-            lastIndex = seriesIndex;
-            setLastSeriesAndSetIndexes({
-              lastSeriesIndex: seriesIndex,
-              lastSetOfSeriesIndex: ++setIndex,
-            });
-            break seriesLoop;
-          }
+          //resetting starting index since at last one set has past over the last download index.
+          startingIndexOfTheLastPausedSetDownload = 0;
         }
-        //resetting starting index since at last one set has past over the last download index.
-        startingIndexOfTheLastPausedSetDownload = 0;
+      } else {
+        if (seriesIndex > 0) {
+          setsBySeries[seriesIndex - 1].prefetchStatus = "done";
+          setSetsBySeries([...setsBySeries]);
+        }
       }
       lastIndex = seriesIndex;
     }
@@ -357,7 +387,13 @@ export const PreloadComponent: FunctionComponent<PreloadComponentProps> = ({
           <div>
             <span className="me-2">Optimization Status</span>
             <span
-              className="cursor-pointer span-link"
+              className={
+                "cursor-pointer span-link " +
+                ((typeof window !== "undefined" && !navigator.onLine) ||
+                !serviceWorkerIsReady
+                  ? "disabled"
+                  : "")
+              }
               onClick={() => {
                 clearCacheUnregisterSWARefresh();
               }}
@@ -392,13 +428,29 @@ export const PreloadComponent: FunctionComponent<PreloadComponentProps> = ({
                 ) : searchPageDownloaded == "yes" ? (
                   <FontAwesomeIcon icon={faCheck} className="text-success" />
                 ) : (
-                  <FontAwesomeIcon icon={faXmark} className="text-danger" />
+                  <FontAwesomeIcon
+                    icon={faPlay}
+                    className={
+                      "cursor-pointer span-link " +
+                      ((typeof window !== "undefined" && !navigator.onLine) ||
+                      !serviceWorkerIsReady
+                        ? "disabled"
+                        : "")
+                    }
+                    onClick={triggerSearchPagePrefetch}
+                  />
                 )}
               </div>
               <div className="ms-2 fw-bold">Offline Global search</div>
             </div>
             <span
-              className="cursor-pointer span-link"
+              className={
+                "cursor-pointer span-link " +
+                ((typeof window !== "undefined" && !navigator.onLine) ||
+                !serviceWorkerIsReady
+                  ? "disabled"
+                  : "")
+              }
               onClick={() => {
                 if (downloadAllCardsLoading) {
                   return;
@@ -434,7 +486,13 @@ export const PreloadComponent: FunctionComponent<PreloadComponentProps> = ({
               }
             >
               <span
-                className="cursor-pointer span-link"
+                className={
+                  "cursor-pointer span-link " +
+                  ((typeof window !== "undefined" && !navigator.onLine) ||
+                  !serviceWorkerIsReady
+                    ? "disabled"
+                    : "")
+                }
                 onClick={async () => {
                   if (navigator.onLine) {
                     flushSync(() => {
@@ -453,7 +511,13 @@ export const PreloadComponent: FunctionComponent<PreloadComponentProps> = ({
               }
             >
               <span
-                className="cursor-pointer span-link"
+                className={
+                  "cursor-pointer span-link " +
+                  ((typeof window !== "undefined" && !navigator.onLine) ||
+                  !serviceWorkerIsReady
+                    ? "disabled"
+                    : "")
+                }
                 onClick={() => {
                   if (navigator.onLine) {
                     setShouldCancel(true);

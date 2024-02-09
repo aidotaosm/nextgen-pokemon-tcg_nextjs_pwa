@@ -19,12 +19,15 @@ export const CardComponent: FunctionComponent<CardObjectProps> = ({
     );
   } else {
     return (
-      <div className="container">
+      <div className="container d-flex justify-content-center flex-column">
         <div
-          className="d-flex justify-content-center align-items-center mb-4 position-relative"
-          style={{ height: "5rem", minHeight: "5rem", overflow: "hidden" }}
+          className="d-flex justify-content-center align-items-center mb-4 mb-md-5 position-relative w-100"
+          style={{ height: "6rem", overflow: "hidden" }}
         >
-          <Link href={"/set/" + cardObject.set.id} className="">
+          <Link
+            href={"/set/" + cardObject.set.id}
+            //prefetch={typeof window === "undefined" ? false : navigator.onLine}
+          >
             <ImageComponent
               src={cardObject.set?.images?.logo}
               alt={cardObject.set.name}
@@ -35,15 +38,18 @@ export const CardComponent: FunctionComponent<CardObjectProps> = ({
             />
           </Link>
         </div>
-        <h2 className="mb-4 h4 text-center">
-          <Link href={"/set/" + cardObject.set.id} className="">
+        <h2 className="mb-4 mb-md-5 h4 text-center w-100">
+          <Link
+            href={"/set/" + cardObject.set.id}
+            //prefetch={typeof window === "undefined" ? false : navigator.onLine}
+          >
             {cardObject.set.name}
           </Link>
           {" set of "}
           {cardObject.set.series}
           {" series"}
         </h2>
-        <div className="full-screen-view align-items-center d-md-flex justify-content-center">
+        <div className="full-screen-view align-items-center d-md-flex justify-content-center w-100">
           <PokemonCardAndDetailsComponent
             card={cardObject}
             showHQImage={true}

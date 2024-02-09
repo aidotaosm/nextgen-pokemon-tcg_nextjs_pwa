@@ -1,49 +1,32 @@
 {
-  "name": "pokemon-tcg-nextjs-pwa-ts",
-  "version": "1.1.2",
-  "private": true,
-  "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "^6.2.0",
-    "@fortawesome/free-regular-svg-icons": "^6.2.0",
-    "@fortawesome/free-solid-svg-icons": "^6.2.0",
-    "@fortawesome/react-fontawesome": "^0.2.0",
-    "@tanem/react-nprogress": "^5.0.33",
-    "@vercel/analytics": "^1.1.2",
-    "@vercel/speed-insights": "^1.0.8",
-    "antd": "^5.12.1",
-    "axios": "^1.3.2",
-    "bootstrap": "^5.2.3",
-    "next": "^14.1.0",
-    "next-pwa": "^5.6.0",
-    "pokemontcgsdk": "^2.0.0",
-    "pure-react-carousel": "^1.30.1",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "sharp": "^0.33.2",
-    "typescript": "^5.0.2"
-  },
+  "name": "nextgen-pokemon-tcg",
+  "version": "1.2",
+  "private": false,
   "scripts": {
     "dev": "next dev -p 3001",
     "build": "next build",
     "build:local": "SET APP_ENV=local& next build",
     "start": "next start -p 3001"
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+  "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.5.1",
+    "@fortawesome/free-regular-svg-icons": "^6.5.1",
+    "@fortawesome/free-solid-svg-icons": "^6.5.1",
+    "@fortawesome/react-fontawesome": "^0.2.0",
+    "@tanem/react-nprogress": "^5.0.33",
+    "@vercel/analytics": "^1.1.2",
+    "@vercel/speed-insights": "^1.0.8",
+    "antd": "^5.14.0",
+    "axios": "^1.6.7",
+    "bootstrap": "^5.3.2",
+    "next": "^14.1.0",
+    "next-pwa": "^5.6.0",
+    "pokemontcgsdk": "^2.0.0",
+    "pure-react-carousel": "^1.30.1",
+    "react": "^18",
+    "react-dom": "^18",
+    "sharp": "^0.33.2",
+    "typescript": "^5.0.2"
   },
   "devDependencies": {
     "@types/bootstrap": "^5.2.1",
